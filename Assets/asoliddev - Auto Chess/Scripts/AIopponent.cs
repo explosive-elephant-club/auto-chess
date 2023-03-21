@@ -126,6 +126,7 @@ public class AIopponent : MonoBehaviour
     /// </summary>
     public void AddRandomChampion()
     {
+        Debug.Log("AddRandomChampion");
         //get an empty slot
         int indexX;
         int indexZ;
