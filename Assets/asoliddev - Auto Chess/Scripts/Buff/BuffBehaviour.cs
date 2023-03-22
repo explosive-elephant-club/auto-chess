@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffBehaviour : MonoBehaviour, buffEvent
+public class BuffBehaviour : buffEvent
 {
-    public void onBuffAwake()
-    {
-    }
-
+    public void onBuffAwake() { }
     public void onBuffStart() { }
     public void onBuffRefresh() { }
     public void onBuffRemove() { }

@@ -6,10 +6,8 @@ public enum BuffActiveMode
 {
     [Tooltip("永久型")]
     Always,
-    [Tooltip("添加时触发")]
-    Add,
-    [Tooltip("每秒触发")]
-    PerSecond,
+    [Tooltip("定时触发")]
+    Interval,
     [Tooltip("攻击前触发")]
     BeforeAttack,
     [Tooltip("攻击后触发")]
@@ -19,8 +17,21 @@ public enum BuffActiveMode
     [Tooltip("受击后触发")]
     AfterHit
 }
-public enum BuffStackMode
+
+public enum BuffConsumeMode
 {
+    [Tooltip("不消失")]
+    None,
+    [Tooltip("触发时消失")]
+    Active,
+    [Tooltip("持续时间结束后消失")]
+    AfterDuration,
+}
+
+public enum BuffSuperposeMode
+{
+    [Tooltip("不叠加")]
+    None,
     [Tooltip("持续时长叠加")]
     Time,
     [Tooltip("层数叠加")]
@@ -37,13 +48,20 @@ public class BaseBuffData : ScriptableObject
     public string displayName;
     [Tooltip("持续时间")]
     public float duration;
+    [Tooltip("触发间隔")]
+    public float intervalTime;
+    [Tooltip("层数")]
+    public int layer;
 
-    [Tooltip("触发模式")]
-    public BuffStackMode stackMode;
     [Tooltip("是否强制设置Caster为空")]
     public bool bNoCaster;
-    [Tooltip("叠加模式")]
+
+    [Tooltip("触发模式")]
     public BuffActiveMode activeMode;
+    [Tooltip("消失模式")]
+    public BuffConsumeMode consumeMode;
+    [Tooltip("叠加模式")]
+    public BuffSuperposeMode superposeMode;
     [Tooltip("自定行为脚本")]
     public string buffBehaviourScriptName;
 
