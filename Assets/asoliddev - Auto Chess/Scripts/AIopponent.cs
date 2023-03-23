@@ -15,7 +15,7 @@ public class AIopponent : MonoBehaviour
     public GameObject[,] gridChampionsArray;
 
     public Dictionary<ChampionType, int> championTypeCount;
-    public List<ChampionBonus> activeBonusList;
+    public List<BaseBuffData> bonusBuffList;
 
     ///The damage that player takes when losing a round
     public int championDamage = 2;
@@ -28,7 +28,7 @@ public class AIopponent : MonoBehaviour
         gridChampionsArray = new GameObject[Map.hexMapSizeX, Map.hexMapSizeZ / 2];
 
         AddRandomChampion();
-       // AddRandomChampion();
+        // AddRandomChampion();
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class AIopponent : MonoBehaviour
 
 
             AddRandomChampion();
-          //  AddRandomChampion();
+            //  AddRandomChampion();
         }
     }
 
@@ -116,7 +116,7 @@ public class AIopponent : MonoBehaviour
                     emptyIndexZ = z;
                     break;
                 }
-            }    
+            }
         }
     }
 
@@ -207,7 +207,7 @@ public class AIopponent : MonoBehaviour
         }
 
 
-       CalculateBonuses();
+        CalculateBonuses();
     }
 
     /// <summary>
@@ -362,19 +362,19 @@ public class AIopponent : MonoBehaviour
             }
         }
 
-        activeBonusList = new List<ChampionBonus>();
+        
+        bonusBuffList = new List<BaseBuffData>();
 
         foreach (KeyValuePair<ChampionType, int> m in championTypeCount)
         {
             ChampionBonus championBonus = m.Key.championBonus;
-
+            BaseBuffData buff = championBonus.GetBuffBonus(m.Value);
             //have enough champions to get bonus
-            if (m.Value >= championBonus.championCount)
+            if (buff != null)
             {
-                activeBonusList.Add(championBonus);
+                bonusBuffList.Add(buff);
             }
         }
-
     }
 
 }

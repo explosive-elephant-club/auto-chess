@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffBehaviour : buffEvent
+public class BuffBehaviour
 {
     public void onBuffAwake() { }
     public void onBuffStart() { }
@@ -10,4 +10,5 @@ public class BuffBehaviour : buffEvent
     public void onBuffRemove() { }
     public void onBuffDestroy() { }
     public void onBuffInterval() { }
+    public void onBuffActive() { }
 }

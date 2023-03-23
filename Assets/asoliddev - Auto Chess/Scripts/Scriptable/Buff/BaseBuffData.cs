@@ -38,7 +38,9 @@ public enum BuffSuperposeMode
     Layer
 }
 
+
 [CreateAssetMenu(fileName = "DefaultBaseBuffData", menuName = "AutoChess/BaseBuffData", order = 3)]
+[SerializeField]
 public class BaseBuffData : ScriptableObject
 {
     //配置项

@@ -45,7 +45,7 @@ public class GamePlayController : MonoBehaviour
     public int timerDisplay = 0;
 
     public Dictionary<ChampionType, int> championTypeCount;
-    public List<ChampionBonus> activeBonusList;
+    public List<BaseBuffData> bonusBuffList;
 
     /// Start is called before the first frame update
     void Start()
@@ -513,16 +513,16 @@ public class GamePlayController : MonoBehaviour
             }
         }
 
-        activeBonusList = new List<ChampionBonus>();
+        bonusBuffList = new List<BaseBuffData>();
 
         foreach (KeyValuePair<ChampionType, int> m in championTypeCount)
         {
             ChampionBonus championBonus = m.Key.championBonus;
-
+            BaseBuffData buff = championBonus.GetBuffBonus(m.Value);
             //have enough champions to get bonus
-            if (m.Value >= championBonus.championCount)
+            if (buff != null)
             {
-                activeBonusList.Add(championBonus);
+                bonusBuffList.Add(buff);
             }
         }
 

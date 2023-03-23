@@ -4,17 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-interface buffEvent
-{
-    void onBuffAwake();//Buff在实例化之后，生效之前
-    void onBuffStart();//当Buff生效时（加入到Buff容器后）
-    void onBuffRefresh();//当Buff添加时存在相同类型且Caster相等的时候，Buff执行刷新流程
-    void onBuffRemove();//当Buff销毁前（还未从Buff容器中移除）
-    void onBuffDestroy();//当Buff销毁后（已从Buff容器中移除）
-    void onBuffInterval();//当计时器每次触发
-
-}
-
+[Serializable]
 public class Buff
 {
     public BaseBuffData buffData;
@@ -55,14 +45,10 @@ public class Buff
         {
             buffBehaviour = new BuffBehaviour();
         }
-        
-        buffBehaviour.onBuffAwake();
-        if (buffData.activeMode != BuffActiveMode.Interval && buffData.activeMode != BuffActiveMode.Always)
-        {
-            EventCenter.AddListener("BuffEvent" + buffData.activeMode.ToString(), BuffActive);
-        }
-    }
 
+        buffBehaviour.onBuffAwake();
+
+    }
 
     //叠加合并
     public void Superpose(Buff buff)
@@ -105,8 +91,9 @@ public class Buff
     }
 
     //buff触发
-    public void BuffActive()
+    public virtual void BuffActive()
     {
+        buffBehaviour.onBuffActive();
         if (buffData.consumeMode == BuffConsumeMode.Active)
         {
             owner.SendMessage("RemoveBuff", this);

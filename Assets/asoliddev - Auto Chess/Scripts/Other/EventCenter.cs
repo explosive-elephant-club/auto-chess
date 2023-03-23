@@ -6,9 +6,9 @@ using UnityEngine;
 public class EventCenter
 {
 
-    private static Dictionary<String, Delegate> m_EventTable = new Dictionary<String, Delegate>();
+    private Dictionary<String, Delegate> m_EventTable = new Dictionary<String, Delegate>();
 
-    private static void OnListenerAdding(String eventKey, Delegate callBack)
+    private void OnListenerAdding(String eventKey, Delegate callBack)
     {
         if (!m_EventTable.ContainsKey(eventKey))
         {
@@ -20,7 +20,7 @@ public class EventCenter
             throw new Exception(string.Format("尝试为事件{0}添加不同类型的委托，当前事件所对应的委托是{1}，要添加的委托类型为{2}", eventKey, d.GetType(), callBack.GetType()));
         }
     }
-    private static void OnListenerRemoving(String eventKey, Delegate callBack)
+    private void OnListenerRemoving(String eventKey, Delegate callBack)
     {
         if (m_EventTable.ContainsKey(eventKey))
         {
@@ -39,7 +39,7 @@ public class EventCenter
             throw new Exception(string.Format("移除监听错误：没有事件码{0}", eventKey));
         }
     }
-    private static void OnListenerRemoved(String eventKey)
+    private void OnListenerRemoved(String eventKey)
     {
         if (m_EventTable[eventKey] == null)
         {
@@ -47,79 +47,79 @@ public class EventCenter
         }
     }
     //no parameters
-    public static void AddListener(String eventKey, CallBack callBack)
+    public void AddListener(String eventKey, CallBack callBack)
     {
         OnListenerAdding(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack)m_EventTable[eventKey] + callBack;
     }
     //Single parameters
-    public static void AddListener<T>(String eventKey, CallBack<T> callBack)
+    public void AddListener<T>(String eventKey, CallBack<T> callBack)
     {
         OnListenerAdding(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T>)m_EventTable[eventKey] + callBack;
     }
     //two parameters
-    public static void AddListener<T, X>(String eventKey, CallBack<T, X> callBack)
+    public void AddListener<T, X>(String eventKey, CallBack<T, X> callBack)
     {
         OnListenerAdding(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X>)m_EventTable[eventKey] + callBack;
     }
     //three parameters
-    public static void AddListener<T, X, Y>(String eventKey, CallBack<T, X, Y> callBack)
+    public void AddListener<T, X, Y>(String eventKey, CallBack<T, X, Y> callBack)
     {
         OnListenerAdding(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X, Y>)m_EventTable[eventKey] + callBack;
     }
     //four parameters
-    public static void AddListener<T, X, Y, Z>(String eventKey, CallBack<T, X, Y, Z> callBack)
+    public void AddListener<T, X, Y, Z>(String eventKey, CallBack<T, X, Y, Z> callBack)
     {
         OnListenerAdding(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X, Y, Z>)m_EventTable[eventKey] + callBack;
     }
     //five parameters
-    public static void AddListener<T, X, Y, Z, W>(String eventKey, CallBack<T, X, Y, Z, W> callBack)
+    public void AddListener<T, X, Y, Z, W>(String eventKey, CallBack<T, X, Y, Z, W> callBack)
     {
         OnListenerAdding(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X, Y, Z, W>)m_EventTable[eventKey] + callBack;
     }
 
     //no parameters
-    public static void RemoveListener(String eventKey, CallBack callBack)
+    public void RemoveListener(String eventKey, CallBack callBack)
     {
         OnListenerRemoving(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //single parameters
-    public static void RemoveListener<T>(String eventKey, CallBack<T> callBack)
+    public void RemoveListener<T>(String eventKey, CallBack<T> callBack)
     {
         OnListenerRemoving(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //two parameters
-    public static void RemoveListener<T, X>(String eventKey, CallBack<T, X> callBack)
+    public void RemoveListener<T, X>(String eventKey, CallBack<T, X> callBack)
     {
         OnListenerRemoving(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //three parameters
-    public static void RemoveListener<T, X, Y>(String eventKey, CallBack<T, X, Y> callBack)
+    public void RemoveListener<T, X, Y>(String eventKey, CallBack<T, X, Y> callBack)
     {
         OnListenerRemoving(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X, Y>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //four parameters
-    public static void RemoveListener<T, X, Y, Z>(String eventKey, CallBack<T, X, Y, Z> callBack)
+    public void RemoveListener<T, X, Y, Z>(String eventKey, CallBack<T, X, Y, Z> callBack)
     {
         OnListenerRemoving(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X, Y, Z>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //five parameters
-    public static void RemoveListener<T, X, Y, Z, W>(String eventKey, CallBack<T, X, Y, Z, W> callBack)
+    public void RemoveListener<T, X, Y, Z, W>(String eventKey, CallBack<T, X, Y, Z, W> callBack)
     {
         OnListenerRemoving(eventKey, callBack);
         m_EventTable[eventKey] = (CallBack<T, X, Y, Z, W>)m_EventTable[eventKey] - callBack;
@@ -128,7 +128,7 @@ public class EventCenter
 
 
     //no parameters
-    public static void Broadcast(String eventKey)
+    public void Broadcast(String eventKey)
     {
         Delegate d;
         if (m_EventTable.TryGetValue(eventKey, out d))
@@ -145,7 +145,7 @@ public class EventCenter
         }
     }
     //single parameters
-    public static void Broadcast<T>(String eventKey, T arg)
+    public void Broadcast<T>(String eventKey, T arg)
     {
         Delegate d;
         if (m_EventTable.TryGetValue(eventKey, out d))
@@ -162,7 +162,7 @@ public class EventCenter
         }
     }
     //two parameters
-    public static void Broadcast<T, X>(String eventKey, T arg1, X arg2)
+    public void Broadcast<T, X>(String eventKey, T arg1, X arg2)
     {
         Delegate d;
         if (m_EventTable.TryGetValue(eventKey, out d))
@@ -179,7 +179,7 @@ public class EventCenter
         }
     }
     //three parameters
-    public static void Broadcast<T, X, Y>(String eventKey, T arg1, X arg2, Y arg3)
+    public void Broadcast<T, X, Y>(String eventKey, T arg1, X arg2, Y arg3)
     {
         Delegate d;
         if (m_EventTable.TryGetValue(eventKey, out d))
@@ -196,7 +196,7 @@ public class EventCenter
         }
     }
     //four parameters
-    public static void Broadcast<T, X, Y, Z>(String eventKey, T arg1, X arg2, Y arg3, Z arg4)
+    public void Broadcast<T, X, Y, Z>(String eventKey, T arg1, X arg2, Y arg3, Z arg4)
     {
         Delegate d;
         if (m_EventTable.TryGetValue(eventKey, out d))
@@ -213,7 +213,7 @@ public class EventCenter
         }
     }
     //five parameters
-    public static void Broadcast<T, X, Y, Z, W>(String eventKey, T arg1, X arg2, Y arg3, Z arg4, W arg5)
+    public void Broadcast<T, X, Y, Z, W>(String eventKey, T arg1, X arg2, Y arg3, Z arg4, W arg5)
     {
         Delegate d;
         if (m_EventTable.TryGetValue(eventKey, out d))

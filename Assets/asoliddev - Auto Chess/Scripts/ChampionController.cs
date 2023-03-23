@@ -52,6 +52,8 @@ public class ChampionController : MonoBehaviour
     private ChampionAnimation championAnimation;
     private WorldCanvasController worldCanvasController;
 
+    private BuffController buffController;
+
     private NavMeshAgent navMeshAgent;
 
     private Vector3 gridTargetPosition;
@@ -70,12 +72,19 @@ public class ChampionController : MonoBehaviour
     private bool isStuned = false;
     private float stunTimer = 0;
 
+    bool immovable = false;
+    bool disarm = false;
+    bool silence = false;
+    bool invincible = false;
+    bool invisible = false;
+    int state = 0;
+
     private List<Effect> effects;
 
     /// Start is called before the first frame update
     void Start()
     {
-    
+
     }
 
     /// <summary>
@@ -95,7 +104,8 @@ public class ChampionController : MonoBehaviour
         worldCanvasController = GameObject.Find("Scripts").GetComponent<WorldCanvasController>();
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         championAnimation = this.GetComponent<ChampionAnimation>();
-       
+        buffController = this.GetComponent<BuffController>();
+
         //disable agent
         navMeshAgent.enabled = false;
 
@@ -149,7 +159,6 @@ public class ChampionController : MonoBehaviour
             }
         }
 
-        
         if (isInCombat && isStuned == false)
         {
             if (target == null)
@@ -174,7 +183,8 @@ public class ChampionController : MonoBehaviour
                 {
                     //remove target if targetchampion is dead 
                     target = null;
-                    navMeshAgent.isStopped = true;
+                    //navMeshAgent.isStopped = true;
+                    StopMove();
                 }
                 else
                 {
@@ -190,7 +200,8 @@ public class ChampionController : MonoBehaviour
                         }
                         else
                         {
-                            navMeshAgent.destination = target.transform.position;
+                            MoveToTarget(target.transform);
+                            //navMeshAgent.destination = target.transform.position;
                         }
                     }
                 }
@@ -201,17 +212,17 @@ public class ChampionController : MonoBehaviour
         }
 
         //check for stuned effect
-        if (isStuned)
+        /*if (isStuned)
         {
             stunTimer -= Time.deltaTime;
 
-            if(stunTimer < 0)
+            if (stunTimer < 0)
             {
                 isStuned = false;
 
                 championAnimation.IsAnimated(true);
 
-                if(target != null)
+                if (target != null)
                 {
                     //set pathfinder target
                     navMeshAgent.destination = target.transform.position;
@@ -219,8 +230,8 @@ public class ChampionController : MonoBehaviour
                     navMeshAgent.isStopped = false;
                 }
             }
-        }
-        
+        }*/
+
 
     }
 
@@ -230,7 +241,7 @@ public class ChampionController : MonoBehaviour
     public bool IsDragged
     {
         get { return _isDragged; }
-        set { _isDragged = value;}
+        set { _isDragged = value; }
     }
 
     /// <summary>
@@ -279,10 +290,10 @@ public class ChampionController : MonoBehaviour
         gridTargetPosition = GetWorldPosition();
     }
 
-  /// <summary>
-  /// Convert grid position to world position
-  /// </summary>
-  /// <returns></returns>
+    /// <summary>
+    /// Convert grid position to world position
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetWorldPosition()
     {
         //get world position
@@ -312,7 +323,7 @@ public class ChampionController : MonoBehaviour
         Vector3 worldPosition = GetWorldPosition();
 
         this.transform.position = worldPosition;
-        
+
         gridTargetPosition = worldPosition;
     }
 
@@ -354,9 +365,9 @@ public class ChampionController : MonoBehaviour
             maxHealth = champion.health * 2;
             currentHealth = champion.health * 2;
             currentDamage = champion.damage * 2;
-            
+
         }
-           
+
         if (lvl == 3)
         {
             newSize = 2f;
@@ -396,16 +407,16 @@ public class ChampionController : MonoBehaviour
         //find enemy
         if (teamID == TEAMID_PLAYER)
         {
-           
+
             for (int x = 0; x < Map.hexMapSizeX; x++)
             {
                 for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
                 {
-                    if(aIopponent.gridChampionsArray[x, z] != null)
+                    if (aIopponent.gridChampionsArray[x, z] != null)
                     {
                         ChampionController championController = aIopponent.gridChampionsArray[x, z].GetComponent<ChampionController>();
 
-                        if(championController.isDead == false)
+                        if (championController.isDead == false)
                         {
                             //calculate distance
                             float distance = Vector3.Distance(this.transform.position, aIopponent.gridChampionsArray[x, z].transform.position);
@@ -418,7 +429,7 @@ public class ChampionController : MonoBehaviour
                             }
                         }
 
-                       
+
                     }
                 }
             }
@@ -445,7 +456,7 @@ public class ChampionController : MonoBehaviour
                                 bestDistance = distance;
                                 closestEnemy = gamePlayController.gridChampionsArray[x, z];
                             }
-                        } 
+                        }
                     }
                 }
             }
@@ -468,11 +479,28 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             //set pathfinder target
-            navMeshAgent.destination = target.transform.position;
-            
+            //navMeshAgent.destination = target.transform.position;
+            //navMeshAgent.isStopped = false;
+            MoveToTarget(target.transform);
+        }
+    }
 
+    private void MoveToTarget(Transform _target)
+    {
+        if (immovable)
+        {
+            navMeshAgent.isStopped = true;
+        }
+        else
+        {
+            navMeshAgent.destination = _target.transform.position;
             navMeshAgent.isStopped = false;
         }
+    }
+
+    private void StopMove()
+    {
+        navMeshAgent.isStopped = true;
     }
 
     /// <summary>
@@ -483,7 +511,7 @@ public class ChampionController : MonoBehaviour
         IsDragged = false;
 
         this.transform.position = gridTargetPosition;
-       
+
 
         //in combat grid
         if (gridType == Map.GRIDTYPE_HEXA_MAP)
@@ -495,10 +523,10 @@ public class ChampionController : MonoBehaviour
             TryAttackNewTarget();
 
         }
-      
+
     }
 
-   
+
     /// <summary>
     /// Start attack against enemy champion
     /// </summary>
@@ -511,7 +539,7 @@ public class ChampionController : MonoBehaviour
 
         championAnimation.DoAttack(true);
 
-       
+
     }
 
     /// <summary>
@@ -523,11 +551,11 @@ public class ChampionController : MonoBehaviour
 
         if (target != null)
         {
-         
+            buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
             //get enemy target champion
             ChampionController targetChamoion = target.GetComponent<ChampionController>();
 
-            List<ChampionBonus> activeBonuses = null;
+            /*List<ChampionBonus> activeBonuses = null;
 
             if (teamID == TEAMID_PLAYER)
                 activeBonuses = gamePlayController.activeBonusList;
@@ -539,27 +567,27 @@ public class ChampionController : MonoBehaviour
             foreach (ChampionBonus b in activeBonuses)
             {
                 d += b.ApplyOnAttack(this, targetChamoion);
-            }
+            }*/
 
             //deal damage
-            bool isTargetDead = targetChamoion.OnGotHit(d + currentDamage);
+            bool isTargetDead = targetChamoion.OnGotHit(currentDamage);
 
-  
+
             //target died from attack
             if (isTargetDead)
                 TryAttackNewTarget();
 
 
             //create projectile if have one
-            if(champion.attackProjectile != null && projectileStart != null)
+            if (champion.attackProjectile != null && projectileStart != null)
             {
                 GameObject projectile = Instantiate(champion.attackProjectile);
                 projectile.transform.position = projectileStart.transform.position;
 
                 projectile.GetComponent<Projectile>().Init(target);
-
-
             }
+
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
         }
     }
 
@@ -569,7 +597,7 @@ public class ChampionController : MonoBehaviour
     /// <param name="damage"></param>
     public bool OnGotHit(float damage)
     {
-        List<ChampionBonus> activeBonuses = null;
+        /*List<ChampionBonus> activeBonuses = null;
 
         if (teamID == TEAMID_PLAYER)
             activeBonuses = gamePlayController.activeBonusList;
@@ -579,13 +607,13 @@ public class ChampionController : MonoBehaviour
         foreach (ChampionBonus b in activeBonuses)
         {
             damage = b.ApplyOnGotHit(this, damage);
-        }
-       
+        }*/
+
         currentHealth -= damage;
 
-        
+
         //death
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             this.gameObject.SetActive(false);
             isDead = true;
@@ -624,7 +652,7 @@ public class ChampionController : MonoBehaviour
     }
 
 
-  
+
     /// <summary>
     /// Add effect to this champion
     /// </summary>
@@ -637,7 +665,7 @@ public class ChampionController : MonoBehaviour
         bool foundEffect = false;
         foreach (Effect e in effects)
         {
-            if(effectPrefab == e.effectPrefab)
+            if (effectPrefab == e.effectPrefab)
             {
                 e.duration = duration;
                 foundEffect = true;
@@ -645,13 +673,13 @@ public class ChampionController : MonoBehaviour
         }
 
         //not found effect
-        if(foundEffect == false)
+        if (foundEffect == false)
         {
             Effect effect = this.gameObject.AddComponent<Effect>();
             effect.Init(effectPrefab, this.gameObject, duration);
-            effects.Add(effect); 
+            effects.Add(effect);
         }
-       
+
     }
 
     /// <summary>
@@ -663,4 +691,67 @@ public class ChampionController : MonoBehaviour
         effect.Remove();
     }
 
+
+
+    //新增Buff的State的叠加
+    public void AddBuffState(ModifyAttributeBuff _buff)
+    {
+        state = state | _buff.state;
+    }
+
+    //移除Buff的State的叠加
+    public void RemoveBuffState(ModifyAttributeBuff _buff)
+    {
+        state = state ^ _buff.state;
+    }
+
+    //计算state
+    public void CalculateState()
+    {
+        if ((state & BuffStateByteFormat.immovableState) != 0)
+        {
+            immovable = true;
+        }
+        else
+        {
+            immovable = false;
+        }
+
+
+        if ((state & BuffStateByteFormat.disarmState) != 0)
+        {
+            disarm = true;
+        }
+        else
+        {
+            disarm = false;
+        }
+
+        if ((state & BuffStateByteFormat.silenceState) != 0)
+        {
+            silence = true;
+        }
+        else
+        {
+            silence = false;
+        }
+
+        if ((state & BuffStateByteFormat.invincibleState) != 0)
+        {
+            invincible = true;
+        }
+        else
+        {
+            invincible = false;
+        }
+
+        if ((state & BuffStateByteFormat.invisibleState) != 0)
+        {
+            invisible = true;
+        }
+        else
+        {
+            invisible = false;
+        }
+    }
 }

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14e27ee2cedc1e428e588ee0298d0b5, type: 3}
+  m_Name: StunBuffData
+  m_EditorClassIdentifier: 
+  buffID: 1
+  displayName: "\u7729\u6655"
+  duration: 1
+  intervalTime: 0
+  layer: 1
+  bNoCaster: 0
+  activeMode: 0
+  consumeMode: 2
+  superposeMode: 0
+  buffBehaviourScriptName: 
+  stateBoolValues:
+    immovable: 0
+    disarm: 0
+    silence: 0
+    invincible: 0
+    invisible: 0
+  attack: 0
+  defend: 0
