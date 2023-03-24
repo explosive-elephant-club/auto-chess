@@ -45,9 +45,7 @@ public class Buff
         {
             buffBehaviour = new BuffBehaviour();
         }
-
-        buffBehaviour.onBuffAwake();
-
+        BuffAwake();
     }
 
     //叠加合并
@@ -84,16 +82,52 @@ public class Buff
             if (intervalTimer >= buffData.intervalTime)
             {
                 intervalTimer = 0;
-                buffBehaviour.onBuffInterval();
+                buffBehaviour.BuffInterval();
                 //触发Buff
             }
         }
     }
 
+    public virtual void BuffAwake()
+    {
+        buffBehaviour.BuffAwake();
+    }
+    public virtual void BuffStart()
+    {
+        BuffController _controller = owner.GetComponent<BuffController>();
+        if (buffData.activeMode != BuffActiveMode.Interval)
+        {
+            if (buffData.activeMode == BuffActiveMode.Always)
+            {
+                BuffActive();
+            }
+            else
+            {
+                _controller.eventCenter.AddListener(buffData.activeMode.ToString(), BuffActive);
+            }
+        }
+        buffBehaviour.BuffStart();
+    }
+    public virtual void BuffRefresh()
+    {
+        buffBehaviour.BuffRefresh();
+    }
+    public virtual void BuffRemove()
+    {
+        buffBehaviour.BuffRemove();
+    }
+    public virtual void BuffDestroy()
+    {
+        buffBehaviour.BuffDestroy();
+    }
+    public virtual void BuffInterval()
+    {
+        buffBehaviour.BuffInterval();
+    }
     //buff触发
     public virtual void BuffActive()
     {
-        buffBehaviour.onBuffActive();
+        buffBehaviour.BuffActive();
         if (buffData.consumeMode == BuffConsumeMode.Active)
         {
             owner.SendMessage("RemoveBuff", this);

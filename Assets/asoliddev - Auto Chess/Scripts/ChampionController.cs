@@ -72,12 +72,6 @@ public class ChampionController : MonoBehaviour
     private bool isStuned = false;
     private float stunTimer = 0;
 
-    bool immovable = false;
-    bool disarm = false;
-    bool silence = false;
-    bool invincible = false;
-    bool invisible = false;
-    int state = 0;
 
     private List<Effect> effects;
 
@@ -117,6 +111,7 @@ public class ChampionController : MonoBehaviour
         worldCanvasController.AddHealthBar(this.gameObject);
 
         effects = new List<Effect>();
+
     }
 
     /// Update is called once per frame
@@ -487,7 +482,7 @@ public class ChampionController : MonoBehaviour
 
     private void MoveToTarget(Transform _target)
     {
-        if (immovable)
+        if (buffController.buffStateContainer.GetState("immovable"))
         {
             navMeshAgent.isStopped = true;
         }
@@ -691,67 +686,4 @@ public class ChampionController : MonoBehaviour
         effect.Remove();
     }
 
-
-
-    //新增Buff的State的叠加
-    public void AddBuffState(ModifyAttributeBuff _buff)
-    {
-        state = state | _buff.state;
-    }
-
-    //移除Buff的State的叠加
-    public void RemoveBuffState(ModifyAttributeBuff _buff)
-    {
-        state = state ^ _buff.state;
-    }
-
-    //计算state
-    public void CalculateState()
-    {
-        if ((state & BuffStateByteFormat.immovableState) != 0)
-        {
-            immovable = true;
-        }
-        else
-        {
-            immovable = false;
-        }
-
-
-        if ((state & BuffStateByteFormat.disarmState) != 0)
-        {
-            disarm = true;
-        }
-        else
-        {
-            disarm = false;
-        }
-
-        if ((state & BuffStateByteFormat.silenceState) != 0)
-        {
-            silence = true;
-        }
-        else
-        {
-            silence = false;
-        }
-
-        if ((state & BuffStateByteFormat.invincibleState) != 0)
-        {
-            invincible = true;
-        }
-        else
-        {
-            invincible = false;
-        }
-
-        if ((state & BuffStateByteFormat.invisibleState) != 0)
-        {
-            invisible = true;
-        }
-        else
-        {
-            invisible = false;
-        }
-    }
 }

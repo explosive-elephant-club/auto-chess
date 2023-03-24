@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BuffBehaviour
 {
-    public void onBuffAwake() { }
-    public void onBuffStart() { }
-    public void onBuffRefresh() { }
-    public void onBuffRemove() { }
-    public void onBuffDestroy() { }
-    public void onBuffInterval() { }
-    public void onBuffActive() { }
+    public void BuffAwake() { }
+    public void BuffStart() { }
+    public void BuffRefresh() { }
+    public void BuffRemove() { }
+    public void BuffDestroy() { }
+    public void BuffInterval() { }
+    public void BuffActive() { }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 [Serializable]
 public class BuffStateBoolValues
 {
@@ -16,16 +17,6 @@ public class BuffStateBoolValues
     public bool invincible = false;
     [Tooltip("隐身")]
     public bool invisible = false;
-}
-
-//状态类的二进制存储
-public class BuffStateByteFormat
-{
-    public static int immovableState = 1 << 1;
-    public static int disarmState = 1 << 2;
-    public static int silenceState = 1 << 3;
-    public static int invincibleState = 1 << 4;
-    public static int invisibleState = 1 << 5;
 }
 
 [CreateAssetMenu(fileName = "DefaultModifyAttributeBuffData", menuName = "AutoChess/ModifyAttributeBuffData", order = 4)]
