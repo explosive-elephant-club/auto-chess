@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.AI;
+using System;
+using General;
 
 /// <summary>
 /// Controls a single champion movement and combat
@@ -72,8 +75,10 @@ public class ChampionController : MonoBehaviour
     private bool isStuned = false;
     private float stunTimer = 0;
 
-
+    public GameObject target;
     private List<Effect> effects;
+
+    ChampionCambat cambatCtrl;
 
     /// Start is called before the first frame update
     void Start()
@@ -112,6 +117,9 @@ public class ChampionController : MonoBehaviour
 
         effects = new List<Effect>();
 
+        cambatCtrl = new ChampionCambat(this);
+        gamePlayController.StageStateAddListener(this);
+        gamePlayController.StageStateAddListener(cambatCtrl);
     }
 
     /// Update is called once per frame
@@ -154,7 +162,7 @@ public class ChampionController : MonoBehaviour
             }
         }
 
-        if (isInCombat && isStuned == false)
+        if (isInCombat)
         {
             if (target == null)
             {
@@ -187,7 +195,6 @@ public class ChampionController : MonoBehaviour
                     {
                         //calculate distance
                         float distance = Vector3.Distance(this.transform.position, target.transform.position);
-
                         //if we are close enough to attack 
                         if (distance < champion.attackRange)
                         {
@@ -258,6 +265,9 @@ public class ChampionController : MonoBehaviour
         //reset position
         SetWorldPosition();
         SetWorldRotation();
+
+        //remove add buffs
+        buffController.RemoveAllBuff();
 
         //remove all effects
         foreach (Effect e in effects)
@@ -389,12 +399,11 @@ public class ChampionController : MonoBehaviour
 
     }
 
-    private GameObject target;
     /// <summary>
     /// Find the a champion the the closest world position
     /// </summary>
     /// <returns></returns>
-    private GameObject FindTarget()
+    public GameObject FindTarget()
     {
         GameObject closestEnemy = null;
         float bestDistance = 1000;
@@ -484,7 +493,7 @@ public class ChampionController : MonoBehaviour
     {
         if (buffController.buffStateContainer.GetState("immovable"))
         {
-            navMeshAgent.isStopped = true;
+            StopMove();
         }
         else
         {
@@ -519,6 +528,19 @@ public class ChampionController : MonoBehaviour
 
         }
 
+        //添加羁绊Buff
+        List<BaseBuffData> activeBonuses = null;
+
+        if (teamID == TEAMID_PLAYER)
+            activeBonuses = gamePlayController.bonusBuffList;
+        else if (teamID == TEAMID_AI)
+            activeBonuses = aIopponent.bonusBuffList;
+
+        foreach (BaseBuffData b in activeBonuses)
+        {
+            buffController.AddBuff(b, gameObject);
+        }
+
     }
 
 
@@ -527,14 +549,19 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     private void DoAttack()
     {
-        isAttacking = true;
+        if (!buffController.buffStateContainer.GetState("disarm"))
+        {
+            isAttacking = true;
 
-        //stop navigation
-        navMeshAgent.isStopped = true;
+            //stop navigation
+            navMeshAgent.isStopped = true;
 
-        championAnimation.DoAttack(true);
-
-
+            championAnimation.DoAttack(true);
+        }
+        else
+        {
+            StopMove();
+        }
     }
 
     /// <summary>
@@ -685,5 +712,46 @@ public class ChampionController : MonoBehaviour
         effects.Remove(effect);
         effect.Remove();
     }
+
+    #region StageFuncs
+    public void OnEnterPreparation()
+    {
+
+    }
+    public void OnUpdatePreparation()
+    {
+
+    }
+    public void OnLeavePreparation()
+    {
+
+    }
+
+    public void OnEnterCombat()
+    {
+
+    }
+    public void OnUpdateCombat()
+    {
+
+    }
+    public void OnLeaveCombat()
+    {
+
+    }
+
+    public void OnEnterLoss()
+    {
+
+    }
+    public void OnUpdateLoss()
+    {
+
+    }
+    public void OnLeaveLoss()
+    {
+
+    }
+    #endregion
 
 }

@@ -20,12 +20,13 @@ MonoBehaviour:
   bNoCaster: 0
   activeMode: 0
   consumeMode: 2
-  superposeMode: 0
+  superposeMode: 1
   buffBehaviourScriptName: 
+  addBuffs: []
   stateBoolValues:
-    immovable: 0
-    disarm: 0
-    silence: 0
+    immovable: 1
+    disarm: 1
+    silence: 1
     invincible: 0
     invisible: 0
   attack: 0

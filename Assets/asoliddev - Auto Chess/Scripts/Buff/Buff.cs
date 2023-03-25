@@ -18,6 +18,8 @@ public class Buff
 
     public BuffBehaviour buffBehaviour;
 
+    public BuffController buffController;
+
     public Buff(BaseBuffData _buffData, GameObject _owner, GameObject _caster = null)
     {
         buffData = _buffData;
@@ -27,7 +29,7 @@ public class Buff
         curTime = buffData.duration;
         intervalTimer = 0;
 
-
+        buffController = owner.GetComponent<BuffController>();
         if (!string.IsNullOrEmpty(buffData.buffBehaviourScriptName))
         {
             try
@@ -53,14 +55,17 @@ public class Buff
     {
         switch (buffData.superposeMode)
         {
+            case BuffSuperposeMode.None:
+                break;
+            case BuffSuperposeMode.Cover:
+                break;
             case BuffSuperposeMode.Time:
                 curTime += buff.curTime;
                 break;
             case BuffSuperposeMode.Layer:
                 curLayer += buff.curLayer;
                 break;
-            case BuffSuperposeMode.None:
-                break;
+
         }
     }
 
@@ -128,9 +133,13 @@ public class Buff
     public virtual void BuffActive()
     {
         buffBehaviour.BuffActive();
+        foreach (AddSubBuff b in buffData.addBuffs)
+        {
+            buffController.AddSubBuff(b);
+        }
         if (buffData.consumeMode == BuffConsumeMode.Active)
         {
-            owner.SendMessage("RemoveBuff", this);
+            buffController.RemoveBuff(this);
         }
     }
 }

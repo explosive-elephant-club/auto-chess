@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using System.Reflection;
 
+
+[Serializable]
 public class BuffState
 {
     public string name;
@@ -11,9 +13,17 @@ public class BuffState
     public bool state;
 }
 
+public interface AddBuffInterface
+{
+    void AddBuff(BaseBuffData buffData, GameObject _caster = null);
+}
+
+[Serializable]
 public class BuffStateContainer
 {
     public int allSuperposStates = 0;
+
+    [SerializeField]
     public List<BuffState> states;
 
     public BuffStateContainer(BuffStateBoolValues _boolValues = null)
@@ -29,9 +39,11 @@ public class BuffStateContainer
             b.name = fields[i].Name.ToString();
             b.byteFormat = 1 << i;
             b.state = _boolValues == null ? false : (bool)fields[i].GetValue(_boolValues);
+
+            if (b.state)
+                allSuperposStates = allSuperposStates | b.byteFormat;
             states.Add(b);
         }
-        CalculateState(0);
     }
 
     public void CalculateState(int _states = 0)
@@ -39,7 +51,8 @@ public class BuffStateContainer
         allSuperposStates = allSuperposStates | _states;
         foreach (BuffState b in states)
         {
-            b.state = (b.byteFormat & allSuperposStates) == 0 ? false : true;
+            b.state = (allSuperposStates & b.byteFormat) == 0 ? false : true;
+
         }
     }
 
@@ -48,20 +61,51 @@ public class BuffStateContainer
         return states.Find(s => s.name == name).state;
     }
 }
-public class BuffController : MonoBehaviour
+public class BuffController : MonoBehaviour, AddBuffInterface
 {
     [SerializeField]
     public List<Buff> buffList = new List<Buff>();
     public EventCenter eventCenter = new EventCenter();
+
+    [SerializeField]
     public BuffStateContainer buffStateContainer = new BuffStateContainer();
 
     //添加一个buff
     public void AddBuff(BaseBuffData buffData, GameObject _caster = null)
     {
-        Buff buff = new Buff(buffData, gameObject, _caster);
+        Buff buff;
+        if ((buffData as ModifyAttributeBuffData) != null)
+        {
+            buff = new ModifyAttributeBuff(buffData, gameObject, _caster);
+        }
+        else
+        {
+            buff = new Buff(buffData, gameObject, _caster);
+        }
         BuffSuperposeCheck(buff);
         buffList.Add(buff);
         buff.BuffStart();
+    }
+
+    //添加一个子Buff
+    public void AddSubBuff(AddSubBuff subBuff)
+    {
+        switch (subBuff.targetType)
+        {
+            case AddBuffTargetType.Self:
+                AddBuff(subBuff.buffData, gameObject);
+                break;
+            case AddBuffTargetType.Teammate:
+                break;
+            case AddBuffTargetType.Enemy:
+                GameObject target = gameObject.GetComponent<ChampionController>().target;
+                if (target != null)
+                    target.GetComponent<AddBuffInterface>().AddBuff(subBuff.buffData, gameObject);
+                break;
+            case AddBuffTargetType.Enemies:
+                break;
+
+        }
     }
 
     //移除一个buff
@@ -75,9 +119,9 @@ public class BuffController : MonoBehaviour
     //移除所有buff
     public void RemoveAllBuff()
     {
-        foreach (Buff b in buffList)
+        for (int i = 0; i < buffList.Count; i++)
         {
-            RemoveBuff(b);
+            RemoveBuff(buffList[i]);
         }
     }
 
@@ -106,22 +150,30 @@ public class BuffController : MonoBehaviour
         buffStateContainer.CalculateState(_buff.buffStateContainer.allSuperposStates);
     }
 
-    //移除Buff的State的叠加
-    public void RemoveBuffState(ModifyAttributeBuff _buff)
+    //计算所有Buff的State的叠加
+    public void CalculateAllBuffState()
     {
-        buffStateContainer.allSuperposStates =
-        buffStateContainer.allSuperposStates ^
-        _buff.buffStateContainer.allSuperposStates;
-        buffStateContainer.CalculateState();
+        BuffStateContainer tempBuffStateContainer = new BuffStateContainer();
+        foreach (Buff b in buffList)
+        {
+            if ((b.buffData as ModifyAttributeBuffData) != null)
+            {
+                ModifyAttributeBuff modifyBuff = b as ModifyAttributeBuff;
+                tempBuffStateContainer.allSuperposStates |= modifyBuff.buffStateContainer.allSuperposStates;
+
+            }
+        }
+        tempBuffStateContainer.CalculateState();
+        buffStateContainer = tempBuffStateContainer;
     }
 
     private void Update()
     {
         if (buffList.Count > 0)
         {
-            foreach (Buff b in buffList)
+            for (int i = 0; i < buffList.Count; i++)
             {
-                b.TimerTick();
+                buffList[i].TimerTick();
             }
         }
     }

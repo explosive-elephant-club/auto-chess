@@ -20,7 +20,7 @@ public class ChampionBonus
     public List<BuffCountRequire> bonusCountRequireAndBuff = new List<BuffCountRequire>();
 
 
-    //查找count对应的最高的Buff
+    //查找count对应的Buff
     public BaseBuffData GetBuffBonus(int count)
     {
         BaseBuffData buff = null;

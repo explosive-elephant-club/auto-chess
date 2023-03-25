@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using General;
 
 public enum GameStage { Preparation, Combat, Loss };
 
@@ -46,6 +48,8 @@ public class GamePlayController : MonoBehaviour
 
     public Dictionary<ChampionType, int> championTypeCount;
     public List<BaseBuffData> bonusBuffList;
+
+    public EventCenter eventCenter = new EventCenter();
 
     /// Start is called before the first frame update
     void Start()
@@ -826,5 +830,27 @@ public class GamePlayController : MonoBehaviour
 
     }
 
+    //不同状态stage命令模式绑定事件
+    public void StageStateAddListener(object _class)
+    {
+        foreach (string stage in Enum.GetNames(typeof(GameStage)))
+        {
+            if (GeneralMethod.FindMethodByName(_class, "OnEnter" + stage))
+                eventCenter.AddListener("OnEnter" + stage, () =>
+                {
+                    GeneralMethod.ExecuteMethodByName(_class, "OnEnter" + stage);
+                });
+            if (GeneralMethod.FindMethodByName(_class, "OnUpdate" + stage))
+                eventCenter.AddListener("OnUpdate" + stage, () =>
+                {
+                    GeneralMethod.ExecuteMethodByName(_class, "OnUpdate" + stage);
+                });
+            if (GeneralMethod.FindMethodByName(_class, "OnLeave" + stage))
+                eventCenter.AddListener("OnLeave" + stage, () =>
+                {
+                    GeneralMethod.ExecuteMethodByName(_class, "OnLeave" + stage);
+                });
 
+        }
+    }
 }

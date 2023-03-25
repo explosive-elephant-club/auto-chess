@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum BuffActiveMode
 {
@@ -15,7 +16,7 @@ public enum BuffActiveMode
     [Tooltip("受击前触发")]
     BeforeHit,
     [Tooltip("受击后触发")]
-    AfterHit
+    AfterHit,
 }
 
 public enum BuffConsumeMode
@@ -32,15 +33,36 @@ public enum BuffSuperposeMode
 {
     [Tooltip("不叠加")]
     None,
+    [Tooltip("覆盖")]
+    Cover,
     [Tooltip("持续时长叠加")]
     Time,
     [Tooltip("层数叠加")]
     Layer
 }
 
+public enum AddBuffTargetType
+{
+    [Tooltip("自身")]
+    Self,
+    [Tooltip("队友")]
+    Teammate,
+    [Tooltip("敌人")]
+    Enemy,
+    [Tooltip("敌人群")]
+    Enemies
+}
+
+[Serializable]
+public class AddSubBuff
+{
+    public BaseBuffData buffData;
+    public AddBuffTargetType targetType;
+}
+
 
 [CreateAssetMenu(fileName = "DefaultBaseBuffData", menuName = "AutoChess/BaseBuffData", order = 3)]
-[SerializeField]
+[Serializable]
 public class BaseBuffData : ScriptableObject
 {
     //配置项
@@ -66,8 +88,9 @@ public class BaseBuffData : ScriptableObject
     public BuffSuperposeMode superposeMode;
     [Tooltip("自定行为脚本")]
     public string buffBehaviourScriptName;
-
-
+    [Tooltip("触发时添加的Buff")]
+    [SerializeField]
+    public AddSubBuff[] addBuffs;
 
 
 

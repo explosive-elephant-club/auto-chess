@@ -19,13 +19,13 @@ public class ModifyAttributeBuff : Buff
 
     public override void BuffActive()
     {
-        owner.SendMessage("AddBuffState", this);
+        buffController.AddBuffState(this);
         base.BuffActive();
     }
 
-    public override void BuffRemove()
+    public override void BuffDestroy()
     {
-        owner.SendMessage("RemoveBuffState", this);
-        base.BuffRemove();
+        buffController.CalculateAllBuffState();
+        base.BuffDestroy();
     }
 }

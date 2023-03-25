@@ -15,9 +15,6 @@ MonoBehaviour:
   displayName: Knight
   icon: {fileID: 21300000, guid: 2ccfeac0a61f65940ac1aa83eef156ef, type: 3}
   championBonus:
-    championCount: 3
-    championBonusType: 1
-    championBonusTrigger: 1
-    bonusValue: 20
-    effectPrefab: {fileID: 0}
-    effectDuration: 0
+    bonusCountRequireAndBuff:
+    - count: 1
+      buff: {fileID: 11400000, guid: a8278ef598eff5e44bdc8e4b8e2515d8, type: 2}
