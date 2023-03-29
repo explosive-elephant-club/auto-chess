@@ -7,11 +7,8 @@ using UnityEngine.UI;
 /// <summary>
 /// Updates and controls UI elements
 /// </summary>
-public class UIController : MonoBehaviour
+public class UIController : CreateSingleton<UIController>
 {
-    public ChampionShop championShop;
-    public GamePlayController gamePlayController;
-
     public GameObject[] championsFrameArray;
     public GameObject[] bonusPanels;
 
@@ -28,7 +25,12 @@ public class UIController : MonoBehaviour
     public GameObject bonusContainer;
     public GameObject bonusUIPrefab;
 
-   
+    protected override void InitSingleton()
+    {
+
+    }
+
+
     /// <summary>
     /// Called when a chamipon panel clicked on shop UI
     /// </summary>
@@ -42,7 +44,7 @@ public class UIController : MonoBehaviour
         int championFrameIndex = int.Parse(name.Substring(defaultName.Length, 1));
 
         //message shop from click
-        championShop.OnChampionFrameClicked(championFrameIndex);
+        ChampionShop.Instance.OnChampionFrameClicked(championFrameIndex);
     }
 
     /// <summary>
@@ -50,7 +52,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void Refresh_Click()
     {
-        championShop.RefreshShop(false);   
+        ChampionShop.Instance.RefreshShop(false);
     }
 
     /// <summary>
@@ -58,7 +60,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void BuyXP_Click()
     {
-        championShop.BuyLvl();
+        ChampionShop.Instance.BuyLvl();
     }
 
     /// <summary>
@@ -66,7 +68,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void Restart_Click()
     {
-        gamePlayController.RestartGame();
+        GamePlayController.Instance.RestartGame();
     }
 
     /// <summary>
@@ -122,23 +124,24 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateUI()
     {
-        goldText.text = gamePlayController.currentGold.ToString();
-        championCountText.text = gamePlayController.currentChampionCount.ToString() + " / " + gamePlayController.currentChampionLimit.ToString();
-        hpText.text = "HP " + gamePlayController.currentHP.ToString();
+        goldText.text = GamePlayController.Instance.currentGold.ToString();
+        championCountText.text = GamePlayController.Instance.currentChampionCount.ToString() + " / " + GamePlayController.Instance.currentChampionLimit.ToString();
+        hpText.text = "HP " + GamePlayController.Instance.currentHP.ToString();
 
 
         //hide bonusus UI
-        foreach (GameObject go in bonusPanels) {
+        foreach (GameObject go in bonusPanels)
+        {
             go.SetActive(false);
         }
 
 
         //if not null
-        if (gamePlayController.championTypeCount != null)
+        if (GamePlayController.Instance.championTypeCount != null)
         {
             int i = 0;
             //iterate bonuses
-            foreach (KeyValuePair<ChampionType, int> m in gamePlayController.championTypeCount)
+            foreach (KeyValuePair<ChampionType, int> m in GamePlayController.Instance.championTypeCount)
             {
                 //Now you can access the key and value both separately from this attachStat as:
                 GameObject bonusUI = bonusPanels[i];
@@ -149,7 +152,7 @@ public class UIController : MonoBehaviour
 
                 bonusUI.SetActive(true);
 
-                i++;   
+                i++;
             }
         }
     }
@@ -159,7 +162,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateTimerText()
     {
-        timerText.text = gamePlayController.timerDisplay.ToString();
+        timerText.text = GamePlayController.Instance.timerDisplay.ToString();
     }
 
     /// <summary>
@@ -181,7 +184,7 @@ public class UIController : MonoBehaviour
         SetTimerTextActive(false);
         shop.SetActive(false);
         gold.SetActive(false);
-        
+
 
         restartButton.SetActive(true);
     }

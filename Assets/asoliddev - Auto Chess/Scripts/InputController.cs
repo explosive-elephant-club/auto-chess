@@ -5,18 +5,16 @@ using UnityEngine;
 /// <summary>
 /// Controlls player input
 /// </summary>
-public class InputController : MonoBehaviour
+public class InputController : CreateSingleton<InputController>
 {
-    public GamePlayController gamePlayController;
-
-    //map script
-    public Map map;
-
-
     public LayerMask triggerLayer;
 
     //declare ray starting position var
     private Vector3 rayCastStartPosition;
+    protected override void InitSingleton()
+    {
+
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -57,33 +55,33 @@ public class InputController : MonoBehaviour
             {
                 if (triggerInfo != previousTriggerInfo)
                 {
-                    map.resetIndicators();
+                    Map.Instance.resetIndicators();
                     previousTriggerInfo = triggerInfo;
                     //get indicator
-                    GameObject indicator = map.GetIndicatorFromTriggerInfo(triggerInfo);
+                    GameObject indicator = Map.Instance.GetIndicatorFromTriggerInfo(triggerInfo);
 
                     //set indicator color to active
-                    indicator.GetComponent<MeshRenderer>().material.color = map.indicatorActiveColor;
+                    indicator.GetComponent<MeshRenderer>().material.color = Map.Instance.indicatorActiveColor;
                 }
 
             }
             else
-                map.resetIndicators(); //reset colors
+                Map.Instance.resetIndicators(); //reset colors
         }
         else
         {
-            map.resetIndicators();
+            Map.Instance.resetIndicators();
         }
 
 
         if (Input.GetMouseButtonDown(0))
         {
-            gamePlayController.StartDrag();
+            GamePlayController.Instance.StartDrag();
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            gamePlayController.StopDrag();
+            GamePlayController.Instance.StopDrag();
         }
 
         //store mouse position

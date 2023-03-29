@@ -7,11 +7,6 @@ using UnityEngine;
 /// </summary>
 public class AIopponent : MonoBehaviour
 {
-    public ChampionShop championShop;
-    public Map map;
-    public UIController uIController;
-    public GamePlayController gamePlayController;
-
     public GameObject[,] gridChampionsArray;
 
     public Dictionary<ChampionType, int> championTypeCount;
@@ -84,7 +79,7 @@ public class AIopponent : MonoBehaviour
             }
 
             //player takes damage
-            gamePlayController.TakeDamage(damage);
+            GamePlayController.Instance.TakeDamage(damage);
 
 
             ResetChampions();
@@ -136,7 +131,7 @@ public class AIopponent : MonoBehaviour
         if (indexX == -1 || indexZ == -1)
             return;
 
-        Champion champion = championShop.GetRandomChampionInfo();
+        Champion champion = ChampionShop.Instance.GetRandomChampionInfo();
 
         //instantiate champion prefab
         GameObject championPrefab = Instantiate(champion.prefab);
@@ -148,7 +143,7 @@ public class AIopponent : MonoBehaviour
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
         //setup chapioncontroller
-        championController.Init(champion, ChampionController.TEAMID_AI);
+        championController.Init(champion, ChampionTeam.Oponent);
 
         //set grid position
         championController.SetGridPosition(Map.GRIDTYPE_HEXA_MAP, indexX, indexZ + 4);
@@ -271,7 +266,7 @@ public class AIopponent : MonoBehaviour
         bool allDead = IsAllChampionDead();
 
         if (allDead)
-            gamePlayController.EndRound();
+            GamePlayController.Instance.EndRound();
     }
 
 

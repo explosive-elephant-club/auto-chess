@@ -5,12 +5,17 @@ using UnityEngine;
 /// <summary>
 /// Helper class to display the HealthBar and FloatingText Canvas UI in WorldSpace
 /// </summary>
-public class WorldCanvasController : MonoBehaviour
+public class WorldCanvasController : CreateSingleton<WorldCanvasController>
 {
     public GameObject worldCanvas;
     public GameObject floatingTextPrefab;
     public GameObject healthBarPrefab;
-   
+
+    protected override void InitSingleton()
+    {
+
+    }
+
     /// <summary>
     /// For Creating a new FloatingText
     /// </summary>
@@ -20,7 +25,7 @@ public class WorldCanvasController : MonoBehaviour
     {
         GameObject go = Instantiate(floatingTextPrefab);
         go.transform.SetParent(worldCanvas.transform);
-       
+
         go.GetComponent<FloatingText>().Init(position, v);
     }
 

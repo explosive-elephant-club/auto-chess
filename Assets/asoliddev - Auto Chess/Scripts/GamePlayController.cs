@@ -9,14 +9,9 @@ public enum GameStage { Preparation, Combat, Loss };
 /// <summary>
 /// Controlls most of the game logic and player interactions
 /// </summary>
-public class GamePlayController : MonoBehaviour
+public class GamePlayController : CreateSingleton<GamePlayController>, GameStageInterface
 {
-    public Map map;
-    public InputController inputController;
-    public GameData gameData;
-    public UIController uIController;
     public AIopponent aIopponent;
-    public ChampionShop championShop;
 
     [HideInInspector]
     public GameObject[] ownChampionInventoryArray;
@@ -26,6 +21,7 @@ public class GamePlayController : MonoBehaviour
     public GameObject[,] gridChampionsArray;
 
     public GameStage currentGameStage;
+    public GameStage lastStage;
     private float timer = 0;
 
     ///The time available to place champions
@@ -51,19 +47,22 @@ public class GamePlayController : MonoBehaviour
 
     public EventCenter eventCenter = new EventCenter();
 
-    /// Start is called before the first frame update
-    void Start()
+    protected override void InitSingleton()
     {
         //set starting gamestage
         currentGameStage = GameStage.Preparation;
-
+        lastStage = GameStage.Preparation;
         //init arrays
         ownChampionInventoryArray = new GameObject[Map.inventorySize];
         oponentChampionInventoryArray = new GameObject[Map.inventorySize];
         gridChampionsArray = new GameObject[Map.hexMapSizeX, Map.hexMapSizeZ / 2];
+    }
 
-
-        uIController.UpdateUI();
+    /// Start is called before the first frame update
+    void Start()
+    {
+        StageStateAddListener(this);
+        UIController.Instance.UpdateUI();
     }
 
     /// Update is called once per frame
@@ -76,7 +75,7 @@ public class GamePlayController : MonoBehaviour
 
             timerDisplay = (int)(PreparationStageDuration - timer);
 
-            uIController.UpdateTimerText();
+            UIController.Instance.UpdateTimerText();
 
             if (timer > PreparationStageDuration)
             {
@@ -134,7 +133,7 @@ public class GamePlayController : MonoBehaviour
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
         //setup chapioncontroller
-        championController.Init(champion, ChampionController.TEAMID_PLAYER);
+        championController.Init(champion, ChampionTeam.Player);
 
         //set grid position
         championController.SetGridPosition(Map.GRIDTYPE_OWN_INVENTORY, emptyIndex, -1);
@@ -145,7 +144,7 @@ public class GamePlayController : MonoBehaviour
 
 
         //store champion in inventory array
-        StoreChampionInArray(Map.GRIDTYPE_OWN_INVENTORY, map.ownTriggerArray[emptyIndex].gridX, -1, championPrefab);
+        StoreChampionInArray(Map.GRIDTYPE_OWN_INVENTORY, Map.Instance.ownTriggerArray[emptyIndex].gridX, -1, championPrefab);
 
 
 
@@ -159,7 +158,7 @@ public class GamePlayController : MonoBehaviour
         currentGold -= champion.cost;
 
         //set gold on ui
-        uIController.UpdateUI();
+        UIController.Instance.UpdateUI();
 
         //return true if succesful buy
         return true;
@@ -254,7 +253,7 @@ public class GamePlayController : MonoBehaviour
         currentChampionCount = GetChampionCountOnHexGrid();
 
         //update ui
-        uIController.UpdateUI();
+        UIController.Instance.UpdateUI();
 
     }
 
@@ -270,7 +269,7 @@ public class GamePlayController : MonoBehaviour
             return;
 
         //get trigger info
-        TriggerInfo triggerinfo = inputController.triggerInfo;
+        TriggerInfo triggerinfo = InputController.Instance.triggerInfo;
         //if mouse cursor on trigger
         if (triggerinfo != null)
         {
@@ -281,7 +280,7 @@ public class GamePlayController : MonoBehaviour
             if (championGO != null)
             {
                 //show indicators
-                map.ShowIndicators();
+                Map.Instance.ShowIndicators(ChampionTeam.Player);
 
                 draggedChampion = championGO;
 
@@ -300,7 +299,7 @@ public class GamePlayController : MonoBehaviour
     public void StopDrag()
     {
         //hide indicators
-        map.HideIndicators();
+        Map.Instance.HideIndicators();
 
         int championsOnField = GetChampionCountOnHexGrid();
 
@@ -311,7 +310,7 @@ public class GamePlayController : MonoBehaviour
             draggedChampion.GetComponent<ChampionController>().IsDragged = false;
 
             //get trigger info
-            TriggerInfo triggerinfo = inputController.triggerInfo;
+            TriggerInfo triggerinfo = InputController.Instance.triggerInfo;
 
             //if mouse cursor on trigger
             if (triggerinfo != null)
@@ -373,7 +372,7 @@ public class GamePlayController : MonoBehaviour
             currentChampionCount = GetChampionCountOnHexGrid();
 
             //update ui
-            uIController.UpdateUI();
+            UIController.Instance.UpdateUI();
 
 
             draggedChampion = null;
@@ -569,10 +568,10 @@ public class GamePlayController : MonoBehaviour
             currentGameStage = GameStage.Combat;
 
             //show indicators
-            map.HideIndicators();
+            Map.Instance.HideIndicators();
 
             //hide timer text
-            uIController.SetTimerTextActive(false);
+            UIController.Instance.SetTimerTextActive(false);
 
 
             if (draggedChampion != null)
@@ -627,15 +626,15 @@ public class GamePlayController : MonoBehaviour
             currentGameStage = GameStage.Preparation;
 
             //show timer text
-            uIController.SetTimerTextActive(true);
+            UIController.Instance.SetTimerTextActive(true);
 
             //reset champion
             ResetChampions();
 
             //go through all champion infos
-            for (int i = 0; i < gameData.championsArray.Length; i++)
+            for (int i = 0; i < GameData.Instance.championsArray.Length; i++)
             {
-                TryUpgradeChampion(gameData.championsArray[i]);
+                TryUpgradeChampion(GameData.Instance.championsArray[i]);
             }
 
 
@@ -643,16 +642,16 @@ public class GamePlayController : MonoBehaviour
             currentGold += CalculateIncome();
 
             //set gold ui
-            uIController.UpdateUI();
+            UIController.Instance.UpdateUI();
 
             //refresh shop ui
-            championShop.RefreshShop(true);
+            ChampionShop.Instance.RefreshShop(true);
 
             //check if we have lost
             if (currentHP <= 0)
             {
                 currentGameStage = GameStage.Loss;
-                uIController.ShowLossScreen();
+                UIController.Instance.ShowLossScreen();
 
             }
 
@@ -695,7 +694,7 @@ public class GamePlayController : MonoBehaviour
             currentGold -= 4;
 
             //update ui
-            uIController.UpdateUI();
+            UIController.Instance.UpdateUI();
 
         }
 
@@ -709,7 +708,7 @@ public class GamePlayController : MonoBehaviour
     {
         currentHP -= damage;
 
-        uIController.UpdateUI();
+        UIController.Instance.UpdateUI();
 
     }
 
@@ -760,13 +759,13 @@ public class GamePlayController : MonoBehaviour
         currentChampionLimit = 3;
         currentChampionCount = GetChampionCountOnHexGrid();
 
-        uIController.UpdateUI();
+        UIController.Instance.UpdateUI();
 
         //restart ai
         aIopponent.Restart();
 
         //show hide ui
-        uIController.ShowGameScreen();
+        UIController.Instance.ShowGameScreen();
 
 
     }
@@ -853,4 +852,65 @@ public class GamePlayController : MonoBehaviour
 
         }
     }
+
+    public void StageChange(GameStage nextStage)
+    {
+        eventCenter.Broadcast("OnLeave" + currentGameStage.ToString());
+        lastStage = currentGameStage;
+        currentGameStage = nextStage;
+        eventCenter.Broadcast("OnEnter" + currentGameStage.ToString());
+    }
+
+    #region StageFuncs
+    public void OnEnterPreparation()
+    {
+
+    }
+    public void OnUpdatePreparation()
+    {
+
+    }
+    public void OnLeavePreparation()
+    {
+
+    }
+
+    public void OnEnterCombat()
+    {
+
+    }
+    public void OnUpdateCombat()
+    {
+
+    }
+    public void OnLeaveCombat()
+    {
+
+    }
+
+    public void OnEnterLoss()
+    {
+
+    }
+    public void OnUpdateLoss()
+    {
+
+    }
+    public void OnLeaveLoss()
+    {
+
+    }
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
+
 }

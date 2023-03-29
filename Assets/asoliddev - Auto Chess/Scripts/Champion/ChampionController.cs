@@ -27,7 +27,7 @@ public class ChampionController : MonoBehaviour
 
     [HideInInspector]
     ///Team of this champion, can be player = 0, or enemy = 1
-    public int teamID = 0;
+    public ChampionTeam team = ChampionTeam.Player;
 
 
     [HideInInspector]
@@ -49,13 +49,10 @@ public class ChampionController : MonoBehaviour
     ///The upgrade level of the champion
     public int lvl = 1;
 
-    private Map map;
-    private GamePlayController gamePlayController;
     private AIopponent aIopponent;
     private ChampionAnimation championAnimation;
-    private WorldCanvasController worldCanvasController;
 
-    private BuffController buffController;
+    public BuffController buffController;
 
     private NavMeshAgent navMeshAgent;
 
@@ -91,16 +88,13 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     /// <param name="_champion"></param>
     /// <param name="_teamID"></param>
-    public void Init(Champion _champion, int _teamID)
+    public void Init(Champion _champion, ChampionTeam _team)
     {
         champion = _champion;
-        teamID = _teamID;
+        team = _team;
 
         //store scripts
-        map = GameObject.Find("Scripts").GetComponent<Map>();
         aIopponent = GameObject.Find("Scripts").GetComponent<AIopponent>();
-        gamePlayController = GameObject.Find("Scripts").GetComponent<GamePlayController>();
-        worldCanvasController = GameObject.Find("Scripts").GetComponent<WorldCanvasController>();
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         championAnimation = this.GetComponent<ChampionAnimation>();
         buffController = this.GetComponent<BuffController>();
@@ -113,13 +107,13 @@ public class ChampionController : MonoBehaviour
         currentHealth = champion.health;
         currentDamage = champion.damage;
 
-        worldCanvasController.AddHealthBar(this.gameObject);
+        WorldCanvasController.Instance.AddHealthBar(this.gameObject);
 
         effects = new List<Effect>();
 
         cambatCtrl = new ChampionCambat(this);
-        gamePlayController.StageStateAddListener(this);
-        gamePlayController.StageStateAddListener(cambatCtrl);
+        GamePlayController.Instance.StageStateAddListener(this);
+        GamePlayController.Instance.StageStateAddListener(cambatCtrl);
     }
 
     /// Update is called once per frame
@@ -132,7 +126,7 @@ public class ChampionController : MonoBehaviour
 
             //hit distance
             float enter = 100.0f;
-            if (map.m_Plane.Raycast(ray, out enter))
+            if (Map.Instance.m_Plane.Raycast(ray, out enter))
             {
                 //Get the point that is clicked
                 Vector3 hitPoint = ray.GetPoint(enter);
@@ -146,7 +140,7 @@ public class ChampionController : MonoBehaviour
         }
         else
         {
-            if (gamePlayController.currentGameStage == GameStage.Preparation)
+            if (GamePlayController.Instance.currentGameStage == GameStage.Preparation)
             {
                 //calc distance
                 float distance = Vector3.Distance(gridTargetPosition, this.transform.position);
@@ -306,12 +300,15 @@ public class ChampionController : MonoBehaviour
 
         if (gridType == Map.GRIDTYPE_OWN_INVENTORY)
         {
-            worldPosition = map.ownInventoryGridPositions[gridPositionX];
+            worldPosition = Map.Instance.ownInventoryGridPositions[gridPositionX];
+        }
+        else if (gridType == Map.GRIDTYPE_OPONENT_INVENTORY)
+        {
+            worldPosition = Map.Instance.oponentInventoryGridPositions[gridPositionX];
         }
         else if (gridType == Map.GRIDTYPE_HEXA_MAP)
         {
-            worldPosition = map.mapGridPositions[gridPositionX, gridPositionZ];
-
+            worldPosition = Map.Instance.mapGridPositions[gridPositionX, gridPositionZ];
         }
 
         return worldPosition;
@@ -339,11 +336,11 @@ public class ChampionController : MonoBehaviour
     {
         Vector3 rotation = Vector3.zero;
 
-        if (teamID == 0)
+        if (team == ChampionTeam.Player)
         {
             rotation = new Vector3(0, 200, 0);
         }
-        else if (teamID == 1)
+        else if (team == ChampionTeam.Oponent)
         {
             rotation = new Vector3(0, 20, 0);
         }
@@ -409,7 +406,7 @@ public class ChampionController : MonoBehaviour
         float bestDistance = 1000;
 
         //find enemy
-        if (teamID == TEAMID_PLAYER)
+        if (team == ChampionTeam.Player)
         {
 
             for (int x = 0; x < Map.hexMapSizeX; x++)
@@ -438,27 +435,27 @@ public class ChampionController : MonoBehaviour
                 }
             }
         }
-        else if (teamID == TEAMID_AI)
+        else if (team == ChampionTeam.Oponent)
         {
 
             for (int x = 0; x < Map.hexMapSizeX; x++)
             {
                 for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
                 {
-                    if (gamePlayController.gridChampionsArray[x, z] != null)
+                    if (GamePlayController.Instance.gridChampionsArray[x, z] != null)
                     {
-                        ChampionController championController = gamePlayController.gridChampionsArray[x, z].GetComponent<ChampionController>();
+                        ChampionController championController = GamePlayController.Instance.gridChampionsArray[x, z].GetComponent<ChampionController>();
 
                         if (championController.isDead == false)
                         {
                             //calculate distance
-                            float distance = Vector3.Distance(this.transform.position, gamePlayController.gridChampionsArray[x, z].transform.position);
+                            float distance = Vector3.Distance(this.transform.position, GamePlayController.Instance.gridChampionsArray[x, z].transform.position);
 
                             //if new this champion is closer then best distance
                             if (distance < bestDistance)
                             {
                                 bestDistance = distance;
-                                closestEnemy = gamePlayController.gridChampionsArray[x, z];
+                                closestEnemy = GamePlayController.Instance.gridChampionsArray[x, z];
                             }
                         }
                     }
@@ -531,9 +528,9 @@ public class ChampionController : MonoBehaviour
         //添加羁绊Buff
         List<BaseBuffData> activeBonuses = null;
 
-        if (teamID == TEAMID_PLAYER)
-            activeBonuses = gamePlayController.bonusBuffList;
-        else if (teamID == TEAMID_AI)
+        if (team == ChampionTeam.Player)
+            activeBonuses = GamePlayController.Instance.bonusBuffList;
+        else if (team == ChampionTeam.Oponent)
             activeBonuses = aIopponent.bonusBuffList;
 
         foreach (BaseBuffData b in activeBonuses)
@@ -580,7 +577,7 @@ public class ChampionController : MonoBehaviour
             /*List<ChampionBonus> activeBonuses = null;
 
             if (teamID == TEAMID_PLAYER)
-                activeBonuses = gamePlayController.activeBonusList;
+                activeBonuses = GamePlayController.Instance.activeBonusList;
             else if (teamID == TEAMID_AI)
                 activeBonuses = aIopponent.activeBonusList;
 
@@ -622,7 +619,7 @@ public class ChampionController : MonoBehaviour
         /*List<ChampionBonus> activeBonuses = null;
 
         if (teamID == TEAMID_PLAYER)
-            activeBonuses = gamePlayController.activeBonusList;
+            activeBonuses = GamePlayController.Instance.activeBonusList;
         else if (teamID == TEAMID_AI)
             activeBonuses = aIopponent.activeBonusList;
 
@@ -641,11 +638,11 @@ public class ChampionController : MonoBehaviour
             isDead = true;
 
             aIopponent.OnChampionDeath();
-            gamePlayController.OnChampionDeath();
+            GamePlayController.Instance.OnChampionDeath();
         }
 
         //add floating text
-        worldCanvasController.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), damage);
+        WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), damage);
 
         return isDead;
     }

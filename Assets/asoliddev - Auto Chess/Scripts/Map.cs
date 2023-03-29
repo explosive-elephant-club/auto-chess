@@ -2,7 +2,7 @@
 /// <summary>
 /// Creates map grids where the player can move champions on
 /// </summary>
-public class Map : MonoBehaviour
+public class Map : CreateSingleton<Map>
 {
     //declare grid types
     public static int GRIDTYPE_OWN_INVENTORY = 0;
@@ -12,6 +12,37 @@ public class Map : MonoBehaviour
     public static int hexMapSizeX = 7;
     public static int hexMapSizeZ = 8;
     public static int inventorySize = 9;
+
+
+    //地图格子坐标
+    [HideInInspector]
+    public Vector3[] ownInventoryGridPositions;
+    [HideInInspector]
+    public Vector3[] oponentInventoryGridPositions;
+    [HideInInspector]
+    public Vector3[,] mapGridPositions;
+
+    //地图格子显示物体
+    [HideInInspector]
+    public GameObject[] ownIndicatorArray;
+    [HideInInspector]
+    public GameObject[] oponentIndicatorArray;
+    [HideInInspector]
+    public GameObject[,] mapIndicatorArray;
+
+    //地图格子触发器
+    [HideInInspector]
+    public TriggerInfo[] ownTriggerArray;
+    [HideInInspector]
+    public TriggerInfo[] oponentTriggerArray;
+    [HideInInspector]
+    public TriggerInfo[,] mapGridTriggerArray;
+
+    public GameObject ownIndicatorContainer;
+    public GameObject ownMapContainer;
+    public GameObject oponentIndicatorContainer;
+    public GameObject oponentMapContainer;
+
 
     public Plane m_Plane;
 
@@ -29,8 +60,12 @@ public class Map : MonoBehaviour
     public Color indicatorDefaultColor;
     public Color indicatorActiveColor;
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void InitSingleton()
+    {
+
+    }
+
+    private void Start()
     {
         CreateGridPosition();
         CreateIndicators();
@@ -39,27 +74,19 @@ public class Map : MonoBehaviour
         m_Plane = new Plane(Vector3.up, Vector3.zero);
 
         //tell other scripts that map is ready
-        this.SendMessage("OnMapReady", SendMessageOptions.DontRequireReceiver);
+        GameObject.Find("Scripts").SendMessage("OnMapReady", SendMessageOptions.DontRequireReceiver);
+
     }
 
     /// Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
-
-    //store grid positions in list
-    [HideInInspector]
-    public Vector3[] ownInventoryGridPositions;
-    [HideInInspector]
-    public Vector3[] oponentInventoryGridPositions;
-    [HideInInspector]
-    public Vector3[,] mapGridPositions;
-
     /// <summary>
-    /// Creates the positions for all the map grids
+    /// 初始化坐标
     /// </summary>
     private void CreateGridPosition()
     {
@@ -76,7 +103,7 @@ public class Map : MonoBehaviour
             float offsetX = i * -2.5f;
 
             //calculate and store the position
-            Vector3 position = GetMapHitPoint(ownInventoryStartPosition.position + new Vector3(offsetX, 0,0));
+            Vector3 position = GetMapHitPoint(ownInventoryStartPosition.position + new Vector3(offsetX, 0, 0));
 
             //add position variable to array
             ownInventoryGridPositions[i] = position;
@@ -113,51 +140,34 @@ public class Map : MonoBehaviour
                 //add position variable to array
                 mapGridPositions[x, z] = position;
             }
-          
+
         }
 
     }
 
 
 
-    //declare arrays to store indicators
-    [HideInInspector]
-    public GameObject[] ownIndicatorArray;
-    [HideInInspector]
-    public GameObject[] oponentIndicatorArray;
-    [HideInInspector]
-    public GameObject[,] mapIndicatorArray;
-
-    [HideInInspector]
-    public TriggerInfo[] ownTriggerArray;
-    [HideInInspector]
-    public TriggerInfo[,] mapGridTriggerArray;
-
-
-
-    private GameObject indicatorContainer;
-
     /// <summary>
-    /// Creates all the map indicators
+    /// 初始化显示物体
     /// </summary>
     private void CreateIndicators()
     {
-        //create a container for indicators
-        indicatorContainer = new GameObject();
-        indicatorContainer.name = "IndicatorContainer";
-
         //create a container for triggers
-        GameObject triggerContainer = new GameObject();
-        triggerContainer.name = "TriggerContainer";
+        GameObject ownTriggerContainer = new GameObject();
+        ownTriggerContainer.name = "OwnTriggerContainer";
+
+        GameObject oponentTriggerContainer = new GameObject();
+        oponentTriggerContainer.name = "OponentTriggerContainer";
 
 
         //initialise arrays to store indicators
         ownIndicatorArray = new GameObject[inventorySize];
         oponentIndicatorArray = new GameObject[inventorySize];
-        mapIndicatorArray = new GameObject[hexMapSizeX, hexMapSizeZ / 2];
+        mapIndicatorArray = new GameObject[hexMapSizeX, hexMapSizeZ];
 
         ownTriggerArray = new TriggerInfo[inventorySize];
-        mapGridTriggerArray = new TriggerInfo[hexMapSizeX, hexMapSizeZ / 2];
+        oponentTriggerArray = new TriggerInfo[inventorySize];
+        mapGridTriggerArray = new TriggerInfo[hexMapSizeX, hexMapSizeZ];
 
 
         //iterate own grid position
@@ -170,7 +180,7 @@ public class Map : MonoBehaviour
             indicatorGO.transform.position = ownInventoryGridPositions[i];
 
             //set indicator parent
-            indicatorGO.transform.parent = indicatorContainer.transform;
+            indicatorGO.transform.parent = ownIndicatorContainer.transform;
 
             //store indicator gameobject in array
             ownIndicatorArray[i] = indicatorGO;
@@ -179,7 +189,7 @@ public class Map : MonoBehaviour
             GameObject trigger = CreateBoxTrigger(GRIDTYPE_OWN_INVENTORY, i);
 
             //set trigger parent
-            trigger.transform.parent = triggerContainer.transform;
+            trigger.transform.parent = ownTriggerContainer.transform;
 
             //set trigger gameobject position
             trigger.transform.position = ownInventoryGridPositions[i];
@@ -188,7 +198,7 @@ public class Map : MonoBehaviour
             ownTriggerArray[i] = trigger.GetComponent<TriggerInfo>();
         }
 
-        /*
+
         //iterate oponent grid position
         for (int i = 0; i < inventorySize; i++)
         {
@@ -199,37 +209,51 @@ public class Map : MonoBehaviour
             indicatorGO.transform.position = oponentInventoryGridPositions[i];
 
             //set indicator parent
-            indicatorGO.transform.parent = indicatorContainer.transform;
+            indicatorGO.transform.parent = oponentIndicatorContainer.transform;
 
             //store indicator gameobject in array
             oponentIndicatorArray[i] = indicatorGO;
 
+            //create trigger gameobject
+            GameObject trigger = CreateBoxTrigger(GRIDTYPE_OPONENT_INVENTORY, i);
+
+            //set trigger parent
+            trigger.transform.parent = oponentTriggerContainer.transform;
+
+            //set trigger gameobject position
+            trigger.transform.position = oponentInventoryGridPositions[i];
+
+            //store triggerinfo
+            oponentTriggerArray[i] = trigger.GetComponent<TriggerInfo>();
+
 
         }
-        */
-     
+
         //iterate map grid position
         for (int x = 0; x < hexMapSizeX; x++)
         {
-            for (int z = 0; z < hexMapSizeZ /2; z++)
+            for (int z = 0; z < hexMapSizeZ; z++)
             {
                 //create indicator gameobject
                 GameObject indicatorGO = Instantiate(hexaIndicator);
 
                 //set indicator gameobject position
-                indicatorGO.transform.position = mapGridPositions[x,z];
+                indicatorGO.transform.position = mapGridPositions[x, z];
 
-                //set indicator parent
-                indicatorGO.transform.parent = indicatorContainer.transform;
+                if (z < hexMapSizeZ / 2)
+                    indicatorGO.transform.parent = ownMapContainer.transform;
+                else
+                    indicatorGO.transform.parent = oponentMapContainer.transform;
 
                 //store indicator gameobject in array
                 mapIndicatorArray[x, z] = indicatorGO;
 
                 //create trigger gameobject
                 GameObject trigger = CreateSphereTrigger(GRIDTYPE_HEXA_MAP, x, z);
-
-                //set trigger parent
-                trigger.transform.parent = triggerContainer.transform;
+                if (z < hexMapSizeZ / 2)
+                    trigger.transform.parent = ownTriggerContainer.transform;
+                else
+                    trigger.transform.parent = oponentTriggerContainer.transform;
 
                 //set trigger gameobject position
                 trigger.transform.position = mapGridPositions[x, z];
@@ -327,7 +351,7 @@ public class Map : MonoBehaviour
     {
         GameObject triggerGo = null;
 
-        if(triggerinfo.gridType == GRIDTYPE_OWN_INVENTORY)
+        if (triggerinfo.gridType == GRIDTYPE_OWN_INVENTORY)
         {
             triggerGo = ownIndicatorArray[triggerinfo.gridX];
         }
@@ -357,21 +381,31 @@ public class Map : MonoBehaviour
             }
         }
 
-        
+
         for (int x = 0; x < 9; x++)
         {
-           ownIndicatorArray[x].GetComponent<MeshRenderer>().material.color = indicatorDefaultColor;
-          // oponentIndicatorArray[x].GetComponent<MeshRenderer>().material.color = indicatorDefaultColor;
+            ownIndicatorArray[x].GetComponent<MeshRenderer>().material.color = indicatorDefaultColor;
+            // oponentIndicatorArray[x].GetComponent<MeshRenderer>().material.color = indicatorDefaultColor;
         }
-        
+
     }
 
     /// <summary>
     /// Make all map indicators visible
     /// </summary>
-    public void ShowIndicators()
+    public void ShowIndicators(ChampionTeam teamType)
     {
-        indicatorContainer.SetActive(true);
+        if (teamType == ChampionTeam.Player)
+        {
+            ownIndicatorContainer.SetActive(true);
+            ownMapContainer.SetActive(true);
+        }
+        else if (teamType == ChampionTeam.Oponent)
+        {
+            oponentIndicatorContainer.SetActive(true);
+            oponentMapContainer.SetActive(true);
+        }
+
     }
 
     /// <summary>
@@ -379,7 +413,10 @@ public class Map : MonoBehaviour
     /// </summary>
     public void HideIndicators()
     {
-        indicatorContainer.SetActive(false);
+        ownIndicatorContainer.SetActive(false);
+        ownMapContainer.SetActive(false);
+        oponentIndicatorContainer.SetActive(false);
+        oponentMapContainer.SetActive(false);
     }
 }
 

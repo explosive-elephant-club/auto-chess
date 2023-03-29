@@ -5,15 +5,14 @@ using UnityEngine;
 /// <summary>
 /// Creates and stores champions available, XP and LVL purchase
 /// </summary>
-public class ChampionShop : MonoBehaviour
+public class ChampionShop : CreateSingleton<ChampionShop>
 {
-    public UIController uIController;
-    public GamePlayController gamePlayController;
-    public GameData gameData;
-
     ///Array to store available champions to purchase
     private Champion[] availableChampionArray;
+    protected override void InitSingleton()
+    {
 
+    }
 
     /// Start is called before the first frame update
     void Start()
@@ -24,7 +23,7 @@ public class ChampionShop : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
-        
+
     }
 
     /// <summary>
@@ -32,7 +31,7 @@ public class ChampionShop : MonoBehaviour
     /// </summary>
     public void BuyLvl()
     {
-        gamePlayController.Buylvl();
+        GamePlayController.Instance.Buylvl();
     }
 
     /// <summary>
@@ -41,7 +40,7 @@ public class ChampionShop : MonoBehaviour
     public void RefreshShop(bool isFree)
     {
         //return if we dont have enough gold
-        if (gamePlayController.currentGold < 2 && isFree == false)
+        if (GamePlayController.Instance.currentGold < 2 && isFree == false)
             return;
 
 
@@ -58,18 +57,18 @@ public class ChampionShop : MonoBehaviour
             availableChampionArray[i] = champion;
 
             //load champion to ui
-            uIController.LoadShopItem(champion, i);
+            UIController.Instance.LoadShopItem(champion, i);
 
             //show shop items
-            uIController.ShowShopItems();
+            UIController.Instance.ShowShopItems();
         }
 
         //decrase gold
-        if(isFree == false)
-            gamePlayController.currentGold -= 2;
+        if (isFree == false)
+            GamePlayController.Instance.currentGold -= 2;
 
         //update ui
-        uIController.UpdateUI();
+        UIController.Instance.UpdateUI();
     }
 
     /// <summary>
@@ -77,11 +76,11 @@ public class ChampionShop : MonoBehaviour
     /// </summary>
     /// <param name="index"></param>
     public void OnChampionFrameClicked(int index)
-    {    
-        bool isSucces = gamePlayController.BuyChampionFromShop(availableChampionArray[index]);
+    {
+        bool isSucces = GamePlayController.Instance.BuyChampionFromShop(availableChampionArray[index]);
 
-        if(isSucces)
-            uIController.HideChampionFrame(index);
+        if (isSucces)
+            UIController.Instance.HideChampionFrame(index);
     }
 
     /// <summary>
@@ -90,10 +89,10 @@ public class ChampionShop : MonoBehaviour
     public Champion GetRandomChampionInfo()
     {
         //randomise a number
-        int rand = Random.Range(0, gameData.championsArray.Length);
+        int rand = Random.Range(0, GameData.Instance.championsArray.Length);
 
         //return from array
-        return gameData.championsArray[rand];
+        return GameData.Instance.championsArray[rand];
     }
 
 
