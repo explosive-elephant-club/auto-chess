@@ -49,7 +49,6 @@ public class ChampionController : MonoBehaviour
     ///The upgrade level of the champion
     public int lvl = 1;
 
-    private AIopponent aIopponent;
     private ChampionAnimation championAnimation;
 
     public BuffController buffController;
@@ -94,7 +93,6 @@ public class ChampionController : MonoBehaviour
         team = _team;
 
         //store scripts
-        aIopponent = GameObject.Find("Scripts").GetComponent<AIopponent>();
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         championAnimation = this.GetComponent<ChampionAnimation>();
         buffController = this.GetComponent<BuffController>();
@@ -408,60 +406,11 @@ public class ChampionController : MonoBehaviour
         //find enemy
         if (team == ChampionTeam.Player)
         {
-
-            for (int x = 0; x < Map.hexMapSizeX; x++)
-            {
-                for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
-                {
-                    if (aIopponent.gridChampionsArray[x, z] != null)
-                    {
-                        ChampionController championController = aIopponent.gridChampionsArray[x, z].GetComponent<ChampionController>();
-
-                        if (championController.isDead == false)
-                        {
-                            //calculate distance
-                            float distance = Vector3.Distance(this.transform.position, aIopponent.gridChampionsArray[x, z].transform.position);
-
-                            //if new this champion is closer then best distance
-                            if (distance < bestDistance)
-                            {
-                                bestDistance = distance;
-                                closestEnemy = aIopponent.gridChampionsArray[x, z];
-                            }
-                        }
-
-
-                    }
-                }
-            }
+            closestEnemy = GamePlayController.Instance.oponentChampionManager.FindTarget(transform.position, bestDistance);
         }
         else if (team == ChampionTeam.Oponent)
         {
-
-            for (int x = 0; x < Map.hexMapSizeX; x++)
-            {
-                for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
-                {
-                    if (GamePlayController.Instance.gridChampionsArray[x, z] != null)
-                    {
-                        ChampionController championController = GamePlayController.Instance.gridChampionsArray[x, z].GetComponent<ChampionController>();
-
-                        if (championController.isDead == false)
-                        {
-                            //calculate distance
-                            float distance = Vector3.Distance(this.transform.position, GamePlayController.Instance.gridChampionsArray[x, z].transform.position);
-
-                            //if new this champion is closer then best distance
-                            if (distance < bestDistance)
-                            {
-                                bestDistance = distance;
-                                closestEnemy = GamePlayController.Instance.gridChampionsArray[x, z];
-                            }
-                        }
-                    }
-                }
-            }
-
+            closestEnemy = GamePlayController.Instance.ownChampionManager.FindTarget(transform.position, bestDistance);
         }
 
 
@@ -529,9 +478,9 @@ public class ChampionController : MonoBehaviour
         List<BaseBuffData> activeBonuses = null;
 
         if (team == ChampionTeam.Player)
-            activeBonuses = GamePlayController.Instance.bonusBuffList;
+            activeBonuses = GamePlayController.Instance.ownChampionManager.bonusBuffList;
         else if (team == ChampionTeam.Oponent)
-            activeBonuses = aIopponent.bonusBuffList;
+            activeBonuses = GamePlayController.Instance.oponentChampionManager.bonusBuffList;
 
         foreach (BaseBuffData b in activeBonuses)
         {
@@ -637,8 +586,8 @@ public class ChampionController : MonoBehaviour
             this.gameObject.SetActive(false);
             isDead = true;
 
-            aIopponent.OnChampionDeath();
-            GamePlayController.Instance.OnChampionDeath();
+            GamePlayController.Instance.oponentChampionManager.OnChampionDeath();
+            GamePlayController.Instance.ownChampionManager.OnChampionDeath();
         }
 
         //add floating text

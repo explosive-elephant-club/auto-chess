@@ -73,9 +73,7 @@ public class Map : CreateSingleton<Map>
 
         m_Plane = new Plane(Vector3.up, Vector3.zero);
 
-        //tell other scripts that map is ready
-        GameObject.Find("Scripts").SendMessage("OnMapReady", SendMessageOptions.DontRequireReceiver);
-
+        GamePlayController.Instance.OnMapReady();
     }
 
     /// Update is called once per frame

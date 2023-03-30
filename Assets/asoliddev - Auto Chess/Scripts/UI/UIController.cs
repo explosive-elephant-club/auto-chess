@@ -125,7 +125,8 @@ public class UIController : CreateSingleton<UIController>
     public void UpdateUI()
     {
         goldText.text = GamePlayController.Instance.currentGold.ToString();
-        championCountText.text = GamePlayController.Instance.currentChampionCount.ToString() + " / " + GamePlayController.Instance.currentChampionLimit.ToString();
+        championCountText.text = GamePlayController.Instance.ownChampionManager.currentChampionCount.ToString()
+            + " / " + GamePlayController.Instance.ownChampionManager.currentChampionLimit.ToString();
         hpText.text = "HP " + GamePlayController.Instance.currentHP.ToString();
 
 
@@ -137,11 +138,11 @@ public class UIController : CreateSingleton<UIController>
 
 
         //if not null
-        if (GamePlayController.Instance.championTypeCount != null)
+        if (GamePlayController.Instance.ownChampionManager.championTypeCount != null)
         {
             int i = 0;
             //iterate bonuses
-            foreach (KeyValuePair<ChampionType, int> m in GamePlayController.Instance.championTypeCount)
+            foreach (KeyValuePair<ChampionType, int> m in GamePlayController.Instance.ownChampionManager.championTypeCount)
             {
                 //Now you can access the key and value both separately from this attachStat as:
                 GameObject bonusUI = bonusPanels[i];

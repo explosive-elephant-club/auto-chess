@@ -16,17 +16,6 @@ public class AIopponent : MonoBehaviour
     public int championDamage = 2;
 
     /// <summary>
-    /// Called when map is created
-    /// </summary>
-    public void OnMapReady()
-    {
-        gridChampionsArray = new GameObject[Map.hexMapSizeX, Map.hexMapSizeZ / 2];
-
-        AddRandomChampion();
-        // AddRandomChampion();
-    }
-
-    /// <summary>
     /// Called when a stage is finished
     /// </summary>
     /// <param name="stage"></param>

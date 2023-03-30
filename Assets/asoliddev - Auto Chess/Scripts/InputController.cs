@@ -73,17 +73,6 @@ public class InputController : CreateSingleton<InputController>
             Map.Instance.resetIndicators();
         }
 
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            GamePlayController.Instance.StartDrag();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            GamePlayController.Instance.StopDrag();
-        }
-
         //store mouse position
         mousePosition = Input.mousePosition;
     }
