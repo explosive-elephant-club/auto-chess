@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.AI;
 using System;
+using System.Reflection;
 using General;
 
 /// <summary>
@@ -11,10 +12,6 @@ using General;
 /// </summary>
 public class ChampionController : MonoBehaviour
 {
-    public static int TEAMID_PLAYER = 0;
-    public static int TEAMID_AI = 1;
-
-
     public GameObject levelupEffectPrefab;
     public GameObject projectileStart;
 
@@ -49,7 +46,7 @@ public class ChampionController : MonoBehaviour
     ///The upgrade level of the champion
     public int lvl = 1;
 
-    private ChampionAnimation championAnimation;
+    public ChampionAnimation championAnimation;
 
     public BuffController buffController;
 
@@ -68,13 +65,12 @@ public class ChampionController : MonoBehaviour
     private bool isInCombat = false;
     private float combatTimer = 0;
 
-    private bool isStuned = false;
-    private float stunTimer = 0;
-
     public GameObject target;
     private List<Effect> effects;
 
-    ChampionCambat cambatCtrl;
+    public ChampionManager championmaneger;
+
+    public Fsm AIActionFsm;
 
     /// Start is called before the first frame update
     void Start()
@@ -87,7 +83,7 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     /// <param name="_champion"></param>
     /// <param name="_teamID"></param>
-    public void Init(Champion _champion, ChampionTeam _team)
+    public void Init(Champion _champion, ChampionTeam _team, ChampionManager _championmaneger)
     {
         champion = _champion;
         team = _team;
@@ -96,6 +92,7 @@ public class ChampionController : MonoBehaviour
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         championAnimation = this.GetComponent<ChampionAnimation>();
         buffController = this.GetComponent<BuffController>();
+        championmaneger = _championmaneger;
 
         //disable agent
         navMeshAgent.enabled = false;
@@ -108,125 +105,24 @@ public class ChampionController : MonoBehaviour
         WorldCanvasController.Instance.AddHealthBar(this.gameObject);
 
         effects = new List<Effect>();
-
-        cambatCtrl = new ChampionCambat(this);
         GamePlayController.Instance.StageStateAddListener(this);
-        GamePlayController.Instance.StageStateAddListener(cambatCtrl);
+
+        AIActionFsm = new Fsm();
+        InitFsm();
+    }
+
+    void InitFsm()
+    {
+        State[] states = transform.Find("States").GetComponents<State>();
+        foreach (State s in states)
+        {
+            AIActionFsm.states.Add(s.name, s);
+        }
     }
 
     /// Update is called once per frame
     void Update()
     {
-        if (_isDragged)
-        {
-            //Create a ray from the Mouse click position
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            //hit distance
-            float enter = 100.0f;
-            if (Map.Instance.m_Plane.Raycast(ray, out enter))
-            {
-                //Get the point that is clicked
-                Vector3 hitPoint = ray.GetPoint(enter);
-
-                //new character position
-                Vector3 p = new Vector3(hitPoint.x, 1.0f, hitPoint.z);
-
-                //move champion
-                this.transform.position = Vector3.Lerp(this.transform.position, p, 0.1f);
-            }
-        }
-        else
-        {
-            if (GamePlayController.Instance.currentGameStage == GameStage.Preparation)
-            {
-                //calc distance
-                float distance = Vector3.Distance(gridTargetPosition, this.transform.position);
-
-                if (distance > 0.25f)
-                {
-                    this.transform.position = Vector3.Lerp(this.transform.position, gridTargetPosition, 0.1f);
-                }
-                else
-                {
-                    this.transform.position = gridTargetPosition;
-                }
-            }
-        }
-
-        if (isInCombat)
-        {
-            if (target == null)
-            {
-                combatTimer += Time.deltaTime;
-                if (combatTimer > 0.5f)
-                {
-                    combatTimer = 0;
-
-                    TryAttackNewTarget();
-                }
-            }
-
-
-            //combat 
-            if (target != null)
-            {
-                //rotate towards target
-                this.transform.LookAt(target.transform, Vector3.up);
-
-                if (target.GetComponent<ChampionController>().isDead == true) //target champion is alive
-                {
-                    //remove target if targetchampion is dead 
-                    target = null;
-                    //navMeshAgent.isStopped = true;
-                    StopMove();
-                }
-                else
-                {
-                    if (isAttacking == false)
-                    {
-                        //calculate distance
-                        float distance = Vector3.Distance(this.transform.position, target.transform.position);
-                        //if we are close enough to attack 
-                        if (distance < champion.attackRange)
-                        {
-                            DoAttack();
-                        }
-                        else
-                        {
-                            MoveToTarget(target.transform);
-                            //navMeshAgent.destination = target.transform.position;
-                        }
-                    }
-                }
-
-
-            }
-
-        }
-
-        //check for stuned effect
-        /*if (isStuned)
-        {
-            stunTimer -= Time.deltaTime;
-
-            if (stunTimer < 0)
-            {
-                isStuned = false;
-
-                championAnimation.IsAnimated(true);
-
-                if (target != null)
-                {
-                    //set pathfinder target
-                    navMeshAgent.destination = target.transform.position;
-
-                    navMeshAgent.isStopped = false;
-                }
-            }
-        }*/
-
-
     }
 
     /// <summary>
@@ -420,7 +316,7 @@ public class ChampionController : MonoBehaviour
     /// <summary>
     /// Looks for new target to attack if there is any
     /// </summary>
-    private void TryAttackNewTarget()
+    public void TryAttackNewTarget()
     {
         //find closest enemy
         target = FindTarget();
@@ -435,7 +331,7 @@ public class ChampionController : MonoBehaviour
         }
     }
 
-    private void MoveToTarget(Transform _target)
+    public void MoveToTarget(Transform _target)
     {
         if (buffController.buffStateContainer.GetState("immovable"))
         {
@@ -448,45 +344,9 @@ public class ChampionController : MonoBehaviour
         }
     }
 
-    private void StopMove()
+    public void StopMove()
     {
         navMeshAgent.isStopped = true;
-    }
-
-    /// <summary>
-    /// Called when gamestage.combat starts
-    /// </summary>
-    public void OnCombatStart()
-    {
-        IsDragged = false;
-
-        this.transform.position = gridTargetPosition;
-
-
-        //in combat grid
-        if (gridType == Map.GRIDTYPE_HEXA_MAP)
-        {
-            isInCombat = true;
-
-            navMeshAgent.enabled = true;
-
-            TryAttackNewTarget();
-
-        }
-
-        //添加羁绊Buff
-        List<BaseBuffData> activeBonuses = null;
-
-        if (team == ChampionTeam.Player)
-            activeBonuses = GamePlayController.Instance.ownChampionManager.bonusBuffList;
-        else if (team == ChampionTeam.Oponent)
-            activeBonuses = GamePlayController.Instance.oponentChampionManager.bonusBuffList;
-
-        foreach (BaseBuffData b in activeBonuses)
-        {
-            buffController.AddBuff(b, gameObject);
-        }
-
     }
 
 
@@ -520,24 +380,7 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-            //get enemy target champion
             ChampionController targetChamoion = target.GetComponent<ChampionController>();
-
-            /*List<ChampionBonus> activeBonuses = null;
-
-            if (teamID == TEAMID_PLAYER)
-                activeBonuses = GamePlayController.Instance.activeBonusList;
-            else if (teamID == TEAMID_AI)
-                activeBonuses = aIopponent.activeBonusList;
-
-      
-            float d = 0;
-            foreach (ChampionBonus b in activeBonuses)
-            {
-                d += b.ApplyOnAttack(this, targetChamoion);
-            }*/
-
-            //deal damage
             bool isTargetDead = targetChamoion.OnGotHit(currentDamage);
 
 
@@ -565,18 +408,7 @@ public class ChampionController : MonoBehaviour
     /// <param name="damage"></param>
     public bool OnGotHit(float damage)
     {
-        /*List<ChampionBonus> activeBonuses = null;
-
-        if (teamID == TEAMID_PLAYER)
-            activeBonuses = GamePlayController.Instance.activeBonusList;
-        else if (teamID == TEAMID_AI)
-            activeBonuses = aIopponent.activeBonusList;
-
-        foreach (ChampionBonus b in activeBonuses)
-        {
-            damage = b.ApplyOnGotHit(this, damage);
-        }*/
-
+        buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
         currentHealth -= damage;
 
 
@@ -585,41 +417,14 @@ public class ChampionController : MonoBehaviour
         {
             this.gameObject.SetActive(false);
             isDead = true;
-
-            GamePlayController.Instance.oponentChampionManager.OnChampionDeath();
-            GamePlayController.Instance.ownChampionManager.OnChampionDeath();
+            championmaneger.OnChampionDeath();
         }
-
         //add floating text
         WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), damage);
 
+        buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
         return isDead;
     }
-
-    /// <summary>
-    /// Called when this champion get stuned
-    /// </summary>
-    /// <param name="stunEffectPrefab"></param>
-    public void OnGotStun(float duration)
-    {
-        isStuned = true;
-        stunTimer = duration;
-
-        championAnimation.IsAnimated(false);
-
-        navMeshAgent.isStopped = true;
-    }
-
-    /// <summary>
-    /// Called when this champion get healed
-    /// </summary>
-    /// <param name="stunEffectPrefab"></param>
-    public void OnGotHeal(float f)
-    {
-        currentHealth += f;
-    }
-
-
 
     /// <summary>
     /// Add effect to this champion
@@ -666,7 +471,29 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdatePreparation()
     {
-
+        if (_isDragged)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            float enter = 100.0f;
+            if (Map.Instance.m_Plane.Raycast(ray, out enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                Vector3 p = new Vector3(hitPoint.x, 1.0f, hitPoint.z);
+                this.transform.position = Vector3.Lerp(this.transform.position, p, 0.1f);
+            }
+        }
+        else
+        {
+            float distance = Vector3.Distance(gridTargetPosition, this.transform.position);
+            if (distance > 0.25f)
+            {
+                this.transform.position = Vector3.Lerp(this.transform.position, gridTargetPosition, 0.1f);
+            }
+            else
+            {
+                this.transform.position = gridTargetPosition;
+            }
+        }
     }
     public void OnLeavePreparation()
     {
@@ -675,10 +502,64 @@ public class ChampionController : MonoBehaviour
 
     public void OnEnterCombat()
     {
+        IsDragged = false;
+        this.transform.position = gridTargetPosition;
 
+        //in combat grid
+        if (gridType == Map.GRIDTYPE_HEXA_MAP)
+        {
+            isInCombat = true;
+
+            navMeshAgent.enabled = true;
+
+            TryAttackNewTarget();
+
+        }
+
+        //添加羁绊Buff
+        List<BaseBuffData> activeBonuses = championmaneger.bonusBuffList;
+
+        foreach (BaseBuffData b in activeBonuses)
+        {
+            buffController.AddBuff(b, gameObject);
+        }
     }
     public void OnUpdateCombat()
     {
+        if (target == null)
+        {
+            combatTimer += Time.deltaTime;
+            if (combatTimer > 0.5f)
+            {
+                combatTimer = 0;
+                TryAttackNewTarget();
+            }
+        }
+        else
+        {
+            //rotate towards target
+            this.transform.LookAt(target.transform, Vector3.up);
+            if (target.GetComponent<ChampionController>().isDead == true) //target champion is alive
+            {
+                target = null;
+                StopMove();
+            }
+            else
+            {
+                if (isAttacking == false)
+                {
+                    float distance = Vector3.Distance(this.transform.position, target.transform.position);
+                    if (distance < champion.attackRange)
+                    {
+                        DoAttack();
+                    }
+                    else
+                    {
+                        MoveToTarget(target.transform);
+                    }
+                }
+            }
+        }
 
     }
     public void OnLeaveCombat()

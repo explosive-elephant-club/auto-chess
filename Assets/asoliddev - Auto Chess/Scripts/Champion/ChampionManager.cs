@@ -145,7 +145,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
         //setup chapioncontroller
-        championController.Init(champion, team);
+        championController.Init(champion, team, this);
 
         //set grid position
         if (team == ChampionTeam.Player)
@@ -190,7 +190,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
         //setup chapioncontroller
-        championController.Init(champion, team);
+        championController.Init(champion, team, this);
 
         //set grid position
         championController.SetGridPosition(Map.GRIDTYPE_HEXA_MAP, indexX, indexZ);
@@ -578,22 +578,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         {
             draggedChampion.GetComponent<ChampionController>().IsDragged = false;
             draggedChampion = null;
-        }
-        foreach (GameObject c in championInventoryArray)
-        {
-            if (c != null)
-            {
-                ChampionController championController = c.GetComponent<ChampionController>();
-                championController.OnCombatStart();
-            }
-        }
-        foreach (GameObject c in gridChampionsArray)
-        {
-            if (c != null)
-            {
-                ChampionController championController = c.GetComponent<ChampionController>();
-                championController.OnCombatStart();
-            }
         }
     }
     public virtual void OnUpdateCombat()
