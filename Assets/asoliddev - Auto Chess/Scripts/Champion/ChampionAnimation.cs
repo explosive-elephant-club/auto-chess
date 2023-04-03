@@ -9,7 +9,7 @@ public class ChampionAnimation : MonoBehaviour
 {
 
     private GameObject characterModel;
-    private Animator animator;
+    public Animator animator;
     private ChampionController championController;
 
     private Vector3 lastFramePosition;
@@ -18,10 +18,17 @@ public class ChampionAnimation : MonoBehaviour
     {
         //get character model
         characterModel = this.transform.Find("character").gameObject;
-       
+
         //get animator
         animator = characterModel.GetComponent<Animator>();
+        animator.enabled = false;
         championController = this.transform.GetComponent<ChampionController>();
+
+        BaseBehaviour[] behaviours = animator.GetBehaviours<BaseBehaviour>();
+        foreach (BaseBehaviour b in behaviours)
+        {
+            b.championController = championController;
+        }
     }
 
     /// Update is called once per frame
@@ -35,29 +42,6 @@ public class ChampionAnimation : MonoBehaviour
 
         //store last frame position
         lastFramePosition = this.transform.position;
-    }
-
-    /// <summary>
-    /// tells animation to attack or stop attacking
-    /// </summary>
-    /// <param name="b"></param>
-    public void DoAttack(bool b)
-    {
-        animator.SetBool("isAttacking", b);
-
-    }
-
-    /// <summary>
-    /// Called when attack animation finished
-    /// </summary>
-    public void OnAttackAnimationFinished()
-    {
-        animator.SetBool("isAttacking", false);
-
-        championController.OnAttackAnimationFinished();
-
-        //Debug.Log("OnAttackAnimationFinished");
-
     }
 
     /// <summary>

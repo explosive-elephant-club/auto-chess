@@ -7,7 +7,6 @@ public class BaseAttackState : State
 {
     public override void OnEnter()
     {
-
     }
     public override void OnUpdate()
     {

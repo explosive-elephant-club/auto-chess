@@ -57,13 +57,7 @@ public class ChampionController : MonoBehaviour
     private bool _isDragged = false;
 
     [HideInInspector]
-    public bool isAttacking = false;
-
-    [HideInInspector]
     public bool isDead = false;
-
-    private bool isInCombat = false;
-    private float combatTimer = 0;
 
     public GameObject target;
     private List<Effect> effects;
@@ -107,8 +101,8 @@ public class ChampionController : MonoBehaviour
         effects = new List<Effect>();
         GamePlayController.Instance.StageStateAddListener(this);
 
-        AIActionFsm = new Fsm();
-        InitFsm();
+        //AIActionFsm = new Fsm();
+        //InitFsm();
     }
 
     void InitFsm()
@@ -146,9 +140,7 @@ public class ChampionController : MonoBehaviour
         maxHealth = champion.health * lvl;
         currentHealth = champion.health * lvl;
         isDead = false;
-        isInCombat = false;
         target = null;
-        isAttacking = false;
 
         //reset position
         SetWorldPosition();
@@ -313,81 +305,41 @@ public class ChampionController : MonoBehaviour
         return closestEnemy;
     }
 
-    /// <summary>
-    /// Looks for new target to attack if there is any
-    /// </summary>
-    public void TryAttackNewTarget()
-    {
-        //find closest enemy
-        target = FindTarget();
-
-        //if target found
-        if (target != null)
-        {
-            //set pathfinder target
-            //navMeshAgent.destination = target.transform.position;
-            //navMeshAgent.isStopped = false;
-            MoveToTarget(target.transform);
-        }
-    }
-
     public void MoveToTarget(Transform _target)
     {
-        if (buffController.buffStateContainer.GetState("immovable"))
-        {
-            StopMove();
-        }
-        else
+        if (navMeshAgent.enabled)
         {
             navMeshAgent.destination = _target.transform.position;
             navMeshAgent.isStopped = false;
         }
     }
 
+    public void MoveToTarget()
+    {
+        if (navMeshAgent.enabled)
+        {
+            navMeshAgent.destination = target.transform.position;
+            navMeshAgent.isStopped = false;
+        }
+    }
+
     public void StopMove()
     {
-        navMeshAgent.isStopped = true;
-    }
-
-
-    /// <summary>
-    /// Start attack against enemy champion
-    /// </summary>
-    private void DoAttack()
-    {
-        if (!buffController.buffStateContainer.GetState("disarm"))
-        {
-            isAttacking = true;
-
-            //stop navigation
+        if (navMeshAgent.enabled)
             navMeshAgent.isStopped = true;
-
-            championAnimation.DoAttack(true);
-        }
-        else
-        {
-            StopMove();
-        }
     }
+
 
     /// <summary>
     /// Called when attack animation finished
     /// </summary>
     public void OnAttackAnimationFinished()
     {
-        isAttacking = false;
-
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
             ChampionController targetChamoion = target.GetComponent<ChampionController>();
-            bool isTargetDead = targetChamoion.OnGotHit(currentDamage);
-
-
-            //target died from attack
-            if (isTargetDead)
-                TryAttackNewTarget();
-
+            targetChamoion.OnGotHit(currentDamage);
 
             //create projectile if have one
             if (champion.attackProjectile != null && projectileStart != null)
@@ -464,6 +416,11 @@ public class ChampionController : MonoBehaviour
         effect.Remove();
     }
 
+    public bool CheckState(string stateName)
+    {
+        return buffController.buffStateContainer.GetState(stateName);
+    }
+
     #region StageFuncs
     public void OnEnterPreparation()
     {
@@ -508,12 +465,8 @@ public class ChampionController : MonoBehaviour
         //in combat grid
         if (gridType == Map.GRIDTYPE_HEXA_MAP)
         {
-            isInCombat = true;
-
             navMeshAgent.enabled = true;
-
-            TryAttackNewTarget();
-
+            championAnimation.animator.enabled = true;
         }
 
         //添加羁绊Buff
@@ -526,45 +479,12 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdateCombat()
     {
-        if (target == null)
-        {
-            combatTimer += Time.deltaTime;
-            if (combatTimer > 0.5f)
-            {
-                combatTimer = 0;
-                TryAttackNewTarget();
-            }
-        }
-        else
-        {
-            //rotate towards target
-            this.transform.LookAt(target.transform, Vector3.up);
-            if (target.GetComponent<ChampionController>().isDead == true) //target champion is alive
-            {
-                target = null;
-                StopMove();
-            }
-            else
-            {
-                if (isAttacking == false)
-                {
-                    float distance = Vector3.Distance(this.transform.position, target.transform.position);
-                    if (distance < champion.attackRange)
-                    {
-                        DoAttack();
-                    }
-                    else
-                    {
-                        MoveToTarget(target.transform);
-                    }
-                }
-            }
-        }
 
     }
     public void OnLeaveCombat()
     {
-
+        navMeshAgent.enabled = false;
+        championAnimation.animator.enabled = false;
     }
 
     public void OnEnterLoss()

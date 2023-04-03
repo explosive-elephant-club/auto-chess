@@ -35,7 +35,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: movementSpeed
-    m_EventTreshold: 0
+    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2339944033106874175}
   m_Solo: 0
@@ -74,7 +74,7 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &-2339944033106874175
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -85,7 +85,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 4506322070168890643}
   - {fileID: -5522779198541128912}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 5763164009605145697}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -94,7 +95,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5657536730171691331, guid: b66809720cd768b4d809e31a9688f6e6,
+  m_Motion: {fileID: -6411288697087818967, guid: b66809720cd768b4d809e31a9688f6e6,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -132,7 +133,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: archer ac
+  m_Name: wizzard ac
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: IsIdle
@@ -191,15 +192,41 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &5740484452962706600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285464778122d384aa3bf0f52ea68884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  championController: {fileID: 0}
+--- !u!114 &5763164009605145697
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c61e808a167ff840af665eabfbe6525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  championController: {fileID: 0}
 --- !u!1102 &7882235820559519338
 AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 3
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: attack
-  m_Speed: 1
+  m_Speed: 0.6
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4113455200411855843}
@@ -213,7 +240,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -873966269295580720, guid: b66809720cd768b4d809e31a9688f6e6,
+  m_Motion: {fileID: -2277829311024121789, guid: b66809720cd768b4d809e31a9688f6e6,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -222,7 +249,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1107 &8320615565607886836
 AnimatorStateMachine:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -260,9 +287,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc66b714b42d7cd48a7e9341f31eba22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  championController: {fileID: 0}
 --- !u!1102 &8601840217692956933
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -273,7 +301,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: -4514212831780146033}
   - {fileID: -2086499554211271022}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 5740484452962706600}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -282,7 +311,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -2756866554680101258, guid: b66809720cd768b4d809e31a9688f6e6,
+  m_Motion: {fileID: -432284335656533594, guid: b66809720cd768b4d809e31a9688f6e6,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
