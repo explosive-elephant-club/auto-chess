@@ -21,9 +21,17 @@ public class ChampionAnimation : MonoBehaviour
 
         //get animator
         animator = characterModel.GetComponent<Animator>();
-        animator.enabled = false;
         championController = this.transform.GetComponent<ChampionController>();
 
+        BaseBehaviour[] behaviours = animator.GetBehaviours<BaseBehaviour>();
+        foreach (BaseBehaviour b in behaviours)
+        {
+            b.championController = championController;
+        }
+    }
+
+    public void InitBehavour()
+    {
         BaseBehaviour[] behaviours = animator.GetBehaviours<BaseBehaviour>();
         foreach (BaseBehaviour b in behaviours)
         {

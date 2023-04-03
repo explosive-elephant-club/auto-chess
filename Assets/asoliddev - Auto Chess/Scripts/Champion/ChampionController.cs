@@ -117,6 +117,8 @@ public class ChampionController : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
+        if (_isDragged != championAnimation.animator.GetBool("isDragged"))
+            championAnimation.animator.SetBool("isDragged", _isDragged);
     }
 
     /// <summary>
@@ -466,7 +468,8 @@ public class ChampionController : MonoBehaviour
         if (gridType == Map.GRIDTYPE_HEXA_MAP)
         {
             navMeshAgent.enabled = true;
-            championAnimation.animator.enabled = true;
+            championAnimation.InitBehavour();
+            championAnimation.animator.SetBool("isInCambat", true);
         }
 
         //添加羁绊Buff
@@ -484,7 +487,7 @@ public class ChampionController : MonoBehaviour
     public void OnLeaveCombat()
     {
         navMeshAgent.enabled = false;
-        championAnimation.animator.enabled = false;
+        championAnimation.animator.SetBool("isInCambat", false);
     }
 
     public void OnEnterLoss()
