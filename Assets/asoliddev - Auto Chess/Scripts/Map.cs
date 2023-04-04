@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 /// <summary>
 /// Creates map grids where the player can move champions on
 /// </summary>
@@ -228,9 +231,10 @@ public class Map : CreateSingleton<Map>
         }
 
         //iterate map grid position
-        for (int x = 0; x < hexMapSizeX; x++)
+
+        for (int z = 0; z < hexMapSizeZ; z++)
         {
-            for (int z = 0; z < hexMapSizeZ; z++)
+            for (int x = 0; x < hexMapSizeX; x++)
             {
                 //create indicator gameobject
                 GameObject indicatorGO = Instantiate(hexaIndicator);
@@ -259,6 +263,13 @@ public class Map : CreateSingleton<Map>
                 //store triggerinfo
                 mapGridTriggerArray[x, z] = trigger.GetComponent<TriggerInfo>();
 
+                int xOffset = z >> 1;
+                mapGridTriggerArray[x, z].Init(new Vector3(
+                    x - xOffset,
+                    z,
+                    0 - (x - xOffset + z)
+
+                ));
             }
         }
 
@@ -415,6 +426,66 @@ public class Map : CreateSingleton<Map>
         ownMapContainer.SetActive(false);
         oponentIndicatorContainer.SetActive(false);
         oponentMapContainer.SetActive(false);
+    }
+
+    public List<TriggerInfo> FindPath(TriggerInfo startNode, TriggerInfo targetNode)
+    {
+        startNode.g = 0;
+        targetNode.h = 0;
+        var toSearch = new List<TriggerInfo>() { startNode };
+        var processed = new List<TriggerInfo>();
+
+        while (toSearch.Any())
+        {
+            var current = toSearch[0];
+            foreach (var t in toSearch)
+                if (t.f < current.f || t.f == current.f && t.h < current.h)
+                    current = t;
+
+            processed.Add(current);
+            toSearch.Remove(current);
+
+
+            if (current == targetNode)
+            {
+                TriggerInfo currentPathTile = targetNode;
+                var path = new List<TriggerInfo>();
+                while (currentPathTile != startNode)
+                {
+                    path.Add(currentPathTile);
+                    currentPathTile = currentPathTile.connection;
+                }
+                path.Reverse();
+                return path;
+            }
+
+            foreach (var neighbor in current.neighbors.Where(t => t.walkable && !processed.Contains(t)))
+            {
+                var inSearch = toSearch.Contains(neighbor);
+                var costToNeighbor = current.g + current.GetDistance(neighbor);
+
+                if (!inSearch || costToNeighbor < neighbor.g)
+                {
+                    neighbor.g = costToNeighbor;
+                    neighbor.connection = current;
+
+                    if (!inSearch)
+                    {
+                        neighbor.h = neighbor.GetDistance(targetNode);
+                        toSearch.Add(neighbor);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void ResetAllTriggerInfo()
+    {
+        foreach (TriggerInfo t in mapGridTriggerArray)
+        {
+            t.walkable = true;
+        }
     }
 }
 

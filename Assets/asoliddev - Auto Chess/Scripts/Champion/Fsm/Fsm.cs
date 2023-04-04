@@ -19,4 +19,11 @@ public class Fsm
             curState.OnEnter();
         }
     }
+
+    public void Init(string firstStateKey)
+    {
+        curState = states[firstStateKey];
+        lastState = curState;
+        curState.OnEnter();
+    }
 }

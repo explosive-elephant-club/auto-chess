@@ -21,6 +21,8 @@ public class ChampionController : MonoBehaviour
     public int gridPositionX = 0;
     [HideInInspector]
     public int gridPositionZ = 0;
+    [HideInInspector]
+    public TriggerInfo occupyTriggerInfo;
 
     [HideInInspector]
     ///Team of this champion, can be player = 0, or enemy = 1
@@ -66,6 +68,10 @@ public class ChampionController : MonoBehaviour
 
     public Fsm AIActionFsm;
 
+    public List<TriggerInfo> path;
+
+    int pathStep = 0;
+
     /// Start is called before the first frame update
     void Start()
     {
@@ -101,8 +107,8 @@ public class ChampionController : MonoBehaviour
         effects = new List<Effect>();
         GamePlayController.Instance.StageStateAddListener(this);
 
-        //AIActionFsm = new Fsm();
-        //InitFsm();
+        AIActionFsm = new Fsm();
+        InitFsm();
     }
 
     void InitFsm()
@@ -110,8 +116,10 @@ public class ChampionController : MonoBehaviour
         State[] states = transform.Find("States").GetComponents<State>();
         foreach (State s in states)
         {
+            s.Init();
             AIActionFsm.states.Add(s.name, s);
         }
+        AIActionFsm.Init("Idle");
     }
 
     /// Update is called once per frame
@@ -171,7 +179,6 @@ public class ChampionController : MonoBehaviour
         gridType = _gridType;
         gridPositionX = _gridPositionX;
         gridPositionZ = _gridPositionZ;
-
 
         //set new target when chaning grid position
         gridTargetPosition = GetWorldPosition();
@@ -302,18 +309,52 @@ public class ChampionController : MonoBehaviour
         {
             closestEnemy = GamePlayController.Instance.ownChampionManager.FindTarget(transform.position, bestDistance);
         }
-
-
         return closestEnemy;
+    }
+
+    public void FindPath()
+    {
+        if (target != null)
+        {
+            ChampionController targetChamoion = target.GetComponent<ChampionController>();
+            path = Map.Instance.FindPath(occupyTriggerInfo, targetChamoion.occupyTriggerInfo);
+            pathStep = 0;
+        }
     }
 
     public void MoveToTarget(Transform _target)
     {
-        if (navMeshAgent.enabled)
+        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 5)
         {
-            navMeshAgent.destination = _target.transform.position;
-            navMeshAgent.isStopped = false;
+            SetGridPosition(occupyTriggerInfo.gridType, occupyTriggerInfo.gridX, occupyTriggerInfo.gridZ);
+            SetWorldPosition();
+            if (pathStep + 1 < path.Count)
+            {
+                if (path[pathStep + 1].walkable)
+                {
+                    pathStep++;
+                    occupyTriggerInfo.walkable = true;
+                    occupyTriggerInfo = path[pathStep];
+                    occupyTriggerInfo.walkable = false;
+                }
+                else
+                {
+                    FindPath();
+                }
+            }
+            else
+            {
+                StopMove();
+            }
         }
+        else
+        {
+            navMeshAgent.destination = path[pathStep].transform.position;
+        }
+
+        navMeshAgent.destination = _target.transform.position;
+        navMeshAgent.isStopped = false;
+
     }
 
     public void MoveToTarget()
@@ -479,14 +520,16 @@ public class ChampionController : MonoBehaviour
         {
             buffController.AddBuff(b, gameObject);
         }
+
+        occupyTriggerInfo = Map.Instance.mapGridTriggerArray[gridPositionX, gridPositionZ];
+        occupyTriggerInfo.walkable = false;
     }
     public void OnUpdateCombat()
     {
-
+        AIActionFsm.curState.OnUpdate();
     }
     public void OnLeaveCombat()
     {
-        navMeshAgent.enabled = false;
         championAnimation.animator.SetBool("isInCambat", false);
     }
 

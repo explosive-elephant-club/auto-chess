@@ -8,7 +8,7 @@ public class State : MonoBehaviour
     public string name;
     public ChampionController championController;
     public Fsm fsm;
-    void Awake()
+    public virtual void Init()
     {
         championController = gameObject.transform.parent.GetComponent<ChampionController>();
         fsm = championController.AIActionFsm;
