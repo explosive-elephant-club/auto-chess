@@ -39,13 +39,13 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //assign current trigger to champion
         ChampionController championController = champion.GetComponent<ChampionController>();
         championController.SetGridPosition(gridType, gridX, gridZ);
-
         if (gridType == Map.GRIDTYPE_OWN_INVENTORY || gridType == Map.GRIDTYPE_OPONENT_INVENTORY)
         {
             championInventoryArray[gridX] = champion;
         }
         else if (gridType == Map.GRIDTYPE_HEXA_MAP)
         {
+            championController.SetOccupyTriggerInfo(Map.Instance.mapGridTriggerArray[gridX, gridZ]);
             if (team == ChampionTeam.Player)
                 gridChampionsArray[gridX, gridZ] = champion;
             else if (team == ChampionTeam.Oponent)
@@ -55,12 +55,15 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     private void RemoveChampionFromArray(int type, int gridX, int gridZ)
     {
+
         if (type == Map.GRIDTYPE_OWN_INVENTORY || type == Map.GRIDTYPE_OPONENT_INVENTORY)
         {
             championInventoryArray[gridX] = null;
         }
         else if (type == Map.GRIDTYPE_HEXA_MAP)
         {
+            ChampionController championController = gridChampionsArray[gridX, gridZ].GetComponent<ChampionController>();
+            championController.SetOccupyTriggerInfo();
             if (team == ChampionTeam.Player)
                 gridChampionsArray[gridX, gridZ] = null;
             else if (team == ChampionTeam.Oponent)
@@ -144,8 +147,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
-        //setup chapioncontroller
-        championController.Init(champion, team, this);
+
 
         //set grid position
         if (team == ChampionTeam.Player)
@@ -156,6 +158,9 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         championController.SetWorldPosition();
         championController.SetWorldRotation();
 
+
+        //setup chapioncontroller
+        championController.Init(champion, team, this);
 
         //store champion in inventory array
         StoreChampionInArray(Map.GRIDTYPE_OWN_INVENTORY, Map.Instance.ownTriggerArray[emptyIndex].gridX, -1, championPrefab);
@@ -189,15 +194,16 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
-        //setup chapioncontroller
-        championController.Init(champion, team, this);
-
         //set grid position
         championController.SetGridPosition(Map.GRIDTYPE_HEXA_MAP, indexX, indexZ);
 
         //set position and rotation
         championController.SetWorldPosition();
         championController.SetWorldRotation();
+
+
+        //setup chapioncontroller
+        championController.Init(champion, team, this);
 
         StoreChampionInArray(Map.GRIDTYPE_HEXA_MAP, indexX, indexZ, championPrefab);
 
@@ -286,27 +292,26 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     }
 
-    public GameObject FindTarget(Vector3 centerPos, float bestDistance)
+    public ChampionController FindTarget(ChampionController _championController, float bestDistance)
     {
-        GameObject closestTarget = null;
+        ChampionController closestTarget = null;
         foreach (GameObject championOBJ in gridChampionsArray)
         {
             if (championOBJ != null)
             {
-                ChampionController championController = championOBJ.GetComponent<ChampionController>();
+                closestTarget = championOBJ.GetComponent<ChampionController>();
 
-                if (championController.isDead == false)
+                if (closestTarget.isDead == false)
                 {
-                    float distance = Vector3.Distance(centerPos, championOBJ.transform.position);
-                    if (distance < bestDistance)
+                    float distance = _championController.occupyTriggerInfo.GetDistance(closestTarget.occupyTriggerInfo);
+                    if (distance <= bestDistance)
                     {
-                        bestDistance = distance;
-                        closestTarget = championOBJ;
+                        return closestTarget;
                     }
                 }
             }
         }
-        return closestTarget;
+        return null;
     }
 
     public void StartDrag()
@@ -335,7 +340,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     public void StopDrag()
     {
         //hide indicators
-        Map.Instance.HideIndicators();
+        //Map.Instance.HideIndicators();
 
         int championsOnField = GetChampionCountOnHexGrid();
 
@@ -475,19 +480,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         }
     }
 
-    private void ResetChampions()
-    {
-        foreach (GameObject championOBJ in gridChampionsArray)
-        {
-            //there is a champion
-            if (championOBJ != null)
-            {
-                ChampionController championController = championOBJ.GetComponent<ChampionController>();
-                championController.Reset();
-            }
-        }
-    }
-
     public bool IsAllChampionDead()
     {
         int championCount = 0;
@@ -555,8 +547,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     public virtual void OnEnterPreparation()
     {
-        ResetChampions();
-
         for (int i = 0; i < GameData.Instance.championsArray.Length; i++)
         {
             TryUpgradeChampion(GameData.Instance.championsArray[i]);

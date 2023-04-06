@@ -6572,7 +6572,6 @@ GameObject:
   - component: {fileID: -1215716879831616245}
   - component: {fileID: -7582991415956163537}
   - component: {fileID: 3256468554792430897}
-  - component: {fileID: 8369742242139235563}
   m_Layer: 0
   m_Name: Nature wizzard
   m_TagString: Untagged
@@ -6614,6 +6613,7 @@ MonoBehaviour:
   gridType: 0
   gridPositionX: 0
   gridPositionZ: 0
+  occupyTriggerInfo: {fileID: 0}
   team: 0
   champion: {fileID: 11400000, guid: 21e6506da1fccea41af3a2366cdab15e, type: 2}
   maxHealth: 0
@@ -6625,6 +6625,7 @@ MonoBehaviour:
   isDead: 0
   target: {fileID: 0}
   championmaneger: {fileID: 0}
+  path: []
 --- !u!114 &-1215716879831616245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6648,8 +6649,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 1.5
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -6691,22 +6692,6 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
---- !u!208 &8369742242139235563
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6285827556954042335}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.7, y: 1, z: 0.7}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &6292702659666429658
 GameObject:
   m_ObjectHideFlags: 0

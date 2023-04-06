@@ -237,7 +237,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>, GameStage
 
     public void OnEnterCombat()
     {
-        Map.Instance.HideIndicators();
+        //Map.Instance.HideIndicators();
         UIController.Instance.SetTimerTextActive(false);
         if (ownChampionManager.IsAllChampionDead())
             EndRound();

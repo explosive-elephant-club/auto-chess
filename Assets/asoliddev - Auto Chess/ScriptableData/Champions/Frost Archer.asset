@@ -21,4 +21,4 @@ MonoBehaviour:
   type2: {fileID: 11400000, guid: d190cf551b5d25645b384a58df4154a0, type: 2}
   health: 200
   damage: 20
-  attackRange: 15
+  attackRange: 4

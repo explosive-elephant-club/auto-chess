@@ -98,9 +98,9 @@ public class BuffController : MonoBehaviour, AddBuffInterface
             case AddBuffTargetType.Teammate:
                 break;
             case AddBuffTargetType.Enemy:
-                GameObject target = gameObject.GetComponent<ChampionController>().target;
+                ChampionController target = gameObject.GetComponent<ChampionController>().target;
                 if (target != null)
-                    target.GetComponent<AddBuffInterface>().AddBuff(subBuff.buffData, gameObject);
+                    target.gameObject.GetComponent<AddBuffInterface>().AddBuff(subBuff.buffData, gameObject);
                 break;
             case AddBuffTargetType.Enemies:
                 break;

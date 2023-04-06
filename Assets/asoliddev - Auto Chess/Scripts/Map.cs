@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ public class Map : CreateSingleton<Map>
     {
         CreateGridPosition();
         CreateIndicators();
-        HideIndicators();
+        //HideIndicators();
 
         m_Plane = new Plane(Vector3.up, Vector3.zero);
 
@@ -132,7 +133,7 @@ public class Map : CreateSingleton<Map>
                 int rowOffset = z % 2;
 
                 //calculate position x and z
-                float offsetX = x * -3f + rowOffset * 1.5f;
+                float offsetX = x * -3f + rowOffset * -1.5f;
                 float offsetZ = z * -2.5f;
 
                 //calculate and store the position
@@ -259,7 +260,7 @@ public class Map : CreateSingleton<Map>
 
                 //set trigger gameobject position
                 trigger.transform.position = mapGridPositions[x, z];
-
+                //trigger.transform.Find("Cube").transform.position = gameObject.transform.position;
                 //store triggerinfo
                 mapGridTriggerArray[x, z] = trigger.GetComponent<TriggerInfo>();
 
@@ -272,7 +273,10 @@ public class Map : CreateSingleton<Map>
                 ));
             }
         }
-
+        foreach (var t in mapGridTriggerArray)
+        {
+            t.CacheNeighbors();
+        }
     }
 
     /// <summary>
@@ -344,6 +348,10 @@ public class Map : CreateSingleton<Map>
         trigerInfo.gridType = type;
         trigerInfo.gridX = x;
         trigerInfo.gridZ = z;
+
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.SetParent(trigerInfo.gameObject.transform);
+
 
         trigger.layer = LayerMask.NameToLayer("Triggers");
 
@@ -428,10 +436,12 @@ public class Map : CreateSingleton<Map>
         oponentMapContainer.SetActive(false);
     }
 
+
+    public Color PathColor = new Color(0.65f, 0.35f, 0.35f);
+    public Color OpenColor = new Color(.4f, .6f, .4f);
+    public Color ClosedColor = new Color(0.35f, 0.4f, 0.5f);
     public List<TriggerInfo> FindPath(TriggerInfo startNode, TriggerInfo targetNode)
     {
-        startNode.g = 0;
-        targetNode.h = 0;
         var toSearch = new List<TriggerInfo>() { startNode };
         var processed = new List<TriggerInfo>();
 
@@ -439,13 +449,18 @@ public class Map : CreateSingleton<Map>
         {
             var current = toSearch[0];
             foreach (var t in toSearch)
+            {
                 if (t.f < current.f || t.f == current.f && t.h < current.h)
+                {
                     current = t;
+                }
+            }
+
 
             processed.Add(current);
             toSearch.Remove(current);
 
-
+            current.gameObject.GetComponentInChildren<MeshRenderer>().material.color = ClosedColor;
             if (current == targetNode)
             {
                 TriggerInfo currentPathTile = targetNode;
@@ -455,11 +470,13 @@ public class Map : CreateSingleton<Map>
                     path.Add(currentPathTile);
                     currentPathTile = currentPathTile.connection;
                 }
+                foreach (var tile in path) tile.gameObject.GetComponentInChildren<MeshRenderer>().material.color = PathColor;
+                startNode.gameObject.GetComponentInChildren<MeshRenderer>().material.color = PathColor;
                 path.Reverse();
                 return path;
             }
 
-            foreach (var neighbor in current.neighbors.Where(t => t.walkable && !processed.Contains(t)))
+            foreach (var neighbor in current.neighbors.Where(t => t == targetNode || (t.walkable && !processed.Contains(t))))
             {
                 var inSearch = toSearch.Contains(neighbor);
                 var costToNeighbor = current.g + current.GetDistance(neighbor);
@@ -473,6 +490,7 @@ public class Map : CreateSingleton<Map>
                     {
                         neighbor.h = neighbor.GetDistance(targetNode);
                         toSearch.Add(neighbor);
+                        neighbor.gameObject.GetComponentInChildren<MeshRenderer>().material.color = OpenColor;
                     }
                 }
             }

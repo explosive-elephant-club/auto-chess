@@ -22,7 +22,7 @@ public class IdleBehaviour : BaseBehaviour
                 if (combatTimer > 0.5f)
                 {
                     combatTimer = 0;
-                    championController.target = championController.FindTarget();
+                    championController.target = championController.FindTarget(30);
                 }
             }
             else

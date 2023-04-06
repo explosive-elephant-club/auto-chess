@@ -61,7 +61,8 @@ public class ChampionController : MonoBehaviour
     [HideInInspector]
     public bool isDead = false;
 
-    public GameObject target;
+    public ChampionController target;
+
     private List<Effect> effects;
 
     public ChampionManager championmaneger;
@@ -70,12 +71,14 @@ public class ChampionController : MonoBehaviour
 
     public List<TriggerInfo> path;
 
-    int pathStep = 0;
+    public int pathStep = 0;
 
     /// Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        navMeshAgent = this.GetComponent<NavMeshAgent>();
+        championAnimation = this.GetComponent<ChampionAnimation>();
+        buffController = this.GetComponent<BuffController>();
     }
 
     /// <summary>
@@ -89,9 +92,7 @@ public class ChampionController : MonoBehaviour
         team = _team;
 
         //store scripts
-        navMeshAgent = this.GetComponent<NavMeshAgent>();
-        championAnimation = this.GetComponent<ChampionAnimation>();
-        buffController = this.GetComponent<BuffController>();
+
         championmaneger = _championmaneger;
 
         //disable agent
@@ -109,6 +110,11 @@ public class ChampionController : MonoBehaviour
 
         AIActionFsm = new Fsm();
         InitFsm();
+    }
+
+    public void OnDestroy()
+    {
+        SetOccupyTriggerInfo();
     }
 
     void InitFsm()
@@ -214,7 +220,7 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     public void SetWorldPosition()
     {
-        navMeshAgent.enabled = false;
+        //navMeshAgent.enabled = false;
 
         //get world position
         Vector3 worldPosition = GetWorldPosition();
@@ -286,56 +292,102 @@ public class ChampionController : MonoBehaviour
 
         //destroy effect after finished
         Destroy(levelupEffect, 1.0f);
-
-
-
     }
 
-    /// <summary>
-    /// Find the a champion the the closest world position
-    /// </summary>
-    /// <returns></returns>
-    public GameObject FindTarget()
+    public ChampionController FindTarget(float bestDistance)
     {
-        GameObject closestEnemy = null;
-        float bestDistance = 1000;
+        ChampionController closestEnemy = null;
 
         //find enemy
         if (team == ChampionTeam.Player)
         {
-            closestEnemy = GamePlayController.Instance.oponentChampionManager.FindTarget(transform.position, bestDistance);
+            closestEnemy = GamePlayController.Instance.oponentChampionManager.FindTarget(this, bestDistance);
         }
         else if (team == ChampionTeam.Oponent)
         {
-            closestEnemy = GamePlayController.Instance.ownChampionManager.FindTarget(transform.position, bestDistance);
+            closestEnemy = GamePlayController.Instance.ownChampionManager.FindTarget(this, bestDistance);
         }
-        return closestEnemy;
+        if (closestEnemy == null)
+        {
+            return null;
+        }
+        else
+        {
+            return closestEnemy;
+        }
     }
 
     public void FindPath()
     {
         if (target != null)
         {
-            ChampionController targetChamoion = target.GetComponent<ChampionController>();
-            path = Map.Instance.FindPath(occupyTriggerInfo, targetChamoion.occupyTriggerInfo);
-            pathStep = 0;
+
+            path = Map.Instance.FindPath(occupyTriggerInfo, target.occupyTriggerInfo);
+            pathStep = -1;
         }
     }
 
-    public void MoveToTarget(Transform _target)
+    public void SetOccupyTriggerInfo(TriggerInfo triggerInfo = null)
     {
-        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 5)
+        if (occupyTriggerInfo != null)
+            occupyTriggerInfo.walkable = true;
+        if (triggerInfo != null)
         {
+            occupyTriggerInfo = triggerInfo;
+            occupyTriggerInfo.walkable = false;
+        }
+        else
+        {
+            occupyTriggerInfo = null;
+        }
+
+    }
+
+    public void MoveToNext()
+    {
+        if (pathStep + 1 < path.Count - 1)
+        {
+            Debug.Log("MoveToNext");
+            pathStep += 1;
+            SetOccupyTriggerInfo(path[pathStep]);
             SetGridPosition(occupyTriggerInfo.gridType, occupyTriggerInfo.gridX, occupyTriggerInfo.gridZ);
             SetWorldPosition();
-            if (pathStep + 1 < path.Count)
+        }
+        else
+        {
+            path = null;
+        }
+    }
+
+    float t = 0;
+    public void Move()
+    {
+        if (t > 1)
+        {
+            if (!path[pathStep + 1].walkable ||
+            path[path.Count - 1] != target.occupyTriggerInfo)
             {
-                if (path[pathStep + 1].walkable)
+                FindPath();
+            }
+            MoveToNext();
+            t = 0;
+        }
+        else
+        {
+            t += Time.deltaTime;
+        }
+    }
+
+    public void MoveToTarget()
+    {
+        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 0.001)
+        {
+            if (pathStep + 1 < path.Count - 2)
+            {
+                if (path[pathStep + 1].walkable && path[path.Count - 1] == target.occupyTriggerInfo)
                 {
                     pathStep++;
-                    occupyTriggerInfo.walkable = true;
-                    occupyTriggerInfo = path[pathStep];
-                    occupyTriggerInfo.walkable = false;
+                    SetOccupyTriggerInfo(path[pathStep]);
                 }
                 else
                 {
@@ -345,23 +397,14 @@ public class ChampionController : MonoBehaviour
             else
             {
                 StopMove();
+                path = null;
+                SetGridPosition(occupyTriggerInfo.gridType, occupyTriggerInfo.gridX, occupyTriggerInfo.gridZ);
+                SetWorldPosition();
             }
         }
         else
         {
             navMeshAgent.destination = path[pathStep].transform.position;
-        }
-
-        navMeshAgent.destination = _target.transform.position;
-        navMeshAgent.isStopped = false;
-
-    }
-
-    public void MoveToTarget()
-    {
-        if (navMeshAgent.enabled)
-        {
-            navMeshAgent.destination = target.transform.position;
             navMeshAgent.isStopped = false;
         }
     }
@@ -390,7 +433,7 @@ public class ChampionController : MonoBehaviour
                 GameObject projectile = Instantiate(champion.attackProjectile);
                 projectile.transform.position = projectileStart.transform.position;
 
-                projectile.GetComponent<Projectile>().Init(target);
+                projectile.GetComponent<Projectile>().Init(target.gameObject);
             }
 
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
@@ -467,7 +510,7 @@ public class ChampionController : MonoBehaviour
     #region StageFuncs
     public void OnEnterPreparation()
     {
-
+        Reset();
     }
     public void OnUpdatePreparation()
     {
@@ -520,9 +563,6 @@ public class ChampionController : MonoBehaviour
         {
             buffController.AddBuff(b, gameObject);
         }
-
-        occupyTriggerInfo = Map.Instance.mapGridTriggerArray[gridPositionX, gridPositionZ];
-        occupyTriggerInfo.walkable = false;
     }
     public void OnUpdateCombat()
     {

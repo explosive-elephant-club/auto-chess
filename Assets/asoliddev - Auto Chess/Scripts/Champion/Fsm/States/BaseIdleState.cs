@@ -8,7 +8,7 @@ public class BaseIdleState : State
     float combatTimer = 0;
     public override void OnEnter()
     {
-        championController.StopMove();
+        //championController.StopMove();
     }
     public override void OnUpdate()
     {
@@ -20,12 +20,13 @@ public class BaseIdleState : State
                 if (combatTimer > 0.5f)
                 {
                     combatTimer = 0;
-                    championController.target = championController.FindTarget();
+                    championController.target = championController.FindTarget(30);
                 }
             }
             else
             {
                 fsm.SwitchState("Move");
+                return;
             }
         }
     }

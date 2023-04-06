@@ -8359,7 +8359,6 @@ GameObject:
   - component: {fileID: -4114212097864218143}
   - component: {fileID: -5492506548520598951}
   - component: {fileID: 6661396603946325934}
-  - component: {fileID: 941882078507808173}
   m_Layer: 0
   m_Name: Frost Knight
   m_TagString: Untagged
@@ -8401,6 +8400,7 @@ MonoBehaviour:
   gridType: 0
   gridPositionX: 0
   gridPositionZ: 0
+  occupyTriggerInfo: {fileID: 0}
   team: 0
   champion: {fileID: 11400000, guid: bd3a606d049803546a05bf3fabe902eb, type: 2}
   maxHealth: 0
@@ -8412,6 +8412,7 @@ MonoBehaviour:
   isDead: 0
   target: {fileID: 0}
   championmaneger: {fileID: 0}
+  path: []
 --- !u!114 &-4114212097864218143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8435,8 +8436,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 1.5
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -8478,22 +8479,6 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
---- !u!208 &941882078507808173
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630654999615776707}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.7, y: 1, z: 0.7}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &8760002499760583925
 GameObject:
   m_ObjectHideFlags: 0

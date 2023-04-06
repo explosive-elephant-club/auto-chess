@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1783091, g: 0.22326094, b: 0.30529875, a: 1}
+  m_IndirectSpecularColor: {r: 0.17830938, g: 0.2232613, b: 0.30529967, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14119,6 +14119,9 @@ MonoBehaviour:
     type: 3}
   indicatorDefaultColor: {r: 0, g: 0.5411765, b: 0.6039216, a: 0.78039217}
   indicatorActiveColor: {r: 0.8962264, g: 0.47895876, b: 0.021137413, a: 0.92156863}
+  PathColor: {r: 0.65, g: 0.35, b: 0.35, a: 1}
+  OpenColor: {r: 0.4, g: 0.6, b: 0.4, a: 1}
+  ClosedColor: {r: 0.35, g: 0.4, b: 0.5, a: 1}
 --- !u!1001 &1370107525
 PrefabInstance:
   m_ObjectHideFlags: 0

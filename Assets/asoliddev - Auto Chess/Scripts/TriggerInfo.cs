@@ -24,12 +24,26 @@ public class TriggerInfo : MonoBehaviour
     public List<TriggerInfo> neighbors;
     public TriggerInfo connection;
 
+    GameObject cube;
+
     public void Init(Vector3 _coor)
     {
         coor = _coor;
         walkable = true;
         connection = null;
         gameObject.name = coor.ToString();
+    }
+
+    public void CacheNeighbors()
+    {
+        neighbors = new List<TriggerInfo>();
+        foreach (var t in Map.Instance.mapGridTriggerArray)
+        {
+            if (GetDistance(t) == 1)
+            {
+                neighbors.Add(t);
+            }
+        }
     }
 
     public int GetDistance(TriggerInfo trigger)

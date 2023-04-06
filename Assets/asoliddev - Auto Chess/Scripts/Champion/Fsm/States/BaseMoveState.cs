@@ -7,32 +7,35 @@ public class BaseMoveState : State
 {
     public override void OnEnter()
     {
+        championController.FindPath();
     }
     public override void OnUpdate()
     {
-        if (championController.target == null || championController.CheckState("immovable"))
+        if (championController.path == null || championController.target == null || championController.CheckState("immovable"))
         {
             fsm.SwitchState("Idle");
+            return;
         }
-        if (championController.target.GetComponent<ChampionController>().isDead == true) //target champion is alive
+        if (championController.target.isDead == true) //target champion is alive
         {
             championController.target = null;
             fsm.SwitchState("Idle");
+            return;
         }
         else
         {
-            float distance = Vector3.Distance(championController.transform.position, championController.target.transform.position);
-            if (distance < championController.champion.attackRange)
+            var c = championController.FindTarget(championController.champion.attackRange);
+            if (c != null)
             {
+                championController.target = c;
                 if (!championController.CheckState("disarm"))
+                {
                     fsm.SwitchState("Attack");
-            }
-            else
-            {
-                championController.MoveToTarget();
+                    return;
+                }
             }
         }
-
+        championController.Move();
     }
     public override void OnLeave()
     {
