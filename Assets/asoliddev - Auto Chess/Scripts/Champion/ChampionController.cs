@@ -16,13 +16,7 @@ public class ChampionController : MonoBehaviour
     public GameObject projectileStart;
 
     [HideInInspector]
-    public int gridType = 0;
-    [HideInInspector]
-    public int gridPositionX = 0;
-    [HideInInspector]
-    public int gridPositionZ = 0;
-    [HideInInspector]
-    public TriggerInfo occupyTriggerInfo;
+    public GridInfo occupyGridInfo;
 
     [HideInInspector]
     ///Team of this champion, can be player = 0, or enemy = 1
@@ -54,8 +48,6 @@ public class ChampionController : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
 
-    private Vector3 gridTargetPosition;
-
     private bool _isDragged = false;
 
     [HideInInspector]
@@ -69,7 +61,7 @@ public class ChampionController : MonoBehaviour
 
     public Fsm AIActionFsm;
 
-    public List<TriggerInfo> path;
+    public List<GridInfo> path;
 
     public int pathStep = 0;
 
@@ -114,7 +106,7 @@ public class ChampionController : MonoBehaviour
 
     public void OnDestroy()
     {
-        SetOccupyTriggerInfo();
+        SetOccupyGridInfo();
     }
 
     void InitFsm()
@@ -175,59 +167,12 @@ public class ChampionController : MonoBehaviour
     }
 
     /// <summary>
-    /// Assign new grid position
-    /// </summary>
-    /// <param name="_gridType"></param>
-    /// <param name="_gridPositionX"></param>
-    /// <param name="_gridPositionZ"></param>
-    public void SetGridPosition(int _gridType, int _gridPositionX, int _gridPositionZ)
-    {
-        gridType = _gridType;
-        gridPositionX = _gridPositionX;
-        gridPositionZ = _gridPositionZ;
-
-        //set new target when chaning grid position
-        gridTargetPosition = GetWorldPosition();
-    }
-
-    /// <summary>
-    /// Convert grid position to world position
-    /// </summary>
-    /// <returns></returns>
-    public Vector3 GetWorldPosition()
-    {
-        //get world position
-        Vector3 worldPosition = Vector3.zero;
-
-        if (gridType == Map.GRIDTYPE_OWN_INVENTORY)
-        {
-            worldPosition = Map.Instance.ownInventoryGridPositions[gridPositionX];
-        }
-        else if (gridType == Map.GRIDTYPE_OPONENT_INVENTORY)
-        {
-            worldPosition = Map.Instance.oponentInventoryGridPositions[gridPositionX];
-        }
-        else if (gridType == Map.GRIDTYPE_HEXA_MAP)
-        {
-            worldPosition = Map.Instance.mapGridPositions[gridPositionX, gridPositionZ];
-        }
-
-        return worldPosition;
-    }
-
-    /// <summary>
     /// Move to corrent world position
     /// </summary>
     public void SetWorldPosition()
     {
-        //navMeshAgent.enabled = false;
-
-        //get world position
-        Vector3 worldPosition = GetWorldPosition();
-
+        Vector3 worldPosition = occupyGridInfo.gameObject.transform.position;
         this.transform.position = worldPosition;
-
-        gridTargetPosition = worldPosition;
     }
 
     /// <summary>
@@ -322,23 +267,23 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
 
-            path = Map.Instance.FindPath(occupyTriggerInfo, target.occupyTriggerInfo);
-            pathStep = -1;
+            path = Map.Instance.FindPath(occupyGridInfo, target.occupyGridInfo);
+            pathStep = 0;
         }
     }
 
-    public void SetOccupyTriggerInfo(TriggerInfo triggerInfo = null)
+    public void SetOccupyGridInfo(GridInfo gridInfo = null)
     {
-        if (occupyTriggerInfo != null)
-            occupyTriggerInfo.walkable = true;
-        if (triggerInfo != null)
+        if (occupyGridInfo != null)
+            occupyGridInfo.walkable = true;
+        if (gridInfo != null)
         {
-            occupyTriggerInfo = triggerInfo;
-            occupyTriggerInfo.walkable = false;
+            occupyGridInfo = gridInfo;
+            occupyGridInfo.walkable = false;
         }
         else
         {
-            occupyTriggerInfo = null;
+            occupyGridInfo = null;
         }
 
     }
@@ -347,10 +292,8 @@ public class ChampionController : MonoBehaviour
     {
         if (pathStep + 1 < path.Count - 1)
         {
-            Debug.Log("MoveToNext");
             pathStep += 1;
-            SetOccupyTriggerInfo(path[pathStep]);
-            SetGridPosition(occupyTriggerInfo.gridType, occupyTriggerInfo.gridX, occupyTriggerInfo.gridZ);
+            SetOccupyGridInfo(path[pathStep]);
             SetWorldPosition();
         }
         else
@@ -365,7 +308,7 @@ public class ChampionController : MonoBehaviour
         if (t > 1)
         {
             if (!path[pathStep + 1].walkable ||
-            path[path.Count - 1] != target.occupyTriggerInfo)
+            path[path.Count - 1] != target.occupyGridInfo)
             {
                 FindPath();
             }
@@ -380,14 +323,14 @@ public class ChampionController : MonoBehaviour
 
     public void MoveToTarget()
     {
-        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 0.001)
+        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 0.05)
         {
-            if (pathStep + 1 < path.Count - 2)
+            if (pathStep + 1 < path.Count - 1)
             {
-                if (path[pathStep + 1].walkable && path[path.Count - 1] == target.occupyTriggerInfo)
+                if (path[pathStep + 1].walkable && path[path.Count - 1] == target.occupyGridInfo)
                 {
                     pathStep++;
-                    SetOccupyTriggerInfo(path[pathStep]);
+                    SetOccupyGridInfo(path[pathStep]);
                 }
                 else
                 {
@@ -398,7 +341,6 @@ public class ChampionController : MonoBehaviour
             {
                 StopMove();
                 path = null;
-                SetGridPosition(occupyTriggerInfo.gridType, occupyTriggerInfo.gridX, occupyTriggerInfo.gridZ);
                 SetWorldPosition();
             }
         }
@@ -527,14 +469,14 @@ public class ChampionController : MonoBehaviour
         }
         else
         {
-            float distance = Vector3.Distance(gridTargetPosition, this.transform.position);
+            float distance = Vector3.Distance(occupyGridInfo.gameObject.transform.position, this.transform.position);
             if (distance > 0.25f)
             {
-                this.transform.position = Vector3.Lerp(this.transform.position, gridTargetPosition, 0.1f);
+                this.transform.position = Vector3.Lerp(this.transform.position, occupyGridInfo.gameObject.transform.position, 0.1f);
             }
             else
             {
-                this.transform.position = gridTargetPosition;
+                this.transform.position = occupyGridInfo.gameObject.transform.position;
             }
         }
     }
@@ -546,10 +488,10 @@ public class ChampionController : MonoBehaviour
     public void OnEnterCombat()
     {
         IsDragged = false;
-        this.transform.position = gridTargetPosition;
+        this.transform.position = occupyGridInfo.gameObject.transform.position;
 
         //in combat grid
-        if (gridType == Map.GRIDTYPE_HEXA_MAP)
+        if (occupyGridInfo.gridType == GridType.HexaMap)
         {
             navMeshAgent.enabled = true;
             championAnimation.InitBehavour();

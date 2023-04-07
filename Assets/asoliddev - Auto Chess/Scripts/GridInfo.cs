@@ -1,0 +1,66 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// Helper class to identify player interaction on the map
+/// </summary>
+public class GridInfo : MonoBehaviour
+{
+    public GridType gridType = GridType.HexaMap;
+    public bool walkable;
+    public Vector3 coor;
+    public Vector2 index;
+    public float g;
+    public float h;
+    public float f => g + h;
+    public List<GridInfo> neighbors;
+    public GridInfo connection;
+
+    public Collider trigger;
+    public GameObject indicator;
+    Material mat;
+
+    public void Init(Vector2 _index, Vector3 _coor, GridType _gridType)
+    {
+        gridType = _gridType;
+        index = _index;
+        coor = _coor;
+        walkable = true;
+        connection = null;
+        gameObject.layer = LayerMask.NameToLayer("Triggers");
+        mat = indicator.GetComponent<MeshRenderer>().material;
+        //gameObject.name = coor.ToString();
+    }
+
+    public void CacheNeighbors()
+    {
+        neighbors = new List<GridInfo>();
+        foreach (var t in Map.Instance.mapGridArray)
+        {
+            if (GetDistance(t) == 1)
+            {
+                neighbors.Add(t);
+            }
+        }
+    }
+
+    public int GetDistance(GridInfo trigger)
+    {
+        return (int)Mathf.Max(Mathf.Abs(coor.x - trigger.coor.x),
+        Mathf.Abs(coor.y - trigger.coor.y),
+        Mathf.Abs(coor.z - trigger.coor.z));
+    }
+
+    public void CalculateWeight(GridInfo startTrigger, GridInfo targetTrigger)
+    {
+        g = GetDistance(startTrigger);
+        h = GetDistance(targetTrigger);
+    }
+
+    public void SetColor(Color _color)
+    {
+        if (mat.color != _color)
+            mat.color = _color;
+    }
+}

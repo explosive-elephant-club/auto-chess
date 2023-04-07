@@ -6,6 +6,8 @@ using System.Collections.Generic;
 /// <summary>
 /// Creates map grids where the player can move champions on
 /// </summary>
+
+public enum GridType { Inventory, HexaMap }
 public class Map : CreateSingleton<Map>
 {
     //declare grid types
@@ -26,25 +28,16 @@ public class Map : CreateSingleton<Map>
     [HideInInspector]
     public Vector3[,] mapGridPositions;
 
-    //地图格子显示物体
     [HideInInspector]
-    public GameObject[] ownIndicatorArray;
+    public GridInfo[] ownInventoryGridArray;
     [HideInInspector]
-    public GameObject[] oponentIndicatorArray;
+    public GridInfo[] oponentInventoryGridArray;
     [HideInInspector]
-    public GameObject[,] mapIndicatorArray;
+    public GridInfo[,] mapGridArray;
 
-    //地图格子触发器
-    [HideInInspector]
-    public TriggerInfo[] ownTriggerArray;
-    [HideInInspector]
-    public TriggerInfo[] oponentTriggerArray;
-    [HideInInspector]
-    public TriggerInfo[,] mapGridTriggerArray;
-
-    public GameObject ownIndicatorContainer;
+    public GameObject ownInventoryContainer;
     public GameObject ownMapContainer;
-    public GameObject oponentIndicatorContainer;
+    public GameObject oponentInventoryContainer;
     public GameObject oponentMapContainer;
 
 
@@ -57,12 +50,13 @@ public class Map : CreateSingleton<Map>
 
 
     //indicators that show where we place champions
-    public GameObject squareIndicator;
-    public GameObject hexaIndicator;
+    public GameObject squareGrid;
+    public GameObject hexaGrid;
 
 
     public Color indicatorDefaultColor;
     public Color indicatorActiveColor;
+    public Color indicatorDisactiveColor;
 
     protected override void InitSingleton()
     {
@@ -154,126 +148,60 @@ public class Map : CreateSingleton<Map>
     /// </summary>
     private void CreateIndicators()
     {
-        //create a container for triggers
-        GameObject ownTriggerContainer = new GameObject();
-        ownTriggerContainer.name = "OwnTriggerContainer";
-
-        GameObject oponentTriggerContainer = new GameObject();
-        oponentTriggerContainer.name = "OponentTriggerContainer";
+        ownInventoryGridArray = new GridInfo[inventorySize];
+        oponentInventoryGridArray = new GridInfo[inventorySize];
+        mapGridArray = new GridInfo[hexMapSizeX, hexMapSizeZ];
 
 
-        //initialise arrays to store indicators
-        ownIndicatorArray = new GameObject[inventorySize];
-        oponentIndicatorArray = new GameObject[inventorySize];
-        mapIndicatorArray = new GameObject[hexMapSizeX, hexMapSizeZ];
-
-        ownTriggerArray = new TriggerInfo[inventorySize];
-        oponentTriggerArray = new TriggerInfo[inventorySize];
-        mapGridTriggerArray = new TriggerInfo[hexMapSizeX, hexMapSizeZ];
-
-
-        //iterate own grid position
+        //生成玩家仓库网格
         for (int i = 0; i < inventorySize; i++)
         {
-            //create indicator gameobject
-            GameObject indicatorGO = Instantiate(squareIndicator);
+            GameObject gridOBJ = Instantiate(squareGrid);
+            gridOBJ.transform.position = ownInventoryGridPositions[i];
+            gridOBJ.transform.parent = ownInventoryContainer.transform;
 
-            //set indicator gameobject position
-            indicatorGO.transform.position = ownInventoryGridPositions[i];
-
-            //set indicator parent
-            indicatorGO.transform.parent = ownIndicatorContainer.transform;
-
-            //store indicator gameobject in array
-            ownIndicatorArray[i] = indicatorGO;
-
-            //create trigger gameobject
-            GameObject trigger = CreateBoxTrigger(GRIDTYPE_OWN_INVENTORY, i);
-
-            //set trigger parent
-            trigger.transform.parent = ownTriggerContainer.transform;
-
-            //set trigger gameobject position
-            trigger.transform.position = ownInventoryGridPositions[i];
-
-            //store triggerinfo
-            ownTriggerArray[i] = trigger.GetComponent<TriggerInfo>();
+            ownInventoryGridArray[i] = gridOBJ.GetComponent<GridInfo>();
+            ownInventoryGridArray[i].Init(new Vector2(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
         }
 
 
-        //iterate oponent grid position
+        //生成敌人仓库网格
         for (int i = 0; i < inventorySize; i++)
         {
-            //create indicator gameobject
-            GameObject indicatorGO = Instantiate(squareIndicator);
+            GameObject gridOBJ = Instantiate(squareGrid);
+            gridOBJ.transform.position = oponentInventoryGridPositions[i];
+            gridOBJ.transform.parent = oponentInventoryContainer.transform;
 
-            //set indicator gameobject position
-            indicatorGO.transform.position = oponentInventoryGridPositions[i];
-
-            //set indicator parent
-            indicatorGO.transform.parent = oponentIndicatorContainer.transform;
-
-            //store indicator gameobject in array
-            oponentIndicatorArray[i] = indicatorGO;
-
-            //create trigger gameobject
-            GameObject trigger = CreateBoxTrigger(GRIDTYPE_OPONENT_INVENTORY, i);
-
-            //set trigger parent
-            trigger.transform.parent = oponentTriggerContainer.transform;
-
-            //set trigger gameobject position
-            trigger.transform.position = oponentInventoryGridPositions[i];
-
-            //store triggerinfo
-            oponentTriggerArray[i] = trigger.GetComponent<TriggerInfo>();
-
-
+            oponentInventoryGridArray[i] = gridOBJ.GetComponent<GridInfo>();
+            oponentInventoryGridArray[i].Init(new Vector2(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
         }
 
-        //iterate map grid position
-
+        //生成地图网格
         for (int z = 0; z < hexMapSizeZ; z++)
         {
             for (int x = 0; x < hexMapSizeX; x++)
             {
                 //create indicator gameobject
-                GameObject indicatorGO = Instantiate(hexaIndicator);
-
-                //set indicator gameobject position
-                indicatorGO.transform.position = mapGridPositions[x, z];
+                GameObject gridOBJ = Instantiate(hexaGrid);
+                gridOBJ.transform.position = mapGridPositions[x, z];
 
                 if (z < hexMapSizeZ / 2)
-                    indicatorGO.transform.parent = ownMapContainer.transform;
+                    gridOBJ.transform.parent = ownMapContainer.transform;
                 else
-                    indicatorGO.transform.parent = oponentMapContainer.transform;
+                    gridOBJ.transform.parent = oponentMapContainer.transform;
 
                 //store indicator gameobject in array
-                mapIndicatorArray[x, z] = indicatorGO;
+                mapGridArray[x, z] = gridOBJ.GetComponent<GridInfo>();
 
-                //create trigger gameobject
-                GameObject trigger = CreateSphereTrigger(GRIDTYPE_HEXA_MAP, x, z);
-                if (z < hexMapSizeZ / 2)
-                    trigger.transform.parent = ownTriggerContainer.transform;
-                else
-                    trigger.transform.parent = oponentTriggerContainer.transform;
-
-                //set trigger gameobject position
-                trigger.transform.position = mapGridPositions[x, z];
-                //trigger.transform.Find("Cube").transform.position = gameObject.transform.position;
-                //store triggerinfo
-                mapGridTriggerArray[x, z] = trigger.GetComponent<TriggerInfo>();
 
                 int xOffset = z >> 1;
-                mapGridTriggerArray[x, z].Init(new Vector3(
-                    x - xOffset,
-                    z,
-                    0 - (x - xOffset + z)
-
-                ));
+                mapGridArray[x, z].Init(
+                    new Vector2(x, z),
+                    new Vector3(x - xOffset, z, 0 - (x - xOffset + z)),
+                    GridType.HexaMap);
             }
         }
-        foreach (var t in mapGridTriggerArray)
+        foreach (var t in mapGridArray)
         {
             t.CacheNeighbors();
         }
@@ -298,113 +226,14 @@ public class Map : CreateSingleton<Map>
     }
 
     /// <summary>
-    /// Creates a trigger collider gameobject and returns it
-    /// </summary>
-    /// <returns></returns>
-    private GameObject CreateBoxTrigger(int type, int x)
-    {
-        //create primitive gameobject
-        GameObject trigger = new GameObject();
-
-        //add collider component
-        BoxCollider collider = trigger.AddComponent<BoxCollider>();
-
-        //set collider size
-        collider.size = new Vector3(2, 0.5f, 2);
-
-        //set collider to trigger 
-        collider.isTrigger = true;
-
-        //add and store trigger info
-        TriggerInfo trigerInfo = trigger.AddComponent<TriggerInfo>();
-        trigerInfo.gridType = type;
-        trigerInfo.gridX = x;
-
-        trigger.layer = LayerMask.NameToLayer("Triggers");
-
-        return trigger;
-    }
-
-    /// <summary>
-    /// Creates a trigger collider gameobject and returns it
-    /// </summary>
-    /// <returns></returns>
-    private GameObject CreateSphereTrigger(int type, int x, int z)
-    {
-        //create primitive gameobject
-        GameObject trigger = new GameObject();
-
-        //add collider component
-        SphereCollider collider = trigger.AddComponent<SphereCollider>();
-
-        //set collider size
-        collider.radius = 1.4f;
-
-        //set collider to trigger 
-        collider.isTrigger = true;
-
-        //add and store trigger info
-        TriggerInfo trigerInfo = trigger.AddComponent<TriggerInfo>();
-        trigerInfo.gridType = type;
-        trigerInfo.gridX = x;
-        trigerInfo.gridZ = z;
-
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.transform.SetParent(trigerInfo.gameObject.transform);
-
-
-        trigger.layer = LayerMask.NameToLayer("Triggers");
-
-        return trigger;
-    }
-
-
-    /// <summary>
-    /// Returns grid indicator from triggerinfo
-    /// </summary>
-    /// <param name="triggerinfo"></param>
-    /// <returns></returns>
-    public GameObject GetIndicatorFromTriggerInfo(TriggerInfo triggerinfo)
-    {
-        GameObject triggerGo = null;
-
-        if (triggerinfo.gridType == GRIDTYPE_OWN_INVENTORY)
-        {
-            triggerGo = ownIndicatorArray[triggerinfo.gridX];
-        }
-        else if (triggerinfo.gridType == GRIDTYPE_OPONENT_INVENTORY)
-        {
-            triggerGo = oponentIndicatorArray[triggerinfo.gridX];
-        }
-        else if (triggerinfo.gridType == GRIDTYPE_HEXA_MAP)
-        {
-            triggerGo = mapIndicatorArray[triggerinfo.gridX, triggerinfo.gridZ];
-        }
-
-
-        return triggerGo;
-    }
-
-    /// <summary>
     /// Resets all indicator colors to default
     /// </summary>
     public void resetIndicators()
     {
-        for (int x = 0; x < hexMapSizeX; x++)
-        {
-            for (int z = 0; z < hexMapSizeZ / 2; z++)
-            {
-                mapIndicatorArray[x, z].GetComponent<MeshRenderer>().material.color = indicatorDefaultColor;
-            }
-        }
-
-
-        for (int x = 0; x < 9; x++)
-        {
-            ownIndicatorArray[x].GetComponent<MeshRenderer>().material.color = indicatorDefaultColor;
-            // oponentIndicatorArray[x].GetComponent<MeshRenderer>().material.color = indicatorDefaultColor;
-        }
-
+        foreach (var grid in mapGridArray)
+            grid.SetColor(indicatorDefaultColor);
+        foreach (var grid in ownInventoryGridArray)
+            grid.SetColor(indicatorDefaultColor);
     }
 
     /// <summary>
@@ -414,15 +243,14 @@ public class Map : CreateSingleton<Map>
     {
         if (teamType == ChampionTeam.Player)
         {
-            ownIndicatorContainer.SetActive(true);
+            ownInventoryContainer.SetActive(true);
             ownMapContainer.SetActive(true);
         }
         else if (teamType == ChampionTeam.Oponent)
         {
-            oponentIndicatorContainer.SetActive(true);
+            oponentInventoryContainer.SetActive(true);
             oponentMapContainer.SetActive(true);
         }
-
     }
 
     /// <summary>
@@ -430,20 +258,16 @@ public class Map : CreateSingleton<Map>
     /// </summary>
     public void HideIndicators()
     {
-        ownIndicatorContainer.SetActive(false);
+        ownInventoryContainer.SetActive(false);
         ownMapContainer.SetActive(false);
-        oponentIndicatorContainer.SetActive(false);
+        oponentInventoryContainer.SetActive(false);
         oponentMapContainer.SetActive(false);
     }
 
-
-    public Color PathColor = new Color(0.65f, 0.35f, 0.35f);
-    public Color OpenColor = new Color(.4f, .6f, .4f);
-    public Color ClosedColor = new Color(0.35f, 0.4f, 0.5f);
-    public List<TriggerInfo> FindPath(TriggerInfo startNode, TriggerInfo targetNode)
+    public List<GridInfo> FindPath(GridInfo startNode, GridInfo targetNode)
     {
-        var toSearch = new List<TriggerInfo>() { startNode };
-        var processed = new List<TriggerInfo>();
+        var toSearch = new List<GridInfo>() { startNode };
+        var processed = new List<GridInfo>();
 
         while (toSearch.Any())
         {
@@ -455,23 +279,18 @@ public class Map : CreateSingleton<Map>
                     current = t;
                 }
             }
-
-
             processed.Add(current);
             toSearch.Remove(current);
 
-            current.gameObject.GetComponentInChildren<MeshRenderer>().material.color = ClosedColor;
             if (current == targetNode)
             {
-                TriggerInfo currentPathTile = targetNode;
-                var path = new List<TriggerInfo>();
+                GridInfo currentPathTile = targetNode;
+                var path = new List<GridInfo>();
                 while (currentPathTile != startNode)
                 {
                     path.Add(currentPathTile);
                     currentPathTile = currentPathTile.connection;
                 }
-                foreach (var tile in path) tile.gameObject.GetComponentInChildren<MeshRenderer>().material.color = PathColor;
-                startNode.gameObject.GetComponentInChildren<MeshRenderer>().material.color = PathColor;
                 path.Reverse();
                 return path;
             }
@@ -490,7 +309,6 @@ public class Map : CreateSingleton<Map>
                     {
                         neighbor.h = neighbor.GetDistance(targetNode);
                         toSearch.Add(neighbor);
-                        neighbor.gameObject.GetComponentInChildren<MeshRenderer>().material.color = OpenColor;
                     }
                 }
             }
@@ -498,56 +316,11 @@ public class Map : CreateSingleton<Map>
         return null;
     }
 
-    public void ResetAllTriggerInfo()
+    public void ResetAllGridInfo()
     {
-        foreach (TriggerInfo t in mapGridTriggerArray)
+        foreach (GridInfo grid in mapGridArray)
         {
-            t.walkable = true;
+            grid.walkable = true;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*! \mainpage Auto Chess documentation
- * 
-* <b>Thank you for purchasing Auto Chess.</b><br>
-* <br>For any question don't hesitate to contact me at : asoliddev@gmail.com
-* <br>AssetStore Profile : https://assetstore.unity.com/publishers/38620 
-* <br>ArtStation Profile : https://asoliddev.artstation.com/
-* 
-*  \subsection Basics
-* Auto Chess complete and fully functional game, <br>
-* it has been created with simplicity in mind. <br>
-* Great as a starting point to create your own Auto Chess game. <br>
-* All the scripts are attached to the Script Gameobject In the Hierarchy window. <br>
-* Basic game rules and Champions can be changed by adjusting public variables. <br>
-* Core game changes can be done by changing the source code. <br>
-* Source code uses MVC design and can be easly expanded on.
-*  
-* 
-*  \subsection Champions
-* Existing Champions and ChampionTypes are located in the <b>Champions</b> and <b>ChampionTypes</b> folder. <br>
-* To Create new Champion or ChampionType go to Assets Menu -> Create -> Auto Chess -> Champion or ChampionType. <br>
-* Champions can be customised with this two classes from the editor. <br>
-* For detailed options check out : Champion and ChampionType documentation. <br>
-* All Champions and ChampionTypes need to be assigned to the GameData script to be recognised by the ChampionShop.
-* 
-* 
-* \subsection Packages
-* Auto chess uses Post Processing package for better visuals. <br>
-* To install it go to Window Menu -> Package Manager and install Post Processing
-* 
-*/

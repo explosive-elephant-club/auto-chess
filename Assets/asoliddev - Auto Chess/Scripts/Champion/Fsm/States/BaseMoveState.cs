@@ -35,7 +35,7 @@ public class BaseMoveState : State
                 }
             }
         }
-        championController.Move();
+        championController.MoveToTarget();
     }
     public override void OnLeave()
     {

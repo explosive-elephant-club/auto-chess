@@ -11,9 +11,9 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     public ChampionTeam team;
 
     [HideInInspector]
-    public GameObject[] championInventoryArray;
+    public ChampionController[] championInventoryArray;
     [HideInInspector]
-    public GameObject[,] gridChampionsArray;
+    public ChampionController[,] championsHexaMapArray;
 
 
     [HideInInspector]
@@ -25,49 +25,56 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     public List<BaseBuffData> bonusBuffList;
 
 
-    private GameObject draggedChampion = null;
-    private TriggerInfo dragStartTrigger = null;
+    private ChampionController draggedChampion = null;
+    private GridInfo dragStartGridInfo = null;
 
     private void Start()
     {
-        championInventoryArray = new GameObject[Map.inventorySize];
-        gridChampionsArray = new GameObject[Map.hexMapSizeX, Map.hexMapSizeZ / 2];
+        championInventoryArray = new ChampionController[Map.inventorySize];
+        championsHexaMapArray = new ChampionController[Map.hexMapSizeX, Map.hexMapSizeZ / 2];
     }
 
-    private void StoreChampionInArray(int gridType, int gridX, int gridZ, GameObject champion)
+    private void StoreChampionInArray(GridInfo gridInfo, ChampionController champion)
     {
         //assign current trigger to champion
         ChampionController championController = champion.GetComponent<ChampionController>();
-        championController.SetGridPosition(gridType, gridX, gridZ);
-        if (gridType == Map.GRIDTYPE_OWN_INVENTORY || gridType == Map.GRIDTYPE_OPONENT_INVENTORY)
+
+        championController.SetOccupyGridInfo(gridInfo);
+        if (gridInfo.gridType == GridType.Inventory)
         {
-            championInventoryArray[gridX] = champion;
+            championInventoryArray[(int)gridInfo.index.x] = champion;
         }
-        else if (gridType == Map.GRIDTYPE_HEXA_MAP)
+        else if (gridInfo.gridType == GridType.HexaMap)
         {
-            championController.SetOccupyTriggerInfo(Map.Instance.mapGridTriggerArray[gridX, gridZ]);
             if (team == ChampionTeam.Player)
-                gridChampionsArray[gridX, gridZ] = champion;
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y] = champion;
             else if (team == ChampionTeam.Oponent)
-                gridChampionsArray[gridX, gridZ - 4] = champion;
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4] = champion;
         }
     }
 
-    private void RemoveChampionFromArray(int type, int gridX, int gridZ)
+    private void RemoveChampionFromArray(GridInfo gridInfo)
     {
 
-        if (type == Map.GRIDTYPE_OWN_INVENTORY || type == Map.GRIDTYPE_OPONENT_INVENTORY)
+        if (gridInfo.gridType == GridType.Inventory)
         {
-            championInventoryArray[gridX] = null;
+            championInventoryArray[(int)gridInfo.index.x].SetOccupyGridInfo();
+            championInventoryArray[(int)gridInfo.index.x] = null;
         }
-        else if (type == Map.GRIDTYPE_HEXA_MAP)
+        else if (gridInfo.gridType == GridType.HexaMap)
         {
-            ChampionController championController = gridChampionsArray[gridX, gridZ].GetComponent<ChampionController>();
-            championController.SetOccupyTriggerInfo();
+
+
             if (team == ChampionTeam.Player)
-                gridChampionsArray[gridX, gridZ] = null;
+            {
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y].SetOccupyGridInfo();
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y] = null;
+            }
             else if (team == ChampionTeam.Oponent)
-                gridChampionsArray[gridX, gridZ - 4] = null;
+            {
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4].SetOccupyGridInfo();
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4] = null;
+            }
         }
     }
 
@@ -81,7 +88,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         {
             for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
             {
-                if (gridChampionsArray[x, z] == null)
+                if (championsHexaMapArray[x, z] == null)
                 {
                     emptyIndexX = x;
                     if (team == ChampionTeam.Player)
@@ -97,7 +104,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     private int GetChampionCountOnHexGrid()
     {
         int count = 0;
-        foreach (GameObject championOBJ in gridChampionsArray)
+        foreach (ChampionController championOBJ in championsHexaMapArray)
         {
             if (championOBJ != null)
             {
@@ -106,24 +113,24 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         }
         return count;
     }
-    private GameObject GetChampionFromTriggerInfo(TriggerInfo triggerinfo)
+
+    private ChampionController GetChampionFromGridInfo(GridInfo gridInfo)
     {
-        GameObject championGO = null;
-
-        if (triggerinfo.gridType == Map.GRIDTYPE_OWN_INVENTORY || triggerinfo.gridType == Map.GRIDTYPE_OPONENT_INVENTORY)
+        foreach (var champion in championsHexaMapArray)
         {
-            championGO = championInventoryArray[triggerinfo.gridX];
+            if (champion != null)
+                if (champion.occupyGridInfo == gridInfo)
+                    return champion;
         }
-        else if (triggerinfo.gridType == Map.GRIDTYPE_HEXA_MAP)
+        foreach (var champion in championInventoryArray)
         {
-            if (team == ChampionTeam.Player && triggerinfo.gridZ < 4)
-                championGO = gridChampionsArray[triggerinfo.gridX, triggerinfo.gridZ];
-            else if (team == ChampionTeam.Oponent && triggerinfo.gridZ >= 4)
-                championGO = gridChampionsArray[triggerinfo.gridX, triggerinfo.gridZ - 4];
+            if (champion != null)
+                if (champion.occupyGridInfo == gridInfo)
+                    return champion;
         }
-
-        return championGO;
+        return null;
     }
+
     public bool AddChampionToInventory(Champion champion)
     {
         //get first empty inventory slot
@@ -147,13 +154,10 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
+        //store champion in inventory array
+        StoreChampionInArray(Map.Instance.ownInventoryGridArray[emptyIndex], championController);
 
 
-        //set grid position
-        if (team == ChampionTeam.Player)
-            championController.SetGridPosition(Map.GRIDTYPE_OWN_INVENTORY, emptyIndex, -1);
-        else
-            championController.SetGridPosition(Map.GRIDTYPE_OPONENT_INVENTORY, emptyIndex, -1);
         //set position and rotation
         championController.SetWorldPosition();
         championController.SetWorldRotation();
@@ -161,11 +165,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
         //setup chapioncontroller
         championController.Init(champion, team, this);
-
-        //store champion in inventory array
-        StoreChampionInArray(Map.GRIDTYPE_OWN_INVENTORY, Map.Instance.ownTriggerArray[emptyIndex].gridX, -1, championPrefab);
-
-
 
 
         //only upgrade when in preparation stage
@@ -194,8 +193,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
-        //set grid position
-        championController.SetGridPosition(Map.GRIDTYPE_HEXA_MAP, indexX, indexZ);
+        StoreChampionInArray(Map.Instance.mapGridArray[indexX, indexZ], championController);
 
         //set position and rotation
         championController.SetWorldPosition();
@@ -205,7 +203,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //setup chapioncontroller
         championController.Init(champion, team, this);
 
-        StoreChampionInArray(Map.GRIDTYPE_HEXA_MAP, indexX, indexZ, championPrefab);
+
 
         //only upgrade when in preparation stage
         if (GamePlayController.Instance.currentGameStage == GameStage.Preparation)
@@ -222,33 +220,29 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //check for champion upgrade
         List<ChampionController> championList_lvl_1 = new List<ChampionController>();
         List<ChampionController> championList_lvl_2 = new List<ChampionController>();
-        foreach (GameObject championOBJ in championInventoryArray)
+        foreach (ChampionController championCtrl in championInventoryArray)
         {
-            if (championOBJ != null)
+            if (championCtrl != null)
             {
-                ChampionController championController = championOBJ.GetComponent<ChampionController>();
-
-                if (championController.champion == champion)
+                if (championCtrl.champion == champion)
                 {
-                    if (championController.lvl == 1)
-                        championList_lvl_1.Add(championController);
-                    else if (championController.lvl == 2)
-                        championList_lvl_2.Add(championController);
+                    if (championCtrl.lvl == 1)
+                        championList_lvl_1.Add(championCtrl);
+                    else if (championCtrl.lvl == 2)
+                        championList_lvl_2.Add(championCtrl);
                 }
             }
         }
-        foreach (GameObject championOBJ in gridChampionsArray)
+        foreach (ChampionController championCtrl in championsHexaMapArray)
         {
-            if (championOBJ != null)
+            if (championCtrl != null)
             {
-                ChampionController championController = championOBJ.GetComponent<ChampionController>();
-
-                if (championController.champion == champion)
+                if (championCtrl.champion == champion)
                 {
-                    if (championController.lvl == 1)
-                        championList_lvl_1.Add(championController);
-                    else if (championController.lvl == 2)
-                        championList_lvl_2.Add(championController);
+                    if (championCtrl.lvl == 1)
+                        championList_lvl_1.Add(championCtrl);
+                    else if (championCtrl.lvl == 2)
+                        championList_lvl_2.Add(championCtrl);
                 }
             }
         }
@@ -260,8 +254,8 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
             championList_lvl_1[2].UpgradeLevel();
 
             //remove from array
-            RemoveChampionFromArray(championList_lvl_1[0].gridType, championList_lvl_1[0].gridPositionX, championList_lvl_1[0].gridPositionZ);
-            RemoveChampionFromArray(championList_lvl_1[1].gridType, championList_lvl_1[1].gridPositionX, championList_lvl_1[1].gridPositionZ);
+            RemoveChampionFromArray(championList_lvl_1[0].occupyGridInfo);
+            RemoveChampionFromArray(championList_lvl_1[1].occupyGridInfo);
 
             //destroy gameobjects
             Destroy(championList_lvl_1[0].gameObject);
@@ -274,8 +268,8 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
                 championList_lvl_1[2].UpgradeLevel();
 
                 //remove from array
-                RemoveChampionFromArray(championList_lvl_2[0].gridType, championList_lvl_2[0].gridPositionX, championList_lvl_2[0].gridPositionZ);
-                RemoveChampionFromArray(championList_lvl_2[1].gridType, championList_lvl_2[1].gridPositionX, championList_lvl_2[1].gridPositionZ);
+                RemoveChampionFromArray(championList_lvl_2[0].occupyGridInfo);
+                RemoveChampionFromArray(championList_lvl_2[1].occupyGridInfo);
 
                 //destroy gameobjects
                 Destroy(championList_lvl_2[0].gameObject);
@@ -295,15 +289,15 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     public ChampionController FindTarget(ChampionController _championController, float bestDistance)
     {
         ChampionController closestTarget = null;
-        foreach (GameObject championOBJ in gridChampionsArray)
+        foreach (ChampionController championCtrl in championsHexaMapArray)
         {
-            if (championOBJ != null)
+            if (championCtrl != null)
             {
-                closestTarget = championOBJ.GetComponent<ChampionController>();
+                closestTarget = championCtrl.GetComponent<ChampionController>();
 
                 if (closestTarget.isDead == false)
                 {
-                    float distance = _championController.occupyTriggerInfo.GetDistance(closestTarget.occupyTriggerInfo);
+                    float distance = _championController.occupyGridInfo.GetDistance(closestTarget.occupyGridInfo);
                     if (distance <= bestDistance)
                     {
                         return closestTarget;
@@ -317,21 +311,20 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     public void StartDrag()
     {
         //get trigger info
-        TriggerInfo triggerinfo = InputController.Instance.triggerInfo;
+        GridInfo gridInfo = InputController.Instance.gridInfo;
         //if mouse cursor on trigger
-        if (triggerinfo != null)
+        if (gridInfo != null)
         {
-            dragStartTrigger = triggerinfo;
-
-            GameObject championGO = GetChampionFromTriggerInfo(triggerinfo);
-
-            if (championGO != null)
+            dragStartGridInfo = gridInfo;
+            ChampionController championCtrl = GetChampionFromGridInfo(gridInfo);
+            Debug.Log("1");
+            if (championCtrl != null)
             {
+                Debug.Log("2");
                 //show indicators
                 Map.Instance.ShowIndicators(team);
-
-                draggedChampion = championGO;
-                championGO.GetComponent<ChampionController>().IsDragged = true;
+                draggedChampion = championCtrl;
+                championCtrl.IsDragged = true;
             }
 
         }
@@ -348,48 +341,49 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         if (draggedChampion != null)
         {
             //set dragged
-            draggedChampion.GetComponent<ChampionController>().IsDragged = false;
+            draggedChampion.IsDragged = false;
 
             //get trigger info
-            TriggerInfo triggerEndinfo = InputController.Instance.triggerInfo;
+            GridInfo gridInfo = InputController.Instance.gridInfo;
 
             //if mouse cursor on trigger
-            if (triggerEndinfo != null)
+            if (gridInfo != null)
             {
                 //get current champion over mouse cursor
-                GameObject currentTriggerEndChampion = GetChampionFromTriggerInfo(triggerEndinfo);
+                ChampionController championCtrl = GetChampionFromGridInfo(gridInfo);
 
                 //目标点有单位
-                if (currentTriggerEndChampion != null)
+                if (championCtrl != null)
                 {
                     //交换位置
-                    if ((triggerEndinfo.gridType == Map.GRIDTYPE_OWN_INVENTORY && team == ChampionTeam.Player)
-                        || (triggerEndinfo.gridType == Map.GRIDTYPE_OPONENT_INVENTORY && team == ChampionTeam.Oponent))
+                    if (gridInfo.gridType == GridType.Inventory)
                     {
-                        StoreChampionInArray(dragStartTrigger.gridType, dragStartTrigger.gridX, dragStartTrigger.gridZ, currentTriggerEndChampion);
-                        StoreChampionInArray(triggerEndinfo.gridType, triggerEndinfo.gridX, triggerEndinfo.gridZ, draggedChampion);
+                        championCtrl.occupyGridInfo = null;
+                        draggedChampion.occupyGridInfo = null;
+                        StoreChampionInArray(dragStartGridInfo, championCtrl);
+                        StoreChampionInArray(gridInfo, draggedChampion);
                     }
                 }
                 else//目标点无单位
                 {
                     //目标点是战场
-                    if (triggerEndinfo.gridType == Map.GRIDTYPE_HEXA_MAP)
+                    if (gridInfo.gridType == GridType.HexaMap)
                     {
-                        if (championsOnField < currentChampionLimit || dragStartTrigger.gridType == Map.GRIDTYPE_HEXA_MAP)
+                        if (championsOnField < currentChampionLimit || dragStartGridInfo.gridType == GridType.HexaMap)
                         {
-                            RemoveChampionFromArray(dragStartTrigger.gridType, dragStartTrigger.gridX, dragStartTrigger.gridZ);
-                            StoreChampionInArray(triggerEndinfo.gridType, triggerEndinfo.gridX, triggerEndinfo.gridZ, draggedChampion);
+                            RemoveChampionFromArray(dragStartGridInfo);
+                            StoreChampionInArray(gridInfo, draggedChampion);
 
-                            if (dragStartTrigger.gridType != Map.GRIDTYPE_HEXA_MAP)
+                            if (dragStartGridInfo.gridType != GridType.HexaMap)
                                 championsOnField++;
                         }
                     } //目标点是仓库
-                    else if (triggerEndinfo.gridType == Map.GRIDTYPE_OWN_INVENTORY)
+                    else if (gridInfo.gridType == GridType.Inventory)
                     {
-                        RemoveChampionFromArray(dragStartTrigger.gridType, dragStartTrigger.gridX, dragStartTrigger.gridZ);
-                        StoreChampionInArray(triggerEndinfo.gridType, triggerEndinfo.gridX, triggerEndinfo.gridZ, draggedChampion);
+                        RemoveChampionFromArray(dragStartGridInfo);
+                        StoreChampionInArray(gridInfo, draggedChampion);
 
-                        if (dragStartTrigger.gridType == Map.GRIDTYPE_HEXA_MAP)
+                        if (dragStartGridInfo.gridType == GridType.HexaMap)
                             championsOnField--;
                     }
                 }
@@ -410,13 +404,13 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //init dictionary
         championTypeCount = new Dictionary<ChampionType, int>();
 
-        foreach (GameObject championOBJ in gridChampionsArray)
+        foreach (ChampionController championCtrl in championsHexaMapArray)
         {
             //there is a champion
-            if (championOBJ != null)
+            if (championCtrl != null)
             {
                 //get champion
-                Champion c = championOBJ.GetComponent<ChampionController>().champion;
+                Champion c = championCtrl.champion;
 
                 if (championTypeCount.ContainsKey(c.type1))
                 {
@@ -468,13 +462,11 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     {
         foreach (BaseBuffData b in bonusBuffList)
         {
-            foreach (GameObject championOBJ in gridChampionsArray)
+            foreach (ChampionController championCtrl in championsHexaMapArray)
             {
-                if (championOBJ != null)
+                if (championCtrl != null)
                 {
-                    ChampionController championController = championOBJ.GetComponent<ChampionController>();
-                    championController.buffController.AddBuff(b, gameObject);
-
+                    championCtrl.buffController.AddBuff(b, championCtrl.gameObject);
                 }
             }
         }
@@ -486,15 +478,13 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         int championDead = 0;
         //start own champion combat
 
-        foreach (GameObject championOBJ in gridChampionsArray)
+        foreach (ChampionController championCtrl in championsHexaMapArray)
         {
             //there is a champion
-            if (championOBJ != null)
+            if (championCtrl != null)
             {
-                ChampionController championController = championOBJ.GetComponent<ChampionController>();
                 championCount++;
-
-                if (championController.isDead)
+                if (championCtrl.isDead)
                     championDead++;
 
             }
@@ -524,11 +514,11 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
             for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
             {
                 //there is a champion
-                if (gridChampionsArray[x, z] != null)
+                if (championsHexaMapArray[x, z] != null)
                 {
-                    ChampionController championController = gridChampionsArray[x, z].GetComponent<ChampionController>();
+                    ChampionController championController = championsHexaMapArray[x, z].GetComponent<ChampionController>();
                     Destroy(championController.gameObject);
-                    gridChampionsArray[x, z] = null;
+                    championsHexaMapArray[x, z] = null;
                 }
             }
         }

@@ -28,15 +28,15 @@ public class InputController : CreateSingleton<InputController>
 
 
     [HideInInspector]
-    public TriggerInfo triggerInfo = null;
+    public GridInfo gridInfo = null;
 
     [HideInInspector]
-    public TriggerInfo previousTriggerInfo = null;
+    public GridInfo previousGridInfo = null;
 
     /// Update is called once per frame
     void Update()
     {
-        triggerInfo = null;
+        gridInfo = null;
 
         //declare rayhit
         RaycastHit hit;
@@ -48,20 +48,16 @@ public class InputController : CreateSingleton<InputController>
         if (Physics.Raycast(ray, out hit, 100f, triggerLayer, QueryTriggerInteraction.Collide))
         {
             //get trigger info of the  hited object
-            triggerInfo = hit.collider.gameObject.GetComponent<TriggerInfo>();
+            gridInfo = hit.collider.gameObject.GetComponent<GridInfo>();
 
             //this is a trigger
-            if (triggerInfo != null)
+            if (gridInfo != null)
             {
-                if (triggerInfo != previousTriggerInfo)
+                if (gridInfo != previousGridInfo)
                 {
                     Map.Instance.resetIndicators();
-                    previousTriggerInfo = triggerInfo;
-                    //get indicator
-                    GameObject indicator = Map.Instance.GetIndicatorFromTriggerInfo(triggerInfo);
-
-                    //set indicator color to active
-                    indicator.GetComponent<MeshRenderer>().material.color = Map.Instance.indicatorActiveColor;
+                    previousGridInfo = gridInfo;
+                    gridInfo.SetColor(Map.Instance.indicatorActiveColor);
                 }
 
             }
