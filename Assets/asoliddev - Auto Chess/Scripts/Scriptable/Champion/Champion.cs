@@ -33,7 +33,7 @@ public class Champion : ScriptableObject
     public float damage = 10;
 
     ///The range the champion can start attack from
-    public float attackRange = 1;
+    public int attackRange = 1;
 }
 
 

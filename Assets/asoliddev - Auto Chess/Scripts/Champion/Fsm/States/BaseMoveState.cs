@@ -11,6 +11,16 @@ public class BaseMoveState : State
     }
     public override void OnUpdate()
     {
+        var c = championController.FindTarget(championController.champion.attackRange);
+        if (c != null)
+        {
+            championController.target = c;
+            if (!championController.CheckState("disarm"))
+            {
+                fsm.SwitchState("Attack");
+                return;
+            }
+        }
         if (championController.path == null || championController.target == null || championController.CheckState("immovable"))
         {
             fsm.SwitchState("Idle");
@@ -24,18 +34,8 @@ public class BaseMoveState : State
         }
         else
         {
-            var c = championController.FindTarget(championController.champion.attackRange);
-            if (c != null)
-            {
-                championController.target = c;
-                if (!championController.CheckState("disarm"))
-                {
-                    fsm.SwitchState("Attack");
-                    return;
-                }
-            }
+            championController.MoveToTarget();
         }
-        championController.MoveToTarget();
     }
     public override void OnLeave()
     {

@@ -157,14 +157,15 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //store champion in inventory array
         StoreChampionInArray(Map.Instance.ownInventoryGridArray[emptyIndex], championController);
 
+        //setup chapioncontroller
+        championController.Init(champion, team, this);
 
         //set position and rotation
         championController.SetWorldPosition();
         championController.SetWorldRotation();
 
 
-        //setup chapioncontroller
-        championController.Init(champion, team, this);
+
 
 
         //only upgrade when in preparation stage
@@ -195,15 +196,12 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
         StoreChampionInArray(Map.Instance.mapGridArray[indexX, indexZ], championController);
 
-        //set position and rotation
-        championController.SetWorldPosition();
-        championController.SetWorldRotation();
-
-
         //setup chapioncontroller
         championController.Init(champion, team, this);
 
-
+        //set position and rotation
+        championController.SetWorldPosition();
+        championController.SetWorldRotation();
 
         //only upgrade when in preparation stage
         if (GamePlayController.Instance.currentGameStage == GameStage.Preparation)
@@ -286,7 +284,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     }
 
-    public ChampionController FindTarget(ChampionController _championController, float bestDistance)
+    public ChampionController FindTarget(ChampionController _championController, int bestDistance)
     {
         ChampionController closestTarget = null;
         foreach (ChampionController championCtrl in championsHexaMapArray)
@@ -297,7 +295,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
                 if (closestTarget.isDead == false)
                 {
-                    float distance = _championController.occupyGridInfo.GetDistance(closestTarget.occupyGridInfo);
+                    int distance = _championController.occupyGridInfo.GetDistance(closestTarget.occupyGridInfo);
                     if (distance <= bestDistance)
                     {
                         return closestTarget;
@@ -317,10 +315,8 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         {
             dragStartGridInfo = gridInfo;
             ChampionController championCtrl = GetChampionFromGridInfo(gridInfo);
-            Debug.Log("1");
             if (championCtrl != null)
             {
-                Debug.Log("2");
                 //show indicators
                 Map.Instance.ShowIndicators(team);
                 draggedChampion = championCtrl;
@@ -502,9 +498,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         {
             if (championInventoryArray[i] != null)
             {
-                ChampionController championController = championInventoryArray[i].GetComponent<ChampionController>();
-
-                Destroy(championController.gameObject);
+                Destroy(championInventoryArray[i].gameObject);
                 championInventoryArray[i] = null;
             }
 
@@ -516,8 +510,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
                 //there is a champion
                 if (championsHexaMapArray[x, z] != null)
                 {
-                    ChampionController championController = championsHexaMapArray[x, z].GetComponent<ChampionController>();
-                    Destroy(championController.gameObject);
+                    Destroy(championsHexaMapArray[x, z].gameObject);
                     championsHexaMapArray[x, z] = null;
                 }
             }

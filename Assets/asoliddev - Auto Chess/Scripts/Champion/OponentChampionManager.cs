@@ -6,10 +6,9 @@ using General;
 
 public class OponentChampionManager : ChampionManager
 {
-
     public override void OnEnterPreparation()
     {
         base.OnEnterPreparation();
-        AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
+        this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }
 }

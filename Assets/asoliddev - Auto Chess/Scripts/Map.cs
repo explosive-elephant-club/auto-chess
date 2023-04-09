@@ -286,9 +286,11 @@ public class Map : CreateSingleton<Map>
             {
                 GridInfo currentPathTile = targetNode;
                 var path = new List<GridInfo>();
-                while (currentPathTile != startNode)
+                while (true)
                 {
                     path.Add(currentPathTile);
+                    if (currentPathTile == startNode)
+                        break;
                     currentPathTile = currentPathTile.connection;
                 }
                 path.Reverse();

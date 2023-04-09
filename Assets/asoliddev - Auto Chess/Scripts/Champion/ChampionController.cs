@@ -15,8 +15,9 @@ public class ChampionController : MonoBehaviour
     public GameObject levelupEffectPrefab;
     public GameObject projectileStart;
 
-    [HideInInspector]
     public GridInfo occupyGridInfo;
+    [HideInInspector]
+    public GridInfo originGridInfo;
 
     [HideInInspector]
     ///Team of this champion, can be player = 0, or enemy = 1
@@ -64,6 +65,8 @@ public class ChampionController : MonoBehaviour
     public List<GridInfo> path;
 
     public int pathStep = 0;
+
+    public string state;
 
     /// Start is called before the first frame update
     void Awake()
@@ -123,6 +126,7 @@ public class ChampionController : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
+        state = AIActionFsm.curState.name;
         if (_isDragged != championAnimation.animator.GetBool("isDragged"))
             championAnimation.animator.SetBool("isDragged", _isDragged);
     }
@@ -150,7 +154,11 @@ public class ChampionController : MonoBehaviour
         isDead = false;
         target = null;
 
+        path = null;
+        pathStep = 0;
+
         //reset position
+        occupyGridInfo = originGridInfo;
         SetWorldPosition();
         SetWorldRotation();
 
@@ -190,7 +198,6 @@ public class ChampionController : MonoBehaviour
         {
             rotation = new Vector3(0, 20, 0);
         }
-
         this.transform.rotation = Quaternion.Euler(rotation);
     }
 
@@ -239,7 +246,7 @@ public class ChampionController : MonoBehaviour
         Destroy(levelupEffect, 1.0f);
     }
 
-    public ChampionController FindTarget(float bestDistance)
+    public ChampionController FindTarget(int bestDistance)
     {
         ChampionController closestEnemy = null;
 
@@ -323,22 +330,26 @@ public class ChampionController : MonoBehaviour
 
     public void MoveToTarget()
     {
-        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 0.05)
+        Debug.Log(Vector3.Distance(transform.position, path[pathStep].transform.position));
+        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 0.4)
         {
             if (pathStep + 1 < path.Count - 1)
             {
                 if (path[pathStep + 1].walkable && path[path.Count - 1] == target.occupyGridInfo)
                 {
+                    Debug.Log("2");
                     pathStep++;
                     SetOccupyGridInfo(path[pathStep]);
                 }
                 else
                 {
+                    Debug.Log("3");
                     FindPath();
                 }
             }
             else
             {
+                Debug.Log("4");
                 StopMove();
                 path = null;
                 SetWorldPosition();
@@ -346,8 +357,12 @@ public class ChampionController : MonoBehaviour
         }
         else
         {
-            navMeshAgent.destination = path[pathStep].transform.position;
-            navMeshAgent.isStopped = false;
+            if (navMeshAgent.enabled)
+            {
+                Debug.Log("5");
+                navMeshAgent.destination = path[pathStep].transform.position;
+                navMeshAgent.isStopped = false;
+            }
         }
     }
 
@@ -496,6 +511,7 @@ public class ChampionController : MonoBehaviour
             navMeshAgent.enabled = true;
             championAnimation.InitBehavour();
             championAnimation.animator.SetBool("isInCambat", true);
+            originGridInfo = occupyGridInfo;
         }
 
         //添加羁绊Buff
@@ -512,6 +528,7 @@ public class ChampionController : MonoBehaviour
     }
     public void OnLeaveCombat()
     {
+        navMeshAgent.enabled = false;
         championAnimation.animator.SetBool("isInCambat", false);
     }
 
