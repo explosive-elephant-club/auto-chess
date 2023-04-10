@@ -10,5 +10,7 @@ public class OponentChampionManager : ChampionManager
     {
         base.OnEnterPreparation();
         this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
+        this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
+        this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }
 }

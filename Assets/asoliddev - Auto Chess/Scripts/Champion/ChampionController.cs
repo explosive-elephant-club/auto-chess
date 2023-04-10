@@ -16,7 +16,7 @@ public class ChampionController : MonoBehaviour
     public GameObject projectileStart;
 
     public GridInfo occupyGridInfo;
-    [HideInInspector]
+    public GridInfo bookGridInfo;
     public GridInfo originGridInfo;
 
     [HideInInspector]
@@ -68,12 +68,15 @@ public class ChampionController : MonoBehaviour
 
     public string state;
 
+    public EventCenter eventCenter;
+
     /// Start is called before the first frame update
     void Awake()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         championAnimation = this.GetComponent<ChampionAnimation>();
         buffController = this.GetComponent<BuffController>();
+        eventCenter = new EventCenter();
     }
 
     /// <summary>
@@ -105,11 +108,6 @@ public class ChampionController : MonoBehaviour
 
         AIActionFsm = new Fsm();
         InitFsm();
-    }
-
-    public void OnDestroy()
-    {
-        SetOccupyGridInfo();
     }
 
     void InitFsm()
@@ -158,7 +156,11 @@ public class ChampionController : MonoBehaviour
         pathStep = 0;
 
         //reset position
-        occupyGridInfo = originGridInfo;
+        if (originGridInfo != null)
+        {
+            LeaveGrid();
+            EnterGrid(originGridInfo);
+        }
         SetWorldPosition();
         SetWorldRotation();
 
@@ -180,6 +182,7 @@ public class ChampionController : MonoBehaviour
     public void SetWorldPosition()
     {
         Vector3 worldPosition = occupyGridInfo.gameObject.transform.position;
+        worldPosition.z = this.transform.position.z;
         this.transform.position = worldPosition;
     }
 
@@ -273,26 +276,40 @@ public class ChampionController : MonoBehaviour
     {
         if (target != null)
         {
-
             path = Map.Instance.FindPath(occupyGridInfo, target.occupyGridInfo);
             pathStep = 0;
         }
     }
 
-    public void SetOccupyGridInfo(GridInfo gridInfo = null)
+
+    public void EnterGrid(GridInfo grid)
+    {
+        occupyGridInfo = grid;
+        grid.occupyChampion = this;
+    }
+
+    public void LeaveGrid()
     {
         if (occupyGridInfo != null)
-            occupyGridInfo.walkable = true;
-        if (gridInfo != null)
         {
-            occupyGridInfo = gridInfo;
-            occupyGridInfo.walkable = false;
-        }
-        else
-        {
+            occupyGridInfo.occupyChampion = null;
             occupyGridInfo = null;
         }
+    }
 
+    public void BookGrid(GridInfo grid)
+    {
+        bookGridInfo = grid;
+        grid.bookChampion = this;
+    }
+
+    public void ClearBook()
+    {
+        if (bookGridInfo != null)
+        {
+            bookGridInfo.bookChampion = null;
+            bookGridInfo = null;
+        }
     }
 
     public void MoveToNext()
@@ -300,7 +317,7 @@ public class ChampionController : MonoBehaviour
         if (pathStep + 1 < path.Count - 1)
         {
             pathStep += 1;
-            SetOccupyGridInfo(path[pathStep]);
+            //SetOccupyGridInfo(path[pathStep]);
             SetWorldPosition();
         }
         else
@@ -328,28 +345,44 @@ public class ChampionController : MonoBehaviour
         }
     }
 
+    void DebugPrint(string str)
+    {
+        if (team == ChampionTeam.Player)
+            Debug.Log(gameObject.name + ":  " + str);
+    }
+
     public void MoveToTarget()
     {
-        Debug.Log(Vector3.Distance(transform.position, path[pathStep].transform.position));
-        if (Vector3.Distance(transform.position, path[pathStep].transform.position) <= 0.4)
+        if (path == null || path.Count == 0)
         {
+            DebugPrint("FindPath");
+            FindPath();
+        }
+        if (path[pathStep].CheckInGrid(this))
+        {
+            DebugPrint("EnterGrid " + path[pathStep].coor);
+            LeaveGrid();
+            EnterGrid(path[pathStep]);
+            eventCenter.Broadcast("OnEnterGrid", path[pathStep]);
             if (pathStep + 1 < path.Count - 1)
             {
-                if (path[pathStep + 1].walkable && path[path.Count - 1] == target.occupyGridInfo)
+                if (!path[pathStep + 1].IsBookedOrOccupied() && path[path.Count - 1] == target.occupyGridInfo)
                 {
-                    Debug.Log("2");
                     pathStep++;
-                    SetOccupyGridInfo(path[pathStep]);
                 }
                 else
                 {
-                    Debug.Log("3");
+                    DebugPrint("FindPath");
                     FindPath();
                 }
+                DebugPrint("BookGrid " + path[pathStep].coor);
+                eventCenter.Broadcast("OnBookGrid", path[pathStep]);
+                ClearBook();
+                BookGrid(path[pathStep]);
             }
             else
             {
-                Debug.Log("4");
+                DebugPrint("Get Target");
                 StopMove();
                 path = null;
                 SetWorldPosition();
@@ -359,7 +392,6 @@ public class ChampionController : MonoBehaviour
         {
             if (navMeshAgent.enabled)
             {
-                Debug.Log("5");
                 navMeshAgent.destination = path[pathStep].transform.position;
                 navMeshAgent.isStopped = false;
             }
@@ -467,7 +499,7 @@ public class ChampionController : MonoBehaviour
     #region StageFuncs
     public void OnEnterPreparation()
     {
-        Reset();
+
     }
     public void OnUpdatePreparation()
     {
@@ -524,12 +556,14 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdateCombat()
     {
-        AIActionFsm.curState.OnUpdate();
+        if (occupyGridInfo.gridType == GridType.HexaMap)
+            AIActionFsm.curState.OnUpdate();
     }
     public void OnLeaveCombat()
     {
         navMeshAgent.enabled = false;
         championAnimation.animator.SetBool("isInCambat", false);
+        Reset();
     }
 
     public void OnEnterLoss()

@@ -286,18 +286,18 @@ public class Map : CreateSingleton<Map>
             {
                 GridInfo currentPathTile = targetNode;
                 var path = new List<GridInfo>();
-                while (true)
+                while (currentPathTile != startNode)
                 {
                     path.Add(currentPathTile);
-                    if (currentPathTile == startNode)
-                        break;
                     currentPathTile = currentPathTile.connection;
                 }
                 path.Reverse();
                 return path;
             }
 
-            foreach (var neighbor in current.neighbors.Where(t => t == targetNode || (t.walkable && !processed.Contains(t))))
+            foreach (var neighbor in current.neighbors.
+            Where(t => t == targetNode ||
+            (t.walkable && !processed.Contains(t) && !t.IsBookedOrOccupied())))
             {
                 var inSearch = toSearch.Contains(neighbor);
                 var costToNeighbor = current.g + current.GetDistance(neighbor);

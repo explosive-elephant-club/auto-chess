@@ -12,9 +12,13 @@ public class BaseIdleState : State
     }
     public override void OnUpdate()
     {
-        if (!championController.CheckState("immovable"))
+        if (championController.isDead)
         {
-            if (championController.target == null)
+            return;
+        }
+        if (championController.target == null)
+        {
+            if (!championController.CheckState("immovable"))
             {
                 combatTimer += Time.deltaTime;
                 if (combatTimer > 0.5f)
@@ -22,6 +26,24 @@ public class BaseIdleState : State
                     combatTimer = 0;
                     championController.target = championController.FindTarget(30);
                 }
+            }
+            else
+            {
+                fsm.SwitchState("Move");
+                return;
+            }
+        }
+        else if (championController.target.isDead == true)
+        {
+            championController.target = null;
+        }
+        else
+        {
+            if (championController.occupyGridInfo.GetDistance(championController.target.occupyGridInfo) <=
+            championController.champion.attackRange)
+            {
+                fsm.SwitchState("Attack");
+                return;
             }
             else
             {

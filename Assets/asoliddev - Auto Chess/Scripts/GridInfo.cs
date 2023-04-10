@@ -21,6 +21,9 @@ public class GridInfo : MonoBehaviour
     public GameObject indicator;
     Material mat;
 
+    public ChampionController occupyChampion;
+    public ChampionController bookChampion;
+
     public void Init(Vector2 _index, Vector3 _coor, GridType _gridType)
     {
         gridType = _gridType;
@@ -30,7 +33,7 @@ public class GridInfo : MonoBehaviour
         connection = null;
         gameObject.layer = LayerMask.NameToLayer("Triggers");
         mat = indicator.GetComponent<MeshRenderer>().material;
-        //gameObject.name = coor.ToString();
+        gameObject.name = coor.ToString();
     }
 
     public void CacheNeighbors()
@@ -62,5 +65,22 @@ public class GridInfo : MonoBehaviour
     {
         if (mat.color != _color)
             mat.color = _color;
+    }
+
+    public bool CheckInGrid(ChampionController champion)
+    {
+        if (Vector3.Distance(
+            new Vector3(transform.position.x, transform.position.y, 0),
+            new Vector3(champion.transform.position.x, champion.transform.position.y, 0)
+        ) < 0.2f)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsBookedOrOccupied()
+    {
+        return (occupyChampion != null || bookChampion != null);
     }
 }

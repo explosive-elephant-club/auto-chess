@@ -5,23 +5,19 @@ using UnityEngine.Events;
 
 public class BaseMoveState : State
 {
+    public override void Init()
+    {
+        base.Init();
+        championController.eventCenter.AddListener<GridInfo>("OnEnterGrid", OnEnterGrid);
+        championController.eventCenter.AddListener<GridInfo>("OnBookGrid", OnBookGrid);
+    }
     public override void OnEnter()
     {
-        championController.FindPath();
+        //championController.FindPath();
     }
     public override void OnUpdate()
     {
-        var c = championController.FindTarget(championController.champion.attackRange);
-        if (c != null)
-        {
-            championController.target = c;
-            if (!championController.CheckState("disarm"))
-            {
-                fsm.SwitchState("Attack");
-                return;
-            }
-        }
-        if (championController.path == null || championController.target == null || championController.CheckState("immovable"))
+        if (championController.target == null || championController.CheckState("immovable") || championController.isDead)
         {
             fsm.SwitchState("Idle");
             return;
@@ -38,6 +34,25 @@ public class BaseMoveState : State
         }
     }
     public override void OnLeave()
+    {
+
+    }
+
+    void OnEnterGrid(GridInfo grid)
+    {
+        var c = championController.FindTarget(championController.champion.attackRange);
+        if (c != null)
+        {
+            championController.target = c;
+            if (!championController.CheckState("disarm"))
+            {
+                fsm.SwitchState("Attack");
+                return;
+            }
+        }
+    }
+
+    void OnBookGrid(GridInfo grid)
     {
 
     }

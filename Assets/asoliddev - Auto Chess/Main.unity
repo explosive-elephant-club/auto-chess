@@ -13227,7 +13227,7 @@ MonoBehaviour:
   lastStage: 0
   PreparationStageDuration: 16
   CombatStageDuration: 60
-  baseGoldIncome: 5
+  baseGoldIncome: 15
   currentGold: 0
   currentHP: 100
   timerDisplay: 0

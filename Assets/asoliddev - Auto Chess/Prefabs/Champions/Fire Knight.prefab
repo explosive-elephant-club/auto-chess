@@ -7491,6 +7491,8 @@ MonoBehaviour:
     type: 3}
   projectileStart: {fileID: 0}
   occupyGridInfo: {fileID: 0}
+  bookGridInfo: {fileID: 0}
+  originGridInfo: {fileID: 0}
   team: 0
   champion: {fileID: 11400000, guid: 1a4801c5512977e47b933d2fb22a399a, type: 2}
   maxHealth: 0
@@ -7504,6 +7506,7 @@ MonoBehaviour:
   championmaneger: {fileID: 0}
   path: []
   pathStep: 0
+  state: 
 --- !u!114 &-4499813811619238472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7527,8 +7530,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 8
-  m_Acceleration: 20
+  m_Speed: 3
+  m_Acceleration: 40
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 0

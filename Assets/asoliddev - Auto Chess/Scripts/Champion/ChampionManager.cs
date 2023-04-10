@@ -39,7 +39,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //assign current trigger to champion
         ChampionController championController = champion.GetComponent<ChampionController>();
 
-        championController.SetOccupyGridInfo(gridInfo);
+        championController.EnterGrid(gridInfo);
         if (gridInfo.gridType == GridType.Inventory)
         {
             championInventoryArray[(int)gridInfo.index.x] = champion;
@@ -58,7 +58,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
         if (gridInfo.gridType == GridType.Inventory)
         {
-            championInventoryArray[(int)gridInfo.index.x].SetOccupyGridInfo();
+            championInventoryArray[(int)gridInfo.index.x].LeaveGrid();
             championInventoryArray[(int)gridInfo.index.x] = null;
         }
         else if (gridInfo.gridType == GridType.HexaMap)
@@ -67,12 +67,12 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
             if (team == ChampionTeam.Player)
             {
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y].SetOccupyGridInfo();
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y].LeaveGrid();
                 championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y] = null;
             }
             else if (team == ChampionTeam.Oponent)
             {
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4].SetOccupyGridInfo();
+                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4].LeaveGrid();
                 championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4] = null;
             }
         }
@@ -112,23 +112,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
             }
         }
         return count;
-    }
-
-    private ChampionController GetChampionFromGridInfo(GridInfo gridInfo)
-    {
-        foreach (var champion in championsHexaMapArray)
-        {
-            if (champion != null)
-                if (champion.occupyGridInfo == gridInfo)
-                    return champion;
-        }
-        foreach (var champion in championInventoryArray)
-        {
-            if (champion != null)
-                if (champion.occupyGridInfo == gridInfo)
-                    return champion;
-        }
-        return null;
     }
 
     public bool AddChampionToInventory(Champion champion)
@@ -314,7 +297,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         if (gridInfo != null)
         {
             dragStartGridInfo = gridInfo;
-            ChampionController championCtrl = GetChampionFromGridInfo(gridInfo);
+            ChampionController championCtrl = gridInfo.occupyChampion;
             if (championCtrl != null)
             {
                 //show indicators
@@ -346,7 +329,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
             if (gridInfo != null)
             {
                 //get current champion over mouse cursor
-                ChampionController championCtrl = GetChampionFromGridInfo(gridInfo);
+                ChampionController championCtrl = gridInfo.occupyChampion;
 
                 //目标点有单位
                 if (championCtrl != null)
@@ -354,8 +337,8 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
                     //交换位置
                     if (gridInfo.gridType == GridType.Inventory)
                     {
-                        championCtrl.occupyGridInfo = null;
-                        draggedChampion.occupyGridInfo = null;
+                        championCtrl.LeaveGrid();
+                        draggedChampion.LeaveGrid();
                         StoreChampionInArray(dragStartGridInfo, championCtrl);
                         StoreChampionInArray(gridInfo, draggedChampion);
                     }
