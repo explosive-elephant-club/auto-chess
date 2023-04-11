@@ -267,26 +267,70 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     }
 
-    public ChampionController FindTarget(ChampionController _championController, int bestDistance)
+    public ChampionController FindAnyTargetInRange(ChampionController _championController, int bestDistance)
     {
-        ChampionController closestTarget = null;
         foreach (ChampionController championCtrl in championsHexaMapArray)
         {
             if (championCtrl != null)
             {
-                closestTarget = championCtrl.GetComponent<ChampionController>();
-
-                if (closestTarget.isDead == false)
+                if (championCtrl == false)
                 {
-                    int distance = _championController.occupyGridInfo.GetDistance(closestTarget.occupyGridInfo);
+                    int distance = _championController.occupyGridInfo.GetDistance(championCtrl.occupyGridInfo);
                     if (distance <= bestDistance)
                     {
-                        return closestTarget;
+                        return championCtrl;
                     }
                 }
             }
         }
         return null;
+    }
+
+    public ChampionController FindClosestTarget(ChampionController _championController, int bestDistance)
+    {
+        ChampionController closestTarget = null;
+        int tempDis = bestDistance;
+        foreach (ChampionController championCtrl in championsHexaMapArray)
+        {
+            if (championCtrl != null)
+            {
+                ChampionController targetChampion = championCtrl;
+                if (targetChampion.isDead == false)
+                {
+                    int distance = _championController.occupyGridInfo.GetDistance(targetChampion.occupyGridInfo);
+                    if (distance <= bestDistance && distance < tempDis)
+                    {
+                        tempDis = distance;
+                        closestTarget = targetChampion;
+                    }
+                }
+            }
+        }
+        return closestTarget;
+    }
+
+    public ChampionController FindFarthestTarget(ChampionController _championController, int bestDistance)
+    {
+        ChampionController farthestTarget = null;
+        int tempDis = 0;
+        foreach (ChampionController championCtrl in championsHexaMapArray)
+        {
+            if (championCtrl != null)
+            {
+                ChampionController targetChampion = championCtrl;
+
+                if (targetChampion.isDead == false)
+                {
+                    int distance = _championController.occupyGridInfo.GetDistance(targetChampion.occupyGridInfo);
+                    if (distance <= bestDistance && distance > tempDis)
+                    {
+                        tempDis = distance;
+                        farthestTarget = targetChampion;
+                    }
+                }
+            }
+        }
+        return farthestTarget;
     }
 
     public void StartDrag()
@@ -502,9 +546,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         currentChampionCount = GetChampionCountOnHexGrid();
     }
 
-    /// <summary>
-    /// Called when a champion killd
-    /// </summary>
     public void OnChampionDeath()
     {
         if (IsAllChampionDead())

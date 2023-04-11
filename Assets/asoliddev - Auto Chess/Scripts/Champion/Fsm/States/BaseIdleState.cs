@@ -24,13 +24,8 @@ public class BaseIdleState : State
                 if (combatTimer > 0.5f)
                 {
                     combatTimer = 0;
-                    championController.target = championController.FindTarget(30);
+                    championController.target = championController.FindTarget(30, FindTargetMode.Closet);
                 }
-            }
-            else
-            {
-                fsm.SwitchState("Move");
-                return;
             }
         }
         else if (championController.target.isDead == true)
@@ -47,8 +42,15 @@ public class BaseIdleState : State
             }
             else
             {
-                fsm.SwitchState("Move");
-                return;
+                if (championController.FindPath())
+                {
+                    fsm.SwitchState("Move");
+                    return;
+                }
+                else
+                {
+                    championController.target = null;
+                }
             }
         }
     }

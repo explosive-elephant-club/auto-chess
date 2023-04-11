@@ -7,6 +7,8 @@ using System;
 using System.Reflection;
 using General;
 
+public enum FindTargetMode { AnyInRange, Closet, Farthest }
+
 /// <summary>
 /// Controls a single champion movement and combat
 /// </summary>
@@ -19,8 +21,6 @@ public class ChampionController : MonoBehaviour
     public GridInfo bookGridInfo;
     public GridInfo originGridInfo;
 
-    [HideInInspector]
-    ///Team of this champion, can be player = 0, or enemy = 1
     public ChampionTeam team = ChampionTeam.Player;
 
 
@@ -249,58 +249,74 @@ public class ChampionController : MonoBehaviour
         Destroy(levelupEffect, 1.0f);
     }
 
-    public ChampionController FindTarget(int bestDistance)
+    public ChampionController FindTarget(int bestDistance, FindTargetMode mode)
     {
-        ChampionController closestEnemy = null;
-
-        //find enemy
+        ChampionManager manager;
         if (team == ChampionTeam.Player)
         {
-            closestEnemy = GamePlayController.Instance.oponentChampionManager.FindTarget(this, bestDistance);
-        }
-        else if (team == ChampionTeam.Oponent)
-        {
-            closestEnemy = GamePlayController.Instance.ownChampionManager.FindTarget(this, bestDistance);
-        }
-        if (closestEnemy == null)
-        {
-            return null;
+            manager = GamePlayController.Instance.oponentChampionManager;
         }
         else
         {
-            return closestEnemy;
+            manager = GamePlayController.Instance.ownChampionManager;
         }
+
+        switch (mode)
+        {
+            case FindTargetMode.AnyInRange:
+                return manager.FindAnyTargetInRange(this, bestDistance);
+            case FindTargetMode.Closet:
+                return manager.FindClosestTarget(this, bestDistance);
+            case FindTargetMode.Farthest:
+                return manager.FindFarthestTarget(this, bestDistance);
+        }
+        return null;
     }
 
-    public void FindPath()
+    public bool FindPath()
     {
         if (target != null)
         {
-            path = Map.Instance.FindPath(occupyGridInfo, target.occupyGridInfo);
+            path = Map.Instance.FindPath(occupyGridInfo, target.occupyGridInfo, this);
             pathStep = 0;
+            if (path == null)
+                return false;
+            BookGrid(path[pathStep]);
+            return true;
         }
+        return false;
     }
 
 
     public void EnterGrid(GridInfo grid)
     {
+        ClearBook();
+        LeaveGrid();
         occupyGridInfo = grid;
         grid.occupyChampion = this;
+        DebugPrint("EnterGrid " + grid.coor);
+        eventCenter.Broadcast("OnEnterGrid", grid);
     }
 
     public void LeaveGrid()
     {
         if (occupyGridInfo != null)
         {
+            DebugPrint("LeaveGrid " + occupyGridInfo.coor);
+            eventCenter.Broadcast("OnLeaveGrid", occupyGridInfo);
             occupyGridInfo.occupyChampion = null;
             occupyGridInfo = null;
         }
+
     }
 
     public void BookGrid(GridInfo grid)
     {
+        ClearBook();
         bookGridInfo = grid;
         grid.bookChampion = this;
+        DebugPrint("BookGrid " + grid.coor);
+        eventCenter.Broadcast("OnBookGrid", grid);
     }
 
     public void ClearBook()
@@ -353,39 +369,28 @@ public class ChampionController : MonoBehaviour
 
     public void MoveToTarget()
     {
-        if (path == null || path.Count == 0)
-        {
-            DebugPrint("FindPath");
-            FindPath();
-        }
         if (path[pathStep].CheckInGrid(this))
         {
-            DebugPrint("EnterGrid " + path[pathStep].coor);
-            LeaveGrid();
             EnterGrid(path[pathStep]);
-            eventCenter.Broadcast("OnEnterGrid", path[pathStep]);
             if (pathStep + 1 < path.Count - 1)
             {
-                if (!path[pathStep + 1].IsBookedOrOccupied() && path[path.Count - 1] == target.occupyGridInfo)
+                if (!path[pathStep + 1].IsBookedOrOccupied(this)
+                && target.occupyGridInfo == path[path.Count - 1])
                 {
                     pathStep++;
+                    BookGrid(path[pathStep]);
                 }
                 else
                 {
-                    DebugPrint("FindPath");
-                    FindPath();
+                    eventCenter.Broadcast("OnMoveFailed", path[pathStep]);
                 }
-                DebugPrint("BookGrid " + path[pathStep].coor);
-                eventCenter.Broadcast("OnBookGrid", path[pathStep]);
-                ClearBook();
-                BookGrid(path[pathStep]);
             }
             else
             {
                 DebugPrint("Get Target");
                 StopMove();
-                path = null;
                 SetWorldPosition();
+                eventCenter.Broadcast("OnGetTarget", path[pathStep]);
             }
         }
         else

@@ -79,8 +79,23 @@ public class GridInfo : MonoBehaviour
         return false;
     }
 
-    public bool IsBookedOrOccupied()
+    public bool IsBookedOrOccupied(ChampionController champion)
     {
-        return (occupyChampion != null || bookChampion != null);
+        if (occupyChampion != null)
+        {
+            if (occupyChampion != champion.occupyGridInfo)
+            {
+                return true;
+            }
+        }
+        if (bookChampion != null)
+        {
+            if (bookChampion != champion.bookGridInfo)
+            {
+                return true;
+            }
+        }
+        return false;
     }
+
 }

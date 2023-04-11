@@ -264,7 +264,7 @@ public class Map : CreateSingleton<Map>
         oponentMapContainer.SetActive(false);
     }
 
-    public List<GridInfo> FindPath(GridInfo startNode, GridInfo targetNode)
+    public List<GridInfo> FindPath(GridInfo startNode, GridInfo targetNode, ChampionController champion)
     {
         var toSearch = new List<GridInfo>() { startNode };
         var processed = new List<GridInfo>();
@@ -297,7 +297,7 @@ public class Map : CreateSingleton<Map>
 
             foreach (var neighbor in current.neighbors.
             Where(t => t == targetNode ||
-            (t.walkable && !processed.Contains(t) && !t.IsBookedOrOccupied())))
+            (t.walkable && !processed.Contains(t) && !t.IsBookedOrOccupied(champion))))
             {
                 var inSearch = toSearch.Contains(neighbor);
                 var costToNeighbor = current.g + current.GetDistance(neighbor);

@@ -9,7 +9,8 @@ public class BaseMoveState : State
     {
         base.Init();
         championController.eventCenter.AddListener<GridInfo>("OnEnterGrid", OnEnterGrid);
-        championController.eventCenter.AddListener<GridInfo>("OnBookGrid", OnBookGrid);
+        championController.eventCenter.AddListener<GridInfo>("OnMoveFailed", OnMoveFailed);
+        championController.eventCenter.AddListener<GridInfo>("OnGetTarget", OnGetTarget);
     }
     public override void OnEnter()
     {
@@ -30,7 +31,16 @@ public class BaseMoveState : State
         }
         else
         {
-            championController.MoveToTarget();
+            if (championController.path == null)
+            {
+                fsm.SwitchState("Idle");
+                return;
+            }
+            else
+            {
+                championController.MoveToTarget();
+            }
+
         }
     }
     public override void OnLeave()
@@ -40,7 +50,7 @@ public class BaseMoveState : State
 
     void OnEnterGrid(GridInfo grid)
     {
-        var c = championController.FindTarget(championController.champion.attackRange);
+        var c = championController.FindTarget(championController.champion.attackRange, FindTargetMode.AnyInRange);
         if (c != null)
         {
             championController.target = c;
@@ -50,10 +60,18 @@ public class BaseMoveState : State
                 return;
             }
         }
+
     }
 
-    void OnBookGrid(GridInfo grid)
+    void OnMoveFailed(GridInfo grid)
     {
+        fsm.SwitchState("Idle");
+        return;
+    }
 
+    void OnGetTarget(GridInfo grid)
+    {
+        fsm.SwitchState("Idle");
+        return;
     }
 }
