@@ -401,6 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   championInventoryArray: []
+  championsHexaMapArray: []
   currentChampionLimit: 3
   currentChampionCount: 0
   bonusBuffList: []
@@ -432,6 +433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 1
   championInventoryArray: []
+  championsHexaMapArray: []
   currentChampionLimit: 3
   currentChampionCount: 0
   bonusBuffList: []
@@ -19720,12 +19722,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9caf96246987e9b4b82394977a9e4a89, type: 2}
   - {fileID: 11400000, guid: 1a4801c5512977e47b933d2fb22a399a, type: 2}
   - {fileID: 11400000, guid: 5681a86ada07bf94b818fb5346cd24d7, type: 2}
-  - {fileID: 11400000, guid: 12f7c78e9c62f644a85f159caafbb364, type: 2}
-  - {fileID: 11400000, guid: bd3a606d049803546a05bf3fabe902eb, type: 2}
-  - {fileID: 11400000, guid: fff40124a919ef74488b1da35f6b232e, type: 2}
-  - {fileID: 11400000, guid: 71348b8d61dcf1b49ad0cde9886ed8e1, type: 2}
-  - {fileID: 11400000, guid: 5cf63394b9baea2448068dc4c67f21d0, type: 2}
-  - {fileID: 11400000, guid: 21e6506da1fccea41af3a2366cdab15e, type: 2}
   championTypesArray:
   - {fileID: 11400000, guid: f3e567881c605d247b05775a39e704ed, type: 2}
   - {fileID: 11400000, guid: 33223db9cedb8c045990cb7a3b0144a3, type: 2}

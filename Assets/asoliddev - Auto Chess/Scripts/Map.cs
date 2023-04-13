@@ -10,11 +10,6 @@ using System.Collections.Generic;
 public enum GridType { Inventory, HexaMap }
 public class Map : CreateSingleton<Map>
 {
-    //declare grid types
-    public static int GRIDTYPE_OWN_INVENTORY = 0;
-    public static int GRIDTYPE_OPONENT_INVENTORY = 1;
-    public static int GRIDTYPE_HEXA_MAP = 2;
-
     public static int hexMapSizeX = 7;
     public static int hexMapSizeZ = 8;
     public static int inventorySize = 9;
@@ -262,6 +257,55 @@ public class Map : CreateSingleton<Map>
         ownMapContainer.SetActive(false);
         oponentInventoryContainer.SetActive(false);
         oponentMapContainer.SetActive(false);
+    }
+
+
+    public GridInfo GetEmptySlot(ChampionTeam team, GridType type)
+    {
+        if (type == GridType.HexaMap)
+        {
+            foreach (var grid in mapGridArray)
+            {
+                if (grid.occupyChampion == null && grid.bookChampion == null)
+                {
+                    if (team == ChampionTeam.Player)
+                    {
+                        if (grid.index.y < hexMapSizeZ / 2)
+                            return grid;
+                    }
+                    else if (team == ChampionTeam.Oponent)
+                    {
+                        if (grid.index.y >= hexMapSizeZ / 2)
+                            return grid;
+                    }
+
+                }
+            }
+            return null;
+        }
+        else if (team == ChampionTeam.Player)
+        {
+            foreach (var grid in ownInventoryGridArray)
+            {
+                if (grid.occupyChampion == null && grid.bookChampion == null)
+                {
+                    return grid;
+                }
+            }
+            return null;
+        }
+        else if (team == ChampionTeam.Oponent)
+        {
+            foreach (var grid in oponentInventoryGridArray)
+            {
+                if (grid.occupyChampion == null && grid.bookChampion == null)
+                {
+                    return grid;
+                }
+            }
+            return null;
+        }
+        return null;
     }
 
     public List<GridInfo> FindPath(GridInfo startNode, GridInfo targetNode, ChampionController champion)

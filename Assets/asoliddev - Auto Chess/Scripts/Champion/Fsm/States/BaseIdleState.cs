@@ -8,7 +8,7 @@ public class BaseIdleState : State
     float combatTimer = 0;
     public override void OnEnter()
     {
-        //championController.StopMove();
+
     }
     public override void OnUpdate()
     {

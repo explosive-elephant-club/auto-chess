@@ -12,7 +12,7 @@ public enum FindTargetMode { AnyInRange, Closet, Farthest }
 /// <summary>
 /// Controls a single champion movement and combat
 /// </summary>
-public class ChampionController : MonoBehaviour
+public class ChampionController : MonoBehaviour, GameStageInterface
 {
     public GameObject levelupEffectPrefab;
     public GameObject projectileStart;
@@ -104,7 +104,7 @@ public class ChampionController : MonoBehaviour
         WorldCanvasController.Instance.AddHealthBar(this.gameObject);
 
         effects = new List<Effect>();
-        GamePlayController.Instance.StageStateAddListener(this);
+        GamePlayController.Instance.StageStateAddListener(GetComponent<GameStageInterface>());
 
         AIActionFsm = new Fsm();
         InitFsm();
@@ -119,6 +119,11 @@ public class ChampionController : MonoBehaviour
             AIActionFsm.states.Add(s.name, s);
         }
         AIActionFsm.Init("Idle");
+    }
+
+    public void OnRemove()
+    {
+        GamePlayController.Instance.StageStateRemoveListener(GetComponent<GameStageInterface>());
     }
 
     /// Update is called once per frame
@@ -294,7 +299,6 @@ public class ChampionController : MonoBehaviour
         LeaveGrid();
         occupyGridInfo = grid;
         grid.occupyChampion = this;
-        DebugPrint("EnterGrid " + grid.coor);
         eventCenter.Broadcast("OnEnterGrid", grid);
     }
 
@@ -302,7 +306,6 @@ public class ChampionController : MonoBehaviour
     {
         if (occupyGridInfo != null)
         {
-            DebugPrint("LeaveGrid " + occupyGridInfo.coor);
             eventCenter.Broadcast("OnLeaveGrid", occupyGridInfo);
             occupyGridInfo.occupyChampion = null;
             occupyGridInfo = null;
@@ -315,7 +318,6 @@ public class ChampionController : MonoBehaviour
         ClearBook();
         bookGridInfo = grid;
         grid.bookChampion = this;
-        DebugPrint("BookGrid " + grid.coor);
         eventCenter.Broadcast("OnBookGrid", grid);
     }
 
@@ -504,7 +506,7 @@ public class ChampionController : MonoBehaviour
     #region StageFuncs
     public void OnEnterPreparation()
     {
-
+        return;
     }
     public void OnUpdatePreparation()
     {

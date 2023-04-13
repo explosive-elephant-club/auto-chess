@@ -51,9 +51,9 @@ public class GamePlayController : CreateSingleton<GamePlayController>, GameStage
 
     void Start()
     {
-        StageStateAddListener(this);
-        StageStateAddListener(oponentChampionManager);
-        StageStateAddListener(ownChampionManager);
+        StageStateAddListener(GetComponent<GameStageInterface>());
+        StageStateAddListener(oponentChampionManager.GetComponent<GameStageInterface>());
+        StageStateAddListener(ownChampionManager.GetComponent<GameStageInterface>());
         UIController.Instance.UpdateUI();
     }
 
@@ -163,28 +163,32 @@ public class GamePlayController : CreateSingleton<GamePlayController>, GameStage
     }
 
     //不同状态stage命令模式绑定事件
-    public void StageStateAddListener(object _class)
+    public void StageStateAddListener(GameStageInterface gameStageFunc)
     {
-        foreach (string stage in Enum.GetNames(typeof(GameStage)))
-        {
-            if (GeneralMethod.FindMethodByName(_class, "OnEnter" + stage))
-                eventCenter.AddListener("OnEnter" + stage, () =>
-                {
-                    GeneralMethod.ExecuteMethodByName(_class, "OnEnter" + stage);
-                });
-            if (GeneralMethod.FindMethodByName(_class, "OnUpdate" + stage))
-                eventCenter.AddListener("OnUpdate" + stage, () =>
-                {
-                    GeneralMethod.ExecuteMethodByName(_class, "OnUpdate" + stage);
-                });
-            if (GeneralMethod.FindMethodByName(_class, "OnLeave" + stage))
-                eventCenter.AddListener("OnLeave" + stage, () =>
-                {
-                    GeneralMethod.ExecuteMethodByName(_class, "OnLeave" + stage);
-                });
-
-        }
+        eventCenter.AddListener("OnEnterPreparation", gameStageFunc.OnEnterPreparation);
+        eventCenter.AddListener("OnEnterCombat", gameStageFunc.OnEnterCombat);
+        eventCenter.AddListener("OnEnterLoss", gameStageFunc.OnEnterLoss);
+        eventCenter.AddListener("OnUpdatePreparation", gameStageFunc.OnUpdatePreparation);
+        eventCenter.AddListener("OnUpdateCombat", gameStageFunc.OnUpdateCombat);
+        eventCenter.AddListener("OnUpdateLoss", gameStageFunc.OnUpdateLoss);
+        eventCenter.AddListener("OnLeavePreparation", gameStageFunc.OnLeavePreparation);
+        eventCenter.AddListener("OnLeaveCombat", gameStageFunc.OnLeaveCombat);
+        eventCenter.AddListener("OnLeaveLoss", gameStageFunc.OnLeaveLoss);
     }
+
+    public void StageStateRemoveListener(GameStageInterface gameStageFunc)
+    {
+        eventCenter.RemoveListener("OnEnterPreparation", gameStageFunc.OnEnterPreparation);
+        eventCenter.RemoveListener("OnEnterCombat", gameStageFunc.OnEnterCombat);
+        eventCenter.RemoveListener("OnEnterLoss", gameStageFunc.OnEnterLoss);
+        eventCenter.RemoveListener("OnUpdatePreparation", gameStageFunc.OnUpdatePreparation);
+        eventCenter.RemoveListener("OnUpdateCombat", gameStageFunc.OnUpdateCombat);
+        eventCenter.RemoveListener("OnUpdateLoss", gameStageFunc.OnUpdateLoss);
+        eventCenter.RemoveListener("OnLeavePreparation", gameStageFunc.OnLeavePreparation);
+        eventCenter.RemoveListener("OnLeaveCombat", gameStageFunc.OnLeaveCombat);
+        eventCenter.RemoveListener("OnLeaveLoss", gameStageFunc.OnLeaveLoss);
+    }
+
 
     public void StageChange(GameStage nextStage)
     {

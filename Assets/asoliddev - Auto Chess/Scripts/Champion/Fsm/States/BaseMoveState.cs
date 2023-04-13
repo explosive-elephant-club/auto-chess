@@ -20,6 +20,7 @@ public class BaseMoveState : State
     {
         if (championController.target == null || championController.CheckState("immovable") || championController.isDead)
         {
+            
             fsm.SwitchState("Idle");
             return;
         }

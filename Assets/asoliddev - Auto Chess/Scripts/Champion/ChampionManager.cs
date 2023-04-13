@@ -10,10 +10,8 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 {
     public ChampionTeam team;
 
-    [HideInInspector]
-    public ChampionController[] championInventoryArray;
-    [HideInInspector]
-    public ChampionController[,] championsHexaMapArray;
+    public List<ChampionController> championInventoryArray;
+    public List<ChampionController> championsHexaMapArray;
 
 
     [HideInInspector]
@@ -30,105 +28,41 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     private void Start()
     {
-        championInventoryArray = new ChampionController[Map.inventorySize];
-        championsHexaMapArray = new ChampionController[Map.hexMapSizeX, Map.hexMapSizeZ / 2];
+        championInventoryArray = new List<ChampionController>();
+        championsHexaMapArray = new List<ChampionController>();
     }
 
     private void StoreChampionInArray(GridInfo gridInfo, ChampionController champion)
     {
-        //assign current trigger to champion
-        ChampionController championController = champion.GetComponent<ChampionController>();
-
-        championController.EnterGrid(gridInfo);
+        champion.EnterGrid(gridInfo);
         if (gridInfo.gridType == GridType.Inventory)
         {
-            championInventoryArray[(int)gridInfo.index.x] = champion;
+            championInventoryArray.Add(champion);
         }
         else if (gridInfo.gridType == GridType.HexaMap)
         {
-            if (team == ChampionTeam.Player)
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y] = champion;
-            else if (team == ChampionTeam.Oponent)
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4] = champion;
+            championsHexaMapArray.Add(champion);
         }
     }
 
-    private void RemoveChampionFromArray(GridInfo gridInfo)
+    private void RemoveChampionFromArray(ChampionController champion)
     {
-
+        GridInfo gridInfo = champion.occupyGridInfo;
         if (gridInfo.gridType == GridType.Inventory)
         {
-            championInventoryArray[(int)gridInfo.index.x].LeaveGrid();
-            championInventoryArray[(int)gridInfo.index.x] = null;
+            championInventoryArray.Remove(champion);
         }
         else if (gridInfo.gridType == GridType.HexaMap)
         {
-
-
-            if (team == ChampionTeam.Player)
-            {
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y].LeaveGrid();
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y] = null;
-            }
-            else if (team == ChampionTeam.Oponent)
-            {
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4].LeaveGrid();
-                championsHexaMapArray[(int)gridInfo.index.x, (int)gridInfo.index.y - 4] = null;
-            }
+            championsHexaMapArray.Remove(champion);
         }
-    }
-
-    private void GetEmptySlot(out int emptyIndexX, out int emptyIndexZ)
-    {
-        emptyIndexX = -1;
-        emptyIndexZ = -1;
-
-        //get first empty inventory slot
-        for (int x = 0; x < Map.hexMapSizeX; x++)
-        {
-            for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
-            {
-                if (championsHexaMapArray[x, z] == null)
-                {
-                    emptyIndexX = x;
-                    if (team == ChampionTeam.Player)
-                        emptyIndexZ = z;
-                    else if (team == ChampionTeam.Oponent)
-                        emptyIndexZ = z + 4;
-                    break;
-                }
-            }
-        }
-    }
-
-    private int GetChampionCountOnHexGrid()
-    {
-        int count = 0;
-        foreach (ChampionController championOBJ in championsHexaMapArray)
-        {
-            if (championOBJ != null)
-            {
-                count++;
-            }
-        }
-        return count;
+        champion.LeaveGrid();
     }
 
     public bool AddChampionToInventory(Champion champion)
     {
-        //get first empty inventory slot
-        int emptyIndex = -1;
-        for (int i = 0; i < championInventoryArray.Length; i++)
-        {
-            if (championInventoryArray[i] == null)
-            {
-                emptyIndex = i;
-                break;
-            }
-        }
-
-        //return if no slot to add champion
-        if (emptyIndex == -1)
+        GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.Inventory);
+        if (emptyGrid == null)
             return false;
 
         //instantiate champion prefab
@@ -138,7 +72,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
         //store champion in inventory array
-        StoreChampionInArray(Map.Instance.ownInventoryGridArray[emptyIndex], championController);
+        StoreChampionInArray(emptyGrid, championController);
 
         //setup chapioncontroller
         championController.Init(champion, team, this);
@@ -164,12 +98,8 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     public bool AddChampionToBattle(Champion champion)
     {
-        int indexX;
-        int indexZ;
-        GetEmptySlot(out indexX, out indexZ);
-
-        //dont add champion if there is no empty slot
-        if (indexX == -1 || indexZ == -1)
+        GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.HexaMap);
+        if (emptyGrid == null)
             return false;
 
         GameObject championPrefab = Instantiate(champion.prefab);
@@ -177,7 +107,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
-        StoreChampionInArray(Map.Instance.mapGridArray[indexX, indexZ], championController);
+        StoreChampionInArray(emptyGrid, championController);
 
         //setup chapioncontroller
         championController.Init(champion, team, this);
@@ -235,10 +165,12 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
             championList_lvl_1[2].UpgradeLevel();
 
             //remove from array
-            RemoveChampionFromArray(championList_lvl_1[0].occupyGridInfo);
-            RemoveChampionFromArray(championList_lvl_1[1].occupyGridInfo);
+            RemoveChampionFromArray(championList_lvl_1[0]);
+            RemoveChampionFromArray(championList_lvl_1[1]);
 
             //destroy gameobjects
+            championList_lvl_1[0].OnRemove();
+            championList_lvl_1[1].OnRemove();
             Destroy(championList_lvl_1[0].gameObject);
             Destroy(championList_lvl_1[1].gameObject);
 
@@ -249,10 +181,12 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
                 championList_lvl_1[2].UpgradeLevel();
 
                 //remove from array
-                RemoveChampionFromArray(championList_lvl_2[0].occupyGridInfo);
-                RemoveChampionFromArray(championList_lvl_2[1].occupyGridInfo);
+                RemoveChampionFromArray(championList_lvl_2[0]);
+                RemoveChampionFromArray(championList_lvl_2[1]);
 
                 //destroy gameobjects
+                championList_lvl_1[0].OnRemove();
+                championList_lvl_1[1].OnRemove();
                 Destroy(championList_lvl_2[0].gameObject);
                 Destroy(championList_lvl_2[1].gameObject);
             }
@@ -260,7 +194,7 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
 
 
-        currentChampionCount = GetChampionCountOnHexGrid();
+        currentChampionCount = championsHexaMapArray.Count;
 
         //update ui
         UIController.Instance.UpdateUI();
@@ -358,9 +292,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
         //hide indicators
         //Map.Instance.HideIndicators();
 
-        int championsOnField = GetChampionCountOnHexGrid();
-
-
         if (draggedChampion != null)
         {
             //set dragged
@@ -383,8 +314,8 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
                     {
                         championCtrl.LeaveGrid();
                         draggedChampion.LeaveGrid();
-                        StoreChampionInArray(dragStartGridInfo, championCtrl);
-                        StoreChampionInArray(gridInfo, draggedChampion);
+                        championCtrl.EnterGrid(dragStartGridInfo);
+                        draggedChampion.EnterGrid(gridInfo);
                     }
                 }
                 else//目标点无单位
@@ -392,29 +323,23 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
                     //目标点是战场
                     if (gridInfo.gridType == GridType.HexaMap)
                     {
-                        if (championsOnField < currentChampionLimit || dragStartGridInfo.gridType == GridType.HexaMap)
+                        if (championsHexaMapArray.Count < currentChampionLimit || dragStartGridInfo.gridType == GridType.HexaMap)
                         {
-                            RemoveChampionFromArray(dragStartGridInfo);
+                            RemoveChampionFromArray(draggedChampion);
                             StoreChampionInArray(gridInfo, draggedChampion);
-
-                            if (dragStartGridInfo.gridType != GridType.HexaMap)
-                                championsOnField++;
                         }
                     } //目标点是仓库
                     else if (gridInfo.gridType == GridType.Inventory)
                     {
-                        RemoveChampionFromArray(dragStartGridInfo);
+                        RemoveChampionFromArray(draggedChampion);
                         StoreChampionInArray(gridInfo, draggedChampion);
-
-                        if (dragStartGridInfo.gridType == GridType.HexaMap)
-                            championsOnField--;
                     }
                 }
             }
 
 
             CalculateBonuses();
-            currentChampionCount = GetChampionCountOnHexGrid();
+            currentChampionCount = championsHexaMapArray.Count;
 
             //update ui
             UIController.Instance.UpdateUI();
@@ -497,7 +422,6 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     public bool IsAllChampionDead()
     {
-        int championCount = 0;
         int championDead = 0;
         //start own champion combat
 
@@ -506,14 +430,13 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
             //there is a champion
             if (championCtrl != null)
             {
-                championCount++;
                 if (championCtrl.isDead)
                     championDead++;
 
             }
         }
 
-        if (championDead == championCount)
+        if (championDead == championsHexaMapArray.Count)
             return true;
 
         return false;
@@ -521,35 +444,30 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
 
     public void Reset()
     {
-        for (int i = 0; i < championInventoryArray.Length; i++)
+        foreach (var champion in championInventoryArray)
         {
-            if (championInventoryArray[i] != null)
-            {
-                Destroy(championInventoryArray[i].gameObject);
-                championInventoryArray[i] = null;
-            }
-
+            champion.OnRemove();
+            Destroy(champion.gameObject);
         }
-        for (int x = 0; x < Map.hexMapSizeX; x++)
+        championInventoryArray.Clear();
+        foreach (var champion in championsHexaMapArray)
         {
-            for (int z = 0; z < Map.hexMapSizeZ / 2; z++)
-            {
-                //there is a champion
-                if (championsHexaMapArray[x, z] != null)
-                {
-                    Destroy(championsHexaMapArray[x, z].gameObject);
-                    championsHexaMapArray[x, z] = null;
-                }
-            }
+            champion.OnRemove();
+            Destroy(champion.gameObject);
         }
+        championsHexaMapArray.Clear();
         currentChampionLimit = 3;
-        currentChampionCount = GetChampionCountOnHexGrid();
+        currentChampionCount = 0;
     }
 
     public void OnChampionDeath()
     {
         if (IsAllChampionDead())
+        {
+            Debug.Log("AllDead");
             GamePlayController.Instance.EndRound();
+        }
+
     }
 
     public virtual void OnEnterPreparation()
