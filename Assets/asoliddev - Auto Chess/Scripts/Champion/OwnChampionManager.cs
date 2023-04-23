@@ -5,7 +5,7 @@ using System;
 using General;
 
 
-public class OwnChampionManager : ChampionManager
+public class OwnChampionManager : ChampionManager, GameStageInterface
 {
 
 }

@@ -6,7 +6,7 @@ using General;
 
 public enum ChampionTeam { Player, Oponent }
 
-public class ChampionManager : MonoBehaviour, GameStageInterface
+public class ChampionManager : MonoBehaviour
 {
     public ChampionTeam team;
 
@@ -26,10 +26,30 @@ public class ChampionManager : MonoBehaviour, GameStageInterface
     private ChampionController draggedChampion = null;
     private GridInfo dragStartGridInfo = null;
 
+    public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
+
+    private void Awake()
+    {
+        InitStageDic();
+    }
+
     private void Start()
     {
         championInventoryArray = new List<ChampionController>();
         championsHexaMapArray = new List<ChampionController>();
+    }
+
+    public void InitStageDic()
+    {
+        gameStageActions.Add("OnEnterPreparation", OnEnterPreparation);
+        gameStageActions.Add("OnEnterCombat", OnEnterCombat);
+        gameStageActions.Add("OnEnterLoss", OnEnterLoss);
+        gameStageActions.Add("OnUpdatePreparation", OnUpdatePreparation);
+        gameStageActions.Add("OnUpdateCombat", OnUpdateCombat);
+        gameStageActions.Add("OnUpdateLoss", OnUpdateLoss);
+        gameStageActions.Add("OnLeavePreparation", OnLeavePreparation);
+        gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
+        gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
     }
 
     private void StoreChampionInArray(GridInfo gridInfo, ChampionController champion)

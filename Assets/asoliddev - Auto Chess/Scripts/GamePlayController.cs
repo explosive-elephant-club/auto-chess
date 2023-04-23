@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Reflection;
 using General;
 
 public enum GameStage { Preparation, Combat, Loss };
@@ -9,7 +10,7 @@ public enum GameStage { Preparation, Combat, Loss };
 /// <summary>
 /// Controlls most of the game logic and player interactions
 /// </summary>
-public class GamePlayController : CreateSingleton<GamePlayController>, GameStageInterface
+public class GamePlayController : CreateSingleton<GamePlayController>
 {
     public GameStage currentGameStage;
     public GameStage lastStage;
@@ -33,8 +34,10 @@ public class GamePlayController : CreateSingleton<GamePlayController>, GameStage
     public int timerDisplay = 0;
 
     public EventCenter eventCenter = new EventCenter();
-    public OwnChampionManager ownChampionManager;
-    public OponentChampionManager oponentChampionManager;
+    public ChampionManager ownChampionManager;
+    public ChampionManager oponentChampionManager;
+
+    Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 
     public void OnMapReady()
     {
@@ -51,9 +54,10 @@ public class GamePlayController : CreateSingleton<GamePlayController>, GameStage
 
     void Start()
     {
-        StageStateAddListener(GetComponent<GameStageInterface>());
-        StageStateAddListener(oponentChampionManager.GetComponent<GameStageInterface>());
-        StageStateAddListener(ownChampionManager.GetComponent<GameStageInterface>());
+        InitStageDic();
+        StageStateAddListener(gameStageActions);
+        StageStateAddListener(oponentChampionManager.gameStageActions);
+        StageStateAddListener(ownChampionManager.gameStageActions);
         UIController.Instance.UpdateUI();
     }
 
@@ -160,6 +164,39 @@ public class GamePlayController : CreateSingleton<GamePlayController>, GameStage
     public void EndRound()
     {
         timer = CombatStageDuration - 3; //reduce timer so game ends fast
+    }
+
+    public void InitStageDic()
+    {
+        gameStageActions.Add("OnEnterPreparation", OnEnterPreparation);
+        gameStageActions.Add("OnEnterCombat", OnEnterCombat);
+        gameStageActions.Add("OnEnterLoss", OnEnterLoss);
+        gameStageActions.Add("OnUpdatePreparation", OnUpdatePreparation);
+        gameStageActions.Add("OnUpdateCombat", OnUpdateCombat);
+        gameStageActions.Add("OnUpdateLoss", OnUpdateLoss);
+        gameStageActions.Add("OnLeavePreparation", OnLeavePreparation);
+        gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
+        gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
+    }
+    //不同状态stage命令模式绑定事件
+    public void StageStateAddListener(Dictionary<string, CallBack> actions)
+    {
+        foreach (string stage in Enum.GetNames(typeof(GameStage)))
+        {
+            eventCenter.AddListener("OnEnter" + stage, actions["OnEnter" + stage]);
+            eventCenter.AddListener("OnUpdate" + stage, actions["OnUpdate" + stage]);
+            eventCenter.AddListener("OnLeave" + stage, actions["OnLeave" + stage]);
+        }
+    }
+
+    public void StageStateRemoveListener(Dictionary<string, CallBack> actions)
+    {
+        foreach (string stage in Enum.GetNames(typeof(GameStage)))
+        {
+            eventCenter.RemoveListener("OnEnter" + stage, actions["OnEnter" + stage]);
+            eventCenter.RemoveListener("OnUpdate" + stage, actions["OnUpdate" + stage]);
+            eventCenter.RemoveListener("OnLeave" + stage, actions["OnLeave" + stage]);
+        }
     }
 
     //不同状态stage命令模式绑定事件
