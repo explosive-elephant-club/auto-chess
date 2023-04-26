@@ -8,7 +8,6 @@ public class OponentChampionManager : ChampionManager
 {
     public override void OnEnterPreparation()
     {
-        Debug.Log(1);
         base.OnEnterPreparation();
         this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }

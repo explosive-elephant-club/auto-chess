@@ -83,14 +83,14 @@ public class GridInfo : MonoBehaviour
     {
         if (occupyChampion != null)
         {
-            if (occupyChampion != champion.occupyGridInfo)
+            if (occupyChampion != champion)
             {
                 return true;
             }
         }
         if (bookChampion != null)
         {
-            if (bookChampion != champion.bookGridInfo)
+            if (bookChampion != champion)
             {
                 return true;
             }

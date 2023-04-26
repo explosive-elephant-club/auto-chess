@@ -12,7 +12,7 @@ public enum FindTargetMode { AnyInRange, Closet, Farthest }
 /// <summary>
 /// Controls a single champion movement and combat
 /// </summary>
-public class ChampionController : MonoBehaviour, GameStageInterface
+public class ChampionController : MonoBehaviour
 {
     public GameObject levelupEffectPrefab;
     public GameObject projectileStart;
@@ -70,6 +70,8 @@ public class ChampionController : MonoBehaviour, GameStageInterface
 
     public EventCenter eventCenter;
 
+    public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
+
     /// Start is called before the first frame update
     void Awake()
     {
@@ -77,6 +79,7 @@ public class ChampionController : MonoBehaviour, GameStageInterface
         championAnimation = this.GetComponent<ChampionAnimation>();
         buffController = this.GetComponent<BuffController>();
         eventCenter = new EventCenter();
+        InitStageDic();
     }
 
     /// <summary>
@@ -104,8 +107,8 @@ public class ChampionController : MonoBehaviour, GameStageInterface
         WorldCanvasController.Instance.AddHealthBar(this.gameObject);
 
         effects = new List<Effect>();
-        GamePlayController.Instance.StageStateAddListener(GetComponent<GameStageInterface>());
 
+        GamePlayController.Instance.StageStateAddListener(gameStageActions);
         AIActionFsm = new Fsm();
         InitFsm();
     }
@@ -121,9 +124,22 @@ public class ChampionController : MonoBehaviour, GameStageInterface
         AIActionFsm.Init("Idle");
     }
 
+    public void InitStageDic()
+    {
+        gameStageActions.Add("OnEnterPreparation", OnEnterPreparation);
+        gameStageActions.Add("OnEnterCombat", OnEnterCombat);
+        gameStageActions.Add("OnEnterLoss", OnEnterLoss);
+        gameStageActions.Add("OnUpdatePreparation", OnUpdatePreparation);
+        gameStageActions.Add("OnUpdateCombat", OnUpdateCombat);
+        gameStageActions.Add("OnUpdateLoss", OnUpdateLoss);
+        gameStageActions.Add("OnLeavePreparation", OnLeavePreparation);
+        gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
+        gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
+    }
+
     public void OnRemove()
     {
-        GamePlayController.Instance.StageStateRemoveListener(GetComponent<GameStageInterface>());
+        GamePlayController.Instance.StageStateRemoveListener(gameStageActions);
     }
 
     /// Update is called once per frame
@@ -283,9 +299,9 @@ public class ChampionController : MonoBehaviour, GameStageInterface
         if (target != null)
         {
             path = Map.Instance.FindPath(occupyGridInfo, target.occupyGridInfo, this);
-            pathStep = 0;
             if (path == null)
                 return false;
+            pathStep = 0;
             BookGrid(path[pathStep]);
             return true;
         }
@@ -374,6 +390,8 @@ public class ChampionController : MonoBehaviour, GameStageInterface
         if (path[pathStep].CheckInGrid(this))
         {
             EnterGrid(path[pathStep]);
+            if (path == null)
+                return;
             if (pathStep + 1 < path.Count - 1)
             {
                 if (!path[pathStep + 1].IsBookedOrOccupied(this)
@@ -389,7 +407,6 @@ public class ChampionController : MonoBehaviour, GameStageInterface
             }
             else
             {
-                DebugPrint("Get Target");
                 StopMove();
                 SetWorldPosition();
                 eventCenter.Broadcast("OnGetTarget", path[pathStep]);

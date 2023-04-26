@@ -484,7 +484,6 @@ public class ChampionManager : MonoBehaviour
     {
         if (IsAllChampionDead())
         {
-            Debug.Log("AllDead");
             GamePlayController.Instance.EndRound();
         }
 

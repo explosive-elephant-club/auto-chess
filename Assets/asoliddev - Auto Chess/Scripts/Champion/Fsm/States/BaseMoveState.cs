@@ -20,7 +20,7 @@ public class BaseMoveState : State
     {
         if (championController.target == null || championController.CheckState("immovable") || championController.isDead)
         {
-            
+
             fsm.SwitchState("Idle");
             return;
         }
@@ -61,7 +61,11 @@ public class BaseMoveState : State
                 return;
             }
         }
-
+        if (!championController.FindPath())
+        {
+            fsm.SwitchState("Idle");
+            return;
+        }
     }
 
     void OnMoveFailed(GridInfo grid)

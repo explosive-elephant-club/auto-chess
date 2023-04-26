@@ -178,6 +178,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
         gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
     }
+    
     //不同状态stage命令模式绑定事件
     public void StageStateAddListener(Dictionary<string, CallBack> actions)
     {
@@ -198,34 +199,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
             eventCenter.RemoveListener("OnLeave" + stage, actions["OnLeave" + stage]);
         }
     }
-
-    //不同状态stage命令模式绑定事件
-    public void StageStateAddListener(GameStageInterface gameStageFunc)
-    {
-        eventCenter.AddListener("OnEnterPreparation", gameStageFunc.OnEnterPreparation);
-        eventCenter.AddListener("OnEnterCombat", gameStageFunc.OnEnterCombat);
-        eventCenter.AddListener("OnEnterLoss", gameStageFunc.OnEnterLoss);
-        eventCenter.AddListener("OnUpdatePreparation", gameStageFunc.OnUpdatePreparation);
-        eventCenter.AddListener("OnUpdateCombat", gameStageFunc.OnUpdateCombat);
-        eventCenter.AddListener("OnUpdateLoss", gameStageFunc.OnUpdateLoss);
-        eventCenter.AddListener("OnLeavePreparation", gameStageFunc.OnLeavePreparation);
-        eventCenter.AddListener("OnLeaveCombat", gameStageFunc.OnLeaveCombat);
-        eventCenter.AddListener("OnLeaveLoss", gameStageFunc.OnLeaveLoss);
-    }
-
-    public void StageStateRemoveListener(GameStageInterface gameStageFunc)
-    {
-        eventCenter.RemoveListener("OnEnterPreparation", gameStageFunc.OnEnterPreparation);
-        eventCenter.RemoveListener("OnEnterCombat", gameStageFunc.OnEnterCombat);
-        eventCenter.RemoveListener("OnEnterLoss", gameStageFunc.OnEnterLoss);
-        eventCenter.RemoveListener("OnUpdatePreparation", gameStageFunc.OnUpdatePreparation);
-        eventCenter.RemoveListener("OnUpdateCombat", gameStageFunc.OnUpdateCombat);
-        eventCenter.RemoveListener("OnUpdateLoss", gameStageFunc.OnUpdateLoss);
-        eventCenter.RemoveListener("OnLeavePreparation", gameStageFunc.OnLeavePreparation);
-        eventCenter.RemoveListener("OnLeaveCombat", gameStageFunc.OnLeaveCombat);
-        eventCenter.RemoveListener("OnLeaveLoss", gameStageFunc.OnLeaveLoss);
-    }
-
 
     public void StageChange(GameStage nextStage)
     {
