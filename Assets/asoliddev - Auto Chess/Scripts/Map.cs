@@ -156,7 +156,7 @@ public class Map : CreateSingleton<Map>
             gridOBJ.transform.parent = ownInventoryContainer.transform;
 
             ownInventoryGridArray[i] = gridOBJ.GetComponent<GridInfo>();
-            ownInventoryGridArray[i].Init(new Vector2(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
+            ownInventoryGridArray[i].Init(new Index(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
         }
 
 
@@ -168,7 +168,7 @@ public class Map : CreateSingleton<Map>
             gridOBJ.transform.parent = oponentInventoryContainer.transform;
 
             oponentInventoryGridArray[i] = gridOBJ.GetComponent<GridInfo>();
-            oponentInventoryGridArray[i].Init(new Vector2(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
+            oponentInventoryGridArray[i].Init(new Index(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
         }
 
         //生成地图网格
@@ -191,7 +191,7 @@ public class Map : CreateSingleton<Map>
 
                 int xOffset = z >> 1;
                 mapGridArray[x, z].Init(
-                    new Vector2(x, z),
+                    new Index(x, z),
                     new Vector3(x - xOffset, z, 0 - (x - xOffset + z)),
                     GridType.HexaMap);
             }
@@ -228,6 +228,8 @@ public class Map : CreateSingleton<Map>
         foreach (var grid in mapGridArray)
             grid.SetColor(indicatorDefaultColor);
         foreach (var grid in ownInventoryGridArray)
+            grid.SetColor(indicatorDefaultColor);
+        foreach (var grid in oponentInventoryGridArray)
             grid.SetColor(indicatorDefaultColor);
     }
 

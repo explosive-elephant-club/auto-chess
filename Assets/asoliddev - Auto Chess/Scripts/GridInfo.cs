@@ -5,12 +5,22 @@ using UnityEngine;
 /// <summary>
 /// Helper class to identify player interaction on the map
 /// </summary>
+public class Index
+{
+    public Index(int _x, int _y)
+    {
+        x = _x;
+        y = _y;
+    }
+    public int x = 0;
+    public int y = 0;
+}
 public class GridInfo : MonoBehaviour
 {
     public GridType gridType = GridType.HexaMap;
     public bool walkable;
     public Vector3 coor;
-    public Vector2 index;
+    public Index index;
     public float g;
     public float h;
     public float f => g + h;
@@ -24,7 +34,7 @@ public class GridInfo : MonoBehaviour
     public ChampionController occupyChampion;
     public ChampionController bookChampion;
 
-    public void Init(Vector2 _index, Vector3 _coor, GridType _gridType)
+    public void Init(Index _index, Vector3 _coor, GridType _gridType)
     {
         gridType = _gridType;
         index = _index;

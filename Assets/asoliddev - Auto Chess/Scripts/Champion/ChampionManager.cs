@@ -323,6 +323,8 @@ public class ChampionManager : MonoBehaviour
             //if mouse cursor on trigger
             if (gridInfo != null)
             {
+                if (!CheckGridInfoInRange(gridInfo, draggedChampion.team))
+                    return;
                 //get current champion over mouse cursor
                 ChampionController championCtrl = gridInfo.occupyChampion;
 
@@ -330,13 +332,11 @@ public class ChampionManager : MonoBehaviour
                 if (championCtrl != null)
                 {
                     //交换位置
-                    if (gridInfo.gridType == GridType.Inventory)
-                    {
-                        championCtrl.LeaveGrid();
-                        draggedChampion.LeaveGrid();
-                        championCtrl.EnterGrid(dragStartGridInfo);
-                        draggedChampion.EnterGrid(gridInfo);
-                    }
+                    championCtrl.LeaveGrid();
+                    draggedChampion.LeaveGrid();
+                    championCtrl.EnterGrid(dragStartGridInfo);
+                    draggedChampion.EnterGrid(gridInfo);
+
                 }
                 else//目标点无单位
                 {
@@ -364,6 +364,32 @@ public class ChampionManager : MonoBehaviour
             //update ui
             UIController.Instance.UpdateUI();
             draggedChampion = null;
+        }
+    }
+
+    bool CheckGridInfoInRange(GridInfo grid, ChampionTeam championTeam)
+    {
+        if (championTeam == ChampionTeam.Player)
+        {
+            if (grid.gridType == GridType.Inventory)
+            {
+                return Array.IndexOf(Map.Instance.ownInventoryGridArray, grid) != -1;
+            }
+            else
+            {
+                return grid.index.y < Map.hexMapSizeZ / 2;
+            }
+        }
+        else
+        {
+            if (grid.gridType == GridType.Inventory)
+            {
+                return Array.IndexOf(Map.Instance.oponentInventoryGridArray, grid) != -1;
+            }
+            else
+            {
+                return grid.index.y >= Map.hexMapSizeZ / 2;
+            }
         }
     }
 
