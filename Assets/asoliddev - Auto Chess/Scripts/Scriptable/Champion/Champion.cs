@@ -26,14 +26,15 @@ public class Champion : ScriptableObject
     ///The type of the champion
     public ChampionType type2;
 
-    ///The champion character starting health point
-    public float health = 100;
 
-    ///The champion character damage done on succesful attack
-    public float damage = 10;
+    [Header("1级属性")]
+    public ChampionAttributeData level1_Attribute;
 
-    ///The range the champion can start attack from
-    public int attackRange = 1;
+    [Header("2级属性")]
+    public ChampionAttributeData level2_Attribute;
+
+    [Header("3级属性")]
+    public ChampionAttributeData level3_Attribute;
 }
 
 
