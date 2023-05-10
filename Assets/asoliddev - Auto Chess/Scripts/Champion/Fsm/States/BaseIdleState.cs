@@ -35,7 +35,7 @@ public class BaseIdleState : State
         else
         {
             if (championController.occupyGridInfo.GetDistance(championController.target.occupyGridInfo) <=
-            championController.champion.attackRange)
+            (int)championController.attributesController.attackRange.GetTrueLinearValue())
             {
                 fsm.SwitchState("Attack");
                 return;

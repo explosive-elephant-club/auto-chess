@@ -27,17 +27,7 @@ public class ChampionController : MonoBehaviour
     [HideInInspector]
     public Champion champion;
 
-    [HideInInspector]
-    ///Maximum health of the champion
-    public float maxHealth = 0;
-
-    [HideInInspector]
-    ///current health of the champion 
-    public float currentHealth = 0;
-
-    [HideInInspector]
-    ///Current damage of the champion deals with a attack
-    public float currentDamage = 0;
+    public ChampionAttributesController attributesController;
 
     [HideInInspector]
     ///The upgrade level of the champion
@@ -100,9 +90,7 @@ public class ChampionController : MonoBehaviour
         navMeshAgent.enabled = false;
 
         //set stats
-        maxHealth = champion.health;
-        currentHealth = champion.health;
-        currentDamage = champion.damage;
+        attributesController = new ChampionAttributesController(_champion);
 
         WorldCanvasController.Instance.AddHealthBar(this.gameObject);
 
@@ -168,8 +156,7 @@ public class ChampionController : MonoBehaviour
         this.gameObject.SetActive(true);
 
         //reset stats
-        maxHealth = champion.health * lvl;
-        currentHealth = champion.health * lvl;
+        attributesController.Reset();
         isDead = false;
         target = null;
 
@@ -234,31 +221,14 @@ public class ChampionController : MonoBehaviour
         lvl++;
 
         float newSize = 1;
-        maxHealth = champion.health;
-        currentHealth = champion.health;
-
-
         if (lvl == 2)
-        {
             newSize = 1.5f;
-            maxHealth = champion.health * 2;
-            currentHealth = champion.health * 2;
-            currentDamage = champion.damage * 2;
-
-        }
-
         if (lvl == 3)
-        {
             newSize = 2f;
-            maxHealth = champion.health * 3;
-            currentHealth = champion.health * 3;
-            currentDamage = champion.damage * 3;
-        }
-
-
-
         //set size
         this.transform.localScale = new Vector3(newSize, newSize, newSize);
+
+        attributesController.UpdateLevelAttributes(champion, lvl);
 
         //instantiate level up effect
         GameObject levelupEffect = Instantiate(levelupEffectPrefab);
@@ -437,8 +407,7 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-            ChampionController targetChamoion = target.GetComponent<ChampionController>();
-            targetChamoion.OnGotHit(currentDamage);
+            target.OnGotHit(attributesController.attackDamage.GetTrueLinearValue(), DamageType.Physical);
 
             //create projectile if have one
             if (champion.attackProjectile != null && projectileStart != null)
@@ -457,21 +426,21 @@ public class ChampionController : MonoBehaviour
     /// Called when this champion takes damage
     /// </summary>
     /// <param name="damage"></param>
-    public bool OnGotHit(float damage)
+    public bool OnGotHit(float damage, DamageType dmgType)
     {
         buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
-        currentHealth -= damage;
 
-
+        float trueDMG = attributesController.ApplyDamage(damage, dmgType);
+        //add floating text
+        WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
         //death
-        if (currentHealth <= 0)
+        if (attributesController.curHealth <= 0)
         {
             this.gameObject.SetActive(false);
             isDead = true;
             championmaneger.OnChampionDeath();
         }
-        //add floating text
-        WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), damage);
+
 
         buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
         return isDead;

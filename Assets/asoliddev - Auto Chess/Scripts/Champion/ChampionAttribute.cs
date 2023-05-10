@@ -2,47 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AttributeEnum
+public enum DamageType
 {
-    AttackDamage,
-    DefenseArmor,
-    AttackRange,
-    AttackSpeed,
-    MoveSpeed,
-    MaxHealth,
-    MaxMana,
-    DodgeChange,
-    CritChange,
-    CritMultiple
+    Physical,
+    Pure,
+    Fire,
+    Water,
+    Lightning,
+    Soil
 }
 
 public class ChampionAttribute
 {
     //基础值
-    private float baseValue;
+    public float baseValue;
     //线性叠加值
-    private List<float> linearValue;
+    protected List<float> linearValue;
     //倍数叠加值
-    private List<float> multipleValue;
+    protected List<float> multipleValue;
 
-    public AttributeEnum attribute;
-
-    public ChampionAttribute(float baseValue, AttributeEnum attribute)
+    public ChampionAttribute(float baseValue)
     {
         this.baseValue = baseValue;
         linearValue = new List<float>();
         multipleValue = new List<float>();
-        this.attribute = attribute;
     }
 
-    public void ChangeLinear(float value)
+    public void AddLinear(float value)
     {
         linearValue.Add(value);
     }
 
-    public void ChangeMultiple(float value)
+    public void RemoveLinear(float value)
+    {
+        linearValue.Remove(value);
+    }
+
+    public void AddMultiple(float value)
     {
         multipleValue.Add(value);
+    }
+
+    public void RemoveMultiple(float value)
+    {
+        multipleValue.Remove(value);
     }
 
     public float GetTrueLinearValue()

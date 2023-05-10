@@ -23,12 +23,13 @@ public class HealthBar : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
-        if(championGO != null)
+        if (championGO != null)
         {
             this.transform.position = championGO.transform.position + new Vector3(0, 1.5f + 1.5f * championGO.transform.localScale.x, 0);
-            fillImage.fillAmount = championController.currentHealth / championController.maxHealth;
+            fillImage.fillAmount = championController.attributesController.curHealth
+            / championController.attributesController.maxHealth.GetTrueLinearValue();
 
-            if (championController.currentHealth <= 0)
+            if (championController.attributesController.curHealth <= 0)
                 canvasGroup.alpha = 0;
             else
                 canvasGroup.alpha = 1;

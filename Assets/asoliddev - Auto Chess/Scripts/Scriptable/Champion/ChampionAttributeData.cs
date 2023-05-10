@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AttributeData", menuName = "AutoChess/Champion", order = 5)]
+
+[CreateAssetMenu(fileName = "DefaultAttribute", menuName = "AutoChess/ChampionAttribute", order = 5)]
 public class ChampionAttributeData : ScriptableObject
 {
+
     public float attackDamage;
     public float defenseArmor;
     public float attackRange;
