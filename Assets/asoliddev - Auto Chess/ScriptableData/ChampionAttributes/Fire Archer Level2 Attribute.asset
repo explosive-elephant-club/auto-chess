@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f45081c0a06624b4ca32c0ea9e321a5e, type: 3}
-  m_Name: DefaultAttribute
+  m_Name: Fire Archer Level2 Attribute
   m_EditorClassIdentifier: 
-  attackDamage: 0
-  defenseArmor: 0
-  attackRange: 0
-  attackSpeed: 0
-  moveSpeed: 0
-  maxHealth: 0
-  maxMana: 0
+  attackDamage: 160
+  defenseArmor: 10
+  attackRange: 5
+  attackSpeed: 50
+  moveSpeed: 5
+  maxHealth: 900
+  maxMana: 100

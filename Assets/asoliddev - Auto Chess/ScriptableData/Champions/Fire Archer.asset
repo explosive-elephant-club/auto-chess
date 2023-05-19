@@ -19,6 +19,6 @@ MonoBehaviour:
   cost: 3
   type1: {fileID: 11400000, guid: f3e567881c605d247b05775a39e704ed, type: 2}
   type2: {fileID: 11400000, guid: 3c4644fba6daec0469d795ae15fcc92e, type: 2}
-  health: 200
-  damage: 20
-  attackRange: 1
+  level1_Attribute: {fileID: 11400000, guid: 3ad63a85d740e454f837f1dd91d525d9, type: 2}
+  level2_Attribute: {fileID: 11400000, guid: 3a97ee9183706254292293c197b3759d, type: 2}
+  level3_Attribute: {fileID: 11400000, guid: 1b4e109d0a08e6742b48b3be284fbed6, type: 2}

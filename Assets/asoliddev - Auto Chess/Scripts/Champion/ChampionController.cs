@@ -62,6 +62,8 @@ public class ChampionController : MonoBehaviour
 
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 
+    public float attackIntervelTimer = 0;
+
     /// Start is called before the first frame update
     void Awake()
     {
@@ -349,6 +351,11 @@ public class ChampionController : MonoBehaviour
         }
     }
 
+    public bool CanAttack()
+    {
+        return attackIntervelTimer >= attributesController.GetAttackIntervel();
+    }
+
     void DebugPrint(string str)
     {
         if (team == ChampionTeam.Player)
@@ -386,6 +393,10 @@ public class ChampionController : MonoBehaviour
         {
             if (navMeshAgent.enabled)
             {
+                if (navMeshAgent.speed != attributesController.moveSpeed.GetTrueLinearValue())
+                {
+                    navMeshAgent.speed = attributesController.moveSpeed.GetTrueLinearValue();
+                }
                 navMeshAgent.destination = path[pathStep].transform.position;
                 navMeshAgent.isStopped = false;
             }
@@ -407,7 +418,7 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-            target.OnGotHit(attributesController.attackDamage.GetTrueLinearValue(), DamageType.Physical);
+            target.OnGotHit(attributesController.GetAttackDamage(), champion.normalAttackType);
 
             //create projectile if have one
             if (champion.attackProjectile != null && projectileStart != null)
@@ -428,21 +439,25 @@ public class ChampionController : MonoBehaviour
     /// <param name="damage"></param>
     public bool OnGotHit(float damage, DamageType dmgType)
     {
-        buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
-
-        float trueDMG = attributesController.ApplyDamage(damage, dmgType);
-        //add floating text
-        WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
-        //death
-        if (attributesController.curHealth <= 0)
+        if (target.attributesController.DodgeCheck())
         {
-            this.gameObject.SetActive(false);
-            isDead = true;
-            championmaneger.OnChampionDeath();
+            Debug.Log("闪避");
         }
-
-
-        buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+        else
+        {
+            buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
+            float trueDMG = attributesController.ApplyDamage(damage, dmgType);
+            //add floating text
+            WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
+            //death
+            if (attributesController.curHealth <= 0)
+            {
+                this.gameObject.SetActive(false);
+                isDead = true;
+                championmaneger.OnChampionDeath();
+            }
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+        }
         return isDead;
     }
 
@@ -529,7 +544,7 @@ public class ChampionController : MonoBehaviour
     {
         IsDragged = false;
         this.transform.position = occupyGridInfo.gameObject.transform.position;
-
+        attackIntervelTimer = attributesController.GetAttackIntervel();
         //in combat grid
         if (occupyGridInfo.gridType == GridType.HexaMap)
         {
@@ -549,6 +564,7 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdateCombat()
     {
+        attackIntervelTimer += Time.deltaTime;
         if (occupyGridInfo.gridType == GridType.HexaMap)
             AIActionFsm.curState.OnUpdate();
     }

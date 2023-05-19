@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEditor.Animations;
 
 /// <summary>
 /// Controls champion animations
@@ -28,6 +30,7 @@ public class ChampionAnimation : MonoBehaviour
         {
             b.championController = championController;
         }
+
     }
 
     public void InitBehavour()
@@ -52,12 +55,10 @@ public class ChampionAnimation : MonoBehaviour
         lastFramePosition = this.transform.position;
     }
 
-    /// <summary>
-    /// sets animation state
-    /// </summary>
-    /// <returns></returns>
-    public void IsAnimated(bool b)
+    public AnimationClip GetAnimationState(string stateName)
     {
-        animator.enabled = b;
+
+        //AnimationState state = animator;
+        return null;
     }
 }

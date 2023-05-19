@@ -35,7 +35,7 @@ public class ChampionAttributesController
         maxMana = new ChampionAttribute(0);
         dodgeChange = new ChampionAttribute(0);
         critChange = new ChampionAttribute(0);
-        critMultiple = new ChampionAttribute(0);
+        critMultiple = new ChampionAttribute(1);
         fireDefenseRate = new ChampionAttribute(0);
         waterDefenseRate = new ChampionAttribute(0);
         lightingDefenseRate = new ChampionAttribute(0);
@@ -84,6 +84,20 @@ public class ChampionAttributesController
     {
         float tempValue = 200 / (100 + attackSpeed.GetTrueLinearValue());
         return tempValue < 0.2f ? 0.2f : tempValue;
+    }
+
+    //攻击伤害
+    public float GetAttackDamage()
+    {
+        float randomValue = Random.Range(0, 1f);
+        if (randomValue <= critChange.GetTrueMultipleValue())
+        {
+            return attackDamage.GetTrueLinearValue() * critMultiple.GetTrueLinearValue();
+        }
+        else
+        {
+            return attackDamage.GetTrueLinearValue();
+        }
     }
 
     public bool DodgeCheck()

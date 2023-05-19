@@ -26,6 +26,8 @@ public class Champion : ScriptableObject
     ///The type of the champion
     public ChampionType type2;
 
+    public DamageType normalAttackType;
+
 
     [Header("1级属性")]
     public ChampionAttributeData level1_Attribute;

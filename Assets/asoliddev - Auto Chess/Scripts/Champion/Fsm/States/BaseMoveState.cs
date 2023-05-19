@@ -57,7 +57,8 @@ public class BaseMoveState : State
             championController.target = c;
             if (!championController.CheckState("disarm"))
             {
-                fsm.SwitchState("Attack");
+                if (championController.CanAttack())
+                    fsm.SwitchState("Attack");
                 return;
             }
         }
