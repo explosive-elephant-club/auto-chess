@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EasyExcel;
+using ExcelConfig;
 
 /// <summary>
 /// Stores basic Game Data
@@ -12,7 +14,11 @@ public class GameData : CreateSingleton<GameData>
 
     ///Store all available championType, all championTypes must be assigned from the Editor to the Script GameObject
     public ChampionType[] championTypesArray;
+    public EEDataManager _eeDataManager;
 
     protected override void InitSingleton()
-    { }
+    {
+        _eeDataManager = new EEDataManager();
+        _eeDataManager.Load();
+    }
 }

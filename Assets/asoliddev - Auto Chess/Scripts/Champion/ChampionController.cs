@@ -565,6 +565,7 @@ public class ChampionController : MonoBehaviour
     public void OnUpdateCombat()
     {
         attackIntervelTimer += Time.deltaTime;
+        attributesController.Regenerate();
         if (occupyGridInfo.gridType == GridType.HexaMap)
             AIActionFsm.curState.OnUpdate();
     }

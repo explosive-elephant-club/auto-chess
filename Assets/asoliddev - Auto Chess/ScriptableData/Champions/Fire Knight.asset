@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922b77e70f5edd844bfbf722ca138255, type: 3}
   m_Name: Fire Knight
   m_EditorClassIdentifier: 
+  ID: 2
   prefab: {fileID: 7344935845212841428, guid: 7b25e4e7c4d8d664b87ea65dab7ffa7e, type: 3}
   attackProjectile: {fileID: 0}
   uiname: Fire Knight
   cost: 3
   type1: {fileID: 11400000, guid: 33223db9cedb8c045990cb7a3b0144a3, type: 2}
   type2: {fileID: 11400000, guid: 3c4644fba6daec0469d795ae15fcc92e, type: 2}
-  level1_Attribute: {fileID: 11400000, guid: 763698df65ac90a42957e1c5b447d642, type: 2}
-  level2_Attribute: {fileID: 11400000, guid: 3387495563e1d6c4b8e979ffb2723e6d, type: 2}
-  level3_Attribute: {fileID: 11400000, guid: e2a909e821f2498448685e20f1221261, type: 2}
+  normalAttackType: 0

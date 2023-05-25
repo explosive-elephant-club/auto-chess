@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922b77e70f5edd844bfbf722ca138255, type: 3}
   m_Name: Fire Archer
   m_EditorClassIdentifier: 
+  ID: 1
   prefab: {fileID: 5904177654570877743, guid: 6e58a6cc73ece624884439a578f6268e, type: 3}
   attackProjectile: {fileID: 3347022186734227630, guid: 47840dfac8ea9f84d838cd88e4d82929,
     type: 3}
@@ -19,6 +20,4 @@ MonoBehaviour:
   cost: 3
   type1: {fileID: 11400000, guid: f3e567881c605d247b05775a39e704ed, type: 2}
   type2: {fileID: 11400000, guid: 3c4644fba6daec0469d795ae15fcc92e, type: 2}
-  level1_Attribute: {fileID: 11400000, guid: 3ad63a85d740e454f837f1dd91d525d9, type: 2}
-  level2_Attribute: {fileID: 11400000, guid: 3a97ee9183706254292293c197b3759d, type: 2}
-  level3_Attribute: {fileID: 11400000, guid: 1b4e109d0a08e6742b48b3be284fbed6, type: 2}
+  normalAttackType: 0

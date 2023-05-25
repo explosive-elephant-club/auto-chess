@@ -8,6 +8,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DefaultChampion", menuName = "AutoChess/Champion", order = 1)]
 public class Champion : ScriptableObject
 {
+    public int ID;
     ///Physical champion Prefab to create in the game
     public GameObject prefab;
 
@@ -27,16 +28,6 @@ public class Champion : ScriptableObject
     public ChampionType type2;
 
     public DamageType normalAttackType;
-
-
-    [Header("1级属性")]
-    public ChampionAttributeData level1_Attribute;
-
-    [Header("2级属性")]
-    public ChampionAttributeData level2_Attribute;
-
-    [Header("3级属性")]
-    public ChampionAttributeData level3_Attribute;
 }
 
 
