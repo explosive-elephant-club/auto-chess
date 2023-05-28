@@ -113,8 +113,8 @@ public class UIController : CreateSingleton<UIController>
         //assign texts from champion info to unit frames
         name.GetComponent<Text>().text = champion.uiname;
         cost.GetComponent<Text>().text = champion.cost.ToString();
-        type1.GetComponent<Text>().text = champion.type1.displayName;
-        type2.GetComponent<Text>().text = champion.type2.displayName;
+        type1.GetComponent<Text>().text = champion.type1.typeName;
+        type2.GetComponent<Text>().text = champion.type2.typeName;
         icon1.GetComponent<Image>().sprite = champion.type1.icon;
         icon2.GetComponent<Image>().sprite = champion.type2.icon;
     }
@@ -148,7 +148,7 @@ public class UIController : CreateSingleton<UIController>
                 GameObject bonusUI = bonusPanels[i];
                 bonusUI.transform.SetParent(bonusContainer.transform);
                 bonusUI.transform.Find("icon").GetComponent<Image>().sprite = m.Key.icon;
-                bonusUI.transform.Find("name").GetComponent<Text>().text = m.Key.displayName;
+                bonusUI.transform.Find("name").GetComponent<Text>().text = m.Key.typeName;
                 bonusUI.transform.Find("count").GetComponent<Text>().text = m.Value.ToString();
 
                 bonusUI.SetActive(true);

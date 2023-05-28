@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Agile
   m_EditorClassIdentifier: 
-  displayName: Agile
-  icon: {fileID: 21300000, guid: b7b4cf65a7ce37b459fa8e7bc76c94e3, type: 3}
+  typeName: Agile
+  icon: {fileID: 21300000, guid: bf048990323e0aa4da14e20e3e716e7f, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

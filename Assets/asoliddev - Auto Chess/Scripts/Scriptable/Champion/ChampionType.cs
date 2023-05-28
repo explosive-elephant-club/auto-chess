@@ -9,7 +9,7 @@ using UnityEngine;
 public class ChampionType : ScriptableObject
 {
     ///Displayed name on UI
-    public string displayName = "name";
+    public string typeName = "name";
 
     ///Displayed sprite on the UI
     public Sprite icon;

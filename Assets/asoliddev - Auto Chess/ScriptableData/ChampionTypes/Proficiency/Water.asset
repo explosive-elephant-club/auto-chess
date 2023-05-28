@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Water
   m_EditorClassIdentifier: 
-  displayName: Water
-  icon: {fileID: 21300000, guid: 8184934e44702e8429f2851b45b693c9, type: 3}
+  typeName: Water
+  icon: {fileID: 21300000, guid: 8e5df8e0448f5114ebef0fa74040d0ad, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

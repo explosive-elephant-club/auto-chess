@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Block
   m_EditorClassIdentifier: 
-  displayName: Block
-  icon: {fileID: 21300000, guid: b7b4cf65a7ce37b459fa8e7bc76c94e3, type: 3}
+  typeName: Block
+  icon: {fileID: 21300000, guid: 6f279f5ee3173084f9aac07dfb06898b, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

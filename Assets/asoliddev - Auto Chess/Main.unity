@@ -19723,12 +19723,30 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a4801c5512977e47b933d2fb22a399a, type: 2}
   - {fileID: 11400000, guid: 5681a86ada07bf94b818fb5346cd24d7, type: 2}
   championTypesArray:
+  - {fileID: 11400000, guid: 8be47dc497769b24581eeead1b4ca646, type: 2}
   - {fileID: 11400000, guid: f3e567881c605d247b05775a39e704ed, type: 2}
+  - {fileID: 11400000, guid: c01295d2bbd814644990645b1ef448a0, type: 2}
   - {fileID: 11400000, guid: 33223db9cedb8c045990cb7a3b0144a3, type: 2}
+  - {fileID: 11400000, guid: 9526740faf2a96c40809243d84b8735a, type: 2}
+  - {fileID: 11400000, guid: d6eec3f136eaa6f40927a764626d9a79, type: 2}
+  - {fileID: 11400000, guid: 4c64ec64bf25ffa4eb5b69e93a2e236d, type: 2}
   - {fileID: 11400000, guid: 7f6e8df42876b24448eb70be660c3fac, type: 2}
+  - {fileID: 11400000, guid: 086efedff26302647adb799e0fd546d5, type: 2}
+  - {fileID: 11400000, guid: e72cbb818b758934fb97f8d9b87ca9de, type: 2}
+  - {fileID: 11400000, guid: 39e078c17b7b2644f942ccf7c1f9ef0e, type: 2}
   - {fileID: 11400000, guid: 3c4644fba6daec0469d795ae15fcc92e, type: 2}
-  - {fileID: 11400000, guid: d190cf551b5d25645b384a58df4154a0, type: 2}
+  - {fileID: 11400000, guid: b9670f3a94c54384eabdebd529071fdb, type: 2}
+  - {fileID: 11400000, guid: 15db0abd0a39c3b43902b8eb600a10b6, type: 2}
   - {fileID: 11400000, guid: 200e54a10084f3941a1f2a3354741fb1, type: 2}
+  - {fileID: 11400000, guid: d190cf551b5d25645b384a58df4154a0, type: 2}
+  - {fileID: 11400000, guid: b8fd26f94a274a547941973c9effbc5a, type: 2}
+  - {fileID: 11400000, guid: 6d40b18a69b153c42a59cfca81a978e9, type: 2}
+  - {fileID: 11400000, guid: da43c8f828cef534e8b684a7b6d0fb71, type: 2}
+  - {fileID: 11400000, guid: 33a25768e414e0a488f679b7ddca5b59, type: 2}
+  - {fileID: 11400000, guid: 66849fabc5059bd4fab271bf8b120ec3, type: 2}
+  - {fileID: 11400000, guid: 0e627d9b67cd95149be2975aaea16dbc, type: 2}
+  - {fileID: 11400000, guid: 7a66dac939dc2ce44ab08a120ab1de18, type: 2}
+  - {fileID: 11400000, guid: 6ed22098cecf6f945bc70cfbcf929b26, type: 2}
 --- !u!1 &1906263041
 GameObject:
   m_ObjectHideFlags: 0

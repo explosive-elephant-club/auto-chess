@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Demon
   m_EditorClassIdentifier: 
-  displayName: Demon
-  icon: {fileID: 0}
+  typeName: Demon
+  icon: {fileID: 21300000, guid: 9b479a8e7a54d6848bd71ae6ebc31c6c, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Assassin
   m_EditorClassIdentifier: 
-  displayName: Assassin
-  icon: {fileID: 21300000, guid: 2ccfeac0a61f65940ac1aa83eef156ef, type: 3}
+  typeName: Assassin
+  icon: {fileID: 21300000, guid: f017a5f60c12648458c56a1cdcad3ab2, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

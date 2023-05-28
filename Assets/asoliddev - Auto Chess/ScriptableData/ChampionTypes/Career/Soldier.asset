@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Soldier
   m_EditorClassIdentifier: 
-  displayName: Soldier
-  icon: {fileID: 21300000, guid: 2ccfeac0a61f65940ac1aa83eef156ef, type: 3}
+  typeName: Soldier
+  icon: {fileID: 21300000, guid: a1539fd76561d264eb3dd328730d3073, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

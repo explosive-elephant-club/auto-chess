@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Lighting
   m_EditorClassIdentifier: 
-  displayName: Lighting
-  icon: {fileID: 21300000, guid: 5a508803d8a9b7b4f9a9dcc40f900388, type: 3}
+  typeName: Lighting
+  icon: {fileID: 21300000, guid: bd3217185e8bba2489bc2060560d72db, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

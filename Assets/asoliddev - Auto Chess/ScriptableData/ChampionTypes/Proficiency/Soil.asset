@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Soil
   m_EditorClassIdentifier: 
-  displayName: Soil
-  icon: {fileID: 21300000, guid: 2935f6269b94d0b4c8e6d4ea02b9682f, type: 3}
+  typeName: Soil
+  icon: {fileID: 21300000, guid: 0e0779201205b7543905cfd27e794bf9, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

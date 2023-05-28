@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Alchemist
   m_EditorClassIdentifier: 
-  displayName: Alchemist
-  icon: {fileID: 21300000, guid: e9a263d4e30b7624498b58f5653aec10, type: 3}
+  typeName: Alchemist
+  icon: {fileID: 21300000, guid: 6cc6a72196f35514e9462b0c2ce6e5c5, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

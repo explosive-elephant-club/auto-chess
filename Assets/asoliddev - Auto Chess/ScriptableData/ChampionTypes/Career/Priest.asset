@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Priest
   m_EditorClassIdentifier: 
-  displayName: Priest
-  icon: {fileID: 21300000, guid: e9a263d4e30b7624498b58f5653aec10, type: 3}
+  typeName: Priest
+  icon: {fileID: 21300000, guid: ac2ea8b464078fa4cb33bf14a9f3ff50, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

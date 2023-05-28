@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Undead
   m_EditorClassIdentifier: 
-  displayName: Undead
-  icon: {fileID: 0}
+  typeName: Undead
+  icon: {fileID: 21300000, guid: c70139d62c5f9764d966910ec9bf0b03, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

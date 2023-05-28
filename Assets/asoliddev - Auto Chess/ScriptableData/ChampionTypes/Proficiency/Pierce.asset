@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Pierce
   m_EditorClassIdentifier: 
-  displayName: Pierce
-  icon: {fileID: 21300000, guid: b7b4cf65a7ce37b459fa8e7bc76c94e3, type: 3}
+  typeName: Pierce
+  icon: {fileID: 21300000, guid: 6af931c3ac4ce294497bfcf396695170, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

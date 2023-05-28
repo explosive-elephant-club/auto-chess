@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Dragon
   m_EditorClassIdentifier: 
-  displayName: Dragon
-  icon: {fileID: 0}
+  typeName: Dragon
+  icon: {fileID: 21300000, guid: 8779c2711e3c6f44ca54a04385e89587, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []

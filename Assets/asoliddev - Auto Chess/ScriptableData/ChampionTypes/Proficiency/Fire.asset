@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639aac516ce9a2344bcbaf8acbe08e17, type: 3}
   m_Name: Fire
   m_EditorClassIdentifier: 
-  displayName: Fire
-  icon: {fileID: 21300000, guid: 5a508803d8a9b7b4f9a9dcc40f900388, type: 3}
+  typeName: Fire
+  icon: {fileID: 21300000, guid: 40e38d196aeb29940ba307c24b3d2666, type: 3}
   championBonus:
     bonusCountRequireAndBuff: []
