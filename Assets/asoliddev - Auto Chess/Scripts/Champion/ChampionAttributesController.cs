@@ -51,7 +51,7 @@ public class ChampionAttributesController
     public float curHealth;
     public float curMana;
 
-    public ChampionAttributesController(Champion champion)
+    public ChampionAttributesController(ChampionBaseData champion)
     {
         attackDamage = new ChampionAttribute(0);
         defenseArmor = new ChampionAttribute(0);
@@ -76,7 +76,7 @@ public class ChampionAttributesController
         UpdateLevelAttributes(champion, 1);
     }
 
-    public void UpdateLevelAttributes(Champion champion, int level)
+    public void UpdateLevelAttributes(ChampionBaseData champion, int level)
     {
 
         string key = champion.ID + "_" + level;

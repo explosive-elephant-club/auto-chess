@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ExcelConfig;
 
 /// <summary>
 /// Creates and stores champions available, XP and LVL purchase
@@ -8,7 +9,7 @@ using UnityEngine;
 public class ChampionShop : CreateSingleton<ChampionShop>
 {
     ///Array to store available champions to purchase
-    private Champion[] availableChampionArray;
+    private ChampionBaseData[] availableChampionArray;
     protected override void InitSingleton()
     {
 
@@ -45,13 +46,13 @@ public class ChampionShop : CreateSingleton<ChampionShop>
 
 
         //init array
-        availableChampionArray = new Champion[5];
+        availableChampionArray = new ChampionBaseData[5];
 
         //fill up shop
         for (int i = 0; i < availableChampionArray.Length; i++)
         {
             //get a random champion
-            Champion champion = GetRandomChampionInfo();
+            ChampionBaseData champion = GetRandomChampionInfo();
 
             //store champion in array
             availableChampionArray[i] = champion;
@@ -86,10 +87,10 @@ public class ChampionShop : CreateSingleton<ChampionShop>
     /// <summary>
     /// Returns a random champion
     /// </summary>
-    public Champion GetRandomChampionInfo()
+    public ChampionBaseData GetRandomChampionInfo()
     {
         //randomise a number
-        int rand = Random.Range(0, GameData.Instance.championsArray.Length);
+        int rand = Random.Range(0, GameData.Instance.championsArray.Count);
 
         //return from array
         return GameData.Instance.championsArray[rand];

@@ -10,15 +10,18 @@ using ExcelConfig;
 public class GameData : CreateSingleton<GameData>
 {
     ///Store all available champion, all champions must be assigned from the Editor to the Script GameObject
-    public Champion[] championsArray;
+    //public Champion[] championsArray;
 
-    ///Store all available championType, all championTypes must be assigned from the Editor to the Script GameObject
-    public ChampionType[] championTypesArray;
+    public List<ChampionBaseData> championsArray;
+
+    public List<BaseBuffData> buffsArray;
     public EEDataManager _eeDataManager;
 
     protected override void InitSingleton()
     {
         _eeDataManager = new EEDataManager();
         _eeDataManager.Load();
+
+        championsArray = _eeDataManager.GetList<ChampionBaseData>();
     }
 }

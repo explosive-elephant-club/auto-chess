@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Reflection;
 using General;
+using ExcelConfig;
 
 public enum GameStage { Preparation, Combat, Loss };
 
@@ -72,7 +73,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     /// <summary>
     /// Adds champion from shop to inventory
     /// </summary>
-    public bool BuyChampionFromShop(Champion champion)
+    public bool BuyChampionFromShop(ChampionBaseData champion)
     {
         if (currentGold < champion.cost)
             return false;
@@ -166,6 +167,23 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         timer = CombatStageDuration - 3; //reduce timer so game ends fast
     }
 
+
+    public List<ChampionType> GetAllChampionTypes(ChampionBaseData champion)
+    {
+        List<ChampionType> types = new List<ChampionType>();
+        types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(champion.type1));
+        types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(champion.type2));
+        types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(champion.type3));
+        foreach (string type in champion.otherTypes)
+        {
+            if (!string.IsNullOrEmpty(type))
+            {
+                types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(type));
+            }
+        }
+        return types;
+    }
+
     public void InitStageDic()
     {
         gameStageActions.Add("OnEnterPreparation", OnEnterPreparation);
@@ -178,7 +196,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
         gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
     }
-    
+
     //不同状态stage命令模式绑定事件
     public void StageStateAddListener(Dictionary<string, CallBack> actions)
     {

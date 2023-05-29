@@ -71,6 +71,11 @@ public class BuffController : MonoBehaviour, AddBuffInterface
     public BuffStateContainer buffStateContainer = new BuffStateContainer();
 
     //添加一个buff
+    public void AddBuff(int id, GameObject _caster = null)
+    {
+        AddBuff(GameData.Instance.buffsArray.Find(b => b.buffID == id.ToString()), _caster);
+    }
+
     public void AddBuff(BaseBuffData buffData, GameObject _caster = null)
     {
         Buff buff;

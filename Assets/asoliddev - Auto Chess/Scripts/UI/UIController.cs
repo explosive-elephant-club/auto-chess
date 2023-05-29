@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using ExcelConfig;
 
 /// <summary>
 /// Updates and controls UI elements
@@ -96,27 +97,34 @@ public class UIController : CreateSingleton<UIController>
     /// </summary>
     /// <param name="champion"></param>
     /// <param name="index"></param>
-    public void LoadShopItem(Champion champion, int index)
+    public void LoadShopItem(ChampionBaseData champion, int index)
     {
         //get unit frames
         Transform championUI = championsFrameArray[index].transform.Find("champion");
         Transform top = championUI.Find("top");
         Transform bottom = championUI.Find("bottom");
-        Transform type1 = top.Find("type 1");
-        Transform type2 = top.Find("type 2");
         Transform name = bottom.Find("Name");
         Transform cost = bottom.Find("Cost");
-        Transform icon1 = top.Find("icon 1");
-        Transform icon2 = top.Find("icon 2");
+        Transform[] types = new Transform[top.Find("BG").childCount];
 
-
-        //assign texts from champion info to unit frames
-        name.GetComponent<Text>().text = champion.uiname;
+        name.GetComponent<Text>().text = champion.name;
         cost.GetComponent<Text>().text = champion.cost.ToString();
-        type1.GetComponent<Text>().text = champion.type1.typeName;
-        type2.GetComponent<Text>().text = champion.type2.typeName;
-        icon1.GetComponent<Image>().sprite = champion.type1.icon;
-        icon2.GetComponent<Image>().sprite = champion.type2.icon;
+
+        List<ChampionType> championTypes = GamePlayController.Instance.GetAllChampionTypes(champion);
+        for (int i = 0; i < types.Length; i++)
+        {
+            types[i] = top.Find("BG/type" + (i + 1).ToString());
+            if (i < championTypes.Count)
+            {
+                types[i].gameObject.SetActive(true);
+                types[i].Find("icon").GetComponent<Image>().sprite = Resources.Load<Sprite>(championTypes[i].icon);
+                types[i].Find("name").GetComponent<Text>().text = championTypes[i].name;
+            }
+            else
+            {
+                types[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     /// <summary>
@@ -147,8 +155,8 @@ public class UIController : CreateSingleton<UIController>
                 //Now you can access the key and value both separately from this attachStat as:
                 GameObject bonusUI = bonusPanels[i];
                 bonusUI.transform.SetParent(bonusContainer.transform);
-                bonusUI.transform.Find("icon").GetComponent<Image>().sprite = m.Key.icon;
-                bonusUI.transform.Find("name").GetComponent<Text>().text = m.Key.typeName;
+                bonusUI.transform.Find("icon").GetComponent<Image>().sprite = Resources.Load<Sprite>(m.Key.icon);
+                bonusUI.transform.Find("name").GetComponent<Text>().text = m.Key.name;
                 bonusUI.transform.Find("count").GetComponent<Text>().text = m.Value.ToString();
 
                 bonusUI.SetActive(true);

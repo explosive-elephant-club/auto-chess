@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using General;
+using ExcelConfig;
 
 public enum ChampionTeam { Player, Oponent }
 
@@ -20,7 +21,7 @@ public class ChampionManager : MonoBehaviour
     public int currentChampionCount = 0;
 
     public Dictionary<ChampionType, int> championTypeCount;
-    public List<BaseBuffData> bonusBuffList;
+    public List<int> bonusBuffList;
 
 
     private ChampionController draggedChampion = null;
@@ -79,14 +80,14 @@ public class ChampionManager : MonoBehaviour
         champion.LeaveGrid();
     }
 
-    public bool AddChampionToInventory(Champion champion)
+    public bool AddChampionToInventory(ChampionBaseData champion)
     {
         GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.Inventory);
         if (emptyGrid == null)
             return false;
 
         //instantiate champion prefab
-        GameObject championPrefab = Instantiate(champion.prefab);
+        GameObject championPrefab = Instantiate(Resources.Load<GameObject>(champion.prefab));
 
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
@@ -116,13 +117,13 @@ public class ChampionManager : MonoBehaviour
         return true;
     }
 
-    public bool AddChampionToBattle(Champion champion)
+    public bool AddChampionToBattle(ChampionBaseData champion)
     {
         GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.HexaMap);
         if (emptyGrid == null)
             return false;
 
-        GameObject championPrefab = Instantiate(champion.prefab);
+        GameObject championPrefab = Instantiate(Resources.Load<GameObject>(champion.prefab));
 
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
@@ -146,7 +147,7 @@ public class ChampionManager : MonoBehaviour
         return true;
     }
 
-    private void TryUpgradeChampion(Champion champion)
+    private void TryUpgradeChampion(ChampionBaseData champion)
     {
         //check for champion upgrade
         List<ChampionController> championList_lvl_1 = new List<ChampionController>();
@@ -398,55 +399,57 @@ public class ChampionManager : MonoBehaviour
         //init dictionary
         championTypeCount = new Dictionary<ChampionType, int>();
 
+
         foreach (ChampionController championCtrl in championsHexaMapArray)
         {
+
             //there is a champion
             if (championCtrl != null)
             {
                 //get champion
-                Champion c = championCtrl.champion;
+                ChampionBaseData c = championCtrl.champion;
 
-                if (championTypeCount.ContainsKey(c.type1))
+                List<ChampionType> types = GamePlayController.Instance.GetAllChampionTypes(c);
+                foreach (ChampionType t in types)
                 {
-                    int cCount = 0;
-                    championTypeCount.TryGetValue(c.type1, out cCount);
+                    if (championTypeCount.ContainsKey(t))
+                    {
+                        int cCount = 0;
+                        championTypeCount.TryGetValue(t, out cCount);
 
-                    cCount++;
+                        cCount++;
 
-                    championTypeCount[c.type1] = cCount;
+                        championTypeCount[t] = cCount;
+                    }
+                    else
+                    {
+                        championTypeCount.Add(t, 1);
+                    }
                 }
-                else
-                {
-                    championTypeCount.Add(c.type1, 1);
-                }
-
-                if (championTypeCount.ContainsKey(c.type2))
-                {
-                    int cCount = 0;
-                    championTypeCount.TryGetValue(c.type2, out cCount);
-
-                    cCount++;
-
-                    championTypeCount[c.type2] = cCount;
-                }
-                else
-                {
-                    championTypeCount.Add(c.type2, 1);
-                }
-
             }
 
         }
 
-        bonusBuffList = new List<BaseBuffData>();
+        bonusBuffList.Clear();
         foreach (KeyValuePair<ChampionType, int> m in championTypeCount)
         {
-            ChampionBonus championBonus = m.Key.championBonus;
-            BaseBuffData buff = championBonus.GetBuffBonus(m.Value);
-            //have enough champions to get bonus
-            if (buff != null)
+            int buffID = 0;
+            foreach (ChampionType.BonusClass b in m.Key.Bonus)
             {
-                bonusBuffList.Add(buff);
+                if (m.Value > b.count)
+                {
+                    buffID = b.buff_ID;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            //have enough champions to get bonus
+            if (buffID != 0)
+            {
+                bonusBuffList.Add(buffID);
             }
         }
 
@@ -454,7 +457,7 @@ public class ChampionManager : MonoBehaviour
 
     private void ActiveBonuses()
     {
-        foreach (BaseBuffData b in bonusBuffList)
+        /*foreach (BaseBuffData b in bonusBuffList)
         {
             foreach (ChampionController championCtrl in championsHexaMapArray)
             {
@@ -463,7 +466,7 @@ public class ChampionManager : MonoBehaviour
                     championCtrl.buffController.AddBuff(b, championCtrl.gameObject);
                 }
             }
-        }
+        }*/
     }
 
     public bool IsAllChampionDead()
@@ -517,7 +520,7 @@ public class ChampionManager : MonoBehaviour
 
     public virtual void OnEnterPreparation()
     {
-        for (int i = 0; i < GameData.Instance.championsArray.Length; i++)
+        for (int i = 0; i < GameData.Instance.championsArray.Count; i++)
         {
             TryUpgradeChampion(GameData.Instance.championsArray[i]);
         }

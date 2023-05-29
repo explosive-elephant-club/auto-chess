@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using System;
 using System.Reflection;
 using General;
+using ExcelConfig;
 
 public enum FindTargetMode { AnyInRange, Closet, Farthest }
 
@@ -25,7 +26,7 @@ public class ChampionController : MonoBehaviour
 
 
     [HideInInspector]
-    public Champion champion;
+    public ChampionBaseData champion;
 
     public ChampionAttributesController attributesController;
 
@@ -79,7 +80,7 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     /// <param name="_champion"></param>
     /// <param name="_teamID"></param>
-    public void Init(Champion _champion, ChampionTeam _team, ChampionManager _championmaneger)
+    public void Init(ChampionBaseData _champion, ChampionTeam _team, ChampionManager _championmaneger)
     {
         champion = _champion;
         team = _team;
@@ -418,12 +419,12 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-            target.OnGotHit(attributesController.GetAttackDamage(), champion.normalAttackType);
+            target.OnGotHit(attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
 
             //create projectile if have one
-            if (champion.attackProjectile != null && projectileStart != null)
+            if (!string.IsNullOrEmpty(champion.attackProjectile))
             {
-                GameObject projectile = Instantiate(champion.attackProjectile);
+                GameObject projectile = Instantiate(Resources.Load<GameObject>(champion.attackProjectile));
                 projectile.transform.position = projectileStart.transform.position;
 
                 projectile.GetComponent<Projectile>().Init(target.gameObject);
@@ -555,9 +556,9 @@ public class ChampionController : MonoBehaviour
         }
 
         //添加羁绊Buff
-        List<BaseBuffData> activeBonuses = championmaneger.bonusBuffList;
+        List<int> activeBonuses = championmaneger.bonusBuffList;
 
-        foreach (BaseBuffData b in activeBonuses)
+        foreach (int b in activeBonuses)
         {
             buffController.AddBuff(b, gameObject);
         }

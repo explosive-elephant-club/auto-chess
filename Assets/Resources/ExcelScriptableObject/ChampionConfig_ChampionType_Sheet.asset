@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaaaa97524fe7114690ad8b121c68853, type: 3}
+  m_Name: ChampionConfig_ChampionType_Sheet
+  m_EditorClassIdentifier: 
+  ExcelFileName: ChampionConfig.xlsx
+  ExcelSheetName: ChampionType
+  KeyFieldName: _name
+  elements:
+  - _name: Archer
+    _c_name: "\u5F13\u7BAD\u624B"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Knight
+    _c_name: "\u9A91\u58EB"
+    _icon: Sprite/TypeIcon/Knight
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Wizard
+    _c_name: "\u5DEB\u5E08"
+    _icon: Sprite/TypeIcon/Wizard
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Soldier
+    _c_name: "\u58EB\u5175"
+    _icon: Sprite/TypeIcon/Soldier
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Priest
+    _c_name: "\u7267\u5E08"
+    _icon: Sprite/TypeIcon/Priest
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Assassin
+    _c_name: "\u523A\u5BA2"
+    _icon: Sprite/TypeIcon/Assassin
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Necromancer
+    _c_name: "\u6B7B\u7075\u6CD5\u5E08"
+    _icon: Sprite/TypeIcon/Necromancer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Alchemist
+    _c_name: "\u70BC\u91D1\u672F\u5E08"
+    _icon: Sprite/TypeIcon/Alchemist
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Human
+    _c_name: "\u4EBA\u7C7B"
+    _icon: Sprite/TypeIcon/Human
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Demon
+    _c_name: "\u6076\u9B54"
+    _icon: Sprite/TypeIcon/Demon
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Dragon
+    _c_name: "\u9F99"
+    _icon: Sprite/TypeIcon/Dragon
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Vampire
+    _c_name: "\u5438\u8840\u9B3C"
+    _icon: Sprite/TypeIcon/Vampire
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Orc
+    _c_name: "\u517D\u4EBA"
+    _icon: Sprite/TypeIcon/Orc
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Undead
+    _c_name: "\u4EA1\u7075"
+    _icon: Sprite/TypeIcon/Undead
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Giant
+    _c_name: "\u5DE8\u4EBA"
+    _icon: Sprite/TypeIcon/Giant
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Spirit
+    _c_name: "\u7CBE\u7075"
+    _icon: Sprite/TypeIcon/Spirit
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Magic
+    _c_name: "\u5965\u672F"
+    _icon: Sprite/TypeIcon/Magic
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Pierce
+    _c_name: "\u7A7F\u523A"
+    _icon: Sprite/TypeIcon/Pierce
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Blunt
+    _c_name: "\u949D\u51FB"
+    _icon: Sprite/TypeIcon/Blunt
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Counter
+    _c_name: "\u53CD\u51FB"
+    _icon: Sprite/TypeIcon/Counter
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Block
+    _c_name: "\u683C\u6321"
+    _icon: Sprite/TypeIcon/Block
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Brutal
+    _c_name: "\u66B4\u8650"
+    _icon: Sprite/TypeIcon/Brutal
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Agile
+    _c_name: "\u8FC5\u6377"
+    _icon: Sprite/TypeIcon/Agile
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Tough
+    _c_name: "\u575A\u97E7"
+    _icon: Sprite/TypeIcon/Tough
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5e4c7e8e1330044a286733b5ee74ca, type: 3}
+  m_Name: BuffConfig_BaseBuffData_Sheet
+  m_EditorClassIdentifier: 
+  ExcelFileName: BuffConfig.xlsx
+  ExcelSheetName: BaseBuffData
+  KeyFieldName: _ID
+  elements:
+  - _ID: 1
+    _name: "\u7729\u6655"
+    _duration: 1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      targetType: 
+  - _ID: 2
+    _name: "\u9A91\u58EB\u7F81\u7ECA"
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: AfterAttack
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 1
+      targetType: Enemy
