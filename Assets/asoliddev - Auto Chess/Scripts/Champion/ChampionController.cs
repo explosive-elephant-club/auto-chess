@@ -49,7 +49,7 @@ public class ChampionController : MonoBehaviour
 
     private List<Effect> effects;
 
-    public ChampionManager championmaneger;
+    public ChampionManager championManeger;
 
     public Fsm AIActionFsm;
 
@@ -80,14 +80,14 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     /// <param name="_champion"></param>
     /// <param name="_teamID"></param>
-    public void Init(ChampionBaseData _champion, ChampionTeam _team, ChampionManager _championmaneger)
+    public void Init(ChampionBaseData _champion, ChampionTeam _team, ChampionManager _championManeger)
     {
         champion = _champion;
         team = _team;
 
         //store scripts
 
-        championmaneger = _championmaneger;
+        championManeger = _championManeger;
 
         //disable agent
         navMeshAgent.enabled = false;
@@ -455,7 +455,7 @@ public class ChampionController : MonoBehaviour
             {
                 this.gameObject.SetActive(false);
                 isDead = true;
-                championmaneger.OnChampionDeath();
+                championManeger.OnChampionDeath();
             }
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
         }
@@ -556,7 +556,7 @@ public class ChampionController : MonoBehaviour
         }
 
         //添加羁绊Buff
-        List<int> activeBonuses = championmaneger.bonusBuffList;
+        List<int> activeBonuses = championManeger.bonusBuffList;
 
         foreach (int b in activeBonuses)
         {

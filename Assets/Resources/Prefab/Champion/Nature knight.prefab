@@ -8180,19 +8180,27 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
-  champion: {fileID: 11400000, guid: 5cf63394b9baea2448068dc4c67f21d0, type: 2}
-  maxHealth: 0
-  currentHealth: 0
-  currentDamage: 0
+  champion:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _attackProjectile: 
+    _cost: 0
+    _attackType: 
+    _type1: 
+    _type2: 
+    _type3: 
+    _otherTypes: []
   lvl: 1
   championAnimation: {fileID: 0}
   buffController: {fileID: 0}
   isDead: 0
   target: {fileID: 0}
-  championmaneger: {fileID: 0}
+  championManeger: {fileID: 0}
   path: []
   pathStep: 0
   state: 
+  attackIntervelTimer: 0
 --- !u!114 &-138825080409883251
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,7 +14,8 @@ public class GameData : CreateSingleton<GameData>
 
     public List<ChampionBaseData> championsArray;
 
-    public List<BaseBuffData> buffsArray;
+    public List<BaseBuffData> baseBuffsArray;
+    public List<ModifyAttributeBuffData> modifyAttributeBuffsArray;
     public EEDataManager _eeDataManager;
 
     protected override void InitSingleton()
@@ -23,5 +24,7 @@ public class GameData : CreateSingleton<GameData>
         _eeDataManager.Load();
 
         championsArray = _eeDataManager.GetList<ChampionBaseData>();
+        baseBuffsArray = _eeDataManager.GetList<BaseBuffData>();
+        modifyAttributeBuffsArray = _eeDataManager.GetList<ModifyAttributeBuffData>();
     }
 }

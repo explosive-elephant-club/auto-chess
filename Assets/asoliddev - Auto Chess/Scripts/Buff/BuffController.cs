@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Reflection;
+using ExcelConfig;
 
 
 [Serializable]
@@ -13,10 +14,6 @@ public class BuffState
     public bool state;
 }
 
-public interface AddBuffInterface
-{
-    void AddBuff(BaseBuffData buffData, GameObject _caster = null);
-}
 
 [Serializable]
 public class BuffStateContainer
@@ -61,7 +58,7 @@ public class BuffStateContainer
         return states.Find(s => s.name == name).state;
     }
 }
-public class BuffController : MonoBehaviour, AddBuffInterface
+public class BuffController : MonoBehaviour
 {
     [SerializeField]
     public List<Buff> buffList = new List<Buff>();
@@ -73,16 +70,18 @@ public class BuffController : MonoBehaviour, AddBuffInterface
     //添加一个buff
     public void AddBuff(int id, GameObject _caster = null)
     {
-        AddBuff(GameData.Instance.buffsArray.Find(b => b.buffID == id.ToString()), _caster);
+        AddBuff(GameData.Instance.baseBuffsArray.Find(b => b.ID == id), _caster);
     }
 
     public void AddBuff(BaseBuffData buffData, GameObject _caster = null)
     {
         Buff buff;
-        if ((buffData as ModifyAttributeBuffData) != null)
+        if (GameData.Instance.modifyAttributeBuffsArray.Exists(b => b.ID == buffData.ID))
         {
-            buff = new ModifyAttributeBuff(buffData, gameObject, _caster);
+            ModifyAttributeBuffData mBuffData = GameData.Instance.modifyAttributeBuffsArray.Find(b => b.ID == buffData.ID);
+            buff = new ModifyAttributeBuff(buffData, mBuffData, gameObject, _caster);
         }
+
         else
         {
             buff = new Buff(buffData, gameObject, _caster);
@@ -93,21 +92,48 @@ public class BuffController : MonoBehaviour, AddBuffInterface
     }
 
     //添加一个子Buff
-    public void AddSubBuff(AddSubBuff subBuff)
+    public void AddSubBuff(int id, AddBuffTargetType targetType)
     {
-        switch (subBuff.targetType)
+        ChampionController championController = gameObject.GetComponent<ChampionController>();
+        switch (targetType)
         {
             case AddBuffTargetType.Self:
-                AddBuff(subBuff.buffData, gameObject);
+                AddBuff(id, gameObject);
                 break;
             case AddBuffTargetType.Teammate:
+                List<ChampionController> teammates;
+                if (championController.team == ChampionTeam.Player)
+                {
+                    teammates = GamePlayController.Instance.ownChampionManager.championsHexaMapArray;
+                }
+                else
+                {
+                    teammates = GamePlayController.Instance.oponentChampionManager.championsHexaMapArray;
+                }
+                foreach (ChampionController c in teammates)
+                {
+                    c.gameObject.GetComponent<BuffController>().AddBuff(id, gameObject);
+                }
                 break;
             case AddBuffTargetType.Enemy:
                 ChampionController target = gameObject.GetComponent<ChampionController>().target;
                 if (target != null)
-                    target.gameObject.GetComponent<AddBuffInterface>().AddBuff(subBuff.buffData, gameObject);
+                    target.gameObject.GetComponent<BuffController>().AddBuff(id, gameObject);
                 break;
             case AddBuffTargetType.Enemies:
+                List<ChampionController> enemies;
+                if (championController.team == ChampionTeam.Player)
+                {
+                    enemies = GamePlayController.Instance.oponentChampionManager.championsHexaMapArray;
+                }
+                else
+                {
+                    enemies = GamePlayController.Instance.ownChampionManager.championsHexaMapArray;
+                }
+                foreach (ChampionController c in enemies)
+                {
+                    c.gameObject.GetComponent<BuffController>().AddBuff(id, gameObject);
+                }
                 break;
 
         }
@@ -133,11 +159,11 @@ public class BuffController : MonoBehaviour, AddBuffInterface
     //检查并合并相同buff
     public void BuffSuperposeCheck(Buff buff)
     {
-        if (buff.buffData.superposeMode != BuffSuperposeMode.None)
+        if (buff.superposeMode != BuffSuperposeMode.None)
         {
             foreach (Buff b in buffList)
             {
-                if (b.buffData.buffID == buff.buffData.buffID)
+                if (b.buffData.ID == buff.buffData.ID)
                 {
                     buff.Superpose(b);
                     buff.BuffRefresh();
@@ -161,7 +187,7 @@ public class BuffController : MonoBehaviour, AddBuffInterface
         BuffStateContainer tempBuffStateContainer = new BuffStateContainer();
         foreach (Buff b in buffList)
         {
-            if ((b.buffData as ModifyAttributeBuffData) != null)
+            if (GameData.Instance.modifyAttributeBuffsArray.Exists(b1 => b1.ID == b.buffData.ID))
             {
                 ModifyAttributeBuff modifyBuff = b as ModifyAttributeBuff;
                 tempBuffStateContainer.allSuperposStates |= modifyBuff.buffStateContainer.allSuperposStates;

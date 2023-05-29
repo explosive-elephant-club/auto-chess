@@ -3,11 +3,95 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using ExcelConfig;
+
+public enum BuffActiveMode
+{
+    [Tooltip("永久型")]
+    Always,
+    [Tooltip("定时触发")]
+    Interval,
+    [Tooltip("攻击前触发")]
+    BeforeAttack,
+    [Tooltip("攻击后触发")]
+    AfterAttack,
+    [Tooltip("受击前触发")]
+    BeforeHit,
+    [Tooltip("受击后触发")]
+    AfterHit,
+}
+
+public enum BuffConsumeMode
+{
+    [Tooltip("不消失")]
+    None,
+    [Tooltip("触发时消失")]
+    Active,
+    [Tooltip("持续时间结束后消失")]
+    AfterDuration,
+}
+
+public enum BuffSuperposeMode
+{
+    [Tooltip("不叠加")]
+    None,
+    [Tooltip("覆盖")]
+    Cover,
+    [Tooltip("持续时长叠加")]
+    Time,
+    [Tooltip("层数叠加")]
+    Layer
+}
+
+public enum AddBuffTargetType
+{
+    [Tooltip("自身")]
+    Self,
+    [Tooltip("队友")]
+    Teammate,
+    [Tooltip("敌人")]
+    Enemy,
+    [Tooltip("敌人群")]
+    Enemies
+}
+
+public class AddSubBuff
+{
+    public int buffID;
+    public AddBuffTargetType targetType;
+}
+
+public class BuffStateBoolValues
+{
+    [Tooltip("不可移动")]
+    public bool immovable = false;
+    [Tooltip("缴械")]
+    public bool disarm = false;
+    [Tooltip("沉默")]
+    public bool silence = false;
+    [Tooltip("无敌")]
+    public bool invincible = false;
+    [Tooltip("隐身")]
+    public bool invisible = false;
+
+    public BuffStateBoolValues(bool _immovable, bool _disarm, bool _silence, bool _invincible, bool _invisible)
+    {
+        immovable = _immovable;
+        disarm = _disarm;
+        silence = _silence;
+        invincible = _silence;
+        invisible = _invisible;
+    }
+}
 
 [Serializable]
 public class Buff
 {
     public BaseBuffData buffData;
+
+    public BuffActiveMode activeMode;
+    public BuffConsumeMode consumeMode;
+    public BuffSuperposeMode superposeMode;
 
     public GameObject owner;//Buff的拥有者
     public GameObject caster;//Buff的施加者
@@ -23,6 +107,11 @@ public class Buff
     public Buff(BaseBuffData _buffData, GameObject _owner, GameObject _caster = null)
     {
         buffData = _buffData;
+
+        activeMode = (BuffActiveMode)Enum.Parse(typeof(BuffActiveMode), buffData.activeMode);
+        consumeMode = (BuffConsumeMode)Enum.Parse(typeof(BuffConsumeMode), buffData.consumeMode);
+        superposeMode = (BuffSuperposeMode)Enum.Parse(typeof(BuffSuperposeMode), buffData.superposeMode);
+
         owner = _owner;
         caster = buffData.bNoCaster ? null : _caster;
         curLayer = buffData.layer;
@@ -53,7 +142,7 @@ public class Buff
     //叠加合并
     public void Superpose(Buff buff)
     {
-        switch (buffData.superposeMode)
+        switch (superposeMode)
         {
             case BuffSuperposeMode.None:
                 break;
@@ -72,7 +161,7 @@ public class Buff
     //计时器触发
     public void TimerTick()
     {
-        if (buffData.consumeMode == BuffConsumeMode.AfterDuration)
+        if (consumeMode == BuffConsumeMode.AfterDuration)
         {
             curTime -= Time.deltaTime;
             if (curTime <= 0)
@@ -81,7 +170,7 @@ public class Buff
             }
         }
 
-        if (buffData.activeMode == BuffActiveMode.Interval)
+        if (activeMode == BuffActiveMode.Interval)
         {
             intervalTimer += Time.deltaTime;
             if (intervalTimer >= buffData.intervalTime)
@@ -100,9 +189,9 @@ public class Buff
     public virtual void BuffStart()
     {
         BuffController _controller = owner.GetComponent<BuffController>();
-        if (buffData.activeMode != BuffActiveMode.Interval)
+        if (activeMode != BuffActiveMode.Interval)
         {
-            if (buffData.activeMode == BuffActiveMode.Always)
+            if (activeMode == BuffActiveMode.Always)
             {
                 BuffActive();
             }
@@ -133,11 +222,11 @@ public class Buff
     public virtual void BuffActive()
     {
         buffBehaviour.BuffActive();
-        foreach (AddSubBuff b in buffData.addBuffs)
+        foreach (BaseBuffData.addBuffsClass b in buffData.addBuffs)
         {
-            buffController.AddSubBuff(b);
+            buffController.AddSubBuff(b.buff_ID, (AddBuffTargetType)Enum.Parse(typeof(AddBuffTargetType), b.targetType));
         }
-        if (buffData.consumeMode == BuffConsumeMode.Active)
+        if (consumeMode == BuffConsumeMode.Active)
         {
             buffController.RemoveBuff(this);
         }

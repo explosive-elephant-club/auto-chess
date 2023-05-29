@@ -34,6 +34,7 @@ public class ChampionManager : MonoBehaviour
         InitStageDic();
     }
 
+
     private void Start()
     {
         championInventoryArray = new List<ChampionController>();
