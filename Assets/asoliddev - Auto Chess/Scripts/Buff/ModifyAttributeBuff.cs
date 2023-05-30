@@ -11,17 +11,17 @@ public class ValueOperation
 {
     public float value;
     public string valueName;
-    UnityAction operate;
-    UnityAction reset;
+    public UnityAction operate;
+    public UnityAction reset;
 
-    public ValueOperation(string code)
+    public ValueOperation(string code, ChampionAttributesController attributesController)
     {
         string[] element = code.Split(' ');
         valueName = element[0];
         value = float.Parse(element[2]);
         if (valueName == "curHealth" || valueName == "curMana")
         {
-            float attribute = (float)GeneralMethod.GetValueByName("ChampionAttributesController", valueName);
+            float attribute = (float)GeneralMethod.GetValueByName(attributesController, valueName);
             switch (element[1])
             {
                 case "+":
@@ -40,7 +40,7 @@ public class ValueOperation
         }
         else
         {
-            ChampionAttribute attribute = (ChampionAttribute)GeneralMethod.GetValueByName("ChampionAttributesController", valueName);
+            ChampionAttribute attribute = (ChampionAttribute)GeneralMethod.GetValueByName(attributesController, valueName);
             switch (element[1])
             {
                 case "+":
@@ -91,7 +91,8 @@ public class ModifyAttributeBuff : Buff
             valueOperations = new ValueOperation[modifyAttributeData.valueChanges.Length];
             for (int i = 0; i < valueOperations.Length; i++)
             {
-                valueOperations[i] = new ValueOperation(modifyAttributeData.valueChanges[i]);
+                valueOperations[i] = new ValueOperation(modifyAttributeData.valueChanges[i],
+                buffController.gameObject.GetComponent<ChampionController>().attributesController);
             }
         }
     }
@@ -99,12 +100,21 @@ public class ModifyAttributeBuff : Buff
     public override void BuffActive()
     {
         buffController.AddBuffState(this);
+        foreach (ValueOperation operation in valueOperations)
+        {
+
+            operation.operate.Invoke();
+        }
         base.BuffActive();
     }
 
     public override void BuffDestroy()
     {
         buffController.CalculateAllBuffState();
+        foreach (ValueOperation operation in valueOperations)
+        {
+            operation.reset.Invoke();
+        }
         base.BuffDestroy();
     }
 }

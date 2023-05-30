@@ -23,4 +23,4 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - attackDamage - 10
+    - attackDamage + -10

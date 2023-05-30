@@ -63,6 +63,8 @@ public class ChampionController : MonoBehaviour
 
     public float attackIntervelTimer = 0;
 
+    public float ATK = 0;
+
     /// Start is called before the first frame update
     void Awake()
     {
@@ -419,7 +421,7 @@ public class ChampionController : MonoBehaviour
                 ClearBook();
                 championManeger.OnChampionDeath();
             }
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterHit.ToString());
         }
         return isDead;
     }
@@ -527,6 +529,7 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdateCombat()
     {
+        ATK = attributesController.attackDamage.GetTrueLinearValue();
         if (!isDead && occupyGridInfo != null)
         {
             attackIntervelTimer += Time.deltaTime;
