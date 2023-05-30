@@ -55,8 +55,6 @@ public class ChampionController : MonoBehaviour
 
     public List<GridInfo> path;
 
-    public int pathStep = 0;
-
     public string state;
 
     public EventCenter eventCenter;
@@ -164,7 +162,6 @@ public class ChampionController : MonoBehaviour
         target = null;
 
         path = null;
-        pathStep = 0;
 
         //reset position
         if (originGridInfo != null)
@@ -274,8 +271,8 @@ public class ChampionController : MonoBehaviour
             path = Map.Instance.FindPath(occupyGridInfo, target.occupyGridInfo, this);
             if (path == null)
                 return false;
-            pathStep = 0;
-            BookGrid(path[pathStep]);
+            //Debug.Log("FindPath:" + occupyGridInfo.name + "=>" + target.occupyGridInfo.name);
+            BookGrid(path[0]);
             return true;
         }
         return false;
@@ -284,6 +281,7 @@ public class ChampionController : MonoBehaviour
 
     public void EnterGrid(GridInfo grid)
     {
+        //Debug.Log("EnterGrid:" + grid.name);
         ClearBook();
         LeaveGrid();
         occupyGridInfo = grid;
@@ -319,40 +317,13 @@ public class ChampionController : MonoBehaviour
         }
     }
 
-    public void MoveToNext()
+    public bool IsTargetInAttackRange()
     {
-        if (pathStep + 1 < path.Count - 1)
-        {
-            pathStep += 1;
-            //SetOccupyGridInfo(path[pathStep]);
-            SetWorldPosition();
-        }
-        else
-        {
-            path = null;
-        }
+        return occupyGridInfo.GetDistance(target.occupyGridInfo) <=
+            (int)attributesController.attackRange.GetTrueLinearValue();
     }
 
-    float t = 0;
-    public void Move()
-    {
-        if (t > 1)
-        {
-            if (!path[pathStep + 1].walkable ||
-            path[path.Count - 1] != target.occupyGridInfo)
-            {
-                FindPath();
-            }
-            MoveToNext();
-            t = 0;
-        }
-        else
-        {
-            t += Time.deltaTime;
-        }
-    }
-
-    public bool CanAttack()
+    public bool IsLegalAttackIntervel()
     {
         return attackIntervelTimer >= attributesController.GetAttackIntervel();
     }
@@ -365,29 +336,18 @@ public class ChampionController : MonoBehaviour
 
     public void MoveToTarget()
     {
-        if (path[pathStep].CheckInGrid(this))
+        if (bookGridInfo.CheckInGrid(this))
         {
-            EnterGrid(path[pathStep]);
+            //Debug.Log("InGrid:" + bookGridInfo.name);
+            EnterGrid(bookGridInfo);
+
             if (path == null)
                 return;
-            if (pathStep + 1 < path.Count - 1)
-            {
-                if (!path[pathStep + 1].IsBookedOrOccupied(this)
-                && target.occupyGridInfo == path[path.Count - 1])
-                {
-                    pathStep++;
-                    BookGrid(path[pathStep]);
-                }
-                else
-                {
-                    eventCenter.Broadcast("OnMoveFailed", path[pathStep]);
-                }
-            }
-            else
+            if (bookGridInfo == target.occupyGridInfo)
             {
                 StopMove();
                 SetWorldPosition();
-                eventCenter.Broadcast("OnGetTarget", path[pathStep]);
+                eventCenter.Broadcast("OnGetTarget", bookGridInfo);
             }
         }
         else
@@ -398,7 +358,7 @@ public class ChampionController : MonoBehaviour
                 {
                     navMeshAgent.speed = attributesController.moveSpeed.GetTrueLinearValue();
                 }
-                navMeshAgent.destination = path[pathStep].transform.position;
+                navMeshAgent.destination = bookGridInfo.transform.position;
                 navMeshAgent.isStopped = false;
             }
         }
@@ -440,7 +400,7 @@ public class ChampionController : MonoBehaviour
     /// <param name="damage"></param>
     public bool OnGotHit(float damage, DamageType dmgType)
     {
-        if (target.attributesController.DodgeCheck())
+        if (attributesController.DodgeCheck())
         {
             Debug.Log("闪避");
         }
@@ -455,6 +415,8 @@ public class ChampionController : MonoBehaviour
             {
                 this.gameObject.SetActive(false);
                 isDead = true;
+                LeaveGrid();
+                ClearBook();
                 championManeger.OnChampionDeath();
             }
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
@@ -565,10 +527,14 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdateCombat()
     {
-        attackIntervelTimer += Time.deltaTime;
-        attributesController.Regenerate();
-        if (occupyGridInfo.gridType == GridType.HexaMap)
-            AIActionFsm.curState.OnUpdate();
+        if (!isDead && occupyGridInfo != null)
+        {
+            attackIntervelTimer += Time.deltaTime;
+            attributesController.Regenerate();
+            if (occupyGridInfo.gridType == GridType.HexaMap)
+                AIActionFsm.curState.OnUpdate();
+        }
+
     }
     public void OnLeaveCombat()
     {

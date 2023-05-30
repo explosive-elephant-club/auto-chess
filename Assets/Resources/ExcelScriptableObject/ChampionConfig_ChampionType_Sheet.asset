@@ -27,8 +27,8 @@ MonoBehaviour:
     _c_name: "\u9A91\u58EB"
     _icon: Sprite/TypeIcon/Knight
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 1
+      buff_ID: 2
     _description: 
   - _name: Wizard
     _c_name: "\u5DEB\u5E08"

@@ -34,11 +34,13 @@ public class BaseIdleState : State
         }
         else
         {
-            if (championController.occupyGridInfo.GetDistance(championController.target.occupyGridInfo) <=
-            (int)championController.attributesController.attackRange.GetTrueLinearValue())
+            if (championController.IsTargetInAttackRange())
             {
-                if (championController.CanAttack())
+                if (championController.IsLegalAttackIntervel())
+                {
                     fsm.SwitchState("Attack");
+                }
+
                 return;
             }
             else

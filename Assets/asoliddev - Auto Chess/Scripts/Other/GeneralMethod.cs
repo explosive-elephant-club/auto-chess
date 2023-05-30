@@ -13,7 +13,7 @@ namespace General
             MethodInfo method = _class.GetType().GetMethod(methodName);
             return method != null;
         }
-        
+
         public static void ExecuteMethodByName(object _class, string methodName, object[] args = null)
         {
             MethodInfo method = _class.GetType().GetMethod(methodName);
@@ -26,6 +26,16 @@ namespace General
             {
                 Debug.LogWarning("Method not found: " + methodName + " in " + _class.GetType().Name);
             }
+        }
+
+        public static object GetValueByName(object _class, string name)
+        {
+            FieldInfo f = _class.GetType().GetField(name);
+            if (f != null)
+            {
+                return f.GetValue(_class);
+            }
+            return f;
         }
     }
 }

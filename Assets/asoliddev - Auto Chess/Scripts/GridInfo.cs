@@ -80,8 +80,8 @@ public class GridInfo : MonoBehaviour
     public bool CheckInGrid(ChampionController champion)
     {
         if (Vector3.Distance(
-            new Vector3(transform.position.x, transform.position.y, 0),
-            new Vector3(champion.transform.position.x, champion.transform.position.y, 0)
+            new Vector3(transform.position.x, 0, transform.position.z),
+            new Vector3(champion.transform.position.x, 0, champion.transform.position.z)
         ) < 0.2f)
         {
             return true;

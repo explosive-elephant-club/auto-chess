@@ -79,7 +79,7 @@ public class BuffStateBoolValues
         immovable = _immovable;
         disarm = _disarm;
         silence = _silence;
-        invincible = _silence;
+        invincible = _invincible;
         invisible = _invisible;
     }
 }
@@ -224,7 +224,12 @@ public class Buff
         buffBehaviour.BuffActive();
         foreach (BaseBuffData.addBuffsClass b in buffData.addBuffs)
         {
-            buffController.AddSubBuff(b.buff_ID, (AddBuffTargetType)Enum.Parse(typeof(AddBuffTargetType), b.targetType));
+            if (b.buff_ID != 0)
+            {
+                AddBuffTargetType targetType = (AddBuffTargetType)Enum.Parse(typeof(AddBuffTargetType), b.targetType);
+                buffController.AddSubBuff(b.buff_ID, targetType);
+            }
+
         }
         if (consumeMode == BuffConsumeMode.Active)
         {

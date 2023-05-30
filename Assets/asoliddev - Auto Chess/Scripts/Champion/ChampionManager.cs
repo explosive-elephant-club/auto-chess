@@ -229,11 +229,12 @@ public class ChampionManager : MonoBehaviour
         {
             if (championCtrl != null)
             {
-                if (championCtrl == false)
+                if (championCtrl.isDead == false)
                 {
                     int distance = _championController.occupyGridInfo.GetDistance(championCtrl.occupyGridInfo);
                     if (distance <= bestDistance)
                     {
+
                         return championCtrl;
                     }
                 }
@@ -421,6 +422,7 @@ public class ChampionManager : MonoBehaviour
                         cCount++;
 
                         championTypeCount[t] = cCount;
+
                     }
                     else
                     {
@@ -437,7 +439,7 @@ public class ChampionManager : MonoBehaviour
             int buffID = 0;
             foreach (ChampionType.BonusClass b in m.Key.Bonus)
             {
-                if (m.Value > b.count)
+                if (m.Value >= b.count)
                 {
                     buffID = b.buff_ID;
                 }

@@ -126,8 +126,6 @@ public class ChampionAttributesController
     public float GetAttackDamage()
     {
         float randomValue = Random.Range(0, 1f);
-        Debug.Log("takeDamageMultiple");
-        Debug.Log(takeDamageMultiple.GetTrueLinearValue());
         if (randomValue <= critChange.GetTrueMultipleValue())
         {
             return attackDamage.GetTrueLinearValue() * critMultiple.GetTrueLinearValue() * takeDamageMultiple.GetTrueLinearValue();
