@@ -24,7 +24,7 @@ public class BaseIdleState : State
                 if (combatTimer > 0.5f)
                 {
                     combatTimer = 0;
-                    championController.target = championController.FindTarget(30, FindTargetMode.Closet);
+                    championController.target = championController.FindTarget(30, FindTargetMode.Nearest);
                 }
             }
         }

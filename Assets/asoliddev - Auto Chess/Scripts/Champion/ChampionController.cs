@@ -8,7 +8,7 @@ using System.Reflection;
 using General;
 using ExcelConfig;
 
-public enum FindTargetMode { AnyInRange, Closet, Farthest }
+public enum FindTargetMode { AnyInRange, Nearest, Farthest }
 
 /// <summary>
 /// Controls a single champion movement and combat
@@ -258,8 +258,8 @@ public class ChampionController : MonoBehaviour
         {
             case FindTargetMode.AnyInRange:
                 return manager.FindAnyTargetInRange(this, bestDistance);
-            case FindTargetMode.Closet:
-                return manager.FindClosestTarget(this, bestDistance);
+            case FindTargetMode.Nearest:
+                return manager.FindNearestTarget(this, bestDistance);
             case FindTargetMode.Farthest:
                 return manager.FindFarthestTarget(this, bestDistance);
         }
@@ -524,7 +524,7 @@ public class ChampionController : MonoBehaviour
 
         foreach (int b in activeBonuses)
         {
-            buffController.AddBuff(b, gameObject);
+            buffController.AddBuff(b, this);
         }
     }
     public void OnUpdateCombat()

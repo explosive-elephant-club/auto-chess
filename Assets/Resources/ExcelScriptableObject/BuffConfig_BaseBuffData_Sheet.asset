@@ -18,7 +18,7 @@ MonoBehaviour:
   elements:
   - _ID: 1
     _name: "\u7729\u6655"
-    _duration: 1
+    _duration: 4
     _intervalTime: 0
     _layer: 1
     _bNoCaster: 0

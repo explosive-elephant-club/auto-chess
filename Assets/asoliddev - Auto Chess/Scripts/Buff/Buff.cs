@@ -55,12 +55,6 @@ public enum AddBuffTargetType
     Enemies
 }
 
-public class AddSubBuff
-{
-    public int buffID;
-    public AddBuffTargetType targetType;
-}
-
 public class BuffStateBoolValues
 {
     [Tooltip("不可移动")]
@@ -93,8 +87,8 @@ public class Buff
     public BuffConsumeMode consumeMode;
     public BuffSuperposeMode superposeMode;
 
-    public GameObject owner;//Buff的拥有者
-    public GameObject caster;//Buff的施加者
+    public ChampionController owner;//Buff的拥有者
+    public ChampionController caster;//Buff的施加者
     //private Skill ability; //Buff是由哪个技能创建
     public int curLayer = 1;//目前叠加层数
     public float curTime = 0;//目前时长
@@ -104,7 +98,7 @@ public class Buff
 
     public BuffController buffController;
 
-    public Buff(BaseBuffData _buffData, GameObject _owner, GameObject _caster = null)
+    public Buff(BaseBuffData _buffData, ChampionController _owner, ChampionController _caster = null)
     {
         buffData = _buffData;
 
@@ -140,7 +134,7 @@ public class Buff
     }
 
     //叠加合并
-    public void Superpose(Buff buff)
+    public virtual void Superpose(Buff buff)
     {
         switch (superposeMode)
         {

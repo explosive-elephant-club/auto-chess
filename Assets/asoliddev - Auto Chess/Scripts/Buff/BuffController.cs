@@ -67,24 +67,31 @@ public class BuffController : MonoBehaviour
     [SerializeField]
     public BuffStateContainer buffStateContainer = new BuffStateContainer();
 
+    ChampionController championController;
+
+    private void Start()
+    {
+        championController = gameObject.GetComponent<ChampionController>();
+    }
+
     //添加一个buff
-    public void AddBuff(int id, GameObject _caster = null)
+    public void AddBuff(int id, ChampionController _caster = null)
     {
         AddBuff(GameData.Instance.baseBuffsArray.Find(b => b.ID == id), _caster);
     }
 
-    public void AddBuff(BaseBuffData buffData, GameObject _caster = null)
+    public void AddBuff(BaseBuffData buffData, ChampionController _caster = null)
     {
         Buff buff;
         if (GameData.Instance.modifyAttributeBuffsArray.Exists(b => b.ID == buffData.ID))
         {
             ModifyAttributeBuffData mBuffData = GameData.Instance.modifyAttributeBuffsArray.Find(b => b.ID == buffData.ID);
-            buff = new ModifyAttributeBuff(buffData, mBuffData, gameObject, _caster);
+            buff = new ModifyAttributeBuff(buffData, mBuffData, championController, _caster);
         }
 
         else
         {
-            buff = new Buff(buffData, gameObject, _caster);
+            buff = new Buff(buffData, championController, _caster);
         }
         BuffSuperposeCheck(buff);
         buffList.Add(buff);
@@ -94,11 +101,10 @@ public class BuffController : MonoBehaviour
     //添加一个子Buff
     public void AddSubBuff(int id, AddBuffTargetType targetType)
     {
-        ChampionController championController = gameObject.GetComponent<ChampionController>();
         switch (targetType)
         {
             case AddBuffTargetType.Self:
-                AddBuff(id, gameObject);
+                AddBuff(id, championController);
                 break;
             case AddBuffTargetType.Teammate:
                 List<ChampionController> teammates;
@@ -112,13 +118,13 @@ public class BuffController : MonoBehaviour
                 }
                 foreach (ChampionController c in teammates)
                 {
-                    c.gameObject.GetComponent<BuffController>().AddBuff(id, gameObject);
+                    c.gameObject.GetComponent<BuffController>().AddBuff(id, championController);
                 }
                 break;
             case AddBuffTargetType.Enemy:
                 ChampionController target = gameObject.GetComponent<ChampionController>().target;
                 if (target != null)
-                    target.gameObject.GetComponent<BuffController>().AddBuff(id, gameObject);
+                    target.gameObject.GetComponent<BuffController>().AddBuff(id, championController);
                 break;
             case AddBuffTargetType.Enemies:
                 List<ChampionController> enemies;
@@ -132,7 +138,7 @@ public class BuffController : MonoBehaviour
                 }
                 foreach (ChampionController c in enemies)
                 {
-                    c.gameObject.GetComponent<BuffController>().AddBuff(id, gameObject);
+                    c.gameObject.GetComponent<BuffController>().AddBuff(id, championController);
                 }
                 break;
 
@@ -167,7 +173,7 @@ public class BuffController : MonoBehaviour
                 {
                     buff.Superpose(b);
                     buff.BuffRefresh();
-                    buffList.Remove(b);
+                    RemoveBuff(b);
                     return;
                 }
             }

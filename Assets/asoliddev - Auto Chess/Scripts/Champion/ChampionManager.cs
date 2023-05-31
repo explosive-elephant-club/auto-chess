@@ -243,7 +243,7 @@ public class ChampionManager : MonoBehaviour
         return null;
     }
 
-    public ChampionController FindClosestTarget(ChampionController _championController, int bestDistance)
+    public ChampionController FindNearestTarget(ChampionController _championController, int bestDistance)
     {
         ChampionController closestTarget = null;
         int tempDis = bestDistance;

@@ -30,6 +30,12 @@ public class ValueOperation
                         attribute += value;
                     });
                     break;
+                case "-":
+                    operate = new UnityAction(() =>
+                    {
+                        attribute -= value;
+                    });
+                    break;
                 case "*":
                     operate = new UnityAction(() =>
                     {
@@ -51,6 +57,16 @@ public class ValueOperation
                     reset = new UnityAction(() =>
                     {
                         attribute.RemoveLinear(value);
+                    });
+                    break;
+                case "-":
+                    operate = new UnityAction(() =>
+                    {
+                        attribute.AddLinear(-value);
+                    });
+                    reset = new UnityAction(() =>
+                    {
+                        attribute.RemoveLinear(-value);
                     });
                     break;
                 case "*":
@@ -75,7 +91,7 @@ public class ModifyAttributeBuff : Buff
     public BuffStateContainer buffStateContainer;
     public ValueOperation[] valueOperations;
 
-    public ModifyAttributeBuff(BaseBuffData _buffData, ModifyAttributeBuffData _modifyAttributeData, GameObject _owner, GameObject _caster = null) :
+    public ModifyAttributeBuff(BaseBuffData _buffData, ModifyAttributeBuffData _modifyAttributeData, ChampionController _owner, ChampionController _caster = null) :
     base(_buffData, _owner, _caster)
     {
         modifyAttributeData = _modifyAttributeData;
