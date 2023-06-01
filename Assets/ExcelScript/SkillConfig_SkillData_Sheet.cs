@@ -39,8 +39,8 @@ namespace ExcelConfig
 		public float manaCost { get { return _manaCost; } }
 
 		[SerializeField]
-		private float _distance;
-		public float distance { get { return _distance; } }
+		private int _distance;
+		public int distance { get { return _distance; } }
 
 		[SerializeField]
 		private int _range;

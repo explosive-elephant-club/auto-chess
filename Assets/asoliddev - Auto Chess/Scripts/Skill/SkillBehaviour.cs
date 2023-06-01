@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillBehaviour : MonoBehaviour
+public class SkillBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public virtual bool IsPrepared()
     {
-        
+        return true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual bool IsFindTarget()
     {
-        
+        return true;
     }
 }

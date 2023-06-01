@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using ExcelConfig;
+using System.Linq;
 
 
 
@@ -46,7 +48,7 @@ public enum SkillTargetSelectorType//目标选择类型
     MostEnemiesSurrounded,
 }
 
-
+[Serializable]
 public class Skill
 {
     public SkillData skillData;
@@ -65,5 +67,183 @@ public class Skill
     public Sprite icon;
 
     public SkillBehaviour skillBehaviour;
-    public GameObject[] targets;
+    public List<ChampionController> targets = new List<ChampionController>();
+    public List<GridInfo> mapGrids = new List<GridInfo>();
+
+    ChampionManager manager;
+
+    public Skill(SkillData _skillData, ChampionController _owner, ChampionController _caster)
+    {
+        skillData = _skillData;
+
+        skillTargetType = (SkillTargetType)Enum.Parse(typeof(SkillTargetType), skillData.skillTargetType);
+        skillRangeSelectorType = (SkillRangeSelectorType)Enum.Parse(typeof(SkillRangeSelectorType), skillData.skillRangeSelectorType);
+        skillTargetSelectorType = (SkillTargetSelectorType)Enum.Parse(typeof(SkillTargetSelectorType), skillData.skillTargetSelectorType);
+
+        owner = _owner;
+        caster = _caster;
+        cdRemain = 0;
+
+        effectPrefab = Resources.Load<GameObject>(skillData.effectPrefab);
+        hitFXPrefab = Resources.Load<GameObject>(skillData.hitFXPrefab);
+        icon = Resources.Load<Sprite>(skillData.icon);
+
+        if (!string.IsNullOrEmpty(skillData.skillBehaviourScriptName))
+        {
+            try
+            {
+                Type type = Type.GetType(skillData.skillBehaviourScriptName);
+                skillBehaviour = (SkillBehaviour)Activator.CreateInstance(type);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Create BuffBehaviour instance failed: " + ex.Message);
+                skillBehaviour = new SkillBehaviour();
+            }
+        }
+        else
+        {
+            skillBehaviour = new SkillBehaviour();
+        }
+    }
+
+    public bool IsPrepared()
+    {
+        if (cdRemain <= 0 && skillBehaviour.IsPrepared())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsFindTarget()
+    {
+        targets = new List<ChampionController>();
+        mapGrids = new List<GridInfo>();
+
+        FindTargetsByType();
+        if (skillTargetType != SkillTargetType.Self)
+        {
+            targets.Add(FindTargetBySelectorType());
+            if (targets.Count == 0)
+            {
+                return false;
+            }
+        }
+        FindTargetByRange();
+        if (targets.Count == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void FindTargetsByType()
+    {
+        switch (skillTargetType)
+        {
+            case SkillTargetType.Self:
+                targets.Add(owner);
+                break;
+            case SkillTargetType.Teammate:
+                if (owner.team == ChampionTeam.Player)
+                {
+                    manager = GamePlayController.Instance.ownChampionManager;
+                }
+                else
+                {
+                    manager = GamePlayController.Instance.oponentChampionManager;
+                }
+                break;
+            case SkillTargetType.Enemy:
+                if (owner.team == ChampionTeam.Player)
+                {
+                    manager = GamePlayController.Instance.oponentChampionManager;
+                }
+                else
+                {
+                    manager = GamePlayController.Instance.ownChampionManager;
+                }
+                break;
+        }
+    }
+
+    public ChampionController FindTargetBySelectorType()
+    {
+        ChampionController c = null;
+        List<ChampionController> targetList = manager.championsHexaMapArray.FindAll(t => t.isDead == false);
+        targetList = targetList.FindAll(t => t.GetDistance(owner) <= skillData.distance);
+        float maxValue = 0;
+        switch (skillTargetSelectorType)
+        {
+            case SkillTargetSelectorType.Any:
+                c = manager.FindAnyTargetInRange(owner, skillData.distance);
+                break;
+            case SkillTargetSelectorType.Nearest:
+                c = manager.FindNearestTarget(owner, skillData.distance);
+                break;
+            case SkillTargetSelectorType.Farthest:
+                c = manager.FindFarthestTarget(owner, skillData.distance);
+                break;
+            case SkillTargetSelectorType.HighestDPS:
+                maxValue = targetList.Max(t => t.totalDamage);
+                c = targetList.Where(x => x.totalDamage == maxValue).FirstOrDefault();
+                break;
+            case SkillTargetSelectorType.HighestLevel:
+                maxValue = targetList.Max(t => t.lvl);
+                c = targetList.Where(x => x.lvl == maxValue).FirstOrDefault();
+                break;
+            case SkillTargetSelectorType.MostHP:
+                maxValue = targetList.Max(t => t.attributesController.curHealth);
+                c = targetList.Where(x => x.attributesController.curHealth == maxValue).FirstOrDefault();
+                break;
+            case SkillTargetSelectorType.LeastHP:
+                maxValue = targetList.Min(t => t.attributesController.curHealth);
+                c = targetList.Where(x => x.attributesController.curHealth == maxValue).FirstOrDefault();
+                break;
+            case SkillTargetSelectorType.MostTeammatesSurrounded:
+                maxValue = targetList.Max(t => t.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team == owner.team).Count);
+                c = targetList.Where(x => x.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team == owner.team).Count == maxValue).FirstOrDefault();
+                break;
+            case SkillTargetSelectorType.MostEnemiesSurrounded:
+                maxValue = targetList.Max(t => t.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team != owner.team).Count);
+                c = targetList.Where(x => x.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team != owner.team).Count == maxValue).FirstOrDefault();
+                break;
+        }
+        return c;
+    }
+
+    public void FindTargetByRange()
+    {
+
+        ChampionController c = targets[0];
+        switch (skillRangeSelectorType)
+        {
+            case SkillRangeSelectorType.TeammatesInRange:
+                if (owner.team == ChampionTeam.Player)
+                {
+                    manager = GamePlayController.Instance.ownChampionManager;
+                }
+                else
+                {
+                    manager = GamePlayController.Instance.oponentChampionManager;
+                }
+                targets = manager.championsHexaMapArray.FindAll(t => t.isDead == false && t.GetDistance(c) <= skillData.range);
+                break;
+            case SkillRangeSelectorType.EnemiesInRange:
+                if (owner.team == ChampionTeam.Player)
+                {
+                    manager = GamePlayController.Instance.oponentChampionManager;
+                }
+                else
+                {
+                    manager = GamePlayController.Instance.ownChampionManager;
+                }
+                targets = manager.championsHexaMapArray.FindAll(t => t.isDead == false && t.GetDistance(c) <= skillData.range);
+                break;
+            case SkillRangeSelectorType.MapHexInRange:
+                mapGrids = Map.Instance.GetGridArea(c.occupyGridInfo, skillData.range);
+                break;
+        }
+    }
 }

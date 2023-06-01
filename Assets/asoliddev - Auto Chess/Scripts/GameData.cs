@@ -16,6 +16,8 @@ public class GameData : CreateSingleton<GameData>
 
     public List<BaseBuffData> baseBuffsArray;
     public List<ModifyAttributeBuffData> modifyAttributeBuffsArray;
+
+    public List<SkillData> skillDatasArray;
     public EEDataManager _eeDataManager;
 
     protected override void InitSingleton()

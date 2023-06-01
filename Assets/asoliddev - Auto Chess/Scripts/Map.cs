@@ -261,6 +261,20 @@ public class Map : CreateSingleton<Map>
         oponentMapContainer.SetActive(false);
     }
 
+    //获取某个区域的所有Grid
+    public List<GridInfo> GetGridArea(GridInfo center, int range)
+    {
+        List<GridInfo> grids = new List<GridInfo>();
+        foreach (GridInfo g in mapGridArray)
+        {
+            if (center.GetDistance(g) <= range)
+            {
+                grids.Add(g);
+            }
+        }
+        return grids;
+    }
+
 
     public GridInfo GetEmptySlot(ChampionTeam team, GridType type)
     {

@@ -63,7 +63,7 @@ public class ChampionController : MonoBehaviour
 
     public float attackIntervelTimer = 0;
 
-    public float ATK = 0;
+    public float totalDamage = 0;
 
     /// Start is called before the first frame update
     void Awake()
@@ -321,6 +321,8 @@ public class ChampionController : MonoBehaviour
 
     public bool IsTargetInAttackRange()
     {
+        if (target == null || target.isDead)
+            return false;
         return occupyGridInfo.GetDistance(target.occupyGridInfo) <=
             (int)attributesController.attackRange.GetTrueLinearValue();
     }
@@ -372,6 +374,17 @@ public class ChampionController : MonoBehaviour
             navMeshAgent.isStopped = true;
     }
 
+    public int GetDistance(ChampionController _target)
+    {
+        return occupyGridInfo.GetDistance(_target.occupyGridInfo);
+    }
+
+    public void TakeDamage(ChampionController _target, float _damage, DamageType dmgType)
+    {
+        totalDamage += _damage;
+        _target.OnGotHit(_damage, dmgType);
+    }
+
 
     /// <summary>
     /// Called when attack animation finished
@@ -381,7 +394,7 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-            target.OnGotHit(attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
+            TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
 
             //create projectile if have one
             if (!string.IsNullOrEmpty(champion.attackProjectile))
@@ -502,7 +515,7 @@ public class ChampionController : MonoBehaviour
     }
     public void OnLeavePreparation()
     {
-
+        totalDamage = 0;
     }
 
     public void OnEnterCombat()
@@ -529,7 +542,6 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdateCombat()
     {
-        ATK = attributesController.attackDamage.GetTrueLinearValue();
         if (!isDead && occupyGridInfo != null)
         {
             attackIntervelTimer += Time.deltaTime;
