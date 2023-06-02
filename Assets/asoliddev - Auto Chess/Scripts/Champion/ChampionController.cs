@@ -37,6 +37,7 @@ public class ChampionController : MonoBehaviour
     public ChampionAnimation championAnimation;
 
     public BuffController buffController;
+    public SkillController skillController;
 
     private NavMeshAgent navMeshAgent;
 
@@ -71,6 +72,7 @@ public class ChampionController : MonoBehaviour
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         championAnimation = this.GetComponent<ChampionAnimation>();
         buffController = this.GetComponent<BuffController>();
+        skillController = this.GetComponent<SkillController>();
         eventCenter = new EventCenter();
         InitStageDic();
     }

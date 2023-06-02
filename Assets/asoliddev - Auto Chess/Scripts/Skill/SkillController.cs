@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using ExcelConfig;
 
 public class SkillController : MonoBehaviour
 {
     [SerializeField]
     public List<Skill> skillList = new List<Skill>();
+
+    List<Skill> skillCheckList = new List<Skill>();
+    Skill curSkill = null;
     public EventCenter eventCenter = new EventCenter();
+
+    public Transform skillCastPoint;
+
+    public UnityAction onSkillAnimFinish;
     ChampionController championController;
 
     // Start is called before the first frame update
@@ -19,7 +27,21 @@ public class SkillController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        for (int i = 0; i < skillCheckList.Count; i++)
+        {
+            if (skillCheckList[i].IsPrepared() && curSkill == null)
+            {
+                curSkill = skillCheckList[i];
+                skillCheckList.RemoveAt(i);
+                skillCheckList.Add(curSkill);
+                curSkill.Cast(skillCastPoint);
+                onSkillAnimFinish = new UnityAction(() =>
+                {
+                    curSkill.OnFinish();
+                });
+                break;
+            }
+        }
     }
 
     public void AddSkill(int skillID, ChampionController _caster)
@@ -38,5 +60,14 @@ public class SkillController : MonoBehaviour
     public void RemoveSkill(Skill skill)
     {
         skillList.Remove(skill);
+    }
+
+    public void LoadSkillOrder()
+    {
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            skillCheckList.Add(skillList[i]);
+        }
+        curSkill = null;
     }
 }

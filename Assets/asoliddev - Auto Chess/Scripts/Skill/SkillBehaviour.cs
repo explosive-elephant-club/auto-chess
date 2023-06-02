@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillBehaviour
+public class SkillBehaviour : MonoBehaviour
 {
-    public virtual bool IsPrepared()
+    public Skill skill;
+
+    public virtual void Init(Skill _skill)
     {
-        return true;
+        skill = _skill;
     }
 
-    public virtual bool IsFindTarget()
+    public virtual void OnCast(Transform castPoint)
     {
-        return true;
+    }
+
+
+    public virtual void OnFinish()
+    {
     }
 }

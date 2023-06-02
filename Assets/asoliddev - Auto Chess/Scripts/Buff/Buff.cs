@@ -112,13 +112,14 @@ public class Buff
         curTime = buffData.duration;
         intervalTimer = 0;
 
-        buffController = owner.GetComponent<BuffController>();
+        buffController = owner.buffController;
         if (!string.IsNullOrEmpty(buffData.buffBehaviourScriptName))
         {
             try
             {
                 Type type = Type.GetType(buffData.buffBehaviourScriptName);
                 buffBehaviour = (BuffBehaviour)Activator.CreateInstance(type);
+                buffBehaviour._controller = buffController;
             }
             catch (Exception ex)
             {

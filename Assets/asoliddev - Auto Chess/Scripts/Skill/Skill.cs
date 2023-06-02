@@ -48,6 +48,12 @@ public enum SkillTargetSelectorType//目标选择类型
     MostEnemiesSurrounded,
 }
 
+public enum SkillState
+{
+    Disable,
+    Casting
+}
+
 [Serializable]
 public class Skill
 {
@@ -66,11 +72,17 @@ public class Skill
     public GameObject hitFXPrefab;
     public Sprite icon;
 
-    public SkillBehaviour skillBehaviour;
     public List<ChampionController> targets = new List<ChampionController>();
     public List<GridInfo> mapGrids = new List<GridInfo>();
 
+    SkillState state;
+
+    SkillController skillController;
+    GameObject effectObject;
+    SkillBehaviour behaviourScript;
+
     ChampionManager manager;
+
 
     public Skill(SkillData _skillData, ChampionController _owner, ChampionController _caster)
     {
@@ -84,34 +96,22 @@ public class Skill
         caster = _caster;
         cdRemain = 0;
 
-        effectPrefab = Resources.Load<GameObject>(skillData.effectPrefab);
-        hitFXPrefab = Resources.Load<GameObject>(skillData.hitFXPrefab);
+        if (string.IsNullOrEmpty(skillData.effectPrefab))
+            effectPrefab = Resources.Load<GameObject>(skillData.effectPrefab);
+        if (string.IsNullOrEmpty(skillData.hitFXPrefab))
+            hitFXPrefab = Resources.Load<GameObject>(skillData.hitFXPrefab);
         icon = Resources.Load<Sprite>(skillData.icon);
 
-        if (!string.IsNullOrEmpty(skillData.skillBehaviourScriptName))
-        {
-            try
-            {
-                Type type = Type.GetType(skillData.skillBehaviourScriptName);
-                skillBehaviour = (SkillBehaviour)Activator.CreateInstance(type);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Create BuffBehaviour instance failed: " + ex.Message);
-                skillBehaviour = new SkillBehaviour();
-            }
-        }
-        else
-        {
-            skillBehaviour = new SkillBehaviour();
-        }
+        state = SkillState.Disable;
+
+        skillController = owner.skillController;
     }
 
     public bool IsPrepared()
     {
-        if (cdRemain <= 0 && skillBehaviour.IsPrepared())
+        if (cdRemain <= 0)
         {
-            return true;
+            return IsFindTarget();
         }
         return false;
     }
@@ -131,7 +131,7 @@ public class Skill
             }
         }
         FindTargetByRange();
-        if (targets.Count == 0)
+        if (targets.Count == 0 && mapGrids.Count == 0)
         {
             return false;
         }
@@ -245,5 +245,30 @@ public class Skill
                 mapGrids = Map.Instance.GetGridArea(c.occupyGridInfo, skillData.range);
                 break;
         }
+    }
+
+    public void Cast(Transform castPoint)
+    {
+        cdRemain = skillData.cd;
+
+        if (effectPrefab != null)
+        {
+            effectObject = GameObject.Instantiate(effectPrefab, castPoint);
+            behaviourScript = effectObject.GetComponent<SkillBehaviour>();
+            behaviourScript.Init(this);
+        }
+        behaviourScript.OnCast(castPoint);
+        state = SkillState.Casting;
+    }
+    public void OnFinish()
+    {
+        behaviourScript.OnFinish();
+        state = SkillState.Disable;
+    }
+
+    //计时器触发
+    public void CDTick()
+    {
+        cdRemain -= Time.deltaTime;
     }
 }
