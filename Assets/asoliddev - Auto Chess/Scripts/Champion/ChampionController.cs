@@ -86,7 +86,14 @@ public class ChampionController : MonoBehaviour
     {
         champion = _champion;
         team = _team;
-
+        if (team == ChampionTeam.Player)
+        {
+            gameObject.tag = "Own";
+        }
+        else
+        {
+            gameObject.tag = "Enemy";
+        }
         //store scripts
 
         championManeger = _championManeger;
@@ -396,15 +403,24 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-            TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
+
 
             //create projectile if have one
             if (!string.IsNullOrEmpty(champion.attackProjectile))
             {
                 GameObject projectile = Instantiate(Resources.Load<GameObject>(champion.attackProjectile));
                 projectile.transform.position = projectileStart.transform.position;
+                Projectile projectileScript = projectile.GetComponent<Projectile>();
+                projectileScript.Init(target.transform);
+                projectileScript.OnReached = new UnityAction(() =>
+                {
+                    TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
+                });
 
-                projectile.GetComponent<Projectile>().Init(target.gameObject);
+            }
+            else
+            {
+                TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
             }
 
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());

@@ -71,6 +71,10 @@ namespace ExcelConfig
 		public string hitFXPrefab { get { return _hitFXPrefab; } }
 
 		[SerializeField]
+		private string _hexEffectPrefab;
+		public string hexEffectPrefab { get { return _hexEffectPrefab; } }
+
+		[SerializeField]
 		private string _icon;
 		public string icon { get { return _icon; } }
 
@@ -103,6 +107,7 @@ namespace ExcelConfig
 				TryParse(_addBuffsArray[i], out _addBuffs[i]);
 			TryParse(sheet[row][column++], out _effectPrefab);
 			TryParse(sheet[row][column++], out _hitFXPrefab);
+			TryParse(sheet[row][column++], out _hexEffectPrefab);
 			TryParse(sheet[row][column++], out _icon);
 			TryParse(sheet[row][column++], out _skillBehaviourScriptName);
 		}

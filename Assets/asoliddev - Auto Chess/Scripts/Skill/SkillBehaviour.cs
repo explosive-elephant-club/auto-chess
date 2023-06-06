@@ -11,10 +11,34 @@ public class SkillBehaviour : MonoBehaviour
         skill = _skill;
     }
 
+    public virtual bool IsPrepared()
+    {
+        return true;
+    }
+
+    public virtual ChampionController FindTargetBySelectorType()
+    {
+        return null;
+    }
+
+    public virtual void FindTargetByRange()
+    {
+    }
+
+
     public virtual void OnCast(Transform castPoint)
     {
     }
 
+    public void OnEffect()
+    {
+
+    }
+
+    public virtual void OnCastingUpdate()
+    {
+
+    }
 
     public virtual void OnFinish()
     {

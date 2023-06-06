@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class BuffBehaviour
 {
-    public BuffController _controller;
+    public Buff buff;
+    public virtual void Init(Buff _buff)
+    {
+        buff = _buff;
+    }
     public virtual void BuffAwake() { }
     public virtual void BuffStart() { }
     public virtual void BuffRefresh() { }

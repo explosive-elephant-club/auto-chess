@@ -9,42 +9,46 @@ using System.Linq;
 
 public enum SkillTargetType//目标类型
 {
-    [Tooltip("自身")]
+    //自身
     Self,
-    [Tooltip("队友")]
+    //队友
     Teammate,
-    [Tooltip("敌人")]
+    //敌人
     Enemy
 }
 public enum SkillRangeSelectorType//范围选择类型
 {
-    [Tooltip("范围内所有友军")]
+    //自定义
+    Custom,
+    //范围内所有友军
     TeammatesInRange,
-    [Tooltip("范围内所有敌人")]
+    //范围内所有敌人
     EnemiesInRange,
-    [Tooltip("范围内所有棋格")]
+    //范围内所有棋格
     MapHexInRange,
 }
 
 public enum SkillTargetSelectorType//目标选择类型
 {
-    [Tooltip("任一")]
+    //自定义
+    Custom,
+    //任一
     Any,
-    [Tooltip("最近的")]
+    //最近的
     Nearest,
-    [Tooltip("最远的")]
+    //最远的
     Farthest,
-    [Tooltip("伤害最高的")]
+    //伤害最高的
     HighestDPS,
-    [Tooltip("等级最高的")]
+    //等级最高的
     HighestLevel,
-    [Tooltip("生命值最多的")]
+    //生命值最多的
     MostHP,
-    [Tooltip("生命值最少的")]
+    //生命值最少的
     LeastHP,
-    [Tooltip("周围友军最多的")]
+    //周围友军最多的
     MostTeammatesSurrounded,
-    [Tooltip("周围敌人最多的")]
+    //周围敌人最多的
     MostEnemiesSurrounded,
 }
 
@@ -69,19 +73,20 @@ public class Skill
     public float cdRemain;
 
     public GameObject effectPrefab;
+    public GameObject effectInstance;
     public GameObject hitFXPrefab;
     public Sprite icon;
 
     public List<ChampionController> targets = new List<ChampionController>();
     public List<GridInfo> mapGrids = new List<GridInfo>();
 
-    SkillState state;
+    public SkillState state;
 
-    SkillController skillController;
-    GameObject effectObject;
-    SkillBehaviour behaviourScript;
+    public SkillEffect effectScript;
+    public SkillController skillController;
+    public SkillBehaviour skillBehaviour;
 
-    ChampionManager manager;
+    public ChampionManager manager;
 
 
     public Skill(SkillData _skillData, ChampionController _owner, ChampionController _caster)
@@ -102,6 +107,25 @@ public class Skill
             hitFXPrefab = Resources.Load<GameObject>(skillData.hitFXPrefab);
         icon = Resources.Load<Sprite>(skillData.icon);
 
+        if (!string.IsNullOrEmpty(skillData.skillBehaviourScriptName))
+        {
+            try
+            {
+                Type type = Type.GetType(skillData.skillBehaviourScriptName);
+                skillBehaviour = (SkillBehaviour)Activator.CreateInstance(type);
+                skillBehaviour.Init(this);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Create BuffBehaviour instance failed: " + ex.Message);
+                skillBehaviour = new SkillBehaviour();
+            }
+        }
+        else
+        {
+            skillBehaviour = new SkillBehaviour();
+        }
+
         state = SkillState.Disable;
 
         skillController = owner.skillController;
@@ -109,7 +133,7 @@ public class Skill
 
     public bool IsPrepared()
     {
-        if (cdRemain <= 0)
+        if (cdRemain <= 0 && skillBehaviour.IsPrepared())
         {
             return IsFindTarget();
         }
@@ -125,7 +149,7 @@ public class Skill
         if (skillTargetType != SkillTargetType.Self)
         {
             targets.Add(FindTargetBySelectorType());
-            if (targets.Count == 0)
+            if (targets.Count == 0 || targets[0] == null)
             {
                 return false;
             }
@@ -176,6 +200,9 @@ public class Skill
         float maxValue = 0;
         switch (skillTargetSelectorType)
         {
+            case SkillTargetSelectorType.Custom:
+                c = skillBehaviour.FindTargetBySelectorType();
+                break;
             case SkillTargetSelectorType.Any:
                 c = manager.FindAnyTargetInRange(owner, skillData.distance);
                 break;
@@ -219,6 +246,9 @@ public class Skill
         ChampionController c = targets[0];
         switch (skillRangeSelectorType)
         {
+            case SkillRangeSelectorType.Custom:
+                skillBehaviour.FindTargetByRange();
+                break;
             case SkillRangeSelectorType.TeammatesInRange:
                 if (owner.team == ChampionTeam.Player)
                 {
@@ -243,6 +273,7 @@ public class Skill
                 break;
             case SkillRangeSelectorType.MapHexInRange:
                 mapGrids = Map.Instance.GetGridArea(c.occupyGridInfo, skillData.range);
+                targets.Clear();
                 break;
         }
     }
@@ -253,16 +284,45 @@ public class Skill
 
         if (effectPrefab != null)
         {
-            effectObject = GameObject.Instantiate(effectPrefab, castPoint);
-            behaviourScript = effectObject.GetComponent<SkillBehaviour>();
-            behaviourScript.Init(this);
+            effectInstance = GameObject.Instantiate(effectPrefab);
+            effectInstance.transform.position = castPoint.position;
+            effectScript = effectInstance.GetComponent<SkillEffect>();
+            //effectScript.Init(targets[0].transform);
         }
-        behaviourScript.OnCast(castPoint);
+
+        skillBehaviour.OnCast(castPoint);
+
         state = SkillState.Casting;
+
     }
+
+    public void Effect()
+    {
+        foreach (ChampionController C in targets)
+        {
+            if (!C.isDead)
+            {
+                foreach (int buff_ID in skillData.addBuffs)
+                {
+                    C.buffController.AddBuff(buff_ID, owner);
+                }
+            }
+        }
+        foreach (GridInfo G in mapGrids)
+        {
+            G.ApplyEffect(skillData.hexEffectPrefab);
+        }
+        skillBehaviour.OnEffect();
+    }
+
+    public void OnCastingUpdate()
+    {
+        skillBehaviour.OnCastingUpdate();
+    }
+
     public void OnFinish()
     {
-        behaviourScript.OnFinish();
+        skillBehaviour.OnFinish();
         state = SkillState.Disable;
     }
 

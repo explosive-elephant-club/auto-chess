@@ -10,7 +10,6 @@ public class OponentChampionManager : ChampionManager
     {
         base.OnEnterPreparation();
         this.AddChampionToBattle(GameData.Instance.championsArray.Find(c => c.ID == 1));
-        this.AddChampionToBattle(GameData.Instance.championsArray.Find(c => c.ID == 1));
         //this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }
 }

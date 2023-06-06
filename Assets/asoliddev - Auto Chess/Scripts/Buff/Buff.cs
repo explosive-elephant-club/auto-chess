@@ -119,7 +119,7 @@ public class Buff
             {
                 Type type = Type.GetType(buffData.buffBehaviourScriptName);
                 buffBehaviour = (BuffBehaviour)Activator.CreateInstance(type);
-                buffBehaviour._controller = buffController;
+                buffBehaviour.Init(this);
             }
             catch (Exception ex)
             {

@@ -108,4 +108,9 @@ public class GridInfo : MonoBehaviour
         return false;
     }
 
+    public void ApplyEffect(string effect)
+    {
+        
+    }
+
 }

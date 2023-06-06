@@ -27,21 +27,32 @@ public class SkillController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < skillCheckList.Count; i++)
+        if (curSkill == null)
         {
-            if (skillCheckList[i].IsPrepared() && curSkill == null)
+            for (int i = 0; i < skillCheckList.Count; i++)
             {
-                curSkill = skillCheckList[i];
-                skillCheckList.RemoveAt(i);
-                skillCheckList.Add(curSkill);
-                curSkill.Cast(skillCastPoint);
-                onSkillAnimFinish = new UnityAction(() =>
+                if (skillCheckList[i].IsPrepared())
                 {
-                    curSkill.OnFinish();
-                });
-                break;
+                    curSkill = skillCheckList[i];
+                    skillCheckList.RemoveAt(i);
+                    skillCheckList.Add(curSkill);
+                    curSkill.Cast(skillCastPoint);
+                    onSkillAnimFinish = new UnityAction(() =>
+                    {
+                        curSkill.OnFinish();
+                    });
+                    break;
+                }
             }
         }
+        else
+        {
+            if (curSkill.state == SkillState.Casting)
+            {
+                curSkill.OnCastingUpdate();
+            }
+        }
+
     }
 
     public void AddSkill(int skillID, ChampionController _caster)
