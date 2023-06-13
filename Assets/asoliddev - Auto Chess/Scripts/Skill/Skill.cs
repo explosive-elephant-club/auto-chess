@@ -68,12 +68,10 @@ public class Skill
     public SkillTargetSelectorType skillTargetSelectorType;
 
     public ChampionController owner;//技能的拥有者
-    public ChampionController caster;//技能的施加者
 
     public float cdRemain;
 
     public GameObject effectPrefab;
-    public GameObject effectInstance;
     public GameObject hitFXPrefab;
     public Sprite icon;
 
@@ -89,7 +87,7 @@ public class Skill
     public ChampionManager manager;
 
 
-    public Skill(SkillData _skillData, ChampionController _owner, ChampionController _caster)
+    public Skill(SkillData _skillData, ChampionController _owner)
     {
         skillData = _skillData;
 
@@ -98,12 +96,16 @@ public class Skill
         skillTargetSelectorType = (SkillTargetSelectorType)Enum.Parse(typeof(SkillTargetSelectorType), skillData.skillTargetSelectorType);
 
         owner = _owner;
-        caster = _caster;
         cdRemain = 0;
 
-        if (string.IsNullOrEmpty(skillData.effectPrefab))
+
+        if (!string.IsNullOrEmpty(skillData.effectPrefab))
+        {
             effectPrefab = Resources.Load<GameObject>(skillData.effectPrefab);
-        if (string.IsNullOrEmpty(skillData.hitFXPrefab))
+        }
+
+
+        if (!string.IsNullOrEmpty(skillData.hitFXPrefab))
             hitFXPrefab = Resources.Load<GameObject>(skillData.hitFXPrefab);
         icon = Resources.Load<Sprite>(skillData.icon);
 
@@ -133,8 +135,11 @@ public class Skill
 
     public bool IsPrepared()
     {
+        Debug.Log("cdRemain " + cdRemain);
+        Debug.Log(skillBehaviour.IsPrepared());
         if (cdRemain <= 0 && skillBehaviour.IsPrepared())
         {
+            Debug.Log("Prepared");
             return IsFindTarget();
         }
         return false;
@@ -159,6 +164,7 @@ public class Skill
         {
             return false;
         }
+        Debug.Log("FindTarget");
         return true;
     }
 
@@ -273,7 +279,6 @@ public class Skill
                 break;
             case SkillRangeSelectorType.MapHexInRange:
                 mapGrids = Map.Instance.GetGridArea(c.occupyGridInfo, skillData.range);
-                targets.Clear();
                 break;
         }
     }
@@ -284,10 +289,10 @@ public class Skill
 
         if (effectPrefab != null)
         {
-            effectInstance = GameObject.Instantiate(effectPrefab);
+            GameObject effectInstance = GameObject.Instantiate(effectPrefab);
             effectInstance.transform.position = castPoint.position;
             effectScript = effectInstance.GetComponent<SkillEffect>();
-            //effectScript.Init(targets[0].transform);
+            effectScript.Init(this);
         }
 
         skillBehaviour.OnCast(castPoint);
@@ -304,7 +309,8 @@ public class Skill
             {
                 foreach (int buff_ID in skillData.addBuffs)
                 {
-                    C.buffController.AddBuff(buff_ID, owner);
+                    if (buff_ID != 0)
+                        C.buffController.AddBuff(buff_ID, owner);
                 }
             }
         }
@@ -330,5 +336,40 @@ public class Skill
     public void CDTick()
     {
         cdRemain -= Time.deltaTime;
+    }
+
+    public void Reset()
+    {
+        cdRemain = 0;
+    }
+
+    public bool CheckUnLockRequire()
+    {
+        if (owner.lvl >= skillData.levelRequire)
+        {
+            if (string.IsNullOrEmpty(skillData.typeRequire.typeName))
+            {
+                return true;
+            }
+            else
+            {
+                int count = 0;
+                ChampionType type = GameData.Instance._eeDataManager.Get<ChampionType>(skillData.typeRequire.typeName);
+                if (owner.team == ChampionTeam.Player)
+                {
+                    count = GamePlayController.Instance.ownChampionManager.championTypeCount[type];
+                }
+                else
+                {
+                    count = GamePlayController.Instance.oponentChampionManager.championTypeCount[type];
+                }
+                if (count >= skillData.typeRequire.count)
+                {
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
 }

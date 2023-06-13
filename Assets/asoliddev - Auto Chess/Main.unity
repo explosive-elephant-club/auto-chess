@@ -21672,7 +21672,9 @@ MonoBehaviour:
     _type2: 
     _type3: 
     _otherTypes: []
-  buffsArray: []
+  baseBuffsArray: []
+  modifyAttributeBuffsArray: []
+  skillDatasArray: []
 --- !u!1 &1906263041
 GameObject:
   m_ObjectHideFlags: 0

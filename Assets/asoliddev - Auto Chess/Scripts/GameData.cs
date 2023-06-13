@@ -28,5 +28,7 @@ public class GameData : CreateSingleton<GameData>
         championsArray = _eeDataManager.GetList<ChampionBaseData>();
         baseBuffsArray = _eeDataManager.GetList<BaseBuffData>();
         modifyAttributeBuffsArray = _eeDataManager.GetList<ModifyAttributeBuffData>();
+
+        skillDatasArray = _eeDataManager.GetList<SkillData>();
     }
 }

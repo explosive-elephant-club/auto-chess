@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using ExcelConfig;
+using System.Linq;
 
 public class SkillController : MonoBehaviour
 {
+    public int[] defSkillIDList;
+
     [SerializeField]
     public List<Skill> skillList = new List<Skill>();
 
-    List<Skill> skillCheckList = new List<Skill>();
-    Skill curSkill = null;
+    public List<Skill> skillCheckList = new List<Skill>();
+    public Skill curSkill = null;
     public EventCenter eventCenter = new EventCenter();
 
     public Transform skillCastPoint;
@@ -22,11 +25,17 @@ public class SkillController : MonoBehaviour
     void Start()
     {
         championController = gameObject.GetComponent<ChampionController>();
+        CheckAllUnLockRequire();
+        curSkill = null;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnUpdateCombat()
     {
+        foreach (var s in skillList)
+        {
+            s.CDTick();
+        }
+
         if (curSkill == null)
         {
             for (int i = 0; i < skillCheckList.Count; i++)
@@ -55,16 +64,16 @@ public class SkillController : MonoBehaviour
 
     }
 
-    public void AddSkill(int skillID, ChampionController _caster)
+    public void AddSkill(int skillID)
     {
-        AddSkill(GameData.Instance.skillDatasArray.Find(s => s.ID == skillID), _caster);
+        AddSkill(GameData.Instance.skillDatasArray.Find(s => s.ID == skillID));
     }
 
-    public void AddSkill(SkillData skillData, ChampionController _caster)
+    public void AddSkill(SkillData skillData)
     {
         if (skillList.Exists(s => s.skillData == skillData))
             return;
-        Skill skill = new Skill(skillData, championController, _caster);
+        Skill skill = new Skill(skillData, championController);
         skillList.Add(skill);
     }
 
@@ -75,10 +84,35 @@ public class SkillController : MonoBehaviour
 
     public void LoadSkillOrder()
     {
+        skillCheckList = new List<Skill>();
         for (int i = 0; i < skillList.Count; i++)
         {
             skillCheckList.Add(skillList[i]);
         }
         curSkill = null;
+    }
+
+
+    public void CheckAllUnLockRequire()
+    {
+        foreach (var id in defSkillIDList)
+        {
+            SkillData skillData = GameData.Instance.skillDatasArray.Find(s => s.ID == id);
+            Skill skill = new Skill(skillData, championController);
+            if (skill.CheckUnLockRequire())
+            {
+                AddSkill(skillData);
+            }
+        }
+        LoadSkillOrder();
+    }
+
+    public void Reset()
+    {
+        CheckAllUnLockRequire();
+        foreach (var s in skillList)
+        {
+            s.Reset();
+        }
     }
 }

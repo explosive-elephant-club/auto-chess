@@ -7440,12 +7440,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7694065919687656631}
+  - component: {fileID: -6900037831827450491}
   - component: {fileID: 7694065919687656628}
   - component: {fileID: 7713825517542367633}
-  - component: {fileID: -6900037831827450491}
   - component: {fileID: 6176116990844000619}
+  - component: {fileID: 6048246461681187399}
   m_Layer: 0
-  m_Name: Fire Wizzard
+  m_Name: Magnus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7467,51 +7468,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7694065919687656628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7694065919687656627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de9e2da67ec47d741b024f6f3d143972, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelupEffectPrefab: {fileID: 6022893094628638925, guid: 3e052aff88b4eeb4da8c715d215dec1f,
-    type: 3}
-  projectileStart: {fileID: 675573999}
-  occupyGridInfo: {fileID: 0}
-  bookGridInfo: {fileID: 0}
-  originGridInfo: {fileID: 0}
-  team: 0
-  champion: {fileID: 11400000, guid: 5681a86ada07bf94b818fb5346cd24d7, type: 2}
-  maxHealth: 0
-  currentHealth: 0
-  currentDamage: 0
-  lvl: 1
-  championAnimation: {fileID: 0}
-  buffController: {fileID: 0}
-  isDead: 0
-  target: {fileID: 0}
-  championmaneger: {fileID: 0}
-  path: []
-  pathStep: 0
-  state: 
---- !u!114 &7713825517542367633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7694065919687656627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 976daa3f2bff9b34ebc28fb7a37ee12f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
 --- !u!195 &-6900037831827450491
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7534,6 +7490,60 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7694065919687656628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7694065919687656627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9e2da67ec47d741b024f6f3d143972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelupEffectPrefab: {fileID: 6022893094628638925, guid: 3e052aff88b4eeb4da8c715d215dec1f,
+    type: 3}
+  projectileStart: {fileID: 675573999}
+  occupyGridInfo: {fileID: 0}
+  bookGridInfo: {fileID: 0}
+  originGridInfo: {fileID: 0}
+  team: 0
+  champion:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _attackProjectile: 
+    _cost: 0
+    _attackType: 
+    _type1: 
+    _type2: 
+    _type3: 
+    _otherTypes: []
+  lvl: 1
+  championAnimation: {fileID: 0}
+  buffController: {fileID: 0}
+  skillController: {fileID: 0}
+  isDead: 0
+  target: {fileID: 0}
+  championManeger: {fileID: 0}
+  path: []
+  state: 
+  attackIntervelTimer: 0
+  totalDamage: 0
+--- !u!114 &7713825517542367633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7694065919687656627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976daa3f2bff9b34ebc28fb7a37ee12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!114 &6176116990844000619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7565,6 +7575,21 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+--- !u!114 &6048246461681187399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7694065919687656627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defSkillIDList: 01000000
+  skillList: []
+  skillCastPoint: {fileID: 675574000}
 --- !u!1 &7737935210733847413
 GameObject:
   m_ObjectHideFlags: 0

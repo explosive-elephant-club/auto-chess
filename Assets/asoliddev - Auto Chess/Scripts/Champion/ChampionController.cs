@@ -183,6 +183,8 @@ public class ChampionController : MonoBehaviour
         SetWorldPosition();
         SetWorldRotation();
 
+        skillController.Reset();
+
         //remove add buffs
         buffController.RemoveAllBuff();
 
@@ -390,6 +392,8 @@ public class ChampionController : MonoBehaviour
 
     public void TakeDamage(ChampionController _target, float _damage, DamageType dmgType)
     {
+        if (target == null)
+            return;
         totalDamage += _damage;
         _target.OnGotHit(_damage, dmgType);
     }
@@ -566,6 +570,8 @@ public class ChampionController : MonoBehaviour
             attributesController.Regenerate();
             if (occupyGridInfo.gridType == GridType.HexaMap)
                 AIActionFsm.curState.OnUpdate();
+            buffController.OnUpdateCombat();
+            skillController.OnUpdateCombat();
         }
 
     }

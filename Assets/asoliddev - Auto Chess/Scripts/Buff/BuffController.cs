@@ -204,7 +204,7 @@ public class BuffController : MonoBehaviour
         buffStateContainer = tempBuffStateContainer;
     }
 
-    private void Update()
+    public void OnUpdateCombat()
     {
         if (buffList.Count > 0)
         {

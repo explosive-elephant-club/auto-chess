@@ -15,4 +15,24 @@ MonoBehaviour:
   ExcelFileName: SkillConfig.xlsx
   ExcelSheetName: SkillData
   KeyFieldName: _ID
-  elements: []
+  elements:
+  - _ID: 1
+    _name: FireBall
+    _cd: 10
+    _description: 
+    _manaCost: 60
+    _distance: 8
+    _range: 1
+    _skillTargetType: Enemy
+    _skillTargetSelectorType: Any
+    _skillRangeSelectorType: EnemiesInRange
+    _addBuffs: 00000000
+    _effectPrefab: Prefab/Projectile/Skill/FireBall
+    _hitFXPrefab: 
+    _hexEffectPrefab: 
+    _icon: 
+    _skillBehaviourScriptName: 
+    _levelRequire: 1
+    _typeRequire:
+      typeName: 
+      count: 0

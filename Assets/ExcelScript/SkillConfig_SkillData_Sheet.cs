@@ -51,12 +51,12 @@ namespace ExcelConfig
 		public string skillTargetType { get { return _skillTargetType; } }
 
 		[SerializeField]
-		private string _skillRangeSelectorType;
-		public string skillRangeSelectorType { get { return _skillRangeSelectorType; } }
-
-		[SerializeField]
 		private string _skillTargetSelectorType;
 		public string skillTargetSelectorType { get { return _skillTargetSelectorType; } }
+
+		[SerializeField]
+		private string _skillRangeSelectorType;
+		public string skillRangeSelectorType { get { return _skillRangeSelectorType; } }
 
 		[SerializeField]
 		private int[] _addBuffs;
@@ -82,6 +82,20 @@ namespace ExcelConfig
 		private string _skillBehaviourScriptName;
 		public string skillBehaviourScriptName { get { return _skillBehaviourScriptName; } }
 
+		[SerializeField]
+		private int _levelRequire;
+		public int levelRequire { get { return _levelRequire; } }
+
+		[Serializable]
+		public class typeRequireClass
+		{
+			public string typeName;
+			public int count;
+		}
+		[SerializeField]
+		private typeRequireClass _typeRequire;
+		public typeRequireClass typeRequire { get { return _typeRequire; } }
+
 
 		public SkillData()
 		{
@@ -98,8 +112,8 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _distance);
 			TryParse(sheet[row][column++], out _range);
 			TryParse(sheet[row][column++], out _skillTargetType);
-			TryParse(sheet[row][column++], out _skillRangeSelectorType);
 			TryParse(sheet[row][column++], out _skillTargetSelectorType);
+			TryParse(sheet[row][column++], out _skillRangeSelectorType);
 			string[] _addBuffsArray = sheet[row][column++].Split(',');
 			int _addBuffsCount = _addBuffsArray.Length;
 			_addBuffs = new int[_addBuffsCount];
@@ -110,6 +124,18 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _hexEffectPrefab);
 			TryParse(sheet[row][column++], out _icon);
 			TryParse(sheet[row][column++], out _skillBehaviourScriptName);
+			TryParse(sheet[row][column++], out _levelRequire);
+			_typeRequire = new typeRequireClass();
+			string rawtypeRequire = sheet[row][column++];
+			string[] substypeRequire = rawtypeRequire.Split(',');
+			for (int i = 0; i < substypeRequire.Length; ++i)
+			{
+				var strValue = substypeRequire[i];
+				if (i == 0)
+					TryParse(strValue, out typeRequire.typeName);
+				else if (i == 1)
+					TryParse(strValue, out typeRequire.count);
+			}
 		}
 #endif
 		public override void OnAfterSerialized()
