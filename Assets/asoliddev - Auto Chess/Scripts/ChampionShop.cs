@@ -8,8 +8,10 @@ using ExcelConfig;
 /// </summary>
 public class ChampionShop : CreateSingleton<ChampionShop>
 {
-    ///Array to store available champions to purchase
-    private ChampionBaseData[] availableChampionArray;
+    [HideInInspector]
+    public int curShopChampionLimit = 3;
+    [HideInInspector]
+    public bool isLocked = false;
     protected override void InitSingleton()
     {
 
@@ -45,24 +47,22 @@ public class ChampionShop : CreateSingleton<ChampionShop>
             return;
 
 
-        //init array
-        availableChampionArray = new ChampionBaseData[5];
-
         //fill up shop
-        for (int i = 0; i < availableChampionArray.Length; i++)
+        for (int i = 0; i < UIController.Instance.shop.championsBtnArray.Length; i++)
         {
-            //get a random champion
-            ChampionBaseData champion = GetRandomChampionInfo();
-
-            //store champion in array
-            availableChampionArray[i] = champion;
-
-            //load champion to ui
-            UIController.Instance.LoadShopItem(champion, i);
-
-            //show shop items
-            UIController.Instance.ShowShopItems();
+            UIController.Instance.shop.championsBtnArray[i].gameObject.SetActive(false);
+            if (i < curShopChampionLimit)
+            {
+                UIController.Instance.shop.championsBtnArray[i].gameObject.SetActive(true);
+                UIController.Instance.shop.championsBtnArray[i].Refresh(GetRandomChampionInfo());
+            }
         }
+        if (curShopChampionLimit < 7)
+        {
+            UIController.Instance.shop.championsBtnArray[curShopChampionLimit + 1].gameObject.SetActive(true);
+            UIController.Instance.shop.championsBtnArray[curShopChampionLimit + 1].ShowAdd();
+        }
+
 
         //decrase gold
         if (isFree == false)
@@ -72,16 +72,38 @@ public class ChampionShop : CreateSingleton<ChampionShop>
         UIController.Instance.UpdateUI();
     }
 
+    public void AddShopSlot()
+    {
+        //return if we dont have enough gold
+        if (GamePlayController.Instance.currentGold < GamePlayController.Instance.addSlotCostList[curShopChampionLimit - 3])
+            return;
+
+        if (curShopChampionLimit < 7)
+        {
+            curShopChampionLimit++;
+            GamePlayController.Instance.currentGold -= GamePlayController.Instance.addSlotCostList[curShopChampionLimit - 3];
+
+            UIController.Instance.UpdateUI();
+            UIController.Instance.shop.AddSlotSuccess(GetRandomChampionInfo());
+        }
+    }
+
+    public void SwitchLock()
+    {
+        isLocked = !isLocked;
+        UIController.Instance.UpdateUI();
+    }
+
     /// <summary>
     /// Called when ui champion frame clicked
     /// </summary>
     /// <param name="index"></param>
-    public void OnChampionFrameClicked(int index)
+    public void OnChampionClicked(ChampionBaseData data, ChampionShopBtn championBtn)
     {
-        bool isSucces = GamePlayController.Instance.BuyChampionFromShop(availableChampionArray[index]);
+        bool isSucces = GamePlayController.Instance.BuyChampionFromShop(data);
 
         if (isSucces)
-            UIController.Instance.HideChampionFrame(index);
+            championBtn.BuySuccessHide();
     }
 
     /// <summary>

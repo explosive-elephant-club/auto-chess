@@ -26,9 +26,11 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public int CombatStageDuration = 60;
     ///base gold value to get after every round
     public int baseGoldIncome = 5;
-
-
     public int currentGold = 0;
+
+    public int[] levelUpCostList;
+    public int[] addSlotCostList;
+
     [HideInInspector]
     public int currentHP = 100;
     [HideInInspector]
@@ -114,7 +116,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public void Buylvl()
     {
         //return if we dont have enough gold
-        if (currentGold < 4)
+        if (currentGold < levelUpCostList[ownChampionManager.currentChampionLimit - 3])
             return;
 
         if (ownChampionManager.currentChampionLimit < 9)
@@ -123,7 +125,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
             ownChampionManager.currentChampionLimit++;
 
             //decrase gold
-            currentGold -= 4;
+            currentGold -= levelUpCostList[ownChampionManager.currentChampionLimit - 3];
 
             //update ui
             UIController.Instance.UpdateUI();
