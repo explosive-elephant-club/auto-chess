@@ -41,6 +41,11 @@ public class ChampionShopBtn : MonoBehaviour
             ChampionShop.Instance.AddShopSlot();
     }
 
+    public void Onlocked(bool isLocked)
+    {
+        lockImage.SetActive(isLocked);
+    }
+
     public void BuySuccessHide()
     {
         ablePanel.SetActive(false);

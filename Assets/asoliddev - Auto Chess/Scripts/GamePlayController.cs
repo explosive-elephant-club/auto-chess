@@ -20,8 +20,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     private bool isReady = false;
 
 
-    ///The time available to place champions
-    public int PreparationStageDuration = 16;
     ///Maximum time the combat stage can last
     public int CombatStageDuration = 60;
     ///base gold value to get after every round
@@ -33,8 +31,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
 
     [HideInInspector]
     public int currentHP = 100;
-    [HideInInspector]
-    public int timerDisplay = 0;
+
 
     public EventCenter eventCenter = new EventCenter();
     public ChampionManager ownChampionManager;
@@ -231,7 +228,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     #region StageFuncs
     public void OnEnterPreparation()
     {
-        UIController.Instance.SetTimerTextActive(true);
+        UIController.Instance.levelInfo.ResetReadyBtn();
         currentGold += CalculateIncome();
         UIController.Instance.UpdateUI();
         ChampionShop.Instance.RefreshShop(true);
@@ -253,26 +250,15 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         {
             GamePlayController.Instance.ownChampionManager.StopDrag();
         }
-
-
-        timer += Time.deltaTime;
-        timerDisplay = (int)(PreparationStageDuration - timer);
-        UIController.Instance.UpdateTimerText();
-        if (timer > PreparationStageDuration)
-        {
-            timer = 0;
-            StageChange(GameStage.Combat);
-        }
     }
     public void OnLeavePreparation()
     {
-
+        timer = 0;
     }
 
     public void OnEnterCombat()
     {
         //Map.Instance.HideIndicators();
-        UIController.Instance.SetTimerTextActive(false);
         if (ownChampionManager.IsAllChampionDead())
             EndRound();
 
@@ -280,16 +266,18 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public void OnUpdateCombat()
     {
         timer += Time.deltaTime;
-        timerDisplay = (int)timer;
+        if (timer > CombatStageDuration - 10)
+        {
+            UIController.Instance.levelInfo.UpdateCombatTimer((int)(CombatStageDuration - timer));
+        }
         if (timer > CombatStageDuration)
         {
-            timer = 0;
             StageChange(GameStage.Preparation);
         }
     }
     public void OnLeaveCombat()
     {
-
+        timer = 0;
     }
 
     public void OnEnterLoss()

@@ -46,6 +46,9 @@ public class ChampionShop : CreateSingleton<ChampionShop>
         if (GamePlayController.Instance.currentGold < 2 && isFree == false)
             return;
 
+        if (isLocked && isFree)
+            return;
+
 
         //fill up shop
         for (int i = 0; i < UIController.Instance.shop.championsBtnArray.Length; i++)
@@ -59,8 +62,8 @@ public class ChampionShop : CreateSingleton<ChampionShop>
         }
         if (curShopChampionLimit < 7)
         {
-            UIController.Instance.shop.championsBtnArray[curShopChampionLimit + 1].gameObject.SetActive(true);
-            UIController.Instance.shop.championsBtnArray[curShopChampionLimit + 1].ShowAdd();
+            UIController.Instance.shop.championsBtnArray[curShopChampionLimit].gameObject.SetActive(true);
+            UIController.Instance.shop.championsBtnArray[curShopChampionLimit].ShowAdd();
         }
 
 

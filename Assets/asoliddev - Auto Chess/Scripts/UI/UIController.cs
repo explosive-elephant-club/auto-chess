@@ -12,16 +12,10 @@ public class UIController : CreateSingleton<UIController>
 {
     public GameObject[] bonusPanels;
 
-
-    public Text timerText;
-    public Text championCountText;
-    public Text goldText;
-    public Text hpText;
-
+    public GameObject mask;
     public ShopGUIController shop;
+    public LevelInfoController levelInfo;
     public GameObject restartButton;
-    public GameObject placementText;
-    public GameObject gold;
     public GameObject bonusContainer;
     public GameObject bonusUIPrefab;
 
@@ -43,11 +37,7 @@ public class UIController : CreateSingleton<UIController>
     /// </summary>
     public void UpdateUI()
     {
-        goldText.text = GamePlayController.Instance.currentGold.ToString();
-        championCountText.text = GamePlayController.Instance.ownChampionManager.currentChampionCount.ToString()
-            + " / " + GamePlayController.Instance.ownChampionManager.currentChampionLimit.ToString();
-        hpText.text = "HP " + GamePlayController.Instance.currentHP.ToString();
-
+        levelInfo.UpdateUI();
         shop.UpdateUI();
 
         //hide bonusus UI
@@ -78,34 +68,13 @@ public class UIController : CreateSingleton<UIController>
         }
     }
 
-    /// <summary>
-    /// updates timer
-    /// </summary>
-    public void UpdateTimerText()
-    {
-        timerText.text = GamePlayController.Instance.timerDisplay.ToString();
-    }
-
-    /// <summary>
-    /// sets timer visibility
-    /// </summary>
-    /// <param name="b"></param>
-    public void SetTimerTextActive(bool b)
-    {
-        timerText.gameObject.SetActive(b);
-
-        placementText.SetActive(b);
-    }
 
     /// <summary>
     /// displays loss screen when game ended
     /// </summary>
     public void ShowLossScreen()
     {
-        SetTimerTextActive(false);
-        gold.SetActive(false);
-
-
+        mask.SetActive(true);
         restartButton.SetActive(true);
     }
 
@@ -114,10 +83,7 @@ public class UIController : CreateSingleton<UIController>
     /// </summary>
     public void ShowGameScreen()
     {
-        SetTimerTextActive(true);
-        gold.SetActive(true);
-
-
+        mask.SetActive(false);
         restartButton.SetActive(false);
     }
 
