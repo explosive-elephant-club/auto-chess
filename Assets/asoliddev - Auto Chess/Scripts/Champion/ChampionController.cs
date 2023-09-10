@@ -35,10 +35,8 @@ public class ChampionController : MonoBehaviour
     public int lvl = 1;
 
     public ChampionAnimation championAnimation;
-
     public BuffController buffController;
     public SkillController skillController;
-
     private NavMeshAgent navMeshAgent;
 
     private bool _isDragged = false;
