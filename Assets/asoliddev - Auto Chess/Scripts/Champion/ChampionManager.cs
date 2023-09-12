@@ -103,14 +103,6 @@ public class ChampionManager : MonoBehaviour
         championController.SetWorldPosition();
         championController.SetWorldRotation();
 
-
-
-
-
-        //only upgrade when in preparation stage
-        if (GamePlayController.Instance.currentGameStage == GameStage.Preparation)
-            TryUpgradeChampion(champion); //upgrade champion
-
         //set gold on ui
         UIController.Instance.UpdateUI();
 
@@ -138,89 +130,10 @@ public class ChampionManager : MonoBehaviour
         championController.SetWorldPosition();
         championController.SetWorldRotation();
 
-        //only upgrade when in preparation stage
-        if (GamePlayController.Instance.currentGameStage == GameStage.Preparation)
-            TryUpgradeChampion(champion); //upgrade champion
-
         //set gold on ui
         UIController.Instance.UpdateUI();
         CalculateBonuses();
         return true;
-    }
-
-    private void TryUpgradeChampion(ChampionBaseData champion)
-    {
-        //check for champion upgrade
-        List<ChampionController> championList_lvl_1 = new List<ChampionController>();
-        List<ChampionController> championList_lvl_2 = new List<ChampionController>();
-        foreach (ChampionController championCtrl in championInventoryArray)
-        {
-            if (championCtrl != null)
-            {
-                if (championCtrl.champion == champion)
-                {
-                    if (championCtrl.lvl == 1)
-                        championList_lvl_1.Add(championCtrl);
-                    else if (championCtrl.lvl == 2)
-                        championList_lvl_2.Add(championCtrl);
-                }
-            }
-        }
-        foreach (ChampionController championCtrl in championsHexaMapArray)
-        {
-            if (championCtrl != null)
-            {
-                if (championCtrl.champion == champion)
-                {
-                    if (championCtrl.lvl == 1)
-                        championList_lvl_1.Add(championCtrl);
-                    else if (championCtrl.lvl == 2)
-                        championList_lvl_2.Add(championCtrl);
-                }
-            }
-        }
-
-        //if we have 3 we upgrade a champion and delete rest
-        if (championList_lvl_1.Count > 2)
-        {
-            //upgrade
-            championList_lvl_1[2].UpgradeLevel();
-
-            //remove from array
-            RemoveChampionFromArray(championList_lvl_1[0]);
-            RemoveChampionFromArray(championList_lvl_1[1]);
-
-            //destroy gameobjects
-            championList_lvl_1[0].OnRemove();
-            championList_lvl_1[1].OnRemove();
-            Destroy(championList_lvl_1[0].gameObject);
-            Destroy(championList_lvl_1[1].gameObject);
-
-            //we upgrade to lvl 3
-            if (championList_lvl_2.Count > 1)
-            {
-                //upgrade
-                championList_lvl_1[2].UpgradeLevel();
-
-                //remove from array
-                RemoveChampionFromArray(championList_lvl_2[0]);
-                RemoveChampionFromArray(championList_lvl_2[1]);
-
-                //destroy gameobjects
-                championList_lvl_1[0].OnRemove();
-                championList_lvl_1[1].OnRemove();
-                Destroy(championList_lvl_2[0].gameObject);
-                Destroy(championList_lvl_2[1].gameObject);
-            }
-        }
-
-
-
-        currentChampionCount = championsHexaMapArray.Count;
-
-        //update ui
-        UIController.Instance.UpdateUI();
-
     }
 
     public ChampionController FindAnyTargetInRange(ChampionController _championController, int bestDistance)
@@ -523,12 +436,8 @@ public class ChampionManager : MonoBehaviour
 
     public virtual void OnEnterPreparation()
     {
-        for (int i = 0; i < GameData.Instance.championsArray.Count; i++)
-        {
-            TryUpgradeChampion(GameData.Instance.championsArray[i]);
-        }
-
     }
+    
     public virtual void OnUpdatePreparation()
     {
 

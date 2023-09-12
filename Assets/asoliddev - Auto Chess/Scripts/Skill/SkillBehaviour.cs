@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SkillBehaviour : MonoBehaviour
 {
@@ -28,11 +29,54 @@ public class SkillBehaviour : MonoBehaviour
 
     public virtual void OnCast(Transform castPoint)
     {
+        //绑定动画结束时间或直接结束
+        if (!string.IsNullOrEmpty(skill.skillData.skillAnimTrigger[0].constructorType))
+        {
+            skill.constructor.onSkillAnimEffect = new UnityAction(() =>
+            {
+                skill.InstanceEffect();
+            });
+            skill.constructor.onSkillAnimFinish = new UnityAction(() =>
+            {
+                skill.OnFinish();
+            });
+            //触发动画
+            foreach (var animTrigger in skill.skillData.skillAnimTrigger)
+            {
+                foreach (var c in skill.constructor.GetAllParentConstructors(true))
+                {
+                    if (c.type.ToString() == animTrigger.constructorType && c.animator != null)
+                    {
+                        c.animator.SetTrigger(animTrigger.trigger);
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            skill.InstanceEffect();
+            skill.OnFinish();
+        }
     }
 
-    public void OnEffect()
+    public virtual void OnEffect()
     {
-
+        foreach (ChampionController C in skill.targets)
+        {
+            if (!C.isDead)
+            {
+                foreach (int buff_ID in skill.skillData.addBuffs)
+                {
+                    if (buff_ID != 0)
+                        C.buffController.AddBuff(buff_ID, skill.owner);
+                }
+            }
+        }
+        foreach (GridInfo G in skill.mapGrids)
+        {
+            G.ApplyEffect(skill.skillData.hexEffectPrefab);
+        }
     }
 
     public virtual void OnCastingUpdate()

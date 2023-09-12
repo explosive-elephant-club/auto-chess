@@ -7,9 +7,9 @@ public enum DamageType
     Physical,
     Pure,
     Fire,
-    Water,
+    Ice,
     Lightning,
-    Soil
+    Acid
 }
 
 public class ChampionAttribute

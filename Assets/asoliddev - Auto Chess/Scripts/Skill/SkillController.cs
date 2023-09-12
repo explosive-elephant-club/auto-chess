@@ -7,73 +7,60 @@ using System.Linq;
 
 public class SkillController : MonoBehaviour
 {
-    public int[] defSkillIDList;
-
-    [SerializeField]
+    [SerializeField]//所有的技能表
     public List<Skill> skillList = new List<Skill>();
 
-    public List<Skill> skillCheckList = new List<Skill>();
-    public Skill curSkill = null;
+    //默认攻击技能
+    public Skill attackSkill;
+    //正在释放的技能
+    public Skill curCastingSkill;
+
     public EventCenter eventCenter = new EventCenter();
 
-    public Transform skillCastPoint;
 
-    public UnityAction onSkillAnimFinish;
     ChampionController championController;
 
     // Start is called before the first frame update
     void Start()
     {
         championController = gameObject.GetComponent<ChampionController>();
-        CheckAllUnLockRequire();
-        curSkill = null;
     }
 
     public void OnUpdateCombat()
     {
         foreach (var s in skillList)
         {
-            s.CDTick();
-        }
-
-        if (curSkill == null)
-        {
-            for (int i = 0; i < skillCheckList.Count; i++)
+            switch (s.state)
             {
-                if (skillCheckList[i].IsPrepared())
-                {
-                    curSkill = skillCheckList[i];
-                    skillCheckList.RemoveAt(i);
-                    skillCheckList.Add(curSkill);
-                    curSkill.Cast(skillCastPoint);
-                    onSkillAnimFinish = new UnityAction(() =>
-                    {
-                        curSkill.OnFinish();
-                    });
+                case SkillState.Disable:
                     break;
-                }
-            }
-        }
-        else
-        {
-            if (curSkill.state == SkillState.Casting)
-            {
-                curSkill.OnCastingUpdate();
-            }
-        }
+                case SkillState.Casting:
+                    s.OnCastingUpdate();
+                    break;
+                case SkillState.CD:
+                    if (s.countRemain > 0)
+                        s.CDTick();
+                    if (s.IsPrepared() && curCastingSkill == null)
+                    {
 
+                        s.Cast();
+                    }
+
+                    break;
+            }
+        }
     }
 
-    public void AddSkill(int skillID)
+    public void AddSkill(int skillID, ConstructorBase _constructor)
     {
-        AddSkill(GameData.Instance.skillDatasArray.Find(s => s.ID == skillID));
+        AddSkill(GameData.Instance.skillDatasArray.Find(s => s.ID == skillID), _constructor);
     }
 
-    public void AddSkill(SkillData skillData)
+    public void AddSkill(SkillData skillData, ConstructorBase _constructor)
     {
         if (skillList.Exists(s => s.skillData == skillData))
             return;
-        Skill skill = new Skill(skillData, championController);
+        Skill skill = new Skill(skillData, championController, _constructor);
         skillList.Add(skill);
     }
 
@@ -82,34 +69,8 @@ public class SkillController : MonoBehaviour
         skillList.Remove(skill);
     }
 
-    public void LoadSkillOrder()
-    {
-        skillCheckList = new List<Skill>();
-        for (int i = 0; i < skillList.Count; i++)
-        {
-            skillCheckList.Add(skillList[i]);
-        }
-        curSkill = null;
-    }
-
-
-    public void CheckAllUnLockRequire()
-    {
-        foreach (var id in defSkillIDList)
-        {
-            SkillData skillData = GameData.Instance.skillDatasArray.Find(s => s.ID == id);
-            Skill skill = new Skill(skillData, championController);
-            if (skill.CheckUnLockRequire())
-            {
-                AddSkill(skillData);
-            }
-        }
-        LoadSkillOrder();
-    }
-
     public void Reset()
     {
-        CheckAllUnLockRequire();
         foreach (var s in skillList)
         {
             s.Reset();

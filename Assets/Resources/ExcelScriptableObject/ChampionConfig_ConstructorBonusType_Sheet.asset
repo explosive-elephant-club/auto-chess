@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4246552ecb45db14fb278c5a80d9bbe4, type: 3}
+  m_Name: ChampionConfig_ConstructorBonusType_Sheet
+  m_EditorClassIdentifier: 
+  ExcelFileName: ChampionConfig.xlsx
+  ExcelSheetName: ConstructorBonusType
+  KeyFieldName: _name
+  elements:
+  - _name: 3ZeroGroup
+    _c_name: "\u4E09\u96F6\u91CD\u5DE5"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Helix
+    _c_name: "\u6D77\u529B\u514B\u65AF"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 1
+      buff_ID: 2
+    _description: 
+  - _name: LaserWizard
+    _c_name: "\u5C04\u7EBF\u5DEB\u5E08"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: MiliForce
+    _c_name: "\u519B\u7528\u6B66\u88C5"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: MatsunoSociety
+    _c_name: "\u677E\u91CE\u4F1A\u793E"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: NewCentury
+    _c_name: "\u65B0\u4E16\u7EAA\u6750\u6599"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: AA
+    _c_name: "\u5B87\u822A\u534F\u4F1A"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Machine
+    _c_name: "\u5DE5\u7A0B\u673A\u68B0"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Laser
+    _c_name: "\u80FD\u91CF\u6B66\u88C5"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: AI
+    _c_name: "\u4EBA\u5DE5\u667A\u80FD"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Power
+    _c_name: "\u5F15\u64CE\u52A8\u529B"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Ballistics
+    _c_name: "\u5F39\u9053\u5B66"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Signal
+    _c_name: "\u4FE1\u606F\u5B89\u5168"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Defense
+    _c_name: "\u9632\u536B\u62A4\u76FE"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 
+  - _name: Energy
+    _c_name: "\u9AD8\u6548\u80FD\u6E90"
+    _icon: Sprite/TypeIcon/Archer
+    _Bonus:
+    - count: 0
+      buff_ID: 0
+    _description: 

@@ -51,14 +51,10 @@ public class BaseMoveState : State
 
     void OnEnterGrid(GridInfo grid)
     {
-        var c = championController.FindTarget((int)championController.attributesController.attackRange.GetTrueLinearValue(), FindTargetMode.AnyInRange);
+        var c = championController.FindTarget(championController.GetInAttackRange(), FindTargetMode.AnyInRange);
         if (c != null)
         {
             championController.target = c;
-            if (championController.IsLegalAttackIntervel())
-            {
-                fsm.SwitchState("Attack");
-            }
 
             return;
         }

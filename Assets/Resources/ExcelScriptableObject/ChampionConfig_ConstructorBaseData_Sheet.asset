@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d587bcf7e05d01d4c8da9abaa3e3ab25, type: 3}
+  m_Name: ChampionConfig_ConstructorBaseData_Sheet
+  m_EditorClassIdentifier: 
+  ExcelFileName: ChampionConfig.xlsx
+  ExcelSheetName: ConstructorBaseData
+  KeyFieldName: _ID
+  elements:
+  - _ID: 1
+    _name: TrackChassis
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
+    _cost: 3
+    _type1: 3ZeroGroup
+    _type2: Machine
+    _type3: 
+    _otherEntries:
+    - 
+  - _ID: 2
+    _name: Bot
+    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _cost: 3
+    _type1: Helix
+    _type2: AI
+    _type3: 
+    _otherEntries:
+    - 
+  - _ID: 3
+    _name: BackBox
+    _prefab: Prefab/Constructor/Backpack/Backpack_Box
+    _cost: 3
+    _type1: MatsunoSociety
+    _type2: Energy
+    _type3: 
+    _otherEntries:
+    - 
+  - _ID: 4
+    _name: TopPlatform
+    _prefab: Prefab/Constructor/TopPlatform/Top_Weapon_Platform
+    _cost: 3
+    _type1: MiliForce
+    _type2: 
+    _type3: 
+    _otherEntries:
+    - 
+  - _ID: 5
+    _name: Bazooka
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _cost: 3
+    _type1: MiliForce
+    _type2: Ballistics
+    _type3: 
+    _otherEntries:
+    - 

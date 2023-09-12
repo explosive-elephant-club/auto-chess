@@ -4,11 +4,12 @@ using UnityEngine;
 using System;
 using ExcelConfig;
 using System.Linq;
-
+using UnityEngine.Events;
 
 
 public enum SkillTargetType//目标类型
 {
+
     //自身
     Self,
     //队友
@@ -55,7 +56,8 @@ public enum SkillTargetSelectorType//目标选择类型
 public enum SkillState
 {
     Disable,
-    Casting
+    Casting,
+    CD
 }
 
 [Serializable]
@@ -68,8 +70,11 @@ public class Skill
     public SkillTargetSelectorType skillTargetSelectorType;
 
     public ChampionController owner;//技能的拥有者
+    public ConstructorBase constructor;//技能的载体
+
 
     public float cdRemain;
+    public float countRemain;
 
     public GameObject effectPrefab;
     public GameObject hitFXPrefab;
@@ -87,7 +92,7 @@ public class Skill
     public ChampionManager manager;
 
 
-    public Skill(SkillData _skillData, ChampionController _owner)
+    public Skill(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
     {
         skillData = _skillData;
 
@@ -96,8 +101,9 @@ public class Skill
         skillTargetSelectorType = (SkillTargetSelectorType)Enum.Parse(typeof(SkillTargetSelectorType), skillData.skillTargetSelectorType);
 
         owner = _owner;
+        constructor = _constructor;
         cdRemain = 0;
-
+        countRemain = skillData.count;
 
         if (!string.IsNullOrEmpty(skillData.effectPrefab))
         {
@@ -137,7 +143,7 @@ public class Skill
     {
         Debug.Log("cdRemain " + cdRemain);
         Debug.Log(skillBehaviour.IsPrepared());
-        if (cdRemain <= 0 && skillBehaviour.IsPrepared())
+        if (countRemain > 0 && cdRemain <= 0 && skillBehaviour.IsPrepared())
         {
             Debug.Log("Prepared");
             return IsFindTarget();
@@ -223,8 +229,8 @@ public class Skill
                 c = targetList.Where(x => x.totalDamage == maxValue).FirstOrDefault();
                 break;
             case SkillTargetSelectorType.HighestLevel:
-                maxValue = targetList.Max(t => t.lvl);
-                c = targetList.Where(x => x.lvl == maxValue).FirstOrDefault();
+                //maxValue = targetList.Max(t => t.lvl);
+                //c = targetList.Where(x => x.lvl == maxValue).FirstOrDefault();
                 break;
             case SkillTargetSelectorType.MostHP:
                 maxValue = targetList.Max(t => t.attributesController.curHealth);
@@ -283,41 +289,34 @@ public class Skill
         }
     }
 
-    public void Cast(Transform castPoint)
+    public void Cast()
     {
+        state = SkillState.Casting;
+        skillController.curCastingSkill = this;
         cdRemain = skillData.cd;
+        countRemain -= 1;
 
+        skillBehaviour.OnCast(constructor.skillCastPoint);
+    }
+
+    public void InstanceEffect()
+    {
+        //生成技能特效弹道
         if (effectPrefab != null)
         {
             GameObject effectInstance = GameObject.Instantiate(effectPrefab);
-            effectInstance.transform.position = castPoint.position;
+            effectInstance.transform.position = constructor.skillCastPoint.position;
             effectScript = effectInstance.GetComponent<SkillEffect>();
             effectScript.Init(this);
         }
-
-        skillBehaviour.OnCast(castPoint);
-
-        state = SkillState.Casting;
-
+        else  //无特效弹道
+        {
+            Effect();
+        }
     }
 
     public void Effect()
     {
-        foreach (ChampionController C in targets)
-        {
-            if (!C.isDead)
-            {
-                foreach (int buff_ID in skillData.addBuffs)
-                {
-                    if (buff_ID != 0)
-                        C.buffController.AddBuff(buff_ID, owner);
-                }
-            }
-        }
-        foreach (GridInfo G in mapGrids)
-        {
-            G.ApplyEffect(skillData.hexEffectPrefab);
-        }
         skillBehaviour.OnEffect();
     }
 
@@ -328,8 +327,9 @@ public class Skill
 
     public void OnFinish()
     {
+        state = SkillState.CD;
         skillBehaviour.OnFinish();
-        state = SkillState.Disable;
+        skillController.curCastingSkill = null;
     }
 
     //计时器触发
@@ -340,36 +340,7 @@ public class Skill
 
     public void Reset()
     {
+        countRemain = skillData.count;
         cdRemain = 0;
-    }
-
-    public bool CheckUnLockRequire()
-    {
-        if (owner.lvl >= skillData.levelRequire)
-        {
-            if (string.IsNullOrEmpty(skillData.typeRequire.typeName))
-            {
-                return true;
-            }
-            else
-            {
-                int count = 0;
-                ChampionType type = GameData.Instance._eeDataManager.Get<ChampionType>(skillData.typeRequire.typeName);
-                if (owner.team == ChampionTeam.Player)
-                {
-                    count = GamePlayController.Instance.ownChampionManager.championTypeCount[type];
-                }
-                else
-                {
-                    count = GamePlayController.Instance.oponentChampionManager.championTypeCount[type];
-                }
-                if (count >= skillData.typeRequire.count)
-                {
-                    return true;
-                }
-            }
-
-        }
-        return false;
     }
 }

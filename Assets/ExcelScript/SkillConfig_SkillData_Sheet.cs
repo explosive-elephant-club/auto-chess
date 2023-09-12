@@ -31,12 +31,12 @@ namespace ExcelConfig
 		public float cd { get { return _cd; } }
 
 		[SerializeField]
-		private string _description;
-		public string description { get { return _description; } }
+		private int _count;
+		public int count { get { return _count; } }
 
 		[SerializeField]
-		private float _manaCost;
-		public float manaCost { get { return _manaCost; } }
+		private string _description;
+		public string description { get { return _description; } }
 
 		[SerializeField]
 		private int _distance;
@@ -62,6 +62,16 @@ namespace ExcelConfig
 		private int[] _addBuffs;
 		public int[] addBuffs { get { return _addBuffs; } }
 
+		[Serializable]
+		public class skillAnimTriggerClass
+		{
+			public string constructorType;
+			public string trigger;
+		}
+		[SerializeField]
+		private skillAnimTriggerClass[] _skillAnimTrigger;
+		public skillAnimTriggerClass[] skillAnimTrigger { get { return _skillAnimTrigger; } }
+
 		[SerializeField]
 		private string _effectPrefab;
 		public string effectPrefab { get { return _effectPrefab; } }
@@ -82,20 +92,6 @@ namespace ExcelConfig
 		private string _skillBehaviourScriptName;
 		public string skillBehaviourScriptName { get { return _skillBehaviourScriptName; } }
 
-		[SerializeField]
-		private int _levelRequire;
-		public int levelRequire { get { return _levelRequire; } }
-
-		[Serializable]
-		public class typeRequireClass
-		{
-			public string typeName;
-			public int count;
-		}
-		[SerializeField]
-		private typeRequireClass _typeRequire;
-		public typeRequireClass typeRequire { get { return _typeRequire; } }
-
 
 		public SkillData()
 		{
@@ -107,8 +103,8 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _cd);
+			TryParse(sheet[row][column++], out _count);
 			TryParse(sheet[row][column++], out _description);
-			TryParse(sheet[row][column++], out _manaCost);
 			TryParse(sheet[row][column++], out _distance);
 			TryParse(sheet[row][column++], out _range);
 			TryParse(sheet[row][column++], out _skillTargetType);
@@ -119,23 +115,28 @@ namespace ExcelConfig
 			_addBuffs = new int[_addBuffsCount];
 			for(int i = 0; i < _addBuffsCount; i++)
 				TryParse(_addBuffsArray[i], out _addBuffs[i]);
+			string rawskillAnimTrigger = sheet[row][column++];
+			string[] subsskillAnimTrigger_0 = rawskillAnimTrigger.Split(';');
+			_skillAnimTrigger = new skillAnimTriggerClass[subsskillAnimTrigger_0.Length];
+			for (int j = 0; j < subsskillAnimTrigger_0.Length; ++j)
+			{
+				var _skillAnimTriggerone = new skillAnimTriggerClass();
+				_skillAnimTrigger[j] = _skillAnimTriggerone;
+				string[] subsskillAnimTrigger_1 = subsskillAnimTrigger_0[j].Split(',');
+				for (int i = 0; i < subsskillAnimTrigger_1.Length; ++i)
+				{
+					var strValue = subsskillAnimTrigger_1[i];
+					if (i == 0)
+						TryParse(strValue, out _skillAnimTriggerone.constructorType);
+					else if (i == 1)
+						TryParse(strValue, out _skillAnimTriggerone.trigger);
+				}
+			}
 			TryParse(sheet[row][column++], out _effectPrefab);
 			TryParse(sheet[row][column++], out _hitFXPrefab);
 			TryParse(sheet[row][column++], out _hexEffectPrefab);
 			TryParse(sheet[row][column++], out _icon);
 			TryParse(sheet[row][column++], out _skillBehaviourScriptName);
-			TryParse(sheet[row][column++], out _levelRequire);
-			_typeRequire = new typeRequireClass();
-			string rawtypeRequire = sheet[row][column++];
-			string[] substypeRequire = rawtypeRequire.Split(',');
-			for (int i = 0; i < substypeRequire.Length; ++i)
-			{
-				var strValue = substypeRequire[i];
-				if (i == 0)
-					TryParse(strValue, out typeRequire.typeName);
-				else if (i == 1)
-					TryParse(strValue, out typeRequire.count);
-			}
 		}
 #endif
 		public override void OnAfterSerialized()

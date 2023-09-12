@@ -36,10 +36,6 @@ public class BaseIdleState : State
         {
             if (championController.IsTargetInAttackRange())
             {
-                if (championController.IsLegalAttackIntervel())
-                {
-                    fsm.SwitchState("Attack");
-                }
 
                 return;
             }

@@ -35,10 +35,7 @@ public class DataStatisticSlot : MonoBehaviour
         for (int i = 0; i < levelStarts.Length; i++)
         {
             levelStarts[i].SetActive(false);
-            if (i < ChampionController.lvl)
-            {
-                levelStarts[i].SetActive(true);
-            }
+            
         }
         slide1.fillAmount = 0;
         slide2.fillAmount = 0;

@@ -15,8 +15,7 @@ public enum FindTargetMode { AnyInRange, Nearest, Farthest }
 /// </summary>
 public class ChampionController : MonoBehaviour
 {
-    public GameObject levelupEffectPrefab;
-    public GameObject projectileStart;
+    public List<ConstructorBase> constructors = new List<ConstructorBase>();
 
     public GridInfo occupyGridInfo;
     public GridInfo bookGridInfo;
@@ -29,10 +28,6 @@ public class ChampionController : MonoBehaviour
     public ChampionBaseData champion;
 
     public ChampionAttributesController attributesController;
-
-    [HideInInspector]
-    ///The upgrade level of the champion
-    public int lvl = 1;
 
     public ChampionAnimation championAnimation;
     public BuffController buffController;
@@ -59,8 +54,6 @@ public class ChampionController : MonoBehaviour
     public EventCenter eventCenter;
 
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
-
-    public float attackIntervelTimer = 0;
 
     public float totalDamage = 0;
 
@@ -223,34 +216,6 @@ public class ChampionController : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(rotation);
     }
 
-    /// <summary>
-    /// Upgrade champion lvl
-    /// </summary>
-    public void UpgradeLevel()
-    {
-        //incrase lvl
-        lvl++;
-
-        float newSize = 1;
-        if (lvl == 2)
-            newSize = 1.5f;
-        if (lvl == 3)
-            newSize = 2f;
-        //set size
-        this.transform.localScale = new Vector3(newSize, newSize, newSize);
-
-        attributesController.UpdateLevelAttributes(champion, lvl);
-
-        //instantiate level up effect
-        GameObject levelupEffect = Instantiate(levelupEffectPrefab);
-
-        //set position
-        levelupEffect.transform.position = this.transform.position;
-
-        //destroy effect after finished
-        Destroy(levelupEffect, 1.0f);
-    }
-
     public ChampionController FindTarget(int bestDistance, FindTargetMode mode)
     {
         ChampionManager manager;
@@ -328,17 +293,16 @@ public class ChampionController : MonoBehaviour
         }
     }
 
+    public int GetInAttackRange()
+    {
+        return (int)attributesController.addRange.GetTrueLinearValue() + skillController.attackSkill.skillData.range;
+    }
+
     public bool IsTargetInAttackRange()
     {
         if (target == null || target.isDead)
             return false;
-        return occupyGridInfo.GetDistance(target.occupyGridInfo) <=
-            (int)attributesController.attackRange.GetTrueLinearValue();
-    }
-
-    public bool IsLegalAttackIntervel()
-    {
-        return attackIntervelTimer >= attributesController.GetAttackIntervel();
+        return occupyGridInfo.GetDistance(target.occupyGridInfo) <= GetInAttackRange();
     }
 
     void DebugPrint(string str)
@@ -405,9 +369,10 @@ public class ChampionController : MonoBehaviour
         if (target != null)
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-
+            //TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
 
             //create projectile if have one
+            /*
             if (!string.IsNullOrEmpty(champion.attackProjectile))
             {
                 GameObject projectile = Instantiate(Resources.Load<GameObject>(champion.attackProjectile));
@@ -422,8 +387,8 @@ public class ChampionController : MonoBehaviour
             }
             else
             {
-                TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
-            }
+
+            }*/
 
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
         }
@@ -542,7 +507,7 @@ public class ChampionController : MonoBehaviour
     {
         IsDragged = false;
         this.transform.position = occupyGridInfo.gameObject.transform.position;
-        attackIntervelTimer = attributesController.GetAttackIntervel();
+
         //in combat grid
         if (occupyGridInfo.gridType == GridType.HexaMap)
         {
@@ -564,7 +529,7 @@ public class ChampionController : MonoBehaviour
     {
         if (!isDead && occupyGridInfo != null)
         {
-            attackIntervelTimer += Time.deltaTime;
+
             attributesController.Regenerate();
             if (occupyGridInfo.gridType == GridType.HexaMap)
                 AIActionFsm.curState.OnUpdate();

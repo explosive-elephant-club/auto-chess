@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public enum ConstructorType
 {
     Arm,
@@ -35,6 +35,7 @@ public class ConstructorSlot
     public List<ConstructorType> forbiddenSubSlotTypes;
     //是否禁用子物体所有槽位
     public bool isForbiddenAllSubSlots;
+
 }
 
 
@@ -44,9 +45,28 @@ public class ConstructorBase : MonoBehaviour
     public ConstructorType type;
     //附加槽位
     public List<ConstructorSlot> slots;
+    //父组件
+    public ConstructorBase parentConstructor;
+
+    public Animator animator;
+    public Transform skillCastPoint;
+    public UnityAction onSkillAnimEffect;
+    public UnityAction onSkillAnimFinish;
 
 
+    public ConstructorBase()
+    {
+        onSkillAnimFinish = new UnityAction(() =>
+        {
+            Debug.Log("Fire");
+        });
+    }
+    private void Start()
+    {
+        AutoPackage();
+    }
 
+    //添加子组件
     public virtual bool attachConstructor(ConstructorBase constructor, ConstructorSlot slot)
     {
         if (slot.adaptTypes.Contains(constructor.type))
@@ -55,6 +75,7 @@ public class ConstructorBase : MonoBehaviour
             constructor.gameObject.transform.localPosition = Vector3.zero;
             constructor.gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
             slot.constructorInstance = constructor;
+            constructor.parentConstructor = this;
 
             //禁用子物体所有槽位
             if (slot.isForbiddenAllSubSlots)
@@ -87,5 +108,32 @@ public class ConstructorBase : MonoBehaviour
         return false;
     }
 
+    //自动获取槽位中的物体并组装
+    public virtual void AutoPackage()
+    {
+        Debug.Log(gameObject);
+        foreach (ConstructorSlot s in slots)
+        {
+            if (s.slotTrans.childCount > 0)
+            {
+                ConstructorBase constructor = s.slotTrans.GetChild(0).GetComponent<ConstructorBase>();
+                attachConstructor(constructor, s);
+            }
+        }
+    }
 
+    //向上获取所有父组件
+    public virtual List<ConstructorBase> GetAllParentConstructors(bool isContainSelf)
+    {
+        List<ConstructorBase> constructors = new List<ConstructorBase>();
+        if (isContainSelf)
+            constructors.Add(this);
+        ConstructorBase parent = parentConstructor;
+        do
+        {
+            constructors.Add(parent);
+            parent = parent.parentConstructor;
+        } while (parent != null);
+        return constructors;
+    }
 }
