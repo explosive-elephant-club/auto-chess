@@ -12,7 +12,7 @@ public class GameData : CreateSingleton<GameData>
     ///Store all available champion, all champions must be assigned from the Editor to the Script GameObject
     //public Champion[] championsArray;
 
-    public List<ConstructorBaseData> constructorArray;
+    public List<ConstructorBaseData> constructorsArray;
 
     public List<BaseBuffData> baseBuffsArray;
     public List<ModifyAttributeBuffData> modifyAttributeBuffsArray;
@@ -25,7 +25,7 @@ public class GameData : CreateSingleton<GameData>
         _eeDataManager = new EEDataManager();
         _eeDataManager.Load();
 
-        constructorArray = _eeDataManager.GetList<ConstructorBaseData>();
+        constructorsArray = _eeDataManager.GetList<ConstructorBaseData>();
         baseBuffsArray = _eeDataManager.GetList<BaseBuffData>();
         modifyAttributeBuffsArray = _eeDataManager.GetList<ModifyAttributeBuffData>();
 

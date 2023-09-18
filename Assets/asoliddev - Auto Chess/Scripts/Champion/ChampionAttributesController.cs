@@ -26,7 +26,7 @@ public class ChampionAttributesController
     //暴击倍数
     public ChampionAttribute critMultiple;
 
-    //恢复恢复
+    //护甲恢复
     public ChampionAttribute armorRegeneration;
 
     //造成的伤害倍率
@@ -87,12 +87,6 @@ public class ChampionAttributesController
         lightingDefenseRate = new ChampionAttribute(0);
         acidDefenseRate = new ChampionAttribute(0);
     }
-
-    public void UpdateLevelAttributes(ConstructorBaseData constructorData)
-    {
-
-    }
-
 
     public bool DodgeCheck()
     {

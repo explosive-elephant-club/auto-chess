@@ -87,6 +87,8 @@ public class ChampionController : MonoBehaviour
         //disable agent
         navMeshAgent.enabled = false;
 
+
+        constructors.Find(c => c.type == ConstructorType.Base).Init(this, true);
         //set stats
         attributesController = new ChampionAttributesController();
 

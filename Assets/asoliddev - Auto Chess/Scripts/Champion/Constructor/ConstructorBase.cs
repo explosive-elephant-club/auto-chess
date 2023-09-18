@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using ExcelConfig;
+using UnityEngine.PlayerLoop;
 public enum ConstructorType
 {
     Arm,
@@ -42,7 +43,11 @@ public class ConstructorSlot
 
 public class ConstructorBase : MonoBehaviour
 {
+    public int constructorDataID;
+    [HideInInspector]
     public ConstructorBaseData constructorData;
+    //属性修改
+    public ValueOperation[] valueOperations;
     //种类
     public ConstructorType type;
     //附加槽位
@@ -50,22 +55,51 @@ public class ConstructorBase : MonoBehaviour
     //父组件
     public ConstructorBase parentConstructor;
 
+    public ChampionController championController;
     public Animator animator;
     public Transform skillCastPoint;
     public UnityAction onSkillAnimEffect;
     public UnityAction onSkillAnimFinish;
 
 
-    public ConstructorBase()
+    private void Awake()
     {
+        if (GetComponent<Animator>())
+        {
+            animator = GetComponent<Animator>();
+        }
         onSkillAnimFinish = new UnityAction(() =>
         {
             Debug.Log("Fire");
         });
     }
-    private void Start()
+    public void Init(ChampionController _championController, bool isAutoPackage)
     {
-        AutoPackage();
+        constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
+        championController = _championController;
+
+        if (!string.IsNullOrEmpty(constructorData.valueChanges[0]))
+        {
+            valueOperations = new ValueOperation[constructorData.valueChanges.Length];
+            for (int i = 0; i < valueOperations.Length; i++)
+            {
+                valueOperations[i] = new ValueOperation(constructorData.valueChanges[i],
+                championController.attributesController);
+            }
+        }
+        foreach (ValueOperation operation in valueOperations)
+        {
+
+            operation.operate.Invoke();
+        }
+        if (isAutoPackage)
+            AutoPackage();
+    }
+
+    public void Init(int id, ChampionController championController, bool isAutoPackage)
+    {
+        constructorDataID = id;
+        Init(championController, isAutoPackage);
     }
 
     //添加子组件
@@ -119,7 +153,14 @@ public class ConstructorBase : MonoBehaviour
             if (s.slotTrans.childCount > 0)
             {
                 ConstructorBase constructor = s.slotTrans.GetChild(0).GetComponent<ConstructorBase>();
-                attachConstructor(constructor, s);
+                if (attachConstructor(constructor, s))
+                {
+                    constructor.Init(championController, false);
+                    if (championController.constructors.Contains(constructor))
+                        championController.constructors.Add(constructor);
+                }
+                else
+                    Destroy(constructor.gameObject);
             }
         }
     }

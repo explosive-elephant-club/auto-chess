@@ -54,6 +54,10 @@ namespace ExcelConfig
 		private string[] _valueChanges;
 		public string[] valueChanges { get { return _valueChanges; } }
 
+		[SerializeField]
+		private int[] _skillID;
+		public int[] skillID { get { return _skillID; } }
+
 
 		public ConstructorBaseData()
 		{
@@ -79,6 +83,11 @@ namespace ExcelConfig
 			_valueChanges = new string[_valueChangesCount];
 			for(int i = 0; i < _valueChangesCount; i++)
 				TryParse(_valueChangesArray[i], out _valueChanges[i]);
+			string[] _skillIDArray = sheet[row][column++].Split(',');
+			int _skillIDCount = _skillIDArray.Length;
+			_skillID = new int[_skillIDCount];
+			for(int i = 0; i < _skillIDCount; i++)
+				TryParse(_skillIDArray[i], out _skillID[i]);
 		}
 #endif
 		public override void OnAfterSerialized()
