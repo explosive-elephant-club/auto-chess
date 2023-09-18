@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d587bcf7e05d01d4c8da9abaa3e3ab25, type: 3}
-  m_Name: ChampionConfig_ConstructorBaseData_Sheet
+  m_Script: {fileID: 11500000, guid: c40004c4eb066ff4f9190d8957d31289, type: 3}
+  m_Name: ConstructorConfig_ConstructorBaseData_Sheet
   m_EditorClassIdentifier: 
-  ExcelFileName: ChampionConfig.xlsx
+  ExcelFileName: ConstructorConfig.xlsx
   ExcelSheetName: ConstructorBaseData
   KeyFieldName: _ID
   elements:
@@ -25,6 +25,8 @@ MonoBehaviour:
     _type3: 
     _otherEntries:
     - 
+    _valueChanges:
+    - 
   - _ID: 2
     _name: Bot
     _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
@@ -33,6 +35,8 @@ MonoBehaviour:
     _type2: AI
     _type3: 
     _otherEntries:
+    - 
+    _valueChanges:
     - 
   - _ID: 3
     _name: BackBox
@@ -43,6 +47,8 @@ MonoBehaviour:
     _type3: 
     _otherEntries:
     - 
+    _valueChanges:
+    - 
   - _ID: 4
     _name: TopPlatform
     _prefab: Prefab/Constructor/TopPlatform/Top_Weapon_Platform
@@ -52,6 +58,8 @@ MonoBehaviour:
     _type3: 
     _otherEntries:
     - 
+    _valueChanges:
+    - 
   - _ID: 5
     _name: Bazooka
     _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
@@ -60,4 +68,6 @@ MonoBehaviour:
     _type2: Ballistics
     _type3: 
     _otherEntries:
+    - 
+    _valueChanges:
     - 

@@ -19,69 +19,41 @@ public class ValueOperation
         string[] element = code.Split(' ');
         valueName = element[0];
         value = float.Parse(element[2]);
-        if (valueName == "curHealth" || valueName == "curMana")
-        {
-            float attribute = (float)GeneralMethod.GetValueByName(attributesController, valueName);
-            switch (element[1])
-            {
-                case "+":
-                    operate = new UnityAction(() =>
-                    {
-                        attribute += value;
-                    });
-                    break;
-                case "-":
-                    operate = new UnityAction(() =>
-                    {
-                        attribute -= value;
-                    });
-                    break;
-                case "*":
-                    operate = new UnityAction(() =>
-                    {
-                        attribute *= value;
-                    });
-                    break;
-            }
-        }
-        else
-        {
-            ChampionAttribute attribute = (ChampionAttribute)GeneralMethod.GetValueByName(attributesController, valueName);
-            switch (element[1])
-            {
-                case "+":
-                    operate = new UnityAction(() =>
-                    {
-                        attribute.AddLinear(value);
-                    });
-                    reset = new UnityAction(() =>
-                    {
-                        attribute.RemoveLinear(value);
-                    });
-                    break;
-                case "-":
-                    operate = new UnityAction(() =>
-                    {
-                        attribute.AddLinear(-value);
-                    });
-                    reset = new UnityAction(() =>
-                    {
-                        attribute.RemoveLinear(-value);
-                    });
-                    break;
-                case "*":
-                    operate = new UnityAction(() =>
-                    {
-                        attribute.AddMultiple(value);
-                    });
-                    reset = new UnityAction(() =>
-                    {
-                        attribute.RemoveMultiple(value);
-                    });
-                    break;
-            }
-        }
 
+        ChampionAttribute attribute = (ChampionAttribute)GeneralMethod.GetValueByName(attributesController, valueName);
+        switch (element[1])
+        {
+            case "+":
+                operate = new UnityAction(() =>
+                {
+                    attribute.AddLinear(value);
+                });
+                reset = new UnityAction(() =>
+                {
+                    attribute.RemoveLinear(value);
+                });
+                break;
+            case "-":
+                operate = new UnityAction(() =>
+                {
+                    attribute.AddLinear(-value);
+                });
+                reset = new UnityAction(() =>
+                {
+                    attribute.RemoveLinear(-value);
+                });
+                break;
+            case "*":
+                operate = new UnityAction(() =>
+                {
+                    attribute.AddMultiple(value);
+                });
+                reset = new UnityAction(() =>
+                {
+                    attribute.RemoveMultiple(value);
+                });
+                break;
+        }
     }
 }
 

@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ExcelConfig;
+using UnityEngine.UIElements;
 
 [SerializeField]
 public class ChampionAttributesController
 {
-    //护甲
-    public ChampionAttribute defenseArmor;
+    //护盾值
+    public ChampionAttribute maxArmor;
+    //机体值
+    public ChampionAttribute maxHealth;
     //移动
     public ChampionAttribute moveSpeed;
-    //生命值
-    public ChampionAttribute maxHealth;
-
     //技能范围增强
     public ChampionAttribute addRange;
+    //提供电力
+    public ChampionAttribute electricPower;
 
 
     //闪避率
@@ -24,14 +26,16 @@ public class ChampionAttributesController
     //暴击倍数
     public ChampionAttribute critMultiple;
 
-    //生命恢复
-    public ChampionAttribute healthRegeneration;
+    //恢复恢复
+    public ChampionAttribute armorRegeneration;
 
     //造成的伤害倍率
     public ChampionAttribute takeDamageMultiple;
     //受到的伤害倍率
     public ChampionAttribute applyDamageMultiple;
 
+    //物理属性伤害增强
+    public ChampionAttribute physicalDamage;
     //燃烧属性伤害增强
     public ChampionAttribute fireDamage;
     //冰冻属性伤害增强
@@ -41,6 +45,8 @@ public class ChampionAttributesController
     //酸蚀属性伤害增强
     public ChampionAttribute acidDamage;
 
+    //物理属性伤害减免
+    public ChampionAttribute physicalDefenseRate;
     //燃烧属性伤害减免
     public ChampionAttribute fireDefenseRate;
     //冰冻属性伤害减免
@@ -51,54 +57,42 @@ public class ChampionAttributesController
     public ChampionAttribute acidDefenseRate;
 
     public float curHealth;
+    public float curArmor;
 
-    public ChampionAttributesController(ChampionBaseData champion)
+    public ChampionAttributesController()
     {
-        defenseArmor = new ChampionAttribute(0);
+        maxArmor = new ChampionAttribute(0);
         moveSpeed = new ChampionAttribute(0);
         maxHealth = new ChampionAttribute(0);
         addRange = new ChampionAttribute(0);
+        electricPower = new ChampionAttribute(0);
 
         dodgeChange = new ChampionAttribute(0);
         critChange = new ChampionAttribute(0);
         critMultiple = new ChampionAttribute(1);
 
-        healthRegeneration = new ChampionAttribute(0);
+        armorRegeneration = new ChampionAttribute(0);
         takeDamageMultiple = new ChampionAttribute(1);
         applyDamageMultiple = new ChampionAttribute(1);
 
+        physicalDamage = new ChampionAttribute(0);
         fireDamage = new ChampionAttribute(0);
         iceDamage = new ChampionAttribute(0);
         lightingDamage = new ChampionAttribute(0);
         acidDamage = new ChampionAttribute(0);
 
+        physicalDefenseRate = new ChampionAttribute(0);
         fireDefenseRate = new ChampionAttribute(0);
         iceDefenseRate = new ChampionAttribute(0);
         lightingDefenseRate = new ChampionAttribute(0);
         acidDefenseRate = new ChampionAttribute(0);
     }
 
-    public void UpdateLevelAttributes(ChampionBaseData champion, int level)
+    public void UpdateLevelAttributes(ConstructorBaseData constructorData)
     {
 
-        string key = champion.ID + "_" + level;
-        ChampionAttributesData attributesData =
-            GameData.Instance._eeDataManager.Get<ChampionAttributesData>(key);
-        defenseArmor.baseValue = attributesData.defenseArmor;
-        moveSpeed.baseValue = attributesData.moveSpeed;
-        maxHealth.baseValue = attributesData.maxHealth;
-
-        curHealth = maxHealth.GetTrueLinearValue();
     }
 
-    //物理减伤率
-    public float GetPhysicalDefenseRate()
-    {
-        if (defenseArmor.GetTrueLinearValue() >= 0)
-            return 13 * defenseArmor.GetTrueLinearValue() / (225 + 12 * defenseArmor.GetTrueLinearValue());
-        else
-            return 1 + defenseArmor.GetTrueLinearValue() / 100;
-    }
 
     public bool DodgeCheck()
     {
@@ -108,7 +102,42 @@ public class ChampionAttributesController
 
     public void Regenerate()
     {
-        curHealth += healthRegeneration.GetTrueLinearValue() * Time.deltaTime;
+        if ((curArmor + armorRegeneration.GetTrueLinearValue() * Time.deltaTime) < maxArmor.GetTrueLinearValue())
+            curArmor += armorRegeneration.GetTrueLinearValue() * Time.deltaTime;
+        else
+            curArmor = maxArmor.GetTrueLinearValue();
+    }
+
+    public float GetTrueDamage(float dmg, DamageType type)
+    {
+        float trueDamage = dmg;
+        trueDamage *= takeDamageMultiple.GetTrueLinearValue();
+        switch (type)
+        {
+            case DamageType.Physical:
+                trueDamage = physicalDamage.GetTrueLinearValue(trueDamage);
+                break;
+            case DamageType.Pure:
+                break;
+            case DamageType.Fire:
+                trueDamage = fireDamage.GetTrueLinearValue(trueDamage);
+                break;
+            case DamageType.Ice:
+                trueDamage = iceDamage.GetTrueLinearValue(trueDamage);
+                break;
+            case DamageType.Lightning:
+                trueDamage = lightingDamage.GetTrueLinearValue(trueDamage);
+                break;
+            case DamageType.Acid:
+                trueDamage = acidDamage.GetTrueLinearValue(trueDamage);
+                break;
+        }
+
+        if (trueDamage <= 0)
+        {
+            trueDamage = 1;
+        }
+        return trueDamage;
     }
 
     public float ApplyDamage(float dmg, DamageType type)
@@ -118,7 +147,7 @@ public class ChampionAttributesController
         switch (type)
         {
             case DamageType.Physical:
-                trueDamage *= (1 - GetPhysicalDefenseRate());
+                trueDamage *= (1 - physicalDefenseRate.GetTrueMultipleValue());
                 break;
             case DamageType.Pure:
                 break;
@@ -135,20 +164,33 @@ public class ChampionAttributesController
                 trueDamage *= (1 - acidDefenseRate.GetTrueMultipleValue());
                 break;
         }
+        trueDamage = Mathf.Floor(trueDamage);
 
-        if (curHealth > trueDamage)
+        if (curArmor > trueDamage)
         {
-            curHealth -= Mathf.Floor(trueDamage);
+            curArmor -= trueDamage;
         }
         else
         {
-            curHealth = 0;
+            float overflowDamage = trueDamage - curArmor;
+            curArmor = 0;//击破护甲
+            if (curHealth > trueDamage)
+            {
+                curHealth -= trueDamage;
+            }
+            else
+            {
+                curHealth = 0;
+            }
         }
+
+
         return trueDamage;
     }
 
     public void Reset()
     {
         curHealth = maxHealth.GetTrueLinearValue();
+        curArmor = maxArmor.GetTrueLinearValue();
     }
 }

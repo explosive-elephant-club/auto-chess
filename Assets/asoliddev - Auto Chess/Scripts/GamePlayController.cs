@@ -72,22 +72,23 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     /// <summary>
     /// Adds champion from shop to inventory
     /// </summary>
-    public bool BuyChampionFromShop(ChampionBaseData champion)
+    public bool BuyConstructorFromShop(ConstructorBaseData constructorData)
     {
-        if (currentGold < champion.cost)
+        if (currentGold < constructorData.cost)
             return false;
 
 
-        if (ownChampionManager.AddChampionToInventory(champion))
+        /* if (ownChampionManager.AddChampionToInventory(constructorData))
         {
-            currentGold -= champion.cost;
+            currentGold -= constructorData.cost;
             UIController.Instance.UpdateUI();
             return true;
         }
         else
         {
             return false;
-        }
+        }*/
+        return false;
     }
 
     /// <summary>
@@ -167,19 +168,12 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     }
 
 
-    public List<ChampionType> GetAllChampionTypes(ChampionBaseData champion)
+    public List<ConstructorBonusType> GetAllChampionTypes(ConstructorBaseData constructorData)
     {
-        List<ChampionType> types = new List<ChampionType>();
-        types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(champion.type1));
-        types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(champion.type2));
-        types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(champion.type3));
-        foreach (string type in champion.otherTypes)
-        {
-            if (!string.IsNullOrEmpty(type))
-            {
-                types.Add(GameData.Instance._eeDataManager.Get<ChampionType>(type));
-            }
-        }
+        List<ConstructorBonusType> types = new List<ConstructorBonusType>();
+        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.type1));
+        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.type2));
+        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.type3));
         return types;
     }
 
@@ -231,7 +225,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         UIController.Instance.levelInfo.ResetReadyBtn();
         currentGold += CalculateIncome();
         UIController.Instance.UpdateUI();
-        ChampionShop.Instance.RefreshShop(true);
+        //ChampionShop.Instance.RefreshShop(true);
 
         if (currentHP <= 0)
         {

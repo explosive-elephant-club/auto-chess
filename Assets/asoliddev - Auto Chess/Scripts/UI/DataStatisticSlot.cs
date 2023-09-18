@@ -31,7 +31,7 @@ public class DataStatisticSlot : MonoBehaviour
 
     public void InitData(ChampionController ChampionController)
     {
-        nameText.text = ChampionController.champion.name;
+        //nameText.text = ChampionController.champion.name;
         for (int i = 0; i < levelStarts.Length; i++)
         {
             levelStarts[i].SetActive(false);

@@ -27,6 +27,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _addBuffs: 00000000
+    _isBlockOther: 0
     _skillAnimTrigger:
     - constructorType: 
       trigger: 

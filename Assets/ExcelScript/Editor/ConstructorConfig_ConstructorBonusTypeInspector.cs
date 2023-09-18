@@ -12,8 +12,8 @@ using EasyExcel;
 
 namespace ExcelConfig
 {
-	[CustomEditor(typeof(ChampionConfig_ConstructorBonusType_Sheet))]
-	public class ChampionConfig_ConstructorBonusTypeInspector : EEAssetInspector
+	[CustomEditor(typeof(ConstructorConfig_ConstructorBonusType_Sheet))]
+	public class ConstructorConfig_ConstructorBonusTypeInspector : EEAssetInspector
 	{
 	}
 }

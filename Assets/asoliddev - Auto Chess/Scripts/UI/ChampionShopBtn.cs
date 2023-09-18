@@ -18,13 +18,13 @@ public class ChampionShopBtn : MonoBehaviour
     public TextMeshProUGUI buyCostText;
     public TextMeshProUGUI addCostText;
 
-    public ChampionBaseData championData;
+    public ConstructorBaseData constructorData;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(OnClicked);
+        //GetComponent<Button>().onClick.AddListener(OnClicked);
     }
 
     // Update is called once per frame
@@ -32,11 +32,11 @@ public class ChampionShopBtn : MonoBehaviour
     {
 
     }
-
+    /*
     public void OnClicked()
     {
         if (ablePanel.activeSelf)
-            ChampionShop.Instance.OnChampionClicked(championData, this);
+            ChampionShop.Instance.OnChampionClicked(constructorData, this);
         else if (disablePanel.activeSelf)
             ChampionShop.Instance.AddShopSlot();
     }
@@ -81,5 +81,5 @@ public class ChampionShopBtn : MonoBehaviour
                 typeIconArray[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
             }
         }
-    }
+    }*/
 }

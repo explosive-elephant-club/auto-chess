@@ -62,6 +62,10 @@ namespace ExcelConfig
 		private int[] _addBuffs;
 		public int[] addBuffs { get { return _addBuffs; } }
 
+		[SerializeField]
+		private bool _isBlockOther;
+		public bool isBlockOther { get { return _isBlockOther; } }
+
 		[Serializable]
 		public class skillAnimTriggerClass
 		{
@@ -115,6 +119,7 @@ namespace ExcelConfig
 			_addBuffs = new int[_addBuffsCount];
 			for(int i = 0; i < _addBuffsCount; i++)
 				TryParse(_addBuffsArray[i], out _addBuffs[i]);
+			TryParse(sheet[row][column++], out _isBlockOther);
 			string rawskillAnimTrigger = sheet[row][column++];
 			string[] subsskillAnimTrigger_0 = rawskillAnimTrigger.Split(';');
 			_skillAnimTrigger = new skillAnimTriggerClass[subsskillAnimTrigger_0.Length];

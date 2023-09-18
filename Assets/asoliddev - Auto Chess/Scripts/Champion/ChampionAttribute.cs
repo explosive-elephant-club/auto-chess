@@ -63,6 +63,21 @@ public class ChampionAttribute
         return (baseValue + trueLinearValue) * trueMultipleValueValue;
     }
 
+    public float GetTrueLinearValue(float baseValue2)
+    {
+        float trueLinearValue = 0;
+        float trueMultipleValueValue = 1;
+        foreach (float value in linearValue)
+        {
+            trueLinearValue += value;
+        }
+        foreach (float value in multipleValue)
+        {
+            trueMultipleValueValue += value;
+        }
+        return (baseValue + baseValue2 + trueLinearValue) * trueMultipleValueValue;
+    }
+
     public float GetTrueMultipleValue()
     {
         float trueLinearValue = 0;

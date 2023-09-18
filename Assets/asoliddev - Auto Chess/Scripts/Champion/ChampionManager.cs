@@ -20,7 +20,7 @@ public class ChampionManager : MonoBehaviour
     [HideInInspector]
     public int currentChampionCount = 0;
 
-    public Dictionary<ChampionType, int> championTypeCount;
+    public Dictionary<ConstructorBonusType, int> constructorTypeCount;
     public List<int> bonusBuffList;
 
 
@@ -81,14 +81,14 @@ public class ChampionManager : MonoBehaviour
         champion.LeaveGrid();
     }
 
-    public bool AddChampionToInventory(ChampionBaseData champion)
+    public bool AddChampionToInventory()
     {
         GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.Inventory);
         if (emptyGrid == null)
             return false;
 
         //instantiate champion prefab
-        GameObject championPrefab = Instantiate(Resources.Load<GameObject>(champion.prefab));
+        GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/Champion"));
 
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
@@ -97,7 +97,7 @@ public class ChampionManager : MonoBehaviour
         StoreChampionInArray(emptyGrid, championController);
 
         //setup chapioncontroller
-        championController.Init(champion, team, this);
+        championController.Init(team, this);
 
         //set position and rotation
         championController.SetWorldPosition();
@@ -110,13 +110,13 @@ public class ChampionManager : MonoBehaviour
         return true;
     }
 
-    public bool AddChampionToBattle(ChampionBaseData champion)
+    public bool AddChampionToBattle()
     {
         GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.HexaMap);
         if (emptyGrid == null)
             return false;
 
-        GameObject championPrefab = Instantiate(Resources.Load<GameObject>(champion.prefab));
+        GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/Champion"));
 
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
@@ -124,7 +124,7 @@ public class ChampionManager : MonoBehaviour
         StoreChampionInArray(emptyGrid, championController);
 
         //setup chapioncontroller
-        championController.Init(champion, team, this);
+        championController.Init(team, this);
 
         //set position and rotation
         championController.SetWorldPosition();
@@ -312,7 +312,7 @@ public class ChampionManager : MonoBehaviour
     private void CalculateBonuses()
     {
         //init dictionary
-        championTypeCount = new Dictionary<ChampionType, int>();
+        constructorTypeCount = new Dictionary<ConstructorBonusType, int>();
 
 
         foreach (ChampionController championCtrl in championsHexaMapArray)
@@ -321,36 +321,34 @@ public class ChampionManager : MonoBehaviour
             //there is a champion
             if (championCtrl != null)
             {
-                //get champion
-                ChampionBaseData c = championCtrl.champion;
-
-                List<ChampionType> types = GamePlayController.Instance.GetAllChampionTypes(c);
-                foreach (ChampionType t in types)
+                List<ConstructorBonusType> types = new List<ConstructorBonusType>();
+                foreach (ConstructorBase constructor in championCtrl.constructors)
                 {
-                    if (championTypeCount.ContainsKey(t))
+                    types = GamePlayController.Instance.GetAllChampionTypes(constructor.constructorData);
+                }
+                foreach (ConstructorBonusType t in types)
+                {
+                    if (constructorTypeCount.ContainsKey(t))
                     {
                         int cCount = 0;
-                        championTypeCount.TryGetValue(t, out cCount);
-
+                        constructorTypeCount.TryGetValue(t, out cCount);
                         cCount++;
-
-                        championTypeCount[t] = cCount;
+                        constructorTypeCount[t] = cCount;
 
                     }
                     else
                     {
-                        championTypeCount.Add(t, 1);
+                        constructorTypeCount.Add(t, 1);
                     }
                 }
             }
-
         }
 
         bonusBuffList.Clear();
-        foreach (KeyValuePair<ChampionType, int> m in championTypeCount)
+        foreach (KeyValuePair<ConstructorBonusType, int> m in constructorTypeCount)
         {
             int buffID = 0;
-            foreach (ChampionType.BonusClass b in m.Key.Bonus)
+            foreach (ConstructorBonusType.BonusClass b in m.Key.Bonus)
             {
                 if (m.Value >= b.count)
                 {
@@ -369,20 +367,6 @@ public class ChampionManager : MonoBehaviour
             }
         }
 
-    }
-
-    private void ActiveBonuses()
-    {
-        /*foreach (BaseBuffData b in bonusBuffList)
-        {
-            foreach (ChampionController championCtrl in championsHexaMapArray)
-            {
-                if (championCtrl != null)
-                {
-                    championCtrl.buffController.AddBuff(b, championCtrl.gameObject);
-                }
-            }
-        }*/
     }
 
     public bool IsAllChampionDead()
@@ -437,7 +421,7 @@ public class ChampionManager : MonoBehaviour
     public virtual void OnEnterPreparation()
     {
     }
-    
+
     public virtual void OnUpdatePreparation()
     {
 

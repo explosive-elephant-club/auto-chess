@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using ExcelConfig;
 public enum ConstructorType
 {
     Arm,
@@ -41,6 +42,7 @@ public class ConstructorSlot
 
 public class ConstructorBase : MonoBehaviour
 {
+    public ConstructorBaseData constructorData;
     //种类
     public ConstructorType type;
     //附加槽位

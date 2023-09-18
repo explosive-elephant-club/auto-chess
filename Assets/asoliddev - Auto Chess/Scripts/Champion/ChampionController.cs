@@ -23,10 +23,6 @@ public class ChampionController : MonoBehaviour
 
     public ChampionTeam team = ChampionTeam.Player;
 
-
-    [HideInInspector]
-    public ChampionBaseData champion;
-
     public ChampionAttributesController attributesController;
 
     public ChampionAnimation championAnimation;
@@ -73,9 +69,8 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     /// <param name="_champion"></param>
     /// <param name="_teamID"></param>
-    public void Init(ChampionBaseData _champion, ChampionTeam _team, ChampionManager _championManeger)
+    public void Init(ChampionTeam _team, ChampionManager _championManeger)
     {
-        champion = _champion;
         team = _team;
         if (team == ChampionTeam.Player)
         {
@@ -93,7 +88,7 @@ public class ChampionController : MonoBehaviour
         navMeshAgent.enabled = false;
 
         //set stats
-        attributesController = new ChampionAttributesController(_champion);
+        attributesController = new ChampionAttributesController();
 
         WorldCanvasController.Instance.AddHealthBar(this.gameObject);
 
@@ -356,8 +351,9 @@ public class ChampionController : MonoBehaviour
     {
         if (target == null)
             return;
-        totalDamage += _damage;
-        _target.OnGotHit(_damage, dmgType);
+        float trueDamage = attributesController.GetTrueDamage(_damage, dmgType);
+        totalDamage += trueDamage;
+        _target.OnGotHit(trueDamage, dmgType);
     }
 
 

@@ -15,7 +15,7 @@ using EasyExcel;
 namespace ExcelConfig
 {
 	[Serializable]
-	public class ChampionType : EERowData
+	public class ConstructorBonusType : EERowData
 	{
 		[EEKeyField]
 		[SerializeField]
@@ -45,12 +45,12 @@ namespace ExcelConfig
 		public string description { get { return _description; } }
 
 
-		public ChampionType()
+		public ConstructorBonusType()
 		{
 		}
 
 #if UNITY_EDITOR
-		public ChampionType(List<List<string>> sheet, int row, int column)
+		public ConstructorBonusType(List<List<string>> sheet, int row, int column)
 		{
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _c_name);
@@ -80,14 +80,14 @@ namespace ExcelConfig
 		}
 	}
 
-	public class ChampionConfig_ChampionType_Sheet : EERowDataCollection
+	public class ConstructorConfig_ConstructorBonusType_Sheet : EERowDataCollection
 	{
 		[SerializeField]
-		private List<ChampionType> elements = new List<ChampionType>();
+		private List<ConstructorBonusType> elements = new List<ConstructorBonusType>();
 
 		public override void AddData(EERowData data)
 		{
-			elements.Add(data as ChampionType);
+			elements.Add(data as ConstructorBonusType);
 		}
 
 		public override int GetDataCount()

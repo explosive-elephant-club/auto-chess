@@ -38,7 +38,7 @@ public class UIController : CreateSingleton<UIController>
     public void UpdateUI()
     {
         levelInfo.UpdateUI();
-        shop.UpdateUI();
+        //shop.UpdateUI();
 
         //hide bonusus UI
         foreach (GameObject go in bonusPanels)
@@ -47,12 +47,11 @@ public class UIController : CreateSingleton<UIController>
         }
 
 
-        //if not null
-        if (GamePlayController.Instance.ownChampionManager.championTypeCount != null)
+        if (GamePlayController.Instance.ownChampionManager.constructorTypeCount != null)
         {
             int i = 0;
             //iterate bonuses
-            foreach (KeyValuePair<ChampionType, int> m in GamePlayController.Instance.ownChampionManager.championTypeCount)
+            foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.ownChampionManager.constructorTypeCount)
             {
                 //Now you can access the key and value both separately from this attachStat as:
                 GameObject bonusUI = bonusPanels[i];

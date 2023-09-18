@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4246552ecb45db14fb278c5a80d9bbe4, type: 3}
-  m_Name: ChampionConfig_ConstructorBonusType_Sheet
+  m_Script: {fileID: 11500000, guid: f225711273d76494588aaf9f1a1a4aa0, type: 3}
+  m_Name: ConstructorConfig_ConstructorBonusType_Sheet
   m_EditorClassIdentifier: 
-  ExcelFileName: ChampionConfig.xlsx
+  ExcelFileName: ConstructorConfig.xlsx
   ExcelSheetName: ConstructorBonusType
   KeyFieldName: _name
   elements:

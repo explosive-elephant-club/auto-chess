@@ -50,6 +50,10 @@ namespace ExcelConfig
 		private string[] _otherEntries;
 		public string[] otherEntries { get { return _otherEntries; } }
 
+		[SerializeField]
+		private string[] _valueChanges;
+		public string[] valueChanges { get { return _valueChanges; } }
+
 
 		public ConstructorBaseData()
 		{
@@ -70,6 +74,11 @@ namespace ExcelConfig
 			_otherEntries = new string[_otherEntriesCount];
 			for(int i = 0; i < _otherEntriesCount; i++)
 				TryParse(_otherEntriesArray[i], out _otherEntries[i]);
+			string[] _valueChangesArray = sheet[row][column++].Split(',');
+			int _valueChangesCount = _valueChangesArray.Length;
+			_valueChanges = new string[_valueChangesCount];
+			for(int i = 0; i < _valueChangesCount; i++)
+				TryParse(_valueChangesArray[i], out _valueChanges[i]);
 		}
 #endif
 		public override void OnAfterSerialized()
@@ -77,7 +86,7 @@ namespace ExcelConfig
 		}
 	}
 
-	public class ChampionConfig_ConstructorBaseData_Sheet : EERowDataCollection
+	public class ConstructorConfig_ConstructorBaseData_Sheet : EERowDataCollection
 	{
 		[SerializeField]
 		private List<ConstructorBaseData> elements = new List<ConstructorBaseData>();
