@@ -24,8 +24,6 @@ public class ChampionController : MonoBehaviour
     public ChampionTeam team = ChampionTeam.Player;
 
     public ChampionAttributesController attributesController;
-
-    public ChampionAnimation championAnimation;
     public BuffController buffController;
     public SkillController skillController;
     private NavMeshAgent navMeshAgent;
@@ -57,7 +55,6 @@ public class ChampionController : MonoBehaviour
     void Awake()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
-        championAnimation = this.GetComponent<ChampionAnimation>();
         buffController = this.GetComponent<BuffController>();
         skillController = this.GetComponent<SkillController>();
         eventCenter = new EventCenter();
@@ -87,8 +84,6 @@ public class ChampionController : MonoBehaviour
         //disable agent
         navMeshAgent.enabled = false;
 
-
-        constructors.Find(c => c.type == ConstructorType.Base).Init(this, true);
         //set stats
         attributesController = new ChampionAttributesController();
 
@@ -96,9 +91,11 @@ public class ChampionController : MonoBehaviour
 
         effects = new List<Effect>();
 
-        GamePlayController.Instance.StageStateAddListener(gameStageActions);
         AIActionFsm = new Fsm();
         InitFsm();
+
+        constructors.Find(c => c.type == ConstructorType.Base).Init(this, true);
+        GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }
 
     void InitFsm()
@@ -134,8 +131,6 @@ public class ChampionController : MonoBehaviour
     void Update()
     {
         state = AIActionFsm.curState.name;
-        if (_isDragged != championAnimation.animator.GetBool("isDragged"))
-            championAnimation.animator.SetBool("isDragged", _isDragged);
     }
 
     /// <summary>
@@ -204,11 +199,11 @@ public class ChampionController : MonoBehaviour
 
         if (team == ChampionTeam.Player)
         {
-            rotation = new Vector3(0, 200, 0);
+            rotation = new Vector3(0, 180, 0);
         }
         else if (team == ChampionTeam.Oponent)
         {
-            rotation = new Vector3(0, 20, 0);
+            rotation = new Vector3(0, 0, 0);
         }
         this.transform.rotation = Quaternion.Euler(rotation);
     }
@@ -480,7 +475,7 @@ public class ChampionController : MonoBehaviour
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
                 Vector3 p = new Vector3(hitPoint.x, 1.0f, hitPoint.z);
-                this.transform.position = Vector3.Lerp(this.transform.position, p, 0.1f);
+                this.transform.position = Vector3.Lerp(this.transform.position, p, 0.2f);
             }
         }
         else
@@ -510,8 +505,6 @@ public class ChampionController : MonoBehaviour
         if (occupyGridInfo.gridType == GridType.HexaMap)
         {
             navMeshAgent.enabled = true;
-            championAnimation.InitBehavour();
-            championAnimation.animator.SetBool("isInCambat", true);
             originGridInfo = occupyGridInfo;
         }
 
@@ -527,8 +520,9 @@ public class ChampionController : MonoBehaviour
     {
         if (!isDead && occupyGridInfo != null)
         {
-
             attributesController.Regenerate();
+            navMeshAgent.speed = attributesController.moveSpeed.GetTrueLinearValue();
+
             if (occupyGridInfo.gridType == GridType.HexaMap)
                 AIActionFsm.curState.OnUpdate();
             buffController.OnUpdateCombat();
@@ -539,7 +533,6 @@ public class ChampionController : MonoBehaviour
     public void OnLeaveCombat()
     {
         navMeshAgent.enabled = false;
-        championAnimation.animator.SetBool("isInCambat", false);
         Reset();
     }
 

@@ -10,11 +10,12 @@ public class BaseCastSkillState : State
         championController.StopMove();
         if (!championController.CheckState("disarm"))
         {
-            championController.championAnimation.animator.SetBool("isAttacking", true);
+            //championController.championAnimation.animator.SetBool("isAttacking", true);
         }
     }
     public override void OnUpdate()
     {
+        /*
         if (championController.CheckState("disarm"))
         {
             championController.championAnimation.animator.SetBool("isAttacking", false);
@@ -24,6 +25,7 @@ public class BaseCastSkillState : State
             fsm.SwitchState("Idle");
             return;
         }
+        */
     }
     public override void OnLeave()
     {

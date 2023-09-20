@@ -30,7 +30,7 @@ MonoBehaviour:
     - maxHealth + 100
     - moveSpeed + 10
     - electricPower + 5
-    - armorRegeneration+3
+    - armorRegeneration + 3
     _skillID: 00000000
   - _ID: 2
     _name: Bot

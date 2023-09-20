@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using ExcelConfig;
 using UnityEngine.PlayerLoop;
+using System.Linq;
 public enum ConstructorType
 {
     Arm,
@@ -77,7 +78,6 @@ public class ConstructorBase : MonoBehaviour
     {
         constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
-
         if (!string.IsNullOrEmpty(constructorData.valueChanges[0]))
         {
             valueOperations = new ValueOperation[constructorData.valueChanges.Length];
@@ -100,6 +100,14 @@ public class ConstructorBase : MonoBehaviour
     {
         constructorDataID = id;
         Init(championController, isAutoPackage);
+    }
+
+    public void OnRemove()
+    {
+        foreach (ValueOperation operation in valueOperations)
+        {
+            operation.reset.Invoke();
+        }
     }
 
     //添加子组件
@@ -144,10 +152,22 @@ public class ConstructorBase : MonoBehaviour
         return false;
     }
 
+    //移除子组件
+    public virtual List<ConstructorBaseData> removeConstructor(ConstructorSlot slot)
+    {
+        List<ConstructorBaseData> data = new List<ConstructorBaseData>();
+        foreach (var c in slot.constructorInstance.GetAllChildrenConstructors(true))
+        {
+            data.Add(c.constructorData);
+            c.OnRemove();
+        }
+        Destroy(slot.constructorInstance);
+        return data;
+    }
+
     //自动获取槽位中的物体并组装
     public virtual void AutoPackage()
     {
-        Debug.Log(gameObject);
         foreach (ConstructorSlot s in slots)
         {
             if (s.slotTrans.childCount > 0)
@@ -156,8 +176,9 @@ public class ConstructorBase : MonoBehaviour
                 if (attachConstructor(constructor, s))
                 {
                     constructor.Init(championController, false);
-                    if (championController.constructors.Contains(constructor))
+                    if (!championController.constructors.Contains(constructor))
                         championController.constructors.Add(constructor);
+                    constructor.AutoPackage();
                 }
                 else
                     Destroy(constructor.gameObject);
@@ -177,6 +198,22 @@ public class ConstructorBase : MonoBehaviour
             constructors.Add(parent);
             parent = parent.parentConstructor;
         } while (parent != null);
+        return constructors;
+    }
+
+    //向下获取所有子组件
+    public virtual List<ConstructorBase> GetAllChildrenConstructors(bool isContainSelf)
+    {
+        List<ConstructorBase> constructors = new List<ConstructorBase>();
+        if (isContainSelf)
+            constructors.Add(this);
+        foreach (var s in slots)
+        {
+            if (s.constructorInstance != null)
+            {
+                constructors.Union<ConstructorBase>(s.constructorInstance.GetAllChildrenConstructors(true));
+            }
+        }
         return constructors;
     }
 }

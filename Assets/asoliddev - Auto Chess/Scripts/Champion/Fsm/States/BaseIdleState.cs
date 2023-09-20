@@ -36,7 +36,7 @@ public class BaseIdleState : State
         {
             if (championController.IsTargetInAttackRange())
             {
-
+                fsm.SwitchState("CastSkill");
                 return;
             }
             else

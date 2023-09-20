@@ -110,13 +110,13 @@ public class ChampionManager : MonoBehaviour
         return true;
     }
 
-    public bool AddChampionToBattle()
+    public bool AddChampionToBattle(string name)
     {
         GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.HexaMap);
         if (emptyGrid == null)
             return false;
 
-        GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/Champion"));
+        GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/" + name));
 
         //get championController
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
@@ -130,9 +130,10 @@ public class ChampionManager : MonoBehaviour
         championController.SetWorldPosition();
         championController.SetWorldRotation();
 
+        CalculateBonuses();
+
         //set gold on ui
         UIController.Instance.UpdateUI();
-        CalculateBonuses();
         return true;
     }
 
@@ -325,20 +326,23 @@ public class ChampionManager : MonoBehaviour
                 foreach (ConstructorBase constructor in championCtrl.constructors)
                 {
                     types = GamePlayController.Instance.GetAllChampionTypes(constructor.constructorData);
-                }
-                foreach (ConstructorBonusType t in types)
-                {
-                    if (constructorTypeCount.ContainsKey(t))
+                    foreach (ConstructorBonusType t in types)
                     {
-                        int cCount = 0;
-                        constructorTypeCount.TryGetValue(t, out cCount);
-                        cCount++;
-                        constructorTypeCount[t] = cCount;
+                        if (t != null)
+                        {
+                            if (constructorTypeCount.ContainsKey(t))
+                            {
+                                int cCount = 0;
+                                constructorTypeCount.TryGetValue(t, out cCount);
+                                cCount++;
+                                constructorTypeCount[t] = cCount;
 
-                    }
-                    else
-                    {
-                        constructorTypeCount.Add(t, 1);
+                            }
+                            else
+                            {
+                                constructorTypeCount.Add(t, 1);
+                            }
+                        }
                     }
                 }
             }
@@ -437,6 +441,10 @@ public class ChampionManager : MonoBehaviour
         {
             draggedChampion.GetComponent<ChampionController>().IsDragged = false;
             draggedChampion = null;
+        }
+        if (IsAllChampionDead())
+        {
+            GamePlayController.Instance.EndRound();
         }
     }
     public virtual void OnUpdateCombat()

@@ -7,5 +7,10 @@ using General;
 
 public class OwnChampionManager : ChampionManager
 {
-
+    public override void OnEnterPreparation()
+    {
+        base.OnEnterPreparation();
+        this.AddChampionToBattle("Champion");
+        //this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
+    }
 }

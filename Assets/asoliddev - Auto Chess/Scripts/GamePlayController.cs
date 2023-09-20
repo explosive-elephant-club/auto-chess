@@ -15,7 +15,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
 {
     public GameStage currentGameStage;
     public GameStage lastStage;
-    private float timer = 0;
+    public float timer = 0;
 
     private bool isReady = false;
 
@@ -268,6 +268,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         {
             StageChange(GameStage.Preparation);
         }
+        Debug.Log(timer);
     }
     public void OnLeaveCombat()
     {

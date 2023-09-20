@@ -29,7 +29,7 @@ public class SkillBehaviour : MonoBehaviour
 
     public virtual void OnCast(Transform castPoint)
     {
-        //绑定动画结束时间或直接结束
+        //绑定动画结束时间
         if (!string.IsNullOrEmpty(skill.skillData.skillAnimTrigger[0].constructorType))
         {
             skill.constructor.onSkillAnimEffect = new UnityAction(() =>
@@ -53,7 +53,7 @@ public class SkillBehaviour : MonoBehaviour
             }
 
         }
-        else
+        else//直接结束
         {
             skill.InstanceEffect();
             skill.OnFinish();

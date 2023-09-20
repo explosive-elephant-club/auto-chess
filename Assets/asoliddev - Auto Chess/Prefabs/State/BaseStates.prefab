@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Idle
+  championController: {fileID: 0}
 --- !u!114 &466250830270872877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Move
+  championController: {fileID: 0}
 --- !u!114 &8336988416811607416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,4 +73,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d543e4f151120a04d838a915aeb725c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Attack
+  name: CastSkill
+  championController: {fileID: 0}
