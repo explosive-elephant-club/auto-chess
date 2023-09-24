@@ -8,7 +8,7 @@ using UnityEngine;
 public class BaseBehaviour : StateMachineBehaviour
 {
     [HideInInspector]
-    public ChampionController championController;
+    public ConstructorBase constructor;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

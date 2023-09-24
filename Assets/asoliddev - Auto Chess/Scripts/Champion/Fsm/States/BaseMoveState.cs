@@ -55,7 +55,8 @@ public class BaseMoveState : State
         if (c != null)
         {
             championController.target = c;
-
+            Debug.Log("Move CastSkill");
+            fsm.SwitchState("CastSkill");
             return;
         }
         if (!championController.FindPath())

@@ -30,7 +30,7 @@ MonoBehaviour:
     - buff_ID: 0
       targetType: 
   - _ID: 2
-    _name: "\u9A91\u58EB\u7F81\u7ECA"
+    _name: test
     _duration: -1
     _intervalTime: 0
     _layer: 1

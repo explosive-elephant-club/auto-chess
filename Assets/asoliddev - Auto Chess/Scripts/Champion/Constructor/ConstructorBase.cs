@@ -48,7 +48,7 @@ public class ConstructorBase : MonoBehaviour
     [HideInInspector]
     public ConstructorBaseData constructorData;
     //属性修改
-    public ValueOperation[] valueOperations;
+    public ValueOperation[] valueOperations = new ValueOperation[0];
     //种类
     public ConstructorType type;
     //附加槽位
@@ -59,8 +59,8 @@ public class ConstructorBase : MonoBehaviour
     public ChampionController championController;
     public Animator animator;
     public Transform skillCastPoint;
-    public UnityAction onSkillAnimEffect;
-    public UnityAction onSkillAnimFinish;
+    public UnityAction onSkillAnimEffect = new UnityAction(() => { });
+    public UnityAction onSkillAnimFinish = new UnityAction(() => { });
 
 
     private void Awake()
@@ -68,12 +68,19 @@ public class ConstructorBase : MonoBehaviour
         if (GetComponent<Animator>())
         {
             animator = GetComponent<Animator>();
+            BaseBehaviour[] behaviours = animator.GetBehaviours<BaseBehaviour>();
+            foreach (BaseBehaviour b in behaviours)
+            {
+                b.constructor = this;
+            }
         }
-        onSkillAnimFinish = new UnityAction(() =>
-        {
-            Debug.Log("Fire");
-        });
     }
+
+    public void _onSkillAnimEffect()
+    {
+        onSkillAnimEffect.Invoke();
+    }
+
     public void Init(ChampionController _championController, bool isAutoPackage)
     {
         constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
@@ -92,6 +99,13 @@ public class ConstructorBase : MonoBehaviour
 
             operation.operate.Invoke();
         }
+        if (constructorData.skillID[0] != 0)
+        {
+            foreach (var id in constructorData.skillID)
+            {
+                championController.skillController.AddSkill(id, this);
+            }
+        }
         if (isAutoPackage)
             AutoPackage();
     }
@@ -108,6 +122,7 @@ public class ConstructorBase : MonoBehaviour
         {
             operation.reset.Invoke();
         }
+        championController.skillController.RemoveSkill(this);
     }
 
     //添加子组件

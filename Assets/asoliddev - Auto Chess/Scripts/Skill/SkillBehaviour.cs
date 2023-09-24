@@ -10,6 +10,7 @@ public class SkillBehaviour : MonoBehaviour
     public virtual void Init(Skill _skill)
     {
         skill = _skill;
+        Debug.Log(skill.skillData.skillAnimTrigger[0].constructorType);
     }
 
     public virtual bool IsPrepared()
@@ -29,6 +30,7 @@ public class SkillBehaviour : MonoBehaviour
 
     public virtual void OnCast(Transform castPoint)
     {
+
         //绑定动画结束时间
         if (!string.IsNullOrEmpty(skill.skillData.skillAnimTrigger[0].constructorType))
         {

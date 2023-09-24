@@ -8,24 +8,20 @@ public class BaseCastSkillState : State
     public override void OnEnter()
     {
         championController.StopMove();
-        if (!championController.CheckState("disarm"))
+        if (championController.CheckState("disarm"))
         {
-            //championController.championAnimation.animator.SetBool("isAttacking", true);
+            fsm.SwitchState("Idle");
         }
     }
     public override void OnUpdate()
     {
-        /*
-        if (championController.CheckState("disarm"))
-        {
-            championController.championAnimation.animator.SetBool("isAttacking", false);
-        }
-        if (!championController.championAnimation.animator.GetBool("isAttacking"))
+        championController.skillController.TryCastAttackSkill();
+        championController.skillController.TryCastOtherSkill();
+        if (championController.CheckState("disarm") || championController.skillController.EnableCastNewSkill())
         {
             fsm.SwitchState("Idle");
             return;
         }
-        */
     }
     public override void OnLeave()
     {

@@ -18,10 +18,10 @@ MonoBehaviour:
   elements:
   - _ID: 1
     _name: FireBall
-    _cd: 10
+    _cd: 2
     _count: -1
     _description: 
-    _distance: 8
+    _distance: 3
     _range: 1
     _skillTargetType: Enemy
     _skillTargetSelectorType: Any
@@ -29,8 +29,8 @@ MonoBehaviour:
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
-    - constructorType: 
-      trigger: 
+    - constructorType: Weapon
+      trigger: Fire
     _effectPrefab: Prefab/Projectile/Skill/FireBall
     _hitFXPrefab: 
     _hexEffectPrefab: 

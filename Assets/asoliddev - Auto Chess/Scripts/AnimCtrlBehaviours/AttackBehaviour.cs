@@ -10,11 +10,11 @@ public class AttackBehaviour : BaseBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        /*if (championController.attributesController.GetAttackIntervel() < stateInfo.length)
-        {
-            animator.speed = stateInfo.length / championController.attributesController.GetAttackIntervel();
-        }
-        //championController.attackIntervelTimer = 0;*/
+        if (constructor.championController.skillController.curCastingSkill == constructor.championController.skillController.attackSkill)
+            if (constructor.championController.skillController.attackSkill.skillData.cd < stateInfo.length)
+            {
+                animator.speed = stateInfo.length / constructor.championController.skillController.attackSkill.skillData.cd;
+            }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -27,8 +27,7 @@ public class AttackBehaviour : BaseBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.speed = 1;
-        animator.SetBool("isAttacking", false);
-        championController.OnAttackAnimationFinished();
+        constructor.onSkillAnimFinish.Invoke();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

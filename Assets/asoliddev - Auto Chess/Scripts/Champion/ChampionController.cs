@@ -95,6 +95,7 @@ public class ChampionController : MonoBehaviour
         InitFsm();
 
         constructors.Find(c => c.type == ConstructorType.Base).Init(this, true);
+        skillController.SetAttackSkill(1);
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }
 
@@ -305,6 +306,10 @@ public class ChampionController : MonoBehaviour
 
     public void MoveToTarget()
     {
+        if (bookGridInfo == null)
+        {
+            FindPath();
+        }
         if (bookGridInfo.CheckInGrid(this))
         {
             //Debug.Log("InGrid:" + bookGridInfo.name);

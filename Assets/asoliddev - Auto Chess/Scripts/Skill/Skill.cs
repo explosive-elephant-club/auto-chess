@@ -127,11 +127,13 @@ public class Skill
             {
                 Debug.LogError("Create BuffBehaviour instance failed: " + ex.Message);
                 skillBehaviour = new SkillBehaviour();
+                skillBehaviour.Init(this);
             }
         }
         else
         {
             skillBehaviour = new SkillBehaviour();
+            skillBehaviour.Init(this);
         }
 
         state = SkillState.Disable;
@@ -141,12 +143,12 @@ public class Skill
 
     public bool IsPrepared()
     {
-        Debug.Log("cdRemain " + cdRemain);
-        Debug.Log(skillBehaviour.IsPrepared());
-        if (countRemain > 0 && cdRemain <= 0 && skillBehaviour.IsPrepared())
+        if (cdRemain <= 0 && skillBehaviour.IsPrepared())
         {
-            Debug.Log("Prepared");
-            return IsFindTarget();
+            if (countRemain > 0 || countRemain == -1)
+            {
+                return IsFindTarget();
+            }
         }
         return false;
     }
@@ -170,7 +172,6 @@ public class Skill
         {
             return false;
         }
-        Debug.Log("FindTarget");
         return true;
     }
 
@@ -291,13 +292,34 @@ public class Skill
 
     public void Cast()
     {
+        Debug.Log("Cast");
         state = SkillState.Casting;
         skillController.curCastingSkill = this;
         cdRemain = skillData.cd;
-        countRemain -= 1;
+
+        if (this == skillController.attackSkill)
+        {
+            owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
+        }
+        else
+        {
+            owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
+            if (countRemain != -1)
+                countRemain -= 1;
+        }
 
         skillBehaviour.OnCast(constructor.skillCastPoint);
+
+        if (this == skillController.attackSkill)
+        {
+            owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+        }
+        else
+        {
+            owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterCast.ToString());
+        }
     }
+
 
     public void InstanceEffect()
     {

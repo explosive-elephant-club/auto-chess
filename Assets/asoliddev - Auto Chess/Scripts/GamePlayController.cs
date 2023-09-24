@@ -59,6 +59,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         StageStateAddListener(oponentChampionManager.gameStageActions);
         StageStateAddListener(ownChampionManager.gameStageActions);
         UIController.Instance.UpdateUI();
+        //Time.timeScale = 0.1f;
     }
 
     /// Update is called once per frame
@@ -268,7 +269,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         {
             StageChange(GameStage.Preparation);
         }
-        Debug.Log(timer);
+
     }
     public void OnLeaveCombat()
     {

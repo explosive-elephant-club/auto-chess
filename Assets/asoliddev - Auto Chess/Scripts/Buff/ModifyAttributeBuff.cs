@@ -61,7 +61,7 @@ public class ModifyAttributeBuff : Buff
 {
     public ModifyAttributeBuffData modifyAttributeData;
     public BuffStateContainer buffStateContainer;
-    public ValueOperation[] valueOperations;
+    public ValueOperation[] valueOperations = new ValueOperation[0];
 
     public ModifyAttributeBuff(BaseBuffData _buffData, ModifyAttributeBuffData _modifyAttributeData, ChampionController _owner, ChampionController _caster = null) :
     base(_buffData, _owner, _caster)

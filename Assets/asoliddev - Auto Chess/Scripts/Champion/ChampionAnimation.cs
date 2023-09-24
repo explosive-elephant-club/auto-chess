@@ -28,7 +28,7 @@ public class ChampionAnimation : MonoBehaviour
         BaseBehaviour[] behaviours = animator.GetBehaviours<BaseBehaviour>();
         foreach (BaseBehaviour b in behaviours)
         {
-            b.championController = championController;
+            
         }
 
     }
@@ -38,7 +38,6 @@ public class ChampionAnimation : MonoBehaviour
         BaseBehaviour[] behaviours = animator.GetBehaviours<BaseBehaviour>();
         foreach (BaseBehaviour b in behaviours)
         {
-            b.championController = championController;
         }
     }
 

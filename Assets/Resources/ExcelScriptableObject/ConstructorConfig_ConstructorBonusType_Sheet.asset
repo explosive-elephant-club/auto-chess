@@ -27,8 +27,8 @@ MonoBehaviour:
     _c_name: "\u6D77\u529B\u514B\u65AF"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 1
-      buff_ID: 2
+    - count: 0
+      buff_ID: 0
     _description: 
   - _name: LaserWizard
     _c_name: "\u5C04\u7EBF\u5DEB\u5E08"
