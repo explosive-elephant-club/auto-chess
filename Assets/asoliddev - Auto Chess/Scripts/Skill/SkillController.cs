@@ -50,8 +50,9 @@ public class SkillController : MonoBehaviour
     public void TryCastAttackSkill()
     {
         Debug.Log("TryCast");
-        Debug.Log(EnableCastNewSkill());
-        if (attackSkill.IsPrepared() && EnableCastNewSkill())
+        Debug.Log(EnableCastNewSkill(attackSkill));
+        Debug.Log(attackSkill.IsPrepared());
+        if (attackSkill.IsPrepared() && EnableCastNewSkill(attackSkill))
         {
             attackSkill.Cast();
         }
@@ -62,7 +63,7 @@ public class SkillController : MonoBehaviour
         foreach (var s in skillList)
         {
             if (s != attackSkill && s.state == SkillState.CD)
-                if (s.IsPrepared() && EnableCastNewSkill())
+                if (s.IsPrepared() && EnableCastNewSkill(s))
                 {
                     s.Cast();
                 }
@@ -109,17 +110,33 @@ public class SkillController : MonoBehaviour
         attackSkill = skillList.Find(s => s.skillData.ID == skillID);
     }
 
+    public bool EnableCastNewSkill(Skill skill)
+    {
+        foreach (var animTrigger in skill.skillData.skillAnimTrigger)
+        {
+            foreach (var c in skill.constructor.GetAllParentConstructors(true))
+            {
+                if (c.type.ToString() == animTrigger.constructorType && c.animator != null)
+                {
+                    if (!c.enablePlayNewSkillAnim)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public bool EnableCastNewSkill()
     {
-        if (curCastingSkill == null)
+        foreach (var s in skillList)
         {
-            return true;
+            if (s.state == SkillState.CD)
+            {
+                if (!EnableCastNewSkill(s))
+                    return false;
+            }
         }
-        else
-        {
-            return (curCastingSkill.skillData.ID == 0);
-        }
-
+        return true;
     }
 
     public void Reset()

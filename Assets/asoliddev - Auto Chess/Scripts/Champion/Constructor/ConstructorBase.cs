@@ -55,6 +55,8 @@ public class ConstructorBase : MonoBehaviour
     public List<ConstructorSlot> slots;
     //父组件
     public ConstructorBase parentConstructor;
+    //是否可以播放新的技能动画
+    public bool enablePlayNewSkillAnim = true;
 
     public ChampionController championController;
     public Animator animator;

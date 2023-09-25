@@ -288,7 +288,7 @@ public class ChampionController : MonoBehaviour
 
     public int GetInAttackRange()
     {
-        return (int)attributesController.addRange.GetTrueLinearValue() + skillController.attackSkill.skillData.range;
+        return (int)attributesController.addRange.GetTrueLinearValue() + skillController.attackSkill.skillData.distance;
     }
 
     public bool IsTargetInAttackRange()

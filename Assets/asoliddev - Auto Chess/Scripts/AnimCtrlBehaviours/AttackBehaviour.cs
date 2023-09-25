@@ -27,6 +27,7 @@ public class AttackBehaviour : BaseBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.speed = 1;
+        constructor.enablePlayNewSkillAnim = true;
         constructor.onSkillAnimFinish.Invoke();
     }
 

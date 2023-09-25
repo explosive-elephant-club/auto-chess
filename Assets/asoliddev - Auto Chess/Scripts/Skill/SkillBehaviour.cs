@@ -49,6 +49,7 @@ public class SkillBehaviour : MonoBehaviour
                 {
                     if (c.type.ToString() == animTrigger.constructorType && c.animator != null)
                     {
+                        c.enablePlayNewSkillAnim = false;
                         c.animator.SetTrigger(animTrigger.trigger);
                     }
                 }

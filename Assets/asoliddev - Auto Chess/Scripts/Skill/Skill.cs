@@ -147,6 +147,7 @@ public class Skill
         {
             if (countRemain > 0 || countRemain == -1)
             {
+                Debug.Log(IsFindTarget());
                 return IsFindTarget();
             }
         }
@@ -209,7 +210,7 @@ public class Skill
     {
         ChampionController c = null;
         List<ChampionController> targetList = manager.championsHexaMapArray.FindAll(t => t.isDead == false);
-        targetList = targetList.FindAll(t => t.GetDistance(owner) <= skillData.distance);
+        targetList = targetList.FindAll(t => t.GetDistance(owner) <= (int)owner.attributesController.addRange.GetTrueLinearValue() + skillData.distance);
         float maxValue = 0;
         switch (skillTargetSelectorType)
         {
@@ -217,13 +218,13 @@ public class Skill
                 c = skillBehaviour.FindTargetBySelectorType();
                 break;
             case SkillTargetSelectorType.Any:
-                c = manager.FindAnyTargetInRange(owner, skillData.distance);
+                c = manager.FindAnyTargetInRange(owner, (int)owner.attributesController.addRange.GetTrueLinearValue() + skillData.distance);
                 break;
             case SkillTargetSelectorType.Nearest:
-                c = manager.FindNearestTarget(owner, skillData.distance);
+                c = manager.FindNearestTarget(owner, (int)owner.attributesController.addRange.GetTrueLinearValue() + skillData.distance);
                 break;
             case SkillTargetSelectorType.Farthest:
-                c = manager.FindFarthestTarget(owner, skillData.distance);
+                c = manager.FindFarthestTarget(owner, (int)owner.attributesController.addRange.GetTrueLinearValue() + skillData.distance);
                 break;
             case SkillTargetSelectorType.HighestDPS:
                 maxValue = targetList.Max(t => t.totalDamage);
