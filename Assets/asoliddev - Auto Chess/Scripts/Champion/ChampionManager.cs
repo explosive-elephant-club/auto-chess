@@ -123,6 +123,7 @@ public class ChampionManager : MonoBehaviour
 
         StoreChampionInArray(emptyGrid, championController);
 
+        championPrefab.name = championPrefab.name + championsHexaMapArray.Count;
         //setup chapioncontroller
         championController.Init(team, this);
 

@@ -8,9 +8,6 @@ public class BaseMoveState : State
     public override void Init()
     {
         base.Init();
-        championController.eventCenter.AddListener<GridInfo>("OnEnterGrid", OnEnterGrid);
-        championController.eventCenter.AddListener<GridInfo>("OnMoveFailed", OnMoveFailed);
-        championController.eventCenter.AddListener<GridInfo>("OnGetTarget", OnGetTarget);
     }
     public override void OnEnter()
     {
@@ -39,7 +36,7 @@ public class BaseMoveState : State
             }
             else
             {
-                championController.MoveToTarget();
+                MoveToTarget();
             }
 
         }
@@ -47,6 +44,32 @@ public class BaseMoveState : State
     public override void OnLeave()
     {
 
+    }
+
+    public void MoveToTarget()
+    {
+        if (championController.bookGridInfo == null)
+        {
+            championController.FindPath();
+        }
+        if (championController.bookGridInfo.CheckInGrid(championController))
+        {
+            //Debug.Log("InGrid:" + bookGridInfo.name);
+            championController.EnterGrid(championController.bookGridInfo);
+            OnEnterGrid(championController.bookGridInfo);
+            if (championController.path == null)
+                return;
+            if (championController.bookGridInfo == championController.target.occupyGridInfo)
+            {
+                championController.StopMove();
+                championController.SetWorldPosition();
+                OnGetTarget(championController.bookGridInfo);
+            }
+        }
+        else
+        {
+            championController.NavMeshAgentMove();
+        }
     }
 
     void OnEnterGrid(GridInfo grid)

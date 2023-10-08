@@ -159,7 +159,6 @@ public class ChampionAttributesController
                 break;
         }
         trueDamage = Mathf.Floor(trueDamage);
-
         if (curArmor > trueDamage)
         {
             curArmor -= trueDamage;

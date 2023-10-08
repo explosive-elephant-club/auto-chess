@@ -147,7 +147,6 @@ public class Skill
         {
             if (countRemain > 0 || countRemain == -1)
             {
-                Debug.Log(IsFindTarget());
                 return IsFindTarget();
             }
         }
@@ -293,11 +292,11 @@ public class Skill
 
     public void Cast()
     {
-        Debug.Log("Cast");
         state = SkillState.Casting;
         skillController.curCastingSkill = this;
         cdRemain = skillData.cd;
 
+        Debug.Log(targets.Count);
         if (this == skillController.attackSkill)
         {
             owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
@@ -363,6 +362,7 @@ public class Skill
 
     public void Reset()
     {
+        targets.Clear();
         countRemain = skillData.count;
         cdRemain = 0;
     }

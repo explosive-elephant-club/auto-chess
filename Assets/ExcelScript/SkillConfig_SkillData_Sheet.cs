@@ -58,6 +58,16 @@ namespace ExcelConfig
 		private string _skillRangeSelectorType;
 		public string skillRangeSelectorType { get { return _skillRangeSelectorType; } }
 
+		[Serializable]
+		public class damageDataClass
+		{
+			public int dmg;
+			public string type;
+		}
+		[SerializeField]
+		private damageDataClass[] _damageData;
+		public damageDataClass[] damageData { get { return _damageData; } }
+
 		[SerializeField]
 		private int[] _addBuffs;
 		public int[] addBuffs { get { return _addBuffs; } }
@@ -114,6 +124,23 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _skillTargetType);
 			TryParse(sheet[row][column++], out _skillTargetSelectorType);
 			TryParse(sheet[row][column++], out _skillRangeSelectorType);
+			string rawdamageData = sheet[row][column++];
+			string[] subsdamageData_0 = rawdamageData.Split(';');
+			_damageData = new damageDataClass[subsdamageData_0.Length];
+			for (int j = 0; j < subsdamageData_0.Length; ++j)
+			{
+				var _damageDataone = new damageDataClass();
+				_damageData[j] = _damageDataone;
+				string[] subsdamageData_1 = subsdamageData_0[j].Split(',');
+				for (int i = 0; i < subsdamageData_1.Length; ++i)
+				{
+					var strValue = subsdamageData_1[i];
+					if (i == 0)
+						TryParse(strValue, out _damageDataone.dmg);
+					else if (i == 1)
+						TryParse(strValue, out _damageDataone.type);
+				}
+			}
 			string[] _addBuffsArray = sheet[row][column++].Split(',');
 			int _addBuffsCount = _addBuffsArray.Length;
 			_addBuffs = new int[_addBuffsCount];

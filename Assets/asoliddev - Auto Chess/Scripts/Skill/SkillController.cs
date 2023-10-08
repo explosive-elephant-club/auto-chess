@@ -49,11 +49,12 @@ public class SkillController : MonoBehaviour
 
     public void TryCastAttackSkill()
     {
-        Debug.Log("TryCast");
-        Debug.Log(EnableCastNewSkill(attackSkill));
-        Debug.Log(attackSkill.IsPrepared());
+        //Debug.Log("TryCast");
+        //Debug.Log(EnableCastNewSkill(attackSkill));
+        //Debug.Log(attackSkill.IsPrepared());
         if (attackSkill.IsPrepared() && EnableCastNewSkill(attackSkill))
         {
+            Debug.Log(championController.gameObject + " Cast");
             attackSkill.Cast();
         }
     }

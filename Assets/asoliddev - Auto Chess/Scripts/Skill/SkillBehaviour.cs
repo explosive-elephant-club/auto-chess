@@ -10,7 +10,6 @@ public class SkillBehaviour : MonoBehaviour
     public virtual void Init(Skill _skill)
     {
         skill = _skill;
-        Debug.Log(skill.skillData.skillAnimTrigger[0].constructorType);
     }
 
     public virtual bool IsPrepared()
@@ -69,10 +68,16 @@ public class SkillBehaviour : MonoBehaviour
         {
             if (!C.isDead)
             {
+                //buff
                 foreach (int buff_ID in skill.skillData.addBuffs)
                 {
                     if (buff_ID != 0)
                         C.buffController.AddBuff(buff_ID, skill.owner);
+                }
+                //伤害
+                if (!string.IsNullOrEmpty(skill.skillData.damageData[0].type))
+                {
+                    skill.owner.TakeDamage(C, skill.skillData.damageData);
                 }
             }
         }

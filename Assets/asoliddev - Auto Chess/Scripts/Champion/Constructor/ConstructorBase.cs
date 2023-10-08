@@ -64,8 +64,7 @@ public class ConstructorBase : MonoBehaviour
     public UnityAction onSkillAnimEffect = new UnityAction(() => { });
     public UnityAction onSkillAnimFinish = new UnityAction(() => { });
 
-
-    private void Awake()
+    private void OnEnable()
     {
         if (GetComponent<Animator>())
         {
@@ -98,7 +97,6 @@ public class ConstructorBase : MonoBehaviour
         }
         foreach (ValueOperation operation in valueOperations)
         {
-
             operation.operate.Invoke();
         }
         if (constructorData.skillID[0] != 0)

@@ -45,8 +45,6 @@ public class ChampionController : MonoBehaviour
 
     public string state;
 
-    public EventCenter eventCenter;
-
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 
     public float totalDamage = 0;
@@ -57,7 +55,6 @@ public class ChampionController : MonoBehaviour
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         buffController = this.GetComponent<BuffController>();
         skillController = this.GetComponent<SkillController>();
-        eventCenter = new EventCenter();
         InitStageDic();
     }
 
@@ -95,6 +92,7 @@ public class ChampionController : MonoBehaviour
         InitFsm();
 
         constructors.Find(c => c.type == ConstructorType.Base).Init(this, true);
+        attributesController.Reset();
         skillController.SetAttackSkill(1);
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }
@@ -177,7 +175,6 @@ public class ChampionController : MonoBehaviour
         {
             e.Remove();
         }
-
         effects = new List<Effect>();
     }
 
@@ -255,14 +252,12 @@ public class ChampionController : MonoBehaviour
         LeaveGrid();
         occupyGridInfo = grid;
         grid.occupyChampion = this;
-        eventCenter.Broadcast("OnEnterGrid", grid);
     }
 
     public void LeaveGrid()
     {
         if (occupyGridInfo != null)
         {
-            eventCenter.Broadcast("OnLeaveGrid", occupyGridInfo);
             occupyGridInfo.occupyChampion = null;
             occupyGridInfo = null;
         }
@@ -274,7 +269,6 @@ public class ChampionController : MonoBehaviour
         ClearBook();
         bookGridInfo = grid;
         grid.bookChampion = this;
-        eventCenter.Broadcast("OnBookGrid", grid);
     }
 
     public void ClearBook()
@@ -304,37 +298,16 @@ public class ChampionController : MonoBehaviour
             Debug.Log(gameObject.name + ":  " + str);
     }
 
-    public void MoveToTarget()
+    public void NavMeshAgentMove()
     {
-        if (bookGridInfo == null)
+        if (navMeshAgent.enabled)
         {
-            FindPath();
-        }
-        if (bookGridInfo.CheckInGrid(this))
-        {
-            //Debug.Log("InGrid:" + bookGridInfo.name);
-            EnterGrid(bookGridInfo);
-
-            if (path == null)
-                return;
-            if (bookGridInfo == target.occupyGridInfo)
+            if (navMeshAgent.speed != attributesController.moveSpeed.GetTrueLinearValue())
             {
-                StopMove();
-                SetWorldPosition();
-                eventCenter.Broadcast("OnGetTarget", bookGridInfo);
+                navMeshAgent.speed = attributesController.moveSpeed.GetTrueLinearValue();
             }
-        }
-        else
-        {
-            if (navMeshAgent.enabled)
-            {
-                if (navMeshAgent.speed != attributesController.moveSpeed.GetTrueLinearValue())
-                {
-                    navMeshAgent.speed = attributesController.moveSpeed.GetTrueLinearValue();
-                }
-                navMeshAgent.destination = bookGridInfo.transform.position;
-                navMeshAgent.isStopped = false;
-            }
+            navMeshAgent.destination = bookGridInfo.transform.position;
+            navMeshAgent.isStopped = false;
         }
     }
 
@@ -349,54 +322,26 @@ public class ChampionController : MonoBehaviour
         return occupyGridInfo.GetDistance(_target.occupyGridInfo);
     }
 
-    public void TakeDamage(ChampionController _target, float _damage, DamageType dmgType)
+    public void TakeDamage(ChampionController _target, SkillData.damageDataClass[] damages)
     {
         if (target == null)
             return;
-        float trueDamage = attributesController.GetTrueDamage(_damage, dmgType);
-        totalDamage += trueDamage;
-        _target.OnGotHit(trueDamage, dmgType);
-    }
-
-
-    /// <summary>
-    /// Called when attack animation finished
-    /// </summary>
-    public void OnAttackAnimationFinished()
-    {
-        if (target != null)
+        List<SkillData.damageDataClass> addDamages = new List<SkillData.damageDataClass>();
+        for (int i = 0; i < damages.Length; i++)
         {
-            buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-            //TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
-
-            //create projectile if have one
-            /*
-            if (!string.IsNullOrEmpty(champion.attackProjectile))
-            {
-                GameObject projectile = Instantiate(Resources.Load<GameObject>(champion.attackProjectile));
-                projectile.transform.position = projectileStart.transform.position;
-                Projectile projectileScript = projectile.GetComponent<Projectile>();
-                projectileScript.Init(target.transform);
-                projectileScript.OnReached = new UnityAction(() =>
-                {
-                    TakeDamage(target, attributesController.GetAttackDamage(), (DamageType)Enum.Parse(typeof(DamageType), champion.attackType));
-                });
-
-            }
-            else
-            {
-
-            }*/
-
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+            float trueDamage = attributesController.GetTrueDamage(damages[i].dmg,
+                (DamageType)Enum.Parse(typeof(DamageType), damages[i].type));
+            totalDamage += trueDamage;
+            addDamages.Add(new SkillData.damageDataClass() { dmg = (int)trueDamage, type = damages[i].type });
         }
+        _target.OnGotHit(addDamages);
     }
 
     /// <summary>
     /// Called when this champion takes damage
     /// </summary>
     /// <param name="damage"></param>
-    public bool OnGotHit(float damage, DamageType dmgType)
+    public bool OnGotHit(List<SkillData.damageDataClass> addDamages)
     {
         if (attributesController.DodgeCheck())
         {
@@ -405,21 +350,32 @@ public class ChampionController : MonoBehaviour
         else
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
-            float trueDMG = attributesController.ApplyDamage(damage, dmgType);
-            //add floating text
-            WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
-            //death
-            if (attributesController.curHealth <= 0)
+
+            foreach (var d in addDamages)
             {
-                this.gameObject.SetActive(false);
-                isDead = true;
-                LeaveGrid();
-                ClearBook();
-                championManeger.OnChampionDeath();
+                float trueDMG = attributesController.ApplyDamage(d.dmg, (DamageType)Enum.Parse(typeof(DamageType), d.type));
+                //add floating text
+                WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
+                //death
+                if (attributesController.curHealth <= 0)
+                {
+                    Dead();
+                }
             }
+
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterHit.ToString());
         }
         return isDead;
+    }
+
+    public void Dead()
+    {
+        AIActionFsm.SwitchState("Idle");
+        this.gameObject.SetActive(false);
+        isDead = true;
+        LeaveGrid();
+        ClearBook();
+        championManeger.OnChampionDeath();
     }
 
     /// <summary>
@@ -468,7 +424,7 @@ public class ChampionController : MonoBehaviour
     #region StageFuncs
     public void OnEnterPreparation()
     {
-        return;
+
     }
     public void OnUpdatePreparation()
     {

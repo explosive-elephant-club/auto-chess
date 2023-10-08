@@ -70,6 +70,7 @@ MonoBehaviour:
     - 
     _valueChanges:
     - maxHealth + 5
+    - fireDamage + 1
     _skillID: 00000000
   - _ID: 5
     _name: Bazooka
