@@ -27,8 +27,16 @@ namespace ExcelConfig
 		public string name { get { return _name; } }
 
 		[SerializeField]
-		private float _cd;
-		public float cd { get { return _cd; } }
+		private float _castDelay;
+		public float castDelay { get { return _castDelay; } }
+
+		[SerializeField]
+		private float _chargingDelay;
+		public float chargingDelay { get { return _chargingDelay; } }
+
+		[SerializeField]
+		private int _manaCost;
+		public int manaCost { get { return _manaCost; } }
 
 		[SerializeField]
 		private int _count;
@@ -62,6 +70,7 @@ namespace ExcelConfig
 		public class damageDataClass
 		{
 			public int dmg;
+			public float correction;
 			public string type;
 		}
 		[SerializeField]
@@ -116,7 +125,9 @@ namespace ExcelConfig
 		{
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
-			TryParse(sheet[row][column++], out _cd);
+			TryParse(sheet[row][column++], out _castDelay);
+			TryParse(sheet[row][column++], out _chargingDelay);
+			TryParse(sheet[row][column++], out _manaCost);
 			TryParse(sheet[row][column++], out _count);
 			TryParse(sheet[row][column++], out _description);
 			TryParse(sheet[row][column++], out _distance);
@@ -138,6 +149,8 @@ namespace ExcelConfig
 					if (i == 0)
 						TryParse(strValue, out _damageDataone.dmg);
 					else if (i == 1)
+						TryParse(strValue, out _damageDataone.correction);
+					else if (i == 2)
 						TryParse(strValue, out _damageDataone.type);
 				}
 			}

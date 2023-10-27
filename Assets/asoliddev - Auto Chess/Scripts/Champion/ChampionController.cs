@@ -28,6 +28,11 @@ public class ChampionController : MonoBehaviour
     public SkillController skillController;
     private NavMeshAgent navMeshAgent;
 
+
+    public Dictionary<ConstructorBonusType, int> constructorTypeCount;
+    public List<int> bonusBuffList;
+
+
     private bool _isDragged = false;
 
     [HideInInspector]
@@ -282,7 +287,7 @@ public class ChampionController : MonoBehaviour
 
     public int GetInAttackRange()
     {
-        return (int)attributesController.addRange.GetTrueLinearValue() + skillController.attackSkill.skillData.distance;
+        return (int)attributesController.addRange.GetTrueLinearValue() + skillController.GetNextSkillRange();
     }
 
     public bool IsTargetInAttackRange()
@@ -421,6 +426,60 @@ public class ChampionController : MonoBehaviour
         return buffController.buffStateContainer.GetState(stateName);
     }
 
+    public void CalculateBonuses()
+    {
+        //init dictionary
+        constructorTypeCount = new Dictionary<ConstructorBonusType, int>();
+
+        List<ConstructorBonusType> types = new List<ConstructorBonusType>();
+        foreach (ConstructorBase constructor in constructors)
+        {
+            types = GamePlayController.Instance.GetAllChampionTypes(constructor.constructorData);
+            foreach (ConstructorBonusType t in types)
+            {
+                if (t != null)
+                {
+                    if (constructorTypeCount.ContainsKey(t))
+                    {
+                        int cCount = 0;
+                        constructorTypeCount.TryGetValue(t, out cCount);
+                        cCount++;
+                        constructorTypeCount[t] = cCount;
+
+                    }
+                    else
+                    {
+                        constructorTypeCount.Add(t, 1);
+                    }
+                }
+            }
+        }
+
+        bonusBuffList.Clear();
+        foreach (KeyValuePair<ConstructorBonusType, int> m in constructorTypeCount)
+        {
+            int buffID = 0;
+            foreach (ConstructorBonusType.BonusClass b in m.Key.Bonus)
+            {
+                if (m.Value >= b.count)
+                {
+                    buffID = b.buff_ID;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            //have enough champions to get bonus
+            if (buffID != 0)
+            {
+                bonusBuffList.Add(buffID);
+            }
+        }
+
+    }
+
     #region StageFuncs
     public void OnEnterPreparation()
     {
@@ -470,12 +529,11 @@ public class ChampionController : MonoBehaviour
         }
 
         //添加羁绊Buff
-        List<int> activeBonuses = championManeger.bonusBuffList;
-
-        foreach (int b in activeBonuses)
+        foreach (int b in bonusBuffList)
         {
             buffController.AddBuff(b, this);
         }
+        skillController.OnEnterCombat();
     }
     public void OnUpdateCombat()
     {

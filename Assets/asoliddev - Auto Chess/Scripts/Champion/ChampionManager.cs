@@ -20,11 +20,7 @@ public class ChampionManager : MonoBehaviour
     [HideInInspector]
     public int currentChampionCount = 0;
 
-    public Dictionary<ConstructorBonusType, int> constructorTypeCount;
-    public List<int> bonusBuffList;
-
-
-    private ChampionController draggedChampion = null;
+    public ChampionController draggedChampion = null;
     private GridInfo dragStartGridInfo = null;
 
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
@@ -131,7 +127,7 @@ public class ChampionManager : MonoBehaviour
         championController.SetWorldPosition();
         championController.SetWorldRotation();
 
-        CalculateBonuses();
+        championController.CalculateBonuses();
 
         //set gold on ui
         UIController.Instance.UpdateUI();
@@ -220,9 +216,10 @@ public class ChampionManager : MonoBehaviour
                 Map.Instance.ShowIndicators(team);
                 draggedChampion = championCtrl;
                 championCtrl.IsDragged = true;
+                return;
             }
-
         }
+        draggedChampion = null;
     }
 
     public void StopDrag()
@@ -275,13 +272,11 @@ public class ChampionManager : MonoBehaviour
                 }
             }
 
-
-            CalculateBonuses();
             currentChampionCount = championsHexaMapArray.Count;
 
             //update ui
             UIController.Instance.UpdateUI();
-            draggedChampion = null;
+            //draggedChampion = null;
         }
     }
 
@@ -311,68 +306,7 @@ public class ChampionManager : MonoBehaviour
         }
     }
 
-    private void CalculateBonuses()
-    {
-        //init dictionary
-        constructorTypeCount = new Dictionary<ConstructorBonusType, int>();
 
-
-        foreach (ChampionController championCtrl in championsHexaMapArray)
-        {
-
-            //there is a champion
-            if (championCtrl != null)
-            {
-                List<ConstructorBonusType> types = new List<ConstructorBonusType>();
-                foreach (ConstructorBase constructor in championCtrl.constructors)
-                {
-                    types = GamePlayController.Instance.GetAllChampionTypes(constructor.constructorData);
-                    foreach (ConstructorBonusType t in types)
-                    {
-                        if (t != null)
-                        {
-                            if (constructorTypeCount.ContainsKey(t))
-                            {
-                                int cCount = 0;
-                                constructorTypeCount.TryGetValue(t, out cCount);
-                                cCount++;
-                                constructorTypeCount[t] = cCount;
-
-                            }
-                            else
-                            {
-                                constructorTypeCount.Add(t, 1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        bonusBuffList.Clear();
-        foreach (KeyValuePair<ConstructorBonusType, int> m in constructorTypeCount)
-        {
-            int buffID = 0;
-            foreach (ConstructorBonusType.BonusClass b in m.Key.Bonus)
-            {
-                if (m.Value >= b.count)
-                {
-                    buffID = b.buff_ID;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            //have enough champions to get bonus
-            if (buffID != 0)
-            {
-                bonusBuffList.Add(buffID);
-            }
-        }
-
-    }
 
     public bool IsAllChampionDead()
     {
@@ -441,7 +375,7 @@ public class ChampionManager : MonoBehaviour
         if (draggedChampion != null)
         {
             draggedChampion.GetComponent<ChampionController>().IsDragged = false;
-            draggedChampion = null;
+            //draggedChampion = null;
         }
         if (IsAllChampionDead())
         {

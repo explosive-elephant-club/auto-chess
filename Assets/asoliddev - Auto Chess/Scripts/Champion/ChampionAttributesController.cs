@@ -11,12 +11,24 @@ public class ChampionAttributesController
     public ChampionAttribute maxArmor;
     //机体值
     public ChampionAttribute maxHealth;
+    //法力值
+    public ChampionAttribute maxMana;
+
     //移动
     public ChampionAttribute moveSpeed;
     //技能范围增强
     public ChampionAttribute addRange;
     //提供电力
     public ChampionAttribute electricPower;
+    //施法延迟
+    public ChampionAttribute castDelay;
+    //充能延迟
+    public ChampionAttribute chargingDelay;
+    //施法延迟减少
+    public ChampionAttribute castDelayDecr;
+    //充能延迟减少
+    public ChampionAttribute chargingDelayDecr;
+
 
 
     //闪避率
@@ -28,6 +40,8 @@ public class ChampionAttributesController
 
     //护甲恢复
     public ChampionAttribute armorRegeneration;
+    //法力恢复
+    public ChampionAttribute manaRegeneration;
 
     //造成的伤害倍率
     public ChampionAttribute takeDamageMultiple;
@@ -58,20 +72,29 @@ public class ChampionAttributesController
 
     public float curHealth;
     public float curArmor;
+    public float curMana;
 
     public ChampionAttributesController()
     {
         maxArmor = new ChampionAttribute(0);
-        moveSpeed = new ChampionAttribute(0);
         maxHealth = new ChampionAttribute(0);
+        maxMana = new ChampionAttribute(0);
+
+        moveSpeed = new ChampionAttribute(0);
         addRange = new ChampionAttribute(0);
         electricPower = new ChampionAttribute(0);
+        castDelay = new ChampionAttribute(1);
+        chargingDelay = new ChampionAttribute(2);
 
-        dodgeChange = new ChampionAttribute(0);
-        critChange = new ChampionAttribute(0);
+        castDelayDecr = new ChampionAttribute(1);
+        chargingDelayDecr = new ChampionAttribute(1);
+
+        dodgeChange = new ChampionAttribute(1);
+        critChange = new ChampionAttribute(1);
         critMultiple = new ChampionAttribute(1);
 
         armorRegeneration = new ChampionAttribute(0);
+        manaRegeneration = new ChampionAttribute(0);
         takeDamageMultiple = new ChampionAttribute(1);
         applyDamageMultiple = new ChampionAttribute(1);
 
@@ -81,11 +104,11 @@ public class ChampionAttributesController
         lightingDamage = new ChampionAttribute(0);
         acidDamage = new ChampionAttribute(0);
 
-        physicalDefenseRate = new ChampionAttribute(0);
-        fireDefenseRate = new ChampionAttribute(0);
-        iceDefenseRate = new ChampionAttribute(0);
-        lightingDefenseRate = new ChampionAttribute(0);
-        acidDefenseRate = new ChampionAttribute(0);
+        physicalDefenseRate = new ChampionAttribute(1);
+        fireDefenseRate = new ChampionAttribute(1);
+        iceDefenseRate = new ChampionAttribute(1);
+        lightingDefenseRate = new ChampionAttribute(1);
+        acidDefenseRate = new ChampionAttribute(1);
     }
 
     public bool DodgeCheck()
@@ -100,6 +123,11 @@ public class ChampionAttributesController
             curArmor += armorRegeneration.GetTrueLinearValue() * Time.deltaTime;
         else
             curArmor = maxArmor.GetTrueLinearValue();
+
+        if ((curMana + manaRegeneration.GetTrueLinearValue() * Time.deltaTime) < maxMana.GetTrueLinearValue())
+            curMana += manaRegeneration.GetTrueLinearValue() * Time.deltaTime;
+        else
+            curMana = maxMana.GetTrueLinearValue();
     }
 
     public float GetTrueDamage(float dmg, DamageType type)
@@ -185,5 +213,6 @@ public class ChampionAttributesController
     {
         curHealth = maxHealth.GetTrueLinearValue();
         curArmor = maxArmor.GetTrueLinearValue();
+        curMana = maxMana.GetTrueLinearValue();
     }
 }

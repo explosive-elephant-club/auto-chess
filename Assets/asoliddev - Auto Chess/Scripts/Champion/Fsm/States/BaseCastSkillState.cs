@@ -15,9 +15,8 @@ public class BaseCastSkillState : State
     }
     public override void OnUpdate()
     {
-        championController.skillController.TryCastAttackSkill();
-        championController.skillController.TryCastOtherSkill();
-        if (championController.CheckState("disarm") || championController.skillController.EnableCastNewSkill())
+        championController.skillController.TryCastSkill();
+        if (championController.CheckState("disarm") || !championController.IsTargetInAttackRange())
         {
             fsm.SwitchState("Idle");
             return;

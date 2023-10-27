@@ -18,7 +18,9 @@ MonoBehaviour:
   elements:
   - _ID: 1
     _name: FireBall
-    _cd: 2
+    _castDelay: -0.5
+    _chargingDelay: 0
+    _manaCost: 10
     _count: -1
     _description: 
     _distance: 3
@@ -28,8 +30,10 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 55
+      correction: 3
       type: Fire
     - dmg: 3
+      correction: 1
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0

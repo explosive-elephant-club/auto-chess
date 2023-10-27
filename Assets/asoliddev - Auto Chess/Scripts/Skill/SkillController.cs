@@ -10,15 +10,14 @@ public class SkillController : MonoBehaviour
     [SerializeField]//所有的技能表
     public List<Skill> skillList = new List<Skill>();
 
-    //默认攻击技能
-    public Skill attackSkill;
+    [SerializeField]//已激活的技能表
+    public List<Skill> activedSkillList = new List<Skill>();
 
 
-    //正在释放的技能
-    public Skill curCastingSkill;
-
-    public EventCenter eventCenter = new EventCenter();
-
+    int curSkillIndex = -1;
+    int nextSkillIndex = 0;
+    float curCastDelay = 0;
+    float curChargingDelay = 0;
 
     ChampionController championController;
 
@@ -28,48 +27,85 @@ public class SkillController : MonoBehaviour
         championController = gameObject.GetComponent<ChampionController>();
     }
 
+    public void OnEnterCombat()
+    {
+        curSkillIndex = -1;
+        nextSkillIndex = 0;
+        curChargingDelay = GetSkillChargingDelay();
+    }
+
     public void OnUpdateCombat()
     {
-        foreach (var s in skillList)
-        {
-            switch (s.state)
+        if (curSkillIndex != -1)
+            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
             {
-                case SkillState.Disable:
-                    break;
-                case SkillState.Casting:
-                    s.OnCastingUpdate();
-                    break;
-                case SkillState.CD:
-                    if (s.countRemain > 0 || s.countRemain == -1)
-                        s.CDTick();
-                    break;
+                activedSkillList[curSkillIndex].OnCastingUpdate();
             }
-        }
     }
 
-    public void TryCastAttackSkill()
+    float GetSkillCastDelay(Skill skill)
     {
-        //Debug.Log("TryCast");
-        //Debug.Log(EnableCastNewSkill(attackSkill));
-        //Debug.Log(attackSkill.IsPrepared());
-        if (attackSkill.IsPrepared() && EnableCastNewSkill(attackSkill))
-        {
-            Debug.Log(championController.gameObject + " Cast");
-            attackSkill.Cast();
-        }
+        float cd = championController.attributesController.castDelay.GetTrueLinearValue()
+         + skill.skillData.castDelay;
+        cd *= 1 - championController.attributesController.castDelayDecr.GetTrueMultipleValue();
+        if (cd > 0)
+            return cd;
+        else
+            return 0;
     }
 
-    public void TryCastOtherSkill()
+    float GetSkillChargingDelay()
     {
-        foreach (var s in skillList)
+        float cd = championController.attributesController.chargingDelay.GetTrueLinearValue();
+        foreach (var s in activedSkillList)
         {
-            if (s != attackSkill && s.state == SkillState.CD)
-                if (s.IsPrepared() && EnableCastNewSkill(s))
+            cd += s.skillData.chargingDelay;
+        }
+        cd *= 1 - championController.attributesController.chargingDelayDecr.GetTrueMultipleValue();
+        if (cd > 0)
+            return cd;
+        else
+            return 0;
+    }
+
+    public void TryCastSkill()
+    {
+        //Debug.Log("TryCastSkill" + curCastDelay);
+
+        if (curSkillIndex != -1)
+            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
+                return;
+        if (curCastDelay <= 0)//释放
+        {
+            Debug.Log("释放 curCastDelay " + curCastDelay);
+            if (activedSkillList[nextSkillIndex].IsPrepared())
+                activedSkillList[nextSkillIndex].Cast();
+            curCastDelay = GetSkillCastDelay(activedSkillList[nextSkillIndex]);
+            curSkillIndex = nextSkillIndex;
+            if (nextSkillIndex + 1 < activedSkillList.Count)//顺序释放
+            {
+                nextSkillIndex++;
+            }
+            else//一轮技能释放完毕,充能
+            {
+                if (curCastDelay < curChargingDelay)
                 {
-                    s.Cast();
+                    curCastDelay = curChargingDelay;
+                    nextSkillIndex = 0;
                 }
+            }
 
         }
+        else
+        {
+            //Debug.Log("curCastDelay " + curCastDelay);
+            curCastDelay -= Time.deltaTime;
+        }
+    }
+
+    public int GetNextSkillRange()
+    {
+        return activedSkillList[nextSkillIndex].skillData.distance;
     }
 
     public void AddSkill(int skillID, ConstructorBase _constructor)
@@ -98,52 +134,17 @@ public class SkillController : MonoBehaviour
 
     public void RemoveSkill(Skill skill)
     {
-        if (attackSkill == skill)
-        {
-            attackSkill = null;
-        }
         skillList.Remove(skill);
     }
 
     public void SetAttackSkill(int skillID)
     {
-        attackSkill.state = SkillState.CD;
-        attackSkill = skillList.Find(s => s.skillData.ID == skillID);
-    }
-
-    public bool EnableCastNewSkill(Skill skill)
-    {
-        foreach (var animTrigger in skill.skillData.skillAnimTrigger)
-        {
-            foreach (var c in skill.constructor.GetAllParentConstructors(true))
-            {
-                if (c.type.ToString() == animTrigger.constructorType && c.animator != null)
-                {
-                    if (!c.enablePlayNewSkillAnim)
-                        return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public bool EnableCastNewSkill()
-    {
-        foreach (var s in skillList)
-        {
-            if (s.state == SkillState.CD)
-            {
-                if (!EnableCastNewSkill(s))
-                    return false;
-            }
-        }
-        return true;
+        activedSkillList.Add(skillList.Find(s => s.skillData.ID == skillID));
     }
 
     public void Reset()
     {
-        curCastingSkill = null;
-        foreach (var s in skillList)
+        foreach (var s in activedSkillList)
         {
             s.Reset();
         }

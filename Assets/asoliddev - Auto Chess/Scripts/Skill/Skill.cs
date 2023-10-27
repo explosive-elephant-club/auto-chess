@@ -71,9 +71,6 @@ public class Skill
 
     public ChampionController owner;//技能的拥有者
     public ConstructorBase constructor;//技能的载体
-
-
-    public float cdRemain;
     public float countRemain;
 
     public GameObject effectPrefab;
@@ -102,7 +99,6 @@ public class Skill
 
         owner = _owner;
         constructor = _constructor;
-        cdRemain = 0;
         countRemain = skillData.count;
 
         if (!string.IsNullOrEmpty(skillData.effectPrefab))
@@ -143,13 +139,10 @@ public class Skill
 
     public bool IsPrepared()
     {
-        if (cdRemain <= 0 && skillBehaviour.IsPrepared())
-        {
+        if (skillBehaviour.IsPrepared())
             if (countRemain > 0 || countRemain == -1)
-            {
-                return IsFindTarget();
-            }
-        }
+                if (owner.attributesController.curMana >= skillData.manaCost)
+                    return IsFindTarget();
         return false;
     }
 
@@ -293,31 +286,15 @@ public class Skill
     public void Cast()
     {
         state = SkillState.Casting;
-        skillController.curCastingSkill = this;
-        cdRemain = skillData.cd;
+        owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
 
-        Debug.Log(targets.Count);
-        if (this == skillController.attackSkill)
-        {
-            owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-        }
-        else
-        {
-            owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
-            if (countRemain != -1)
-                countRemain -= 1;
-        }
+        owner.attributesController.curMana -= skillData.manaCost;
+        if (countRemain != -1)
+            countRemain -= 1;
 
         skillBehaviour.OnCast(constructor.skillCastPoint);
 
-        if (this == skillController.attackSkill)
-        {
-            owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
-        }
-        else
-        {
-            owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterCast.ToString());
-        }
+        owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterCast.ToString());
     }
 
 
@@ -351,19 +328,12 @@ public class Skill
     {
         state = SkillState.CD;
         skillBehaviour.OnFinish();
-        skillController.curCastingSkill = null;
     }
 
-    //计时器触发
-    public void CDTick()
-    {
-        cdRemain -= Time.deltaTime;
-    }
 
     public void Reset()
     {
         targets.Clear();
         countRemain = skillData.count;
-        cdRemain = 0;
     }
 }

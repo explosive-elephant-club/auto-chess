@@ -28,9 +28,11 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 30
     - maxHealth + 100
+    - maxMana + 100
     - moveSpeed + 10
     - electricPower + 5
     - armorRegeneration + 3
+    - manaRegeneration + 10
     _skillID: 00000000
   - _ID: 2
     _name: Bot
