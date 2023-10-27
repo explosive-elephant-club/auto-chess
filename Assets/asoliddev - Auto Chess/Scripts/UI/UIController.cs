@@ -15,6 +15,7 @@ public class UIController : CreateSingleton<UIController>
     public GameObject mask;
     public ShopGUIController shop;
     public LevelInfoController levelInfo;
+    public ChampionInfoController championInfoController;
     public GameObject restartButton;
     public GameObject bonusContainer;
     public GameObject bonusUIPrefab;
@@ -46,25 +47,6 @@ public class UIController : CreateSingleton<UIController>
             go.SetActive(false);
         }
 
-
-        if (GamePlayController.Instance.ownChampionManager.constructorTypeCount != null)
-        {
-            int i = 0;
-            //iterate bonuses
-            foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.ownChampionManager.constructorTypeCount)
-            {
-                //Now you can access the key and value both separately from this attachStat as:
-                GameObject bonusUI = bonusPanels[i];
-                bonusUI.transform.SetParent(bonusContainer.transform);
-                bonusUI.transform.Find("icon").GetComponent<Image>().sprite = Resources.Load<Sprite>(m.Key.icon);
-                bonusUI.transform.Find("name").GetComponent<Text>().text = m.Key.name;
-                bonusUI.transform.Find("count").GetComponent<Text>().text = m.Value.ToString();
-
-                bonusUI.SetActive(true);
-
-                i++;
-            }
-        }
     }
 
 

@@ -335,7 +335,7 @@ public class ChampionController : MonoBehaviour
         for (int i = 0; i < damages.Length; i++)
         {
             float trueDamage = attributesController.GetTrueDamage(damages[i].dmg,
-                (DamageType)Enum.Parse(typeof(DamageType), damages[i].type));
+                (DamageType)Enum.Parse(typeof(DamageType), damages[i].type), damages[i].correction);
             totalDamage += trueDamage;
             addDamages.Add(new SkillData.damageDataClass() { dmg = (int)trueDamage, type = damages[i].type });
         }
@@ -477,7 +477,6 @@ public class ChampionController : MonoBehaviour
                 bonusBuffList.Add(buffID);
             }
         }
-
     }
 
     #region StageFuncs

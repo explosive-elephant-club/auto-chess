@@ -240,6 +240,9 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         if (Input.GetMouseButtonDown(0))
         {
             GamePlayController.Instance.ownChampionManager.StartDrag();
+            UIController.Instance.championInfoController.UpdateTypesBar();
+            UIController.Instance.championInfoController.UpdateArmorBar();
+            UIController.Instance.championInfoController.UpdateAttributeData();
         }
         if (Input.GetMouseButtonUp(0))
         {

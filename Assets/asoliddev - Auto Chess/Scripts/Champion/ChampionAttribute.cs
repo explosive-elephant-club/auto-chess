@@ -75,7 +75,7 @@ public class ChampionAttribute
         {
             trueMultipleValueValue += value;
         }
-        return (baseValue * correction + baseValue2 + trueLinearValue * correction) * trueMultipleValueValue;
+        return baseValue2 + (baseValue + trueLinearValue) * trueMultipleValueValue * correction;
     }
 
     public float GetTrueMultipleValue()

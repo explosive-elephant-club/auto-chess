@@ -130,28 +130,28 @@ public class ChampionAttributesController
             curMana = maxMana.GetTrueLinearValue();
     }
 
-    public float GetTrueDamage(float dmg, DamageType type)
+    public float GetTrueDamage(float dmg, DamageType type, float correction = 1)
     {
         float trueDamage = dmg;
         trueDamage *= takeDamageMultiple.GetTrueLinearValue();
         switch (type)
         {
             case DamageType.Physical:
-                trueDamage = physicalDamage.GetTrueLinearValue(trueDamage);
+                trueDamage = physicalDamage.GetTrueLinearValue(trueDamage, correction);
                 break;
             case DamageType.Pure:
                 break;
             case DamageType.Fire:
-                trueDamage = fireDamage.GetTrueLinearValue(trueDamage);
+                trueDamage = fireDamage.GetTrueLinearValue(trueDamage, correction);
                 break;
             case DamageType.Ice:
-                trueDamage = iceDamage.GetTrueLinearValue(trueDamage);
+                trueDamage = iceDamage.GetTrueLinearValue(trueDamage, correction);
                 break;
             case DamageType.Lightning:
-                trueDamage = lightingDamage.GetTrueLinearValue(trueDamage);
+                trueDamage = lightingDamage.GetTrueLinearValue(trueDamage, correction);
                 break;
             case DamageType.Acid:
-                trueDamage = acidDamage.GetTrueLinearValue(trueDamage);
+                trueDamage = acidDamage.GetTrueLinearValue(trueDamage, correction);
                 break;
         }
 

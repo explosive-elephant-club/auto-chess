@@ -77,7 +77,6 @@ public class SkillController : MonoBehaviour
                 return;
         if (curCastDelay <= 0)//释放
         {
-            Debug.Log("释放 curCastDelay " + curCastDelay);
             if (activedSkillList[nextSkillIndex].IsPrepared())
                 activedSkillList[nextSkillIndex].Cast();
             curCastDelay = GetSkillCastDelay(activedSkillList[nextSkillIndex]);
