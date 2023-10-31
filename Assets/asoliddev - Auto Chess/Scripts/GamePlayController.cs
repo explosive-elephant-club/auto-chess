@@ -239,10 +239,8 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     {
         if (Input.GetMouseButtonDown(0))
         {
+            GamePlayController.Instance.ownChampionManager.PickChampion();
             GamePlayController.Instance.ownChampionManager.StartDrag();
-            UIController.Instance.championInfoController.UpdateTypesBar();
-            UIController.Instance.championInfoController.UpdateArmorBar();
-            UIController.Instance.championInfoController.UpdateAttributeData();
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -271,6 +269,11 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         if (timer > CombatStageDuration)
         {
             StageChange(GameStage.Preparation);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            GamePlayController.Instance.ownChampionManager.PickChampion();
         }
 
     }

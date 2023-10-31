@@ -20,7 +20,7 @@ public class ChampionManager : MonoBehaviour
     [HideInInspector]
     public int currentChampionCount = 0;
 
-    public ChampionController draggedChampion = null;
+    public ChampionController pickedChampion = null;
     private GridInfo dragStartGridInfo = null;
 
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
@@ -201,25 +201,35 @@ public class ChampionManager : MonoBehaviour
         return farthestTarget;
     }
 
+    public void PickChampion()
+    {
+        if (InputController.Instance.ui == null)
+        {
+            //get trigger info
+            GridInfo gridInfo = InputController.Instance.gridInfo;
+            //if mouse cursor on trigger
+            if (gridInfo != null)
+            {
+                ChampionController championCtrl = gridInfo.occupyChampion;
+                if (championCtrl != null)
+                {
+                    pickedChampion = championCtrl;
+                    UIController.Instance.UpdateUI();
+                    return;
+                }
+            }
+            pickedChampion = null;
+            UIController.Instance.UpdateUI();
+        }
+    }
+
     public void StartDrag()
     {
-        //get trigger info
-        GridInfo gridInfo = InputController.Instance.gridInfo;
-        //if mouse cursor on trigger
-        if (gridInfo != null)
+        if (pickedChampion != null && InputController.Instance.ui == null)
         {
-            dragStartGridInfo = gridInfo;
-            ChampionController championCtrl = gridInfo.occupyChampion;
-            if (championCtrl != null)
-            {
-                //show indicators
-                Map.Instance.ShowIndicators(team);
-                draggedChampion = championCtrl;
-                championCtrl.IsDragged = true;
-                return;
-            }
+            dragStartGridInfo = InputController.Instance.gridInfo;
+            pickedChampion.IsDragged = true;
         }
-        draggedChampion = null;
     }
 
     public void StopDrag()
@@ -227,10 +237,10 @@ public class ChampionManager : MonoBehaviour
         //hide indicators
         //Map.Instance.HideIndicators();
 
-        if (draggedChampion != null)
+        if (pickedChampion != null && InputController.Instance.ui == null)
         {
             //set dragged
-            draggedChampion.IsDragged = false;
+            pickedChampion.IsDragged = false;
 
             //get trigger info
             GridInfo gridInfo = InputController.Instance.gridInfo;
@@ -238,7 +248,7 @@ public class ChampionManager : MonoBehaviour
             //if mouse cursor on trigger
             if (gridInfo != null)
             {
-                if (!CheckGridInfoInRange(gridInfo, draggedChampion.team))
+                if (!CheckGridInfoInRange(gridInfo, pickedChampion.team))
                     return;
                 //get current champion over mouse cursor
                 ChampionController championCtrl = gridInfo.occupyChampion;
@@ -248,9 +258,9 @@ public class ChampionManager : MonoBehaviour
                 {
                     //交换位置
                     championCtrl.LeaveGrid();
-                    draggedChampion.LeaveGrid();
+                    pickedChampion.LeaveGrid();
                     championCtrl.EnterGrid(dragStartGridInfo);
-                    draggedChampion.EnterGrid(gridInfo);
+                    pickedChampion.EnterGrid(gridInfo);
 
                 }
                 else//目标点无单位
@@ -260,14 +270,14 @@ public class ChampionManager : MonoBehaviour
                     {
                         if (championsHexaMapArray.Count < currentChampionLimit || dragStartGridInfo.gridType == GridType.HexaMap)
                         {
-                            RemoveChampionFromArray(draggedChampion);
-                            StoreChampionInArray(gridInfo, draggedChampion);
+                            RemoveChampionFromArray(pickedChampion);
+                            StoreChampionInArray(gridInfo, pickedChampion);
                         }
                     } //目标点是仓库
                     else if (gridInfo.gridType == GridType.Inventory)
                     {
-                        RemoveChampionFromArray(draggedChampion);
-                        StoreChampionInArray(gridInfo, draggedChampion);
+                        RemoveChampionFromArray(pickedChampion);
+                        StoreChampionInArray(gridInfo, pickedChampion);
                     }
                 }
             }
@@ -372,9 +382,9 @@ public class ChampionManager : MonoBehaviour
 
     public virtual void OnEnterCombat()
     {
-        if (draggedChampion != null)
+        if (pickedChampion != null)
         {
-            draggedChampion.GetComponent<ChampionController>().IsDragged = false;
+            pickedChampion.GetComponent<ChampionController>().IsDragged = false;
             //draggedChampion = null;
         }
         if (IsAllChampionDead())

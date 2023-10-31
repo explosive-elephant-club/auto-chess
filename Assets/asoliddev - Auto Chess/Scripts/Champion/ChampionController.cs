@@ -98,7 +98,6 @@ public class ChampionController : MonoBehaviour
 
         constructors.Find(c => c.type == ConstructorType.Base).Init(this, true);
         attributesController.Reset();
-        skillController.SetAttackSkill(1);
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }
 

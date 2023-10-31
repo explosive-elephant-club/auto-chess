@@ -177,6 +177,7 @@ public class ConstructorBase : MonoBehaviour
             c.OnRemove();
         }
         Destroy(slot.constructorInstance);
+        championController.skillController.UpdateSkillCapacity();
         return data;
     }
 

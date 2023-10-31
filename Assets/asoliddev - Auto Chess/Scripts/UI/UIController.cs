@@ -39,7 +39,7 @@ public class UIController : CreateSingleton<UIController>
     public void UpdateUI()
     {
         levelInfo.UpdateUI();
-        //shop.UpdateUI();
+        championInfoController.UpdateUI();
 
         //hide bonusus UI
         foreach (GameObject go in bonusPanels)

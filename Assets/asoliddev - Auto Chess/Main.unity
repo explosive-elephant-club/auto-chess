@@ -881,7 +881,7 @@ MonoBehaviour:
   championsHexaMapArray: []
   currentChampionLimit: 3
   currentChampionCount: 0
-  draggedChampion: {fileID: 0}
+  pickedChampion: {fileID: 0}
 --- !u!4 &27158422
 Transform:
   m_ObjectHideFlags: 0
@@ -913,7 +913,7 @@ MonoBehaviour:
   championsHexaMapArray: []
   currentChampionLimit: 3
   currentChampionCount: 0
-  draggedChampion: {fileID: 0}
+  pickedChampion: {fileID: 0}
 --- !u!1 &27576637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,6 +1257,7 @@ GameObject:
   - component: {fileID: 31932068}
   - component: {fileID: 31932070}
   - component: {fileID: 31932069}
+  - component: {fileID: 31932071}
   m_Layer: 5
   m_Name: Skill (6)
   m_TagString: Untagged
@@ -1321,6 +1322,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31932067}
   m_CullTransparentMesh: 0
+--- !u!114 &31932071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31932067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &34375802
 GameObject:
   m_ObjectHideFlags: 0
@@ -3437,12 +3490,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -3452,22 +3505,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -3477,12 +3530,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -3697,12 +3750,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -3712,12 +3765,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -3908,6 +3961,7 @@ GameObject:
   - component: {fileID: 99135199}
   - component: {fileID: 99135201}
   - component: {fileID: 99135200}
+  - component: {fileID: 99135202}
   m_Layer: 5
   m_Name: Skill (13)
   m_TagString: Untagged
@@ -3972,6 +4026,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99135198}
   m_CullTransparentMesh: 0
+--- !u!114 &99135202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99135198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &99819622
 GameObject:
   m_ObjectHideFlags: 0
@@ -5567,6 +5673,7 @@ RectTransform:
   - {fileID: 1381490962}
   - {fileID: 1779219856}
   - {fileID: 2078110826}
+  - {fileID: 1749375559}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6940,6 +7047,7 @@ GameObject:
   - component: {fileID: 174690400}
   - component: {fileID: 174690402}
   - component: {fileID: 174690401}
+  - component: {fileID: 174690403}
   m_Layer: 5
   m_Name: Skill (11)
   m_TagString: Untagged
@@ -7004,6 +7112,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174690399}
   m_CullTransparentMesh: 0
+--- !u!114 &174690403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174690399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &177496364
 GameObject:
   m_ObjectHideFlags: 0
@@ -7408,12 +7568,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -7423,22 +7583,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -7448,12 +7608,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -7668,12 +7828,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -7683,12 +7843,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -8650,6 +8810,7 @@ GameObject:
   - component: {fileID: 217057775}
   - component: {fileID: 217057777}
   - component: {fileID: 217057776}
+  - component: {fileID: 217057778}
   m_Layer: 5
   m_Name: Skill (2)
   m_TagString: Untagged
@@ -8714,6 +8875,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 217057774}
   m_CullTransparentMesh: 0
+--- !u!114 &217057778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217057774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &220790118
 GameObject:
   m_ObjectHideFlags: 0
@@ -9802,6 +10015,7 @@ GameObject:
   - component: {fileID: 250712465}
   - component: {fileID: 250712467}
   - component: {fileID: 250712466}
+  - component: {fileID: 250712468}
   m_Layer: 5
   m_Name: Skill (12)
   m_TagString: Untagged
@@ -9866,6 +10080,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 250712464}
   m_CullTransparentMesh: 0
+--- !u!114 &250712468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250712464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1001 &250739964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9896,12 +10162,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -9911,22 +10177,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -9936,12 +10202,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -10156,12 +10422,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -10171,12 +10437,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -10795,6 +11061,7 @@ GameObject:
   - component: {fileID: 269803222}
   - component: {fileID: 269803224}
   - component: {fileID: 269803223}
+  - component: {fileID: 269803225}
   m_Layer: 5
   m_Name: Skill (11)
   m_TagString: Untagged
@@ -10859,6 +11126,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269803221}
   m_CullTransparentMesh: 0
+--- !u!114 &269803225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269803221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1001 &269921886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11039,6 +11358,7 @@ GameObject:
   - component: {fileID: 275932281}
   - component: {fileID: 275932283}
   - component: {fileID: 275932282}
+  - component: {fileID: 275932284}
   m_Layer: 5
   m_Name: Skill (5)
   m_TagString: Untagged
@@ -11103,6 +11423,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275932280}
   m_CullTransparentMesh: 0
+--- !u!114 &275932284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275932280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &276963098
 GameObject:
   m_ObjectHideFlags: 0
@@ -11438,9 +11810,9 @@ RectTransform:
   m_Father: {fileID: 1544920230}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 51, y: -29}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &287662440
@@ -12228,11 +12600,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cfe741a652aae48b50863ce44fb02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiLayer:
+    serializedVersion: 2
+    m_Bits: 32
   triggerLayer:
     serializedVersion: 2
     m_Bits: 256
   gridInfo: {fileID: 0}
   previousGridInfo: {fileID: 0}
+  ui: {fileID: 0}
 --- !u!1 &316126671
 GameObject:
   m_ObjectHideFlags: 0
@@ -12244,6 +12620,7 @@ GameObject:
   - component: {fileID: 316126672}
   - component: {fileID: 316126674}
   - component: {fileID: 316126673}
+  - component: {fileID: 316126675}
   m_Layer: 5
   m_Name: Skill (4)
   m_TagString: Untagged
@@ -12308,6 +12685,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316126671}
   m_CullTransparentMesh: 0
+--- !u!114 &316126675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316126671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &316229120
 GameObject:
   m_ObjectHideFlags: 0
@@ -12975,6 +13404,7 @@ GameObject:
   - component: {fileID: 332299349}
   - component: {fileID: 332299351}
   - component: {fileID: 332299350}
+  - component: {fileID: 332299352}
   m_Layer: 5
   m_Name: Skill (14)
   m_TagString: Untagged
@@ -13039,6 +13469,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332299348}
   m_CullTransparentMesh: 0
+--- !u!114 &332299352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332299348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1001 &334274532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14432,6 +14914,7 @@ GameObject:
   - component: {fileID: 401782624}
   - component: {fileID: 401782626}
   - component: {fileID: 401782625}
+  - component: {fileID: 401782627}
   m_Layer: 5
   m_Name: Skill (7)
   m_TagString: Untagged
@@ -14496,6 +14979,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401782623}
   m_CullTransparentMesh: 0
+--- !u!114 &401782627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401782623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &406939665 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3930863742853903984, guid: a272a30be38810444ab56078c46aef85,
@@ -14978,9 +15513,9 @@ RectTransform:
   m_Father: {fileID: 968013520}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413986219
@@ -16623,6 +17158,7 @@ GameObject:
   - component: {fileID: 461955183}
   - component: {fileID: 461955185}
   - component: {fileID: 461955184}
+  - component: {fileID: 461955186}
   m_Layer: 5
   m_Name: Skill (5)
   m_TagString: Untagged
@@ -16687,6 +17223,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461955182}
   m_CullTransparentMesh: 0
+--- !u!114 &461955186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461955182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &462211853
 GameObject:
   m_ObjectHideFlags: 0
@@ -18183,6 +18771,7 @@ GameObject:
   - component: {fileID: 489521583}
   - component: {fileID: 489521585}
   - component: {fileID: 489521584}
+  - component: {fileID: 489521586}
   m_Layer: 5
   m_Name: Skill (2)
   m_TagString: Untagged
@@ -18247,6 +18836,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489521582}
   m_CullTransparentMesh: 0
+--- !u!114 &489521586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489521582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &490132618
 GameObject:
   m_ObjectHideFlags: 0
@@ -18676,6 +19317,7 @@ GameObject:
   - component: {fileID: 492714625}
   - component: {fileID: 492714627}
   - component: {fileID: 492714626}
+  - component: {fileID: 492714628}
   m_Layer: 5
   m_Name: Skill (1)
   m_TagString: Untagged
@@ -18740,6 +19382,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 492714624}
   m_CullTransparentMesh: 0
+--- !u!114 &492714628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492714624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &493390162
 GameObject:
   m_ObjectHideFlags: 0
@@ -19766,9 +20460,9 @@ RectTransform:
   m_Father: {fileID: 1686249354}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 71.64, y: -17.67588}
   m_SizeDelta: {x: 141.18759, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &513282687
@@ -19828,6 +20522,7 @@ GameObject:
   - component: {fileID: 513288945}
   - component: {fileID: 513288947}
   - component: {fileID: 513288946}
+  - component: {fileID: 513288948}
   m_Layer: 5
   m_Name: Skill (12)
   m_TagString: Untagged
@@ -19892,6 +20587,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513288944}
   m_CullTransparentMesh: 0
+--- !u!114 &513288948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513288944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &515029968
 GameObject:
   m_ObjectHideFlags: 0
@@ -22743,9 +23490,9 @@ RectTransform:
   m_Father: {fileID: 1544920230}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 87, y: -24}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &601273924
@@ -23052,9 +23799,9 @@ RectTransform:
   m_Father: {fileID: 1986102287}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &615585284
@@ -23972,6 +24719,7 @@ GameObject:
   - component: {fileID: 632177867}
   - component: {fileID: 632177869}
   - component: {fileID: 632177868}
+  - component: {fileID: 632177870}
   m_Layer: 5
   m_Name: Skill (8)
   m_TagString: Untagged
@@ -24036,6 +24784,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632177866}
   m_CullTransparentMesh: 0
+--- !u!114 &632177870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632177866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &634085621
 GameObject:
   m_ObjectHideFlags: 0
@@ -24147,9 +24947,9 @@ RectTransform:
   m_Father: {fileID: 2000434420}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &635570534
@@ -29082,12 +29882,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -29097,22 +29897,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -29122,12 +29922,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -29342,12 +30142,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -29357,12 +30157,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -30506,6 +31306,7 @@ GameObject:
   - component: {fileID: 789533700}
   - component: {fileID: 789533702}
   - component: {fileID: 789533701}
+  - component: {fileID: 789533703}
   m_Layer: 5
   m_Name: Skill (15)
   m_TagString: Untagged
@@ -30570,6 +31371,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789533699}
   m_CullTransparentMesh: 0
+--- !u!114 &789533703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789533699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &790536675
 GameObject:
   m_ObjectHideFlags: 0
@@ -32736,9 +33589,9 @@ RectTransform:
   m_Father: {fileID: 7811632632483113862}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 71.35126, y: -69.7896}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &845489430
@@ -33325,6 +34178,7 @@ GameObject:
   - component: {fileID: 862146488}
   - component: {fileID: 862146490}
   - component: {fileID: 862146489}
+  - component: {fileID: 862146491}
   m_Layer: 5
   m_Name: Skill (9)
   m_TagString: Untagged
@@ -33389,6 +34243,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862146487}
   m_CullTransparentMesh: 0
+--- !u!114 &862146491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862146487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &865603822
 GameObject:
   m_ObjectHideFlags: 0
@@ -33569,12 +34475,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -33584,22 +34490,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -33609,12 +34515,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -33829,12 +34735,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -33844,12 +34750,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -34187,6 +35093,7 @@ GameObject:
   - component: {fileID: 874773291}
   - component: {fileID: 874773293}
   - component: {fileID: 874773292}
+  - component: {fileID: 874773294}
   m_Layer: 5
   m_Name: Skill (14)
   m_TagString: Untagged
@@ -34251,6 +35158,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874773290}
   m_CullTransparentMesh: 0
+--- !u!114 &874773294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874773290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &876319299
 GameObject:
   m_ObjectHideFlags: 0
@@ -35245,6 +36204,7 @@ GameObject:
   - component: {fileID: 913124452}
   - component: {fileID: 913124454}
   - component: {fileID: 913124453}
+  - component: {fileID: 913124455}
   m_Layer: 5
   m_Name: Skill (1)
   m_TagString: Untagged
@@ -35309,6 +36269,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913124451}
   m_CullTransparentMesh: 0
+--- !u!114 &913124455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913124451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &914764491
 GameObject:
   m_ObjectHideFlags: 0
@@ -36167,9 +37179,9 @@ RectTransform:
   m_Father: {fileID: 1148745926}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &929933480
@@ -36437,9 +37449,9 @@ RectTransform:
   m_Father: {fileID: 1608877225}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 71.64, y: -17.67588}
   m_SizeDelta: {x: 141.18759, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &933994369
@@ -36499,6 +37511,7 @@ GameObject:
   - component: {fileID: 936155052}
   - component: {fileID: 936155054}
   - component: {fileID: 936155053}
+  - component: {fileID: 936155055}
   m_Layer: 5
   m_Name: Skill (6)
   m_TagString: Untagged
@@ -36563,6 +37576,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 936155051}
   m_CullTransparentMesh: 0
+--- !u!114 &936155055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936155051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &936878902
 GameObject:
   m_ObjectHideFlags: 0
@@ -36688,12 +37753,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -36703,22 +37768,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -36728,12 +37793,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -36948,12 +38013,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -36963,12 +38028,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -38286,9 +39351,9 @@ RectTransform:
   m_Father: {fileID: 2121257007}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &970533486
@@ -38788,9 +39853,9 @@ RectTransform:
   m_Father: {fileID: 1893004330}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &984402774
@@ -39747,7 +40812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15.390646, y: 0}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1001033177
@@ -40320,9 +41385,9 @@ RectTransform:
   m_Father: {fileID: 1650100374}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1021063298
@@ -40984,6 +42049,7 @@ GameObject:
   - component: {fileID: 1047871707}
   - component: {fileID: 1047871709}
   - component: {fileID: 1047871708}
+  - component: {fileID: 1047871710}
   m_Layer: 5
   m_Name: Skill (10)
   m_TagString: Untagged
@@ -41048,6 +42114,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047871706}
   m_CullTransparentMesh: 0
+--- !u!114 &1047871710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047871706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &1047950124
 GameObject:
   m_ObjectHideFlags: 0
@@ -42666,12 +43784,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -42681,22 +43799,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -42706,12 +43824,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -42926,12 +44044,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -42941,12 +44059,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -43006,12 +44124,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -43021,22 +44139,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -43046,12 +44164,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -43266,12 +44384,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -43281,12 +44399,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -44733,9 +45851,9 @@ RectTransform:
   m_Father: {fileID: 1758290703}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1116471357
@@ -45257,6 +46375,7 @@ GameObject:
   - component: {fileID: 1134842125}
   - component: {fileID: 1134842127}
   - component: {fileID: 1134842126}
+  - component: {fileID: 1134842128}
   m_Layer: 5
   m_Name: Skill (7)
   m_TagString: Untagged
@@ -45321,6 +46440,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134842124}
   m_CullTransparentMesh: 0
+--- !u!114 &1134842128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134842124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &1137398336
 GameObject:
   m_ObjectHideFlags: 0
@@ -45718,9 +46889,9 @@ RectTransform:
   m_Father: {fileID: 1434565874}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1147514337
@@ -48164,9 +49335,9 @@ RectTransform:
   m_Father: {fileID: 2094346669}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1192702107
@@ -48388,9 +49559,9 @@ RectTransform:
   m_Father: {fileID: 1326028902}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 71.35126, y: -114.837746}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1195991749
@@ -48450,6 +49621,7 @@ GameObject:
   - component: {fileID: 1198544662}
   - component: {fileID: 1198544664}
   - component: {fileID: 1198544663}
+  - component: {fileID: 1198544665}
   m_Layer: 5
   m_Name: Skill (3)
   m_TagString: Untagged
@@ -48514,6 +49686,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198544661}
   m_CullTransparentMesh: 0
+--- !u!114 &1198544665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198544661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &1198578729
 GameObject:
   m_ObjectHideFlags: 0
@@ -48525,6 +49749,7 @@ GameObject:
   - component: {fileID: 1198578730}
   - component: {fileID: 1198578732}
   - component: {fileID: 1198578731}
+  - component: {fileID: 1198578733}
   m_Layer: 5
   m_Name: Skill (10)
   m_TagString: Untagged
@@ -48589,6 +49814,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198578729}
   m_CullTransparentMesh: 0
+--- !u!114 &1198578733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198578729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1001 &1199085498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48619,12 +49896,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -48634,22 +49911,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -48659,12 +49936,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -48879,12 +50156,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -48894,12 +50171,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -50836,9 +52113,9 @@ RectTransform:
   m_Father: {fileID: 1386248069}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15.390646, y: -5.000042}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1251129667
@@ -51001,7 +52278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15.390646, y: 0}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1256200598
@@ -51249,12 +52526,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -51264,22 +52541,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -51289,12 +52566,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -51509,12 +52786,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -51524,12 +52801,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -57704,6 +58981,7 @@ GameObject:
   - component: {fileID: 1444543288}
   - component: {fileID: 1444543290}
   - component: {fileID: 1444543289}
+  - component: {fileID: 1444543291}
   m_Layer: 5
   m_Name: Skill
   m_TagString: Untagged
@@ -57768,6 +59046,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444543287}
   m_CullTransparentMesh: 0
+--- !u!114 &1444543291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444543287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1001 &1445050390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59977,6 +61307,7 @@ GameObject:
   - component: {fileID: 1523398330}
   - component: {fileID: 1523398332}
   - component: {fileID: 1523398331}
+  - component: {fileID: 1523398333}
   m_Layer: 5
   m_Name: Skill (15)
   m_TagString: Untagged
@@ -60041,6 +61372,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1523398329}
   m_CullTransparentMesh: 0
+--- !u!114 &1523398333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523398329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1001 &1525213081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61407,9 +62790,9 @@ RectTransform:
   m_Father: {fileID: 1544920230}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 15, y: -29}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1541281467
@@ -61569,9 +62952,9 @@ RectTransform:
   m_Father: {fileID: 7811632632483113862}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 71.35126, y: -81.82557}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1544920231
@@ -63964,12 +65347,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -63979,22 +65362,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -64004,12 +65387,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -64224,12 +65607,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -64239,12 +65622,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -64509,6 +65892,7 @@ GameObject:
   - component: {fileID: 1607961238}
   - component: {fileID: 1607961240}
   - component: {fileID: 1607961239}
+  - component: {fileID: 1607961241}
   m_Layer: 5
   m_Name: Skill (9)
   m_TagString: Untagged
@@ -64573,6 +65957,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607961237}
   m_CullTransparentMesh: 0
+--- !u!114 &1607961241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607961237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &1608877224
 GameObject:
   m_ObjectHideFlags: 0
@@ -64608,9 +66044,9 @@ RectTransform:
   m_Father: {fileID: 7811632632483113862}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -0.28874207, y: -93.86154}
   m_SizeDelta: {x: 143.28, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1608877226
@@ -64671,6 +66107,7 @@ GameObject:
   - component: {fileID: 1611170782}
   - component: {fileID: 1611170784}
   - component: {fileID: 1611170783}
+  - component: {fileID: 1611170785}
   m_Layer: 5
   m_Name: Skill
   m_TagString: Untagged
@@ -64735,6 +66172,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611170781}
   m_CullTransparentMesh: 0
+--- !u!114 &1611170785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611170781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &1611332422
 GameObject:
   m_ObjectHideFlags: 0
@@ -66629,6 +68118,7 @@ GameObject:
   - component: {fileID: 1674156722}
   - component: {fileID: 1674156724}
   - component: {fileID: 1674156723}
+  - component: {fileID: 1674156725}
   m_Layer: 5
   m_Name: Skill (4)
   m_TagString: Untagged
@@ -66693,6 +68183,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674156721}
   m_CullTransparentMesh: 0
+--- !u!114 &1674156725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674156721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &1676506998
 GameObject:
   m_ObjectHideFlags: 0
@@ -67084,9 +68626,9 @@ RectTransform:
   m_Father: {fileID: 7811632632483113862}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -0.28874207, y: -93.86154}
   m_SizeDelta: {x: 143.28, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1686249355
@@ -69201,6 +70743,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745422438}
   m_CullTransparentMesh: 0
+--- !u!1 &1749375558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1749375559}
+  - component: {fileID: 1749375562}
+  - component: {fileID: 1749375561}
+  - component: {fileID: 1749375560}
+  - component: {fileID: 1749375563}
+  m_Layer: 5
+  m_Name: DraggedUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1749375559
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749375558}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1775963770}
+  m_Father: {fileID: 129059052}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 15, y: 15}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1749375560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749375558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ed99fa0307c3cd459fe5430f6373856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 1775963772}
+--- !u!114 &1749375561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749375558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 8
+--- !u!222 &1749375562
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749375558}
+  m_CullTransparentMesh: 0
+--- !u!225 &1749375563
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749375558}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1749891534
 GameObject:
   m_ObjectHideFlags: 0
@@ -70262,6 +71906,96 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775634468}
+  m_CullTransparentMesh: 0
+--- !u!1 &1775963769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1775963770}
+  - component: {fileID: 1775963773}
+  - component: {fileID: 1775963772}
+  - component: {fileID: 1775963771}
+  m_Layer: 5
+  m_Name: IconImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1775963770
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775963769}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1749375559}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.0000052452087, y: 0.0000019073486}
+  m_SizeDelta: {x: -4.796814, y: -4.796814}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1775963771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775963769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.3019608}
+  m_EffectDistance: {x: 0, y: -2}
+  m_UseGraphicAlpha: 1
+--- !u!114 &1775963772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775963769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: db7e2dc1a8334d94482fe0e0a13d9287, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1775963773
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775963769}
   m_CullTransparentMesh: 0
 --- !u!1 &1778149214
 GameObject:
@@ -72894,7 +74628,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15.390646, y: 0}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1850411863
@@ -74136,7 +75870,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15.390646, y: 0}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1890563762
@@ -74595,7 +76329,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15.390646, y: 0}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1905574438
@@ -74891,12 +76625,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -74906,22 +76640,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -74931,12 +76665,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -75151,12 +76885,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -75166,12 +76900,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -78054,6 +79788,7 @@ GameObject:
   - component: {fileID: 1984919039}
   - component: {fileID: 1984919041}
   - component: {fileID: 1984919040}
+  - component: {fileID: 1984919042}
   m_Layer: 5
   m_Name: Skill (3)
   m_TagString: Untagged
@@ -78118,6 +79853,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984919038}
   m_CullTransparentMesh: 0
+--- !u!114 &1984919042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984919038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &1985673550
 GameObject:
   m_ObjectHideFlags: 0
@@ -79017,6 +80804,7 @@ GameObject:
   - component: {fileID: 2001730351}
   - component: {fileID: 2001730353}
   - component: {fileID: 2001730352}
+  - component: {fileID: 2001730354}
   m_Layer: 5
   m_Name: Skill (13)
   m_TagString: Untagged
@@ -79081,6 +80869,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001730350}
   m_CullTransparentMesh: 0
+--- !u!114 &2001730354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001730350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &2001763338
 GameObject:
   m_ObjectHideFlags: 0
@@ -81068,7 +82908,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 123, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2053396804
@@ -82745,12 +84585,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -82760,22 +84600,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -82785,12 +84625,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83005,12 +84845,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83020,12 +84860,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83161,12 +85001,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83176,22 +85016,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83201,12 +85041,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83421,12 +85261,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83436,12 +85276,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -83509,7 +85349,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15.390646, y: 0}
   m_SizeDelta: {x: 0, y: 10.000084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2089172720
@@ -84938,6 +86778,7 @@ GameObject:
   - component: {fileID: 2130363337}
   - component: {fileID: 2130363339}
   - component: {fileID: 2130363338}
+  - component: {fileID: 2130363340}
   m_Layer: 5
   m_Name: Skill (8)
   m_TagString: Untagged
@@ -85002,6 +86843,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130363336}
   m_CullTransparentMesh: 0
+--- !u!114 &2130363340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130363336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+    skillData:
+      _ID: 0
+      _name: 
+      _castDelay: 0
+      _chargingDelay: 0
+      _manaCost: 0
+      _count: 0
+      _description: 
+      _distance: 0
+      _range: 0
+      _skillTargetType: 
+      _skillTargetSelectorType: 
+      _skillRangeSelectorType: 
+      _damageData: []
+      _addBuffs: 
+      _isBlockOther: 0
+      _skillAnimTrigger: []
+      _effectPrefab: 
+      _hitFXPrefab: 
+      _hexEffectPrefab: 
+      _icon: 
+      _skillBehaviourScriptName: 
+    skillTargetType: 0
+    skillRangeSelectorType: 0
+    skillTargetSelectorType: 0
+    owner: {fileID: 0}
+    constructor: {fileID: 0}
+    countRemain: 0
+    effectPrefab: {fileID: 0}
+    hitFXPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    targets: []
+    mapGrids: []
+    state: 0
+    effectScript: {fileID: 0}
+    skillController: {fileID: 0}
+    skillBehaviour: {fileID: 0}
+    manager: {fileID: 0}
+  isActivated: 0
 --- !u!1 &2131005131
 GameObject:
   m_ObjectHideFlags: 0
@@ -95155,12 +97048,12 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -95170,22 +97063,22 @@ PrefabInstance:
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 21.875
       objectReference: {fileID: 0}
     - target: {fileID: 6835103101835710733, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999857
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -95195,12 +97088,12 @@ PrefabInstance:
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 54.446075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102025217037, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999971
       objectReference: {fileID: 0}
     - target: {fileID: 6835103102324987808, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -95415,12 +97308,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -95430,12 +97323,12 @@ PrefabInstance:
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 31.071075
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103125499385, guid: f838299e82f677f45a00550964effd73,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2.4999895
       objectReference: {fileID: 0}
     - target: {fileID: 6835103103241444516, guid: f838299e82f677f45a00550964effd73,
         type: 3}
@@ -95469,12 +97362,12 @@ PrefabInstance:
     - target: {fileID: 6865256730969000208, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256730969000208, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256730969000208, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95484,22 +97377,22 @@ PrefabInstance:
     - target: {fileID: 6865256730969000208, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 111.755005
       objectReference: {fileID: 0}
     - target: {fileID: 6865256730969000208, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -8.420349
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731109200634, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731109200634, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731109200634, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95509,12 +97402,12 @@ PrefabInstance:
     - target: {fileID: 6865256731109200634, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 17.675
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731109200634, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -8.420353
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731465245668, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95675,12 +97568,12 @@ PrefabInstance:
     - target: {fileID: 6865256731841906078, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731841906078, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731841906078, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95690,22 +97583,22 @@ PrefabInstance:
     - target: {fileID: 6865256731841906078, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 76.04491
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731841906078, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -8.420353
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731914650895, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731914650895, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731914650895, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95715,12 +97608,12 @@ PrefabInstance:
     - target: {fileID: 6865256731914650895, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 72.565
       objectReference: {fileID: 0}
     - target: {fileID: 6865256731914650895, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -8.420349
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732042983902, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95816,12 +97709,12 @@ PrefabInstance:
     - target: {fileID: 6865256732102690252, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732102690252, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732102690252, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95831,22 +97724,22 @@ PrefabInstance:
     - target: {fileID: 6865256732102690252, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 77.6042
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732102690252, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -8.420353
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732105629519, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732105629519, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732105629519, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95856,12 +97749,12 @@ PrefabInstance:
     - target: {fileID: 6865256732105629519, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 119.04103
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732105629519, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -8.420353
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732621691252, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95886,12 +97779,12 @@ PrefabInstance:
     - target: {fileID: 6865256732699290991, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732699290991, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732699290991, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95901,22 +97794,22 @@ PrefabInstance:
     - target: {fileID: 6865256732699290991, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 23.2
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732699290991, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -8.420349
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732766422157, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732766422157, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732766422157, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
@@ -95926,12 +97819,12 @@ PrefabInstance:
     - target: {fileID: 6865256732766422157, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 76.04491
       objectReference: {fileID: 0}
     - target: {fileID: 6865256732766422157, guid: 5aca97b4a32f79d4087678f97b774dd3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -26.261059
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5aca97b4a32f79d4087678f97b774dd3, type: 3}
@@ -96134,6 +98027,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7811632631866363894}
+  - component: {fileID: 7811632631866363896}
   - component: {fileID: 7811632631866363895}
   m_Layer: 5
   m_Name: ChampionInfo
@@ -96181,6 +98075,18 @@ MonoBehaviour:
   state2: {fileID: 1544920229}
   activatedSkillSlots: []
   deactivatedSkillSlots: []
+--- !u!225 &7811632631866363896
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7811632631866363893}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!222 &7811632632449107784
 CanvasRenderer:
   m_ObjectHideFlags: 0

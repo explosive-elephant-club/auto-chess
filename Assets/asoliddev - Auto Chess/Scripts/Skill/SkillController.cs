@@ -4,15 +4,30 @@ using UnityEngine;
 using UnityEngine.Events;
 using ExcelConfig;
 using System.Linq;
+using UnityEngine.PlayerLoop;
+using System;
+
+
+[Serializable]
+public class SkillContainer
+{
+    public Skill skill;
+    public int slotIndex;
+
+    public SkillContainer(Skill _skill, int _slotIndex)
+    {
+        skill = _skill;
+        slotIndex = _slotIndex;
+    }
+}
 
 public class SkillController : MonoBehaviour
 {
-    [SerializeField]//所有的技能表
-    public List<Skill> skillList = new List<Skill>();
+    //所有的技能表
+    public List<SkillContainer> skillList = new List<SkillContainer>();
 
-    [SerializeField]//已激活的技能表
-    public List<Skill> activedSkillList = new List<Skill>();
-
+    //已激活的技能表
+    public List<SkillContainer> activedSkillList = new List<SkillContainer>();
 
     int curSkillIndex = -1;
     int nextSkillIndex = 0;
@@ -27,6 +42,18 @@ public class SkillController : MonoBehaviour
         championController = gameObject.GetComponent<ChampionController>();
     }
 
+    public void UpdateSkillCapacity()
+    {
+        int capacity = (int)championController.attributesController.electricPower.GetTrueLinearValue();
+        if (activedSkillList.Count > capacity)
+        {
+            for (int i = capacity; i < activedSkillList.Count; i++)
+            {
+                RemoveActivedSkill(activedSkillList[i].skill);
+            }
+        }
+    }
+
     public void OnEnterCombat()
     {
         curSkillIndex = -1;
@@ -37,9 +64,9 @@ public class SkillController : MonoBehaviour
     public void OnUpdateCombat()
     {
         if (curSkillIndex != -1)
-            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
+            if (activedSkillList[curSkillIndex].skill.state == SkillState.Casting)
             {
-                activedSkillList[curSkillIndex].OnCastingUpdate();
+                activedSkillList[curSkillIndex].skill.OnCastingUpdate();
             }
     }
 
@@ -59,7 +86,7 @@ public class SkillController : MonoBehaviour
         float cd = championController.attributesController.chargingDelay.GetTrueLinearValue();
         foreach (var s in activedSkillList)
         {
-            cd += s.skillData.chargingDelay;
+            cd += s.skill.skillData.chargingDelay;
         }
         cd *= 1 - championController.attributesController.chargingDelayDecr.GetTrueMultipleValue();
         if (cd > 0)
@@ -73,13 +100,13 @@ public class SkillController : MonoBehaviour
         //Debug.Log("TryCastSkill" + curCastDelay);
 
         if (curSkillIndex != -1)
-            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
+            if (activedSkillList[curSkillIndex].skill.state == SkillState.Casting)
                 return;
         if (curCastDelay <= 0)//释放
         {
-            if (activedSkillList[nextSkillIndex].IsPrepared())
-                activedSkillList[nextSkillIndex].Cast();
-            curCastDelay = GetSkillCastDelay(activedSkillList[nextSkillIndex]);
+            if (activedSkillList[nextSkillIndex].skill.IsPrepared())
+                activedSkillList[nextSkillIndex].skill.Cast();
+            curCastDelay = GetSkillCastDelay(activedSkillList[nextSkillIndex].skill);
             curSkillIndex = nextSkillIndex;
             if (nextSkillIndex + 1 < activedSkillList.Count)//顺序释放
             {
@@ -104,7 +131,7 @@ public class SkillController : MonoBehaviour
 
     public int GetNextSkillRange()
     {
-        return activedSkillList[nextSkillIndex].skillData.distance;
+        return activedSkillList[nextSkillIndex].skill.skillData.distance;
     }
 
     public void AddSkill(int skillID, ConstructorBase _constructor)
@@ -114,38 +141,63 @@ public class SkillController : MonoBehaviour
 
     public void AddSkill(SkillData skillData, ConstructorBase _constructor)
     {
-        if (skillList.Exists(s => s.skillData == skillData))
-            return;
+        int index = 0;
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            SkillContainer sc = skillList.Find(s => s.slotIndex == i);
+            if (sc == null)
+            {
+                index = i;
+                break;
+            }
+        }
         Skill skill = new Skill(skillData, championController, _constructor);
-        skillList.Add(skill);
+        SkillContainer skillContainer = new SkillContainer(skill, index);
+        skillList.Add(skillContainer);
     }
 
     public void RemoveSkill(ConstructorBase _constructor)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].constructor == _constructor)
+            if (skillList[i].skill.constructor == _constructor)
             {
                 RemoveSkill(skillList[i]);
             }
         }
     }
 
-    public void RemoveSkill(Skill skill)
+    public void RemoveSkill(SkillContainer skillContainer)
     {
-        skillList.Remove(skill);
+        RemoveActivedSkill(skillContainer.skill);
+        skillList.Remove(skillContainer);
     }
 
-    public void SetAttackSkill(int skillID)
+    public void AddActivedSkill(SkillContainer skillContainer, int index)
     {
-        activedSkillList.Add(skillList.Find(s => s.skillData.ID == skillID));
+        if (skillList.Contains(skillContainer))
+        {
+            skillContainer.skill.state = SkillState.CD;
+
+            activedSkillList.Add(new SkillContainer(skillContainer.skill, index));
+        }
+    }
+
+    public void RemoveActivedSkill(Skill skill)
+    {
+        SkillContainer sc = activedSkillList.Find(s => s.skill == skill);
+        if (sc != null)
+        {
+            skill.state = SkillState.Disable;
+            activedSkillList.Remove(sc);
+        }
     }
 
     public void Reset()
     {
         foreach (var s in activedSkillList)
         {
-            s.Reset();
+            s.skill.Reset();
         }
     }
 }

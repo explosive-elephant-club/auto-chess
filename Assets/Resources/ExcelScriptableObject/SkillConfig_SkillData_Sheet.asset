@@ -43,5 +43,5 @@ MonoBehaviour:
     _effectPrefab: Prefab/Projectile/Skill/FireBall
     _hitFXPrefab: 
     _hexEffectPrefab: 
-    _icon: 
+    _icon: Sprite/SkillIcon/Icon_Magic1
     _skillBehaviourScriptName: 

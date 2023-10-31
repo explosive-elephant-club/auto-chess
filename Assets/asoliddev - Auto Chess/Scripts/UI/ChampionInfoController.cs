@@ -21,27 +21,66 @@ public class ChampionInfoController : MonoBehaviour
     public GameObject state2;
 
     //Skill
-    public GameObject[] activatedSkillSlots;
-    public GameObject[] deactivatedSkillSlots;
+    public List<SkillSlot> activatedSkillSlots = new List<SkillSlot>();
+    public List<SkillSlot> deactivatedSkillSlots = new List<SkillSlot>();
 
-
+    CanvasGroup canvasGroup;
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        foreach (Transform child in transform.Find("Panel/ActivatedSkill/SkillSlot"))
+        {
+            activatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
+        }
+        foreach (Transform child in transform.Find("Panel/DeactivatedSkill/SkillSlot"))
+        {
+            deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
+        }
+        canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame
-    void Update()
+    public void UpdateUI()
     {
+        if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
+        {
+            SetUIActive(true);
+            UpdateArmorBar();
+            UpdateMechBar();
+            UpdateManaBar();
+            UpdateTypesBar();
+            UpdateAttributeData();
+            UpdateSkillSlot();
+        }
+        else
+        {
+            SetUIActive(false);
+        }
+    }
+
+    public void SetUIActive(bool isActive)
+    {
+        if (isActive)
+        {
+            canvasGroup.alpha = 1;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            canvasGroup.alpha = 0;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
 
     }
 
     public void UpdateArmorBar()
     {
         ChampionAttributesController attributesController =
-            GamePlayController.Instance.ownChampionManager.draggedChampion.attributesController;
+            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
 
         armorBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
             attributesController.curArmor + "/" + attributesController.maxArmor.GetTrueLinearValue();
@@ -53,7 +92,7 @@ public class ChampionInfoController : MonoBehaviour
     public void UpdateMechBar()
     {
         ChampionAttributesController attributesController =
-            GamePlayController.Instance.ownChampionManager.draggedChampion.attributesController;
+            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
 
         manaBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
             attributesController.curMana + "/" + attributesController.maxMana.GetTrueLinearValue();
@@ -65,7 +104,7 @@ public class ChampionInfoController : MonoBehaviour
     public void UpdateManaBar()
     {
         ChampionAttributesController attributesController =
-            GamePlayController.Instance.ownChampionManager.draggedChampion.attributesController;
+            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
 
         armorBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
             attributesController.curArmor + "/" + attributesController.maxArmor.GetTrueLinearValue();
@@ -78,7 +117,7 @@ public class ChampionInfoController : MonoBehaviour
     {
         int i = 0;
         //iterate bonuses
-        foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.ownChampionManager.draggedChampion.constructorTypeCount)
+        foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.ownChampionManager.pickedChampion.constructorTypeCount)
         {
             typesBar.transform.GetChild(i).gameObject.SetActive(true);
             typesBar.transform.GetChild(i).gameObject.name = m.Key.name;
@@ -95,7 +134,7 @@ public class ChampionInfoController : MonoBehaviour
     public void UpdateAttributeData()
     {
         ChampionAttributesController attributesController =
-           GamePlayController.Instance.ownChampionManager.draggedChampion.attributesController;
+           GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
 
         state2.transform.Find("Panel1/moveSpeed/Text_Value").GetComponent<TextMeshProUGUI>().text =
             attributesController.moveSpeed.GetTrueLinearValue().ToString();
@@ -145,5 +184,46 @@ public class ChampionInfoController : MonoBehaviour
         state2.transform.Find("Panel4/acidDefenseRate/Text_Value").GetComponent<TextMeshProUGUI>().text =
             (attributesController.acidDefenseRate.GetTrueMultipleValue() * 100f).ToString() + "%";
 
+    }
+
+    public void InitSkillSlot()
+    {
+
+    }
+
+    public void UpdateSkillSlot()
+    {
+        ChampionAttributesController attributesController =
+            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
+        SkillController skillController =
+            GamePlayController.Instance.ownChampionManager.pickedChampion.skillController;
+        for (int i = 0; i < activatedSkillSlots.Count; i++)
+        {
+            activatedSkillSlots[i].gameObject.SetActive(false);
+            if (i < attributesController.electricPower.GetTrueLinearValue())
+            {
+                activatedSkillSlots[i].gameObject.SetActive(true);
+                if (i < skillController.activedSkillList.Count)
+                {
+                    int index = skillController.activedSkillList[i].slotIndex;
+                    activatedSkillSlots[index].Init(skillController.activedSkillList[i].skill, true);
+                }
+
+            }
+        }
+        for (int i = 0; i < deactivatedSkillSlots.Count; i++)
+        {
+            deactivatedSkillSlots[i].gameObject.SetActive(false);
+            if (i < skillController.skillList.Count)
+            {
+                deactivatedSkillSlots[i].gameObject.SetActive(true);
+                if (skillController.skillList[i].skill.state == SkillState.Disable)
+                {
+                    int index = skillController.skillList[i].slotIndex;
+                    deactivatedSkillSlots[index].Init(skillController.skillList[i].skill, true);
+                }
+
+            }
+        }
     }
 }
