@@ -108,6 +108,7 @@ public class ConstructorBase : MonoBehaviour
         }
         if (isAutoPackage)
             AutoPackage();
+        championController.skillController.UpdateSkillCapacity();
     }
 
     public void Init(int id, ChampionController championController, bool isAutoPackage)

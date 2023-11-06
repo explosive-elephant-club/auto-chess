@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
 using General;
+using System.Diagnostics;
 
 public class ChampionInfoController : MonoBehaviour
 {
@@ -24,7 +25,13 @@ public class ChampionInfoController : MonoBehaviour
     public List<SkillSlot> activatedSkillSlots = new List<SkillSlot>();
     public List<SkillSlot> deactivatedSkillSlots = new List<SkillSlot>();
 
+    public SkillSlot pointEnterSlot;
+
     CanvasGroup canvasGroup;
+
+    ChampionController championController;
+    ChampionAttributesController attributesController;
+    SkillController skillController;
 
 
     // Start is called before the first frame update
@@ -46,6 +53,10 @@ public class ChampionInfoController : MonoBehaviour
     {
         if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
         {
+            championController = GamePlayController.Instance.ownChampionManager.pickedChampion;
+            attributesController = championController.attributesController;
+            skillController = championController.skillController;
+
             SetUIActive(true);
             UpdateArmorBar();
             UpdateMechBar();
@@ -79,9 +90,6 @@ public class ChampionInfoController : MonoBehaviour
 
     public void UpdateArmorBar()
     {
-        ChampionAttributesController attributesController =
-            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
-
         armorBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
             attributesController.curArmor + "/" + attributesController.maxArmor.GetTrueLinearValue();
 
@@ -91,9 +99,6 @@ public class ChampionInfoController : MonoBehaviour
 
     public void UpdateMechBar()
     {
-        ChampionAttributesController attributesController =
-            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
-
         manaBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
             attributesController.curMana + "/" + attributesController.maxMana.GetTrueLinearValue();
 
@@ -103,9 +108,6 @@ public class ChampionInfoController : MonoBehaviour
 
     public void UpdateManaBar()
     {
-        ChampionAttributesController attributesController =
-            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
-
         armorBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
             attributesController.curArmor + "/" + attributesController.maxArmor.GetTrueLinearValue();
 
@@ -133,9 +135,6 @@ public class ChampionInfoController : MonoBehaviour
 
     public void UpdateAttributeData()
     {
-        ChampionAttributesController attributesController =
-           GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
-
         state2.transform.Find("Panel1/moveSpeed/Text_Value").GetComponent<TextMeshProUGUI>().text =
             attributesController.moveSpeed.GetTrueLinearValue().ToString();
         state2.transform.Find("Panel1/addRange/Text_Value").GetComponent<TextMeshProUGUI>().text =
@@ -186,29 +185,15 @@ public class ChampionInfoController : MonoBehaviour
 
     }
 
-    public void InitSkillSlot()
-    {
-
-    }
-
     public void UpdateSkillSlot()
     {
-        ChampionAttributesController attributesController =
-            GamePlayController.Instance.ownChampionManager.pickedChampion.attributesController;
-        SkillController skillController =
-            GamePlayController.Instance.ownChampionManager.pickedChampion.skillController;
         for (int i = 0; i < activatedSkillSlots.Count; i++)
         {
             activatedSkillSlots[i].gameObject.SetActive(false);
-            if (i < attributesController.electricPower.GetTrueLinearValue())
+            if (i < skillController.activedSkillList.Count)
             {
                 activatedSkillSlots[i].gameObject.SetActive(true);
-                if (i < skillController.activedSkillList.Count)
-                {
-                    int index = skillController.activedSkillList[i].slotIndex;
-                    activatedSkillSlots[index].Init(skillController.activedSkillList[i].skill, true);
-                }
-
+                activatedSkillSlots[i].Init(skillController.activedSkillList[i], true);
             }
         }
         for (int i = 0; i < deactivatedSkillSlots.Count; i++)
@@ -217,13 +202,68 @@ public class ChampionInfoController : MonoBehaviour
             if (i < skillController.skillList.Count)
             {
                 deactivatedSkillSlots[i].gameObject.SetActive(true);
-                if (skillController.skillList[i].skill.state == SkillState.Disable)
+                deactivatedSkillSlots[i].Init(skillController.skillList[i], false);
+            }
+        }
+    }
+
+    public void OnSkillSlotDragEnd(SkillSlot skillSlot)
+    {
+        if (pointEnterSlot == null)
+            return;
+
+        if (skillSlot.isActivated)
+        {
+            int index1 = activatedSkillSlots.IndexOf(skillSlot);
+            if (pointEnterSlot.isActivated)
+            {
+
+                int index2 = activatedSkillSlots.IndexOf(pointEnterSlot);
+                skillController.SwitchActivedSkill(index1, index2);
+            }
+            else
+            {
+                int index2 = deactivatedSkillSlots.IndexOf(pointEnterSlot);
+                int index3 = skillController.skillList.IndexOf(pointEnterSlot.skill);
+
+                if (pointEnterSlot.skill.state == SkillState.CD)
                 {
-                    int index = skillController.skillList[i].slotIndex;
-                    deactivatedSkillSlots[index].Init(skillController.skillList[i].skill, true);
+                    skillController.RemoveActivedSkill(index1);
+                    skillController.SwitchDeactivedSkill(index3, index2);
+                }
+                else
+                {
+                    skillController.AddActivedSkill(index1, index2);
+                    skillController.SwitchDeactivedSkill(index3, index2);
+                }
+            }
+        }
+        else
+        {
+            int index2 = deactivatedSkillSlots.IndexOf(skillSlot);
+            if (pointEnterSlot.isActivated)
+            {
+                int index1 = activatedSkillSlots.IndexOf(pointEnterSlot);
+                if (pointEnterSlot.skill == null)
+                {
+                    skillController.AddActivedSkill(index1, index2);
+                }
+                else
+                {
+                    int index3 = skillController.skillList.IndexOf(pointEnterSlot.skill);
+
+                    skillController.AddActivedSkill(index1, index2);
+                    skillController.SwitchDeactivedSkill(index3, index2);
                 }
 
             }
+            else
+            {
+                int index1 = deactivatedSkillSlots.IndexOf(pointEnterSlot);
+                skillController.SwitchDeactivedSkill(index1, index2);
+            }
         }
+
+        UpdateSkillSlot();
     }
 }

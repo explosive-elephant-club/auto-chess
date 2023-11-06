@@ -7,7 +7,7 @@ using TMPro;
 using ExcelConfig;
 using UnityEngine.EventSystems;
 
-public class DraggedUIController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class DraggedUIController : MonoBehaviour
 {
     public Image icon;
     Vector3 offset;
@@ -45,14 +45,14 @@ public class DraggedUIController : MonoBehaviour, IPointerDownHandler, IPointerU
         if (isActive)
         {
             canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
+            //canvasGroup.interactable = true;
+            //canvasGroup.blocksRaycasts = true;
         }
         else
         {
             canvasGroup.alpha = 0;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
+            //canvasGroup.interactable = false;
+            //canvasGroup.blocksRaycasts = false;
         }
 
     }
@@ -69,7 +69,7 @@ public class DraggedUIController : MonoBehaviour, IPointerDownHandler, IPointerU
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        OnDragEnd.Invoke();
+        //OnDragEnd.Invoke();
         SetUIActive(false);
     }
 }

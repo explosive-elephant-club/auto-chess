@@ -60,7 +60,6 @@ public enum SkillState
     CD
 }
 
-[Serializable]
 public class Skill
 {
     public SkillData skillData;

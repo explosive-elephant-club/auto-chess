@@ -55,7 +55,7 @@ public class UIController : CreateSingleton<UIController>
     /// </summary>
     public void ShowLossScreen()
     {
-        mask.SetActive(true);
+        mask.SetActive(true); 
         restartButton.SetActive(true);
     }
 

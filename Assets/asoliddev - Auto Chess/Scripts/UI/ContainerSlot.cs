@@ -9,11 +9,12 @@ using UnityEngine.EventSystems;
 
 public class PointerEvent : UnityEvent<PointerEventData> { }
 
-public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IDragHandler
+public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler
 {
     public PointerEvent onPointerDownEvent = new PointerEvent();
     public PointerEvent onPointerUpEvent = new PointerEvent();
     public PointerEvent onPointerEnterEvent = new PointerEvent();
+    public PointerEvent onPointerExitEvent = new PointerEvent();
     public PointerEvent onDragEvent = new PointerEvent();
     void Start()
     {
@@ -25,6 +26,16 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
 
     }
+
+    public void ClearAllListener()
+    {
+        onPointerDownEvent.RemoveAllListeners();
+        onDragEvent.RemoveAllListeners();
+        onPointerUpEvent.RemoveAllListeners();
+        onPointerEnterEvent.RemoveAllListeners();
+        onPointerExitEvent.RemoveAllListeners();
+    }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -44,5 +55,10 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         onPointerEnterEvent.Invoke(eventData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        onPointerExitEvent.Invoke(eventData);
     }
 }
