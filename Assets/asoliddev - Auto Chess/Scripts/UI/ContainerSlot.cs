@@ -16,9 +16,10 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public PointerEvent onPointerEnterEvent = new PointerEvent();
     public PointerEvent onPointerExitEvent = new PointerEvent();
     public PointerEvent onDragEvent = new PointerEvent();
+    protected DraggedUIController draggedUI;
     void Start()
     {
-
+        draggedUI = GameObject.Find("ScreenCanvas/DraggedUI").GetComponent<DraggedUIController>();
     }
 
     // Update is called once per frame

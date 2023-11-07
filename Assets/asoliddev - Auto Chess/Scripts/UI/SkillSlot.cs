@@ -12,13 +12,12 @@ public class SkillSlot : ContainerSlot
     Image icon;
     public Skill skill;
     public bool isActivated;
-    DraggedUIController draggedUI;
-
+    
     private void Awake()
     {
         icon = transform.Find("Image_Item").GetComponent<Image>();
         icon.gameObject.SetActive(false);
-        draggedUI = GameObject.Find("ScreenCanvas/DraggedUI").GetComponent<DraggedUIController>();
+     
     }
 
     public void Init(Skill _skill, bool _isActivated)
