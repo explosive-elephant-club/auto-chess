@@ -56,7 +56,7 @@ public class SkillController : MonoBehaviour
 
     public void OnUpdateCombat()
     {
-        if (curSkillIndex != -1)
+        if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)
             if (activedSkillList[curSkillIndex].state == SkillState.Casting)
             {
                 activedSkillList[curSkillIndex].OnCastingUpdate();
@@ -79,7 +79,8 @@ public class SkillController : MonoBehaviour
         float cd = championController.attributesController.chargingDelay.GetTrueLinearValue();
         foreach (var s in activedSkillList)
         {
-            cd += s.skillData.chargingDelay;
+            if (s != null)
+                cd += s.skillData.chargingDelay;
         }
         cd *= 1 - championController.attributesController.chargingDelayDecr.GetTrueMultipleValue();
         if (cd > 0)
@@ -95,14 +96,9 @@ public class SkillController : MonoBehaviour
 
     public void TryCastSkill()
     {
-        if (curSkillIndex != -1)//等待持续施法
-        {
-            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
-                return;
-        }
         if (activedSkillList[GetNextSkillIndex()] == null)//跳过null技能
         {
-            curSkillIndex++;
+            curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
             if (GetNextSkillIndex() == 0)//一轮释放完毕
             {
                 if (curCastDelay < curChargingDelay)
@@ -112,6 +108,11 @@ public class SkillController : MonoBehaviour
             }
             return;
         }
+        if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)//等待持续施法
+        {
+            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
+                return;
+        }
 
         if (curCastDelay <= 0)//释放
         {
@@ -120,7 +121,7 @@ public class SkillController : MonoBehaviour
                 activedSkillList[GetNextSkillIndex()].Cast();
                 curCastDelay = GetSkillCastDelay(activedSkillList[GetNextSkillIndex()]);
             }
-            curSkillIndex++;
+            curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
             if (GetNextSkillIndex() == 0)//一轮释放完毕
             {
                 if (curCastDelay < curChargingDelay)
@@ -138,7 +139,12 @@ public class SkillController : MonoBehaviour
 
     public int GetNextSkillRange()
     {
-        return activedSkillList[GetNextSkillIndex()].skillData.distance;
+        int index = GetNextSkillIndex();
+        while (activedSkillList[index] == null)
+        {
+            index = (index + 1) % activedSkillList.Count;
+        }
+        return activedSkillList[index].skillData.distance;
     }
 
     public void AddSkill(int skillID, ConstructorBase _constructor)
