@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SkillBehaviour : MonoBehaviour
+public class SkillBehaviour
 {
     public Skill skill;
 

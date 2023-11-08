@@ -5,6 +5,9 @@ using UnityEngine.Events;
 using ExcelConfig;
 using UnityEditor;
 using UnityEngine.UI;
+using System;
+
+
 
 public class InventoryController : MonoBehaviour
 {
@@ -13,6 +16,19 @@ public class InventoryController : MonoBehaviour
 
     public InventorySlot pointEnterInventorySlot;
     public List<InventorySlot> inventorySlots;
+
+    public Button pickAllBtn;
+    public Button cancelAllBtn;
+
+    [Serializable]
+    public class typeToggle
+    {
+        public ConstructorType[] types;
+        public Toggle toggle;
+    }
+
+
+    public List<typeToggle> typeToggles;
 
 
     // Start is called before the first frame update
@@ -67,5 +83,9 @@ public class InventoryController : MonoBehaviour
     public void AddConstructor(int id)
     {
         AddConstructor(GameData.Instance.constructorsArray.Find(c => c.ID == id));
+    }
+
+    void GetPickedConstructors()
+    {
     }
 }

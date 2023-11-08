@@ -11,9 +11,6 @@ public class DraggedUIController : MonoBehaviour
 {
     public Image icon;
     Vector3 offset;
-
-    UnityAction OnDragEnd;
-
     CanvasGroup canvasGroup;
     // Start is called before the first frame update
     void Awake()
@@ -23,7 +20,6 @@ public class DraggedUIController : MonoBehaviour
 
     void Start()
     {
-        OnDragEnd = new UnityAction(() => { });
         SetUIActive(false);
     }
 
@@ -33,10 +29,10 @@ public class DraggedUIController : MonoBehaviour
 
     }
 
-    public void Init(Sprite _icon, UnityAction onDragEnd)
+    public void Init(Sprite _icon, GameObject ui)
     {
         icon.sprite = _icon;
-        OnDragEnd = onDragEnd;
+        GetComponent<RectTransform>().sizeDelta = ui.GetComponent<RectTransform>().sizeDelta;
         SetUIActive(true);
     }
 
@@ -69,7 +65,6 @@ public class DraggedUIController : MonoBehaviour
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        //OnDragEnd.Invoke();
         SetUIActive(false);
     }
 }

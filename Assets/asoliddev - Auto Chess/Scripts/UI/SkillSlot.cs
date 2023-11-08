@@ -12,12 +12,12 @@ public class SkillSlot : ContainerSlot
     Image icon;
     public Skill skill;
     public bool isActivated;
-    
+
     private void Awake()
     {
         icon = transform.Find("Image_Item").GetComponent<Image>();
         icon.gameObject.SetActive(false);
-     
+
     }
 
     public void Init(Skill _skill, bool _isActivated)
@@ -66,7 +66,7 @@ public class SkillSlot : ContainerSlot
     public void OnPointerDownEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(false);
-        draggedUI.Init(icon.sprite, null);
+        draggedUI.Init(icon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
     }

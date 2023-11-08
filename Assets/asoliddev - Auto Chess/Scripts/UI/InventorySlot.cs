@@ -25,10 +25,8 @@ public class InventorySlot : ContainerSlot
         constructorData = _constructorData;
         inventoryController = _inventoryController;
 
-        Texture2D tex = AssetPreview.GetAssetPreview(Resources.Load<GameObject>(constructorData.prefab));
-        Debug.Log(constructorData.prefab);
-        icon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
 
+        StartCoroutine(LoadIcon());
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
@@ -37,20 +35,20 @@ public class InventorySlot : ContainerSlot
         onDragEvent.AddListener(OnDragEvent);
     }
 
-    public void AddActivatedSkill()
+    public IEnumerator LoadIcon()
     {
+        GameObject prefab = Resources.Load<GameObject>(constructorData.prefab);
 
+        yield return new WaitUntil(() => AssetPreview.GetAssetPreview(prefab) != null);
+        Texture2D tex = AssetPreview.GetAssetPreview(prefab);
+        icon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
+        yield return 0;
     }
-    public void AddDeactivatedSkill()
-    {
-
-    }
-
 
     public void OnPointerDownEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(false);
-        draggedUI.Init(icon.sprite, null);
+        draggedUI.Init(icon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
     }
