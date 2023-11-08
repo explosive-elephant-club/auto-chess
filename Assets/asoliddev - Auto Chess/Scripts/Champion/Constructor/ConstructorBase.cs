@@ -50,6 +50,7 @@ public class ConstructorBase : MonoBehaviour
     //属性修改
     public ValueOperation[] valueOperations = new ValueOperation[0];
     //种类
+    [HideInInspector]
     public ConstructorType type;
     //附加槽位
     public List<ConstructorSlot> slots;
@@ -86,6 +87,8 @@ public class ConstructorBase : MonoBehaviour
     {
         constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
+        type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
+
         if (!string.IsNullOrEmpty(constructorData.valueChanges[0]))
         {
             valueOperations = new ValueOperation[constructorData.valueChanges.Length];

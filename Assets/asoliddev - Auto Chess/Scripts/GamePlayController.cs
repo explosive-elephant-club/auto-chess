@@ -172,9 +172,9 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public List<ConstructorBonusType> GetAllChampionTypes(ConstructorBaseData constructorData)
     {
         List<ConstructorBonusType> types = new List<ConstructorBonusType>();
-        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.type1));
-        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.type2));
-        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.type3));
+        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property1));
+        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property2));
+        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property3));
         return types;
     }
 

@@ -31,20 +31,24 @@ namespace ExcelConfig
 		public string prefab { get { return _prefab; } }
 
 		[SerializeField]
+		private string _type;
+		public string type { get { return _type; } }
+
+		[SerializeField]
 		private int _cost;
 		public int cost { get { return _cost; } }
 
 		[SerializeField]
-		private string _type1;
-		public string type1 { get { return _type1; } }
+		private string _property1;
+		public string property1 { get { return _property1; } }
 
 		[SerializeField]
-		private string _type2;
-		public string type2 { get { return _type2; } }
+		private string _property2;
+		public string property2 { get { return _property2; } }
 
 		[SerializeField]
-		private string _type3;
-		public string type3 { get { return _type3; } }
+		private string _property3;
+		public string property3 { get { return _property3; } }
 
 		[SerializeField]
 		private string[] _otherEntries;
@@ -69,10 +73,11 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _prefab);
+			TryParse(sheet[row][column++], out _type);
 			TryParse(sheet[row][column++], out _cost);
-			TryParse(sheet[row][column++], out _type1);
-			TryParse(sheet[row][column++], out _type2);
-			TryParse(sheet[row][column++], out _type3);
+			TryParse(sheet[row][column++], out _property1);
+			TryParse(sheet[row][column++], out _property2);
+			TryParse(sheet[row][column++], out _property3);
 			string[] _otherEntriesArray = sheet[row][column++].Split(',');
 			int _otherEntriesCount = _otherEntriesArray.Length;
 			_otherEntries = new string[_otherEntriesCount];

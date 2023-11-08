@@ -19,10 +19,11 @@ MonoBehaviour:
   - _ID: 1
     _name: TrackChassis
     _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
+    _type: Base
     _cost: 3
-    _type1: 3ZeroGroup
-    _type2: Machine
-    _type3: 
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
     _otherEntries:
     - 
     _valueChanges:
@@ -37,10 +38,11 @@ MonoBehaviour:
   - _ID: 2
     _name: Bot
     _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _type: Cockpit
     _cost: 3
-    _type1: Helix
-    _type2: AI
-    _type3: 
+    _property1: Helix
+    _property2: AI
+    _property3: 
     _otherEntries:
     - 
     _valueChanges:
@@ -51,10 +53,11 @@ MonoBehaviour:
   - _ID: 3
     _name: BackBox
     _prefab: Prefab/Constructor/Backpack/Backpack_Box
+    _type: Backpack
     _cost: 3
-    _type1: MatsunoSociety
-    _type2: Energy
-    _type3: 
+    _property1: MatsunoSociety
+    _property2: Energy
+    _property3: 
     _otherEntries:
     - 
     _valueChanges:
@@ -64,10 +67,11 @@ MonoBehaviour:
   - _ID: 4
     _name: TopPlatform
     _prefab: Prefab/Constructor/TopPlatform/Top_Weapon_Platform
+    _type: TopPlatform
     _cost: 3
-    _type1: MiliForce
-    _type2: 
-    _type3: 
+    _property1: MiliForce
+    _property2: 
+    _property3: 
     _otherEntries:
     - 
     _valueChanges:
@@ -77,10 +81,11 @@ MonoBehaviour:
   - _ID: 5
     _name: Bazooka
     _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _type: Weapon
     _cost: 3
-    _type1: MiliForce
-    _type2: Ballistics
-    _type3: 
+    _property1: MiliForce
+    _property2: Ballistics
+    _property3: 
     _otherEntries:
     - 
     _valueChanges:
