@@ -209,7 +209,8 @@ public class SkillController : MonoBehaviour
     {
         foreach (var s in activedSkillList)
         {
-            s.Reset();
+            if (s != null)
+                s.Reset();
         }
     }
 }

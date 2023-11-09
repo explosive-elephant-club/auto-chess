@@ -214,12 +214,12 @@ public class ChampionManager : MonoBehaviour
                 if (championCtrl != null)
                 {
                     pickedChampion = championCtrl;
-                    UIController.Instance.UpdateUI();
+                    UIController.Instance.championInfoController.UpdateUI();
                     return;
                 }
             }
             pickedChampion = null;
-            UIController.Instance.UpdateUI();
+            UIController.Instance.championInfoController.UpdateUI();
         }
     }
 
@@ -358,8 +358,12 @@ public class ChampionManager : MonoBehaviour
         currentChampionCount = 0;
     }
 
-    public void OnChampionDeath()
+    public void OnChampionDeath(ChampionController championController)
     {
+        if (championController == pickedChampion)
+        {
+            UIController.Instance.championInfoController.UpdateUI();
+        }
         if (IsAllChampionDead())
         {
             GamePlayController.Instance.EndRound();

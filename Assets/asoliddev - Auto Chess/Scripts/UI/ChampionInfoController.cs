@@ -21,6 +21,8 @@ public class ChampionInfoController : MonoBehaviour
     //State2
     public GameObject state2;
 
+
+
     //Skill
     public List<SkillSlot> activatedSkillSlots = new List<SkillSlot>();
     public List<SkillSlot> deactivatedSkillSlots = new List<SkillSlot>();
@@ -86,6 +88,18 @@ public class ChampionInfoController : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
         }
 
+    }
+
+    public void OnEnterCombat()
+    {
+        transform.Find("Panel/ActivatedSkill").GetComponent<CanvasGroup>().blocksRaycasts = false;
+        transform.Find("Panel/DeactivatedSkill").gameObject.SetActive(false);
+    }
+
+    public void OnEnterPreparation()
+    {
+        transform.Find("Panel/ActivatedSkill").GetComponent<CanvasGroup>().blocksRaycasts = true;
+        transform.Find("Panel/DeactivatedSkill").gameObject.SetActive(true);
     }
 
     public void UpdateArmorBar()

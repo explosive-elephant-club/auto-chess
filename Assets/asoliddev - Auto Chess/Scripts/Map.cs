@@ -12,7 +12,7 @@ public class Map : CreateSingleton<Map>
 {
     public static int hexMapSizeX = 7;
     public static int hexMapSizeZ = 8;
-    public static int inventorySize = 9;
+    public static int inventorySize = 36;
 
 
     //地图格子坐标
@@ -91,26 +91,27 @@ public class Map : CreateSingleton<Map>
         for (int i = 0; i < inventorySize; i++)
         {
             //calculate position x offset for this slot
-            float offsetX = i * -2.5f;
-
+            float offsetX = (i % 9) * -2.5f;
+            float offsetY = Mathf.Floor(i / 9) * 2.5f;
             //calculate and store the position
-            Vector3 position = GetMapHitPoint(ownInventoryStartPosition.position + new Vector3(offsetX, 0, 0));
+            //Vector3 position = GetMapHitPoint(ownInventoryStartPosition.position + new Vector3(offsetX, 0, offsetY));
 
             //add position variable to array
-            ownInventoryGridPositions[i] = position;
+            ownInventoryGridPositions[i] = ownInventoryStartPosition.position + new Vector3(offsetX, 0, offsetY);
         }
 
         //create oponent inventory  position
         for (int i = 0; i < inventorySize; i++)
         {
             //calculate position x offset for this slot
-            float offsetX = i * -2.5f;
+            float offsetX = (i % 9) * -2.5f;
+            float offsetY = Mathf.Floor(i / 9) * -2.5f;
 
             //calculate and store the position
-            Vector3 position = GetMapHitPoint(oponentInventoryStartPosition.position + new Vector3(offsetX, 0, 0));
+            //Vector3 position = GetMapHitPoint(oponentInventoryStartPosition.position + new Vector3(offsetX, 0, offsetY));
 
             //add position variable to array
-            oponentInventoryGridPositions[i] = position;
+            oponentInventoryGridPositions[i] = oponentInventoryStartPosition.position + new Vector3(offsetX, 0, offsetY);
         }
 
         //create map position

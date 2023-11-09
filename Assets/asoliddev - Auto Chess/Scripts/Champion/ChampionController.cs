@@ -379,7 +379,7 @@ public class ChampionController : MonoBehaviour
         isDead = true;
         LeaveGrid();
         ClearBook();
-        championManeger.OnChampionDeath();
+        championManeger.OnChampionDeath(this);
     }
 
     /// <summary>

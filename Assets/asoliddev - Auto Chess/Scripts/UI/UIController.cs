@@ -5,24 +5,44 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using ExcelConfig;
 
-/// <summary>
-/// Updates and controls UI elements
-/// </summary>
+public enum ViewMode
+{
+    Battle,
+    Logistics
+}
+
 public class UIController : CreateSingleton<UIController>
 {
-    public GameObject[] bonusPanels;
+    public ViewMode viewMode;
 
     public GameObject mask;
     public ShopGUIController shop;
     public LevelInfoController levelInfo;
     public ChampionInfoController championInfoController;
+    public InventoryController inventoryController;
     public GameObject restartButton;
     public GameObject bonusContainer;
     public GameObject bonusUIPrefab;
 
+    public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
+
     protected override void InitSingleton()
     {
+        InitStageDic();
+        viewMode = ViewMode.Battle;
+    }
 
+    public void InitStageDic()
+    {
+        gameStageActions.Add("OnEnterPreparation", OnEnterPreparation);
+        gameStageActions.Add("OnEnterCombat", OnEnterCombat);
+        gameStageActions.Add("OnEnterLoss", OnEnterLoss);
+        gameStageActions.Add("OnUpdatePreparation", OnUpdatePreparation);
+        gameStageActions.Add("OnUpdateCombat", OnUpdateCombat);
+        gameStageActions.Add("OnUpdateLoss", OnUpdateLoss);
+        gameStageActions.Add("OnLeavePreparation", OnLeavePreparation);
+        gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
+        gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
     }
 
     /// <summary>
@@ -33,39 +53,101 @@ public class UIController : CreateSingleton<UIController>
         GamePlayController.Instance.RestartGame();
     }
 
-    /// <summary>
-    /// Updates ui when needed
-    /// </summary>
     public void UpdateUI()
     {
         levelInfo.UpdateUI();
         championInfoController.UpdateUI();
 
-        //hide bonusus UI
-        foreach (GameObject go in bonusPanels)
-        {
-            go.SetActive(false);
-        }
-
     }
 
-
-    /// <summary>
-    /// displays loss screen when game ended
-    /// </summary>
     public void ShowLossScreen()
     {
-        mask.SetActive(true); 
+        mask.SetActive(true);
         restartButton.SetActive(true);
     }
 
-    /// <summary>
-    /// displays game screen when game started
-    /// </summary>
     public void ShowGameScreen()
     {
         mask.SetActive(false);
         restartButton.SetActive(false);
     }
 
+    public void ChangeViewMode()
+    {
+        if (viewMode == ViewMode.Battle)
+        {
+            OnEnterLogisticsViewMode();
+        }
+        else
+        {
+            OnEnterBattleViewMode();
+        }
+    }
+
+    public void OnEnterBattleViewMode()
+    {
+        inventoryController.SetUIActive(false);
+        if (viewMode != ViewMode.Battle)
+        {
+            viewMode = ViewMode.Battle;
+            GamePlayController.Instance.cameraController.OnEnterBattleViewMode();
+        }
+    }
+
+    public void OnEnterLogisticsViewMode()
+    {
+        inventoryController.SetUIActive(true);
+        if (viewMode != ViewMode.Logistics)
+        {
+            viewMode = ViewMode.Logistics;
+            GamePlayController.Instance.cameraController.OnEnterLogisticsViewMode();
+        }
+    }
+
+
+    public void OnEnterPreparation()
+    {
+        OnEnterBattleViewMode();
+        championInfoController.OnEnterPreparation();
+        UpdateUI();
+    }
+
+    public void OnUpdatePreparation()
+    {
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            ChangeViewMode();
+        }
+    }
+    public void OnLeavePreparation()
+    {
+
+    }
+
+    public void OnEnterCombat()
+    {
+        OnEnterBattleViewMode();
+        championInfoController.OnEnterCombat();
+    }
+    public void OnUpdateCombat()
+    {
+
+    }
+    public void OnLeaveCombat()
+    {
+
+    }
+
+    public void OnEnterLoss()
+    {
+
+    }
+    public void OnUpdateLoss()
+    {
+
+    }
+    public void OnLeaveLoss()
+    {
+
+    }
 }

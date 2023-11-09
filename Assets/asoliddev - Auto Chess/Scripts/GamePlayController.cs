@@ -36,6 +36,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public EventCenter eventCenter = new EventCenter();
     public ChampionManager ownChampionManager;
     public ChampionManager oponentChampionManager;
+    public CameraController cameraController;
 
     Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 
@@ -58,7 +59,8 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         StageStateAddListener(gameStageActions);
         StageStateAddListener(oponentChampionManager.gameStageActions);
         StageStateAddListener(ownChampionManager.gameStageActions);
-        UIController.Instance.UpdateUI();
+        StageStateAddListener(UIController.Instance.gameStageActions);
+
         //Time.timeScale = 0.1f;
     }
 
@@ -127,21 +129,9 @@ public class GamePlayController : CreateSingleton<GamePlayController>
             currentGold -= levelUpCostList[ownChampionManager.currentChampionLimit - 3];
 
             //update ui
-            UIController.Instance.UpdateUI();
+            UIController.Instance.levelInfo.UpdateUI();
 
         }
-
-    }
-
-    /// <summary>
-    /// Called when round was lost
-    /// </summary>
-    /// <param name="damage"></param>
-    public void TakeDamage(int damage)
-    {
-        currentHP -= damage;
-
-        UIController.Instance.UpdateUI();
 
     }
 
@@ -225,7 +215,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     {
         UIController.Instance.levelInfo.ResetReadyBtn();
         currentGold += CalculateIncome();
-        UIController.Instance.UpdateUI();
         //ChampionShop.Instance.RefreshShop(true);
 
         if (currentHP <= 0)
