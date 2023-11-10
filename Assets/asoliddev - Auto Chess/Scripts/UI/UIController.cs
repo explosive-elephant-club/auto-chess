@@ -20,6 +20,7 @@ public class UIController : CreateSingleton<UIController>
     public LevelInfoController levelInfo;
     public ChampionInfoController championInfoController;
     public InventoryController inventoryController;
+    public ConstructorAssembleController constructorAssembleController;
     public GameObject restartButton;
     public GameObject bonusContainer;
     public GameObject bonusUIPrefab;
@@ -57,7 +58,7 @@ public class UIController : CreateSingleton<UIController>
     {
         levelInfo.UpdateUI();
         championInfoController.UpdateUI();
-
+        UIController.Instance.constructorAssembleController.UpdateUI();
     }
 
     public void ShowLossScreen()

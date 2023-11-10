@@ -53,16 +53,6 @@ public class SkillSlot : ContainerSlot
         icon.gameObject.SetActive(false);
     }
 
-    public void AddActivatedSkill()
-    {
-
-    }
-    public void AddDeactivatedSkill()
-    {
-
-    }
-
-
     public void OnPointerDownEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(false);

@@ -96,7 +96,7 @@ public class ChampionController : MonoBehaviour
         AIActionFsm = new Fsm();
         InitFsm();
 
-        constructors.Find(c => c.type == ConstructorType.Base).Init(this, true);
+        GetBaseTypeConstructor().Init(this, true);
         attributesController.Reset();
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }
@@ -180,6 +180,11 @@ public class ChampionController : MonoBehaviour
             e.Remove();
         }
         effects = new List<Effect>();
+    }
+
+    public ConstructorBase GetBaseTypeConstructor()
+    {
+        return constructors.Find(c => c.type == ConstructorType.Base);
     }
 
     /// <summary>

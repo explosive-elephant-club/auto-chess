@@ -215,11 +215,13 @@ public class ChampionManager : MonoBehaviour
                 {
                     pickedChampion = championCtrl;
                     UIController.Instance.championInfoController.UpdateUI();
+                    UIController.Instance.constructorAssembleController.UpdateUI();
                     return;
                 }
             }
             pickedChampion = null;
             UIController.Instance.championInfoController.UpdateUI();
+            UIController.Instance.constructorAssembleController.UpdateUI();
         }
     }
 
@@ -363,6 +365,7 @@ public class ChampionManager : MonoBehaviour
         if (championController == pickedChampion)
         {
             UIController.Instance.championInfoController.UpdateUI();
+            UIController.Instance.constructorAssembleController.UpdateUI();
         }
         if (IsAllChampionDead())
         {
