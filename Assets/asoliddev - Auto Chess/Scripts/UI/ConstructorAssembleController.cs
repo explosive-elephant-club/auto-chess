@@ -24,11 +24,12 @@ public class ConstructorAssembleController : MonoBehaviour
         if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
         {
             ConstructorBase constructorBase = GamePlayController.Instance.ownChampionManager.pickedChampion.GetBaseTypeConstructor();
-            baseSlot.Init(this, constructorBase);
+            baseSlot.Init(this, null, constructorBase);
             SetUIActive(true);
         }
         else
         {
+            baseSlot.Clear();
             Clear(baseSlot);
             SetUIActive(false);
         }
@@ -65,7 +66,7 @@ public class ConstructorAssembleController : MonoBehaviour
         {
             return DisableSlotsParent.GetChild(0).GetComponent<ConstructorTreeViewSlot>();
         }
-        GameObject instance = Instantiate(constructorSlotPrefab);
+        GameObject instance = Instantiate(constructorSlotPrefab, DisableSlotsParent);
         return instance.GetComponent<ConstructorTreeViewSlot>();
     }
 
@@ -74,13 +75,14 @@ public class ConstructorAssembleController : MonoBehaviour
         slot.transform.parent = DisableSlotsParent;
     }
 
-    public void AllLayoutRebuilder(ConstructorTreeViewSlot slot)
+    public IEnumerator AllLayoutRebuilder(ConstructorTreeViewSlot slot)
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(slot.subTab.GetComponent<RectTransform>());
-        LayoutRebuilder.ForceRebuildLayoutImmediate(slot.GetComponent<RectTransform>());
+        StartCoroutine(slot.UpdateRectSize());
 
-
+        yield return 0;
         LayoutRebuilder.ForceRebuildLayoutImmediate(this.transform.Find("Tab").GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
+        yield return new WaitForEndOfFrame();
         LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
     }
 

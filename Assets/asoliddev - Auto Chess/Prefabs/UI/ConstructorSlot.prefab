@@ -282,6 +282,7 @@ MonoBehaviour:
   constructorIcon: {fileID: 0}
   constructor: {fileID: 0}
   children: []
+  parent: {fileID: 0}
 --- !u!1 &3042155316356428354
 GameObject:
   m_ObjectHideFlags: 0

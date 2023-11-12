@@ -15,6 +15,11 @@ public class ConstructorTreeViewSlot : ContainerSlot
     Toggle expandToggle;
     public Transform subTab;
 
+    RectTransform slotRect;
+    RectTransform subTabRect;
+
+
+
     ConstructorAssembleController controller;
 
     public Sprite emptyIcon;
@@ -22,6 +27,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public ConstructorBase constructor;
     public List<ConstructorTreeViewSlot> children = new List<ConstructorTreeViewSlot>();
+    public ConstructorTreeViewSlot parent;
 
     // Start is called before the first frame update
     void Awake()
@@ -31,11 +37,14 @@ public class ConstructorTreeViewSlot : ContainerSlot
         text = transform.Find("ConstructorInfo/TypeText").GetComponent<TextMeshProUGUI>();
         expandToggle = transform.Find("ConstructorInfo/Toggle").GetComponent<Toggle>();
         subTab = transform.Find("SubTab");
+        slotRect = GetComponent<RectTransform>();
+        subTabRect = subTab.GetComponent<RectTransform>();
     }
 
-    public void Init(ConstructorAssembleController _controller, ConstructorSlot _constructorSlot)
+    public void Init(ConstructorAssembleController _controller, ConstructorTreeViewSlot _parent, ConstructorSlot _constructorSlot)
     {
         controller = _controller;
+        parent = _parent;
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
@@ -50,10 +59,11 @@ public class ConstructorTreeViewSlot : ContainerSlot
         expandToggle.gameObject.SetActive(false);
     }
 
-    public void Init(ConstructorAssembleController _controller, ConstructorBase _constructor)
+    public void Init(ConstructorAssembleController _controller, ConstructorTreeViewSlot _parent, ConstructorBase _constructor)
     {
         controller = _controller;
         constructor = _constructor;
+        parent = _parent;
         ClearAllListener();
         expandToggle.onValueChanged.RemoveAllListeners();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
@@ -86,41 +96,60 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public void ExpandSubSlot()
     {
-        Debug.Log(constructor.gameObject);
         foreach (var s in constructor.slots)
         {
             ConstructorTreeViewSlot treeViewSlot = controller.NewConstructorSlot();
             if (s.constructorInstance == null)
             {
-                treeViewSlot.Init(controller, s);
+                treeViewSlot.Init(controller, this, s);
             }
             else
             {
                 Debug.Log(s.constructorInstance);
-                treeViewSlot.Init(controller, s.constructorInstance);
+                treeViewSlot.Init(controller, this, s.constructorInstance);
             }
             treeViewSlot.transform.parent = subTab;
             children.Add(treeViewSlot);
         }
-        controller.AllLayoutRebuilder(this);
+        StartCoroutine(controller.AllLayoutRebuilder(this));
     }
 
     public void ClearSubSlot()
     {
         foreach (var c in children)
         {
+            c.ClearSubSlot();
+            c.Clear();
             controller.RecyclingConstructorSlot(c);
-            
         }
         children.Clear();
         if (controller != null)
-            controller.AllLayoutRebuilder(this);
+            StartCoroutine(controller.AllLayoutRebuilder(this));
     }
 
+    public void Clear()
+    {
+        icon.sprite = emptyIcon;
+        text.text = "";
+        ClearAllListener();
+        expandToggle.isOn = false;
+    }
+
+    public IEnumerator UpdateRectSize()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(subTabRect);
+        yield return new WaitForEndOfFrame();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(slotRect);
+        yield return new WaitForEndOfFrame();
+        if (parent != null)
+        {
+            parent.UpdateRectSize();
+        }
+    }
 
     public void OnPointerDownEvent(PointerEventData eventData)
     {
-        icon.sprite = emptyIcon;
+        icon.gameObject.SetActive(false);
         draggedUI.Init(icon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
@@ -128,7 +157,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public void OnPointerUpEvent(PointerEventData eventData)
     {
-        icon.sprite = constructorIcon;
+        icon.gameObject.SetActive(true);
         draggedUI.OnPointerUp(eventData);
 
     }
