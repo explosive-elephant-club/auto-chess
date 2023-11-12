@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d7536015612d644b9de49857b96bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subTab: {fileID: 0}
   emptyIcon: {fileID: 0}
   constructorIcon: {fileID: 0}
   constructor: {fileID: 0}

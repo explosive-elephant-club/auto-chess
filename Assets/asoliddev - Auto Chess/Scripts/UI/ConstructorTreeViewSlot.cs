@@ -45,7 +45,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
         {
             str += (t.ToString() + "//");
         }
-        str.Remove(str.Length - 3, str.Length - 1);
+        //str.Remove(str.Length - 3, str.Length - 1);
         text.text = str;
         expandToggle.gameObject.SetActive(false);
     }
@@ -86,6 +86,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public void ExpandSubSlot()
     {
+        Debug.Log(constructor.gameObject);
         foreach (var s in constructor.slots)
         {
             ConstructorTreeViewSlot treeViewSlot = controller.NewConstructorSlot();
@@ -95,6 +96,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
             }
             else
             {
+                Debug.Log(s.constructorInstance);
                 treeViewSlot.Init(controller, s.constructorInstance);
             }
             treeViewSlot.transform.parent = subTab;
@@ -105,10 +107,12 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public void ClearSubSlot()
     {
-        for (int i = 0; i < children.Count; i++)
+        foreach (var c in children)
         {
-            controller.RecyclingConstructorSlot(children[i]);
+            controller.RecyclingConstructorSlot(c);
+            
         }
+        children.Clear();
         if (controller != null)
             controller.AllLayoutRebuilder(this);
     }
