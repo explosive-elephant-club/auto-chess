@@ -85,7 +85,8 @@ public class ConstructorBase : MonoBehaviour
 
     public void Init(ChampionController _championController, bool isAutoPackage)
     {
-        constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
+        if (constructorData == null)
+            constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 
@@ -114,9 +115,9 @@ public class ConstructorBase : MonoBehaviour
         championController.skillController.UpdateSkillCapacity();
     }
 
-    public void Init(int id, ChampionController championController, bool isAutoPackage)
+    public void Init(ConstructorBaseData _constructorData, ChampionController championController, bool isAutoPackage)
     {
-        constructorDataID = id;
+        constructorData = _constructorData;
         Init(championController, isAutoPackage);
     }
 
@@ -165,10 +166,18 @@ public class ConstructorBase : MonoBehaviour
                     }
                 }
             }
-
+            championController.skillController.UpdateSkillCapacity();
             return true;
         }
         return false;
+    }
+
+    public virtual bool attachConstructor(ConstructorBaseData constructorData, ConstructorSlot slot)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>(constructorData.prefab));
+        ConstructorBase _constructorBase = obj.GetComponent<ConstructorBase>();
+        _constructorBase.Init(constructorData, championController, false);
+        return attachConstructor(_constructorBase, slot);
     }
 
     //移除子组件

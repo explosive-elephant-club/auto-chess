@@ -8,6 +8,7 @@ public class ConstructorAssembleController : MonoBehaviour
 {
     public GameObject constructorSlotPrefab;
     public ConstructorTreeViewSlot baseSlot;
+    public ConstructorTreeViewSlot pointEnterInventorySlot;
     Transform DisableSlotsParent;
     CanvasGroup canvasGroup;
 
@@ -24,7 +25,7 @@ public class ConstructorAssembleController : MonoBehaviour
         if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
         {
             ConstructorBase constructorBase = GamePlayController.Instance.ownChampionManager.pickedChampion.GetBaseTypeConstructor();
-            baseSlot.Init(this, null, constructorBase);
+            baseSlot.Init(this, constructorBase);
             SetUIActive(true);
         }
         else

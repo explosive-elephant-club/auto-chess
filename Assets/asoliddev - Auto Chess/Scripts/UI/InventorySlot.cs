@@ -12,7 +12,7 @@ public class InventorySlot : ContainerSlot
 {
     Image icon;
     InventoryController inventoryController;
-    ConstructorBaseData constructorData;
+    public ConstructorBaseData constructorData;
 
     // Start is called before the first frame update
     void Awake()

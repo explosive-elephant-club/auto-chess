@@ -7,6 +7,7 @@ using TMPro;
 using ExcelConfig;
 using UnityEngine.EventSystems;
 using UnityEditor;
+using System;
 
 public class ConstructorTreeViewSlot : ContainerSlot
 {
@@ -25,6 +26,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
     public Sprite emptyIcon;
     public Sprite constructorIcon;
 
+    public ConstructorSlot constructorSlot;
     public ConstructorBase constructor;
     public List<ConstructorTreeViewSlot> children = new List<ConstructorTreeViewSlot>();
     public ConstructorTreeViewSlot parent;
@@ -45,50 +47,87 @@ public class ConstructorTreeViewSlot : ContainerSlot
     {
         controller = _controller;
         parent = _parent;
+        constructorSlot = _constructorSlot;
+        constructor = constructorSlot.constructorInstance;
+
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
 
-        string str = "";
-        foreach (var t in _constructorSlot.adaptTypes)
+        if (constructor != null)
         {
-            str += (t.ToString() + "//");
+            expandToggle.onValueChanged.RemoveAllListeners();
+            onPointerDownEvent.AddListener(OnPointerDownEvent);
+            onPointerUpEvent.AddListener(OnPointerUpEvent);
+            onDragEvent.AddListener(OnDragEvent);
+
+            StartCoroutine(LoadIcon(constructor.gameObject));
+            text.text = constructor.parentConstructor.slots.Find(s => s.constructorInstance == constructor).slotTrans.name;
+            if (constructor.slots.Count > 0)
+            {
+                expandToggle.gameObject.SetActive(true);
+                expandToggle.onValueChanged.AddListener((bool var) =>
+                {
+                    if (var)
+                        ExpandSubSlot();
+                    else
+                        ClearSubSlot();
+                });
+            }
+            else
+            {
+                expandToggle.gameObject.SetActive(false);
+            }
         }
-        //str.Remove(str.Length - 3, str.Length - 1);
-        text.text = str;
-        expandToggle.gameObject.SetActive(false);
+        else
+        {
+            text.text = _constructorSlot.slotTrans.name;
+
+            expandToggle.gameObject.SetActive(false);
+            icon.gameObject.SetActive(false);
+        }
+
     }
 
-    public void Init(ConstructorAssembleController _controller, ConstructorTreeViewSlot _parent, ConstructorBase _constructor)
+    public void Init(ConstructorAssembleController _controller, ConstructorBase _constructor)
     {
         controller = _controller;
         constructor = _constructor;
-        parent = _parent;
         ClearAllListener();
         expandToggle.onValueChanged.RemoveAllListeners();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
-        onPointerDownEvent.AddListener(OnPointerDownEvent);
-        onPointerUpEvent.AddListener(OnPointerUpEvent);
-        onDragEvent.AddListener(OnDragEvent);
+        //onPointerDownEvent.AddListener(OnPointerDownEvent);
+        //onPointerUpEvent.AddListener(OnPointerUpEvent);
+        //onDragEvent.AddListener(OnDragEvent);
 
-        StartCoroutine(LoadIcon());
+        StartCoroutine(LoadIcon(constructor.gameObject));
         text.text = _constructor.type.ToString();
-        expandToggle.gameObject.SetActive(true);
-        expandToggle.onValueChanged.AddListener((bool var) =>
+
+        if (constructor.slots.Count > 0)
         {
-            if (var)
-                ExpandSubSlot();
-            else
-                ClearSubSlot();
-        });
+            expandToggle.gameObject.SetActive(true);
+            expandToggle.onValueChanged.AddListener((bool var) =>
+            {
+                if (var)
+                    ExpandSubSlot();
+                else
+                    ClearSubSlot();
+            });
+        }
+        else
+        {
+            expandToggle.gameObject.SetActive(false);
+        }
+
     }
 
-    public IEnumerator LoadIcon()
-    {
 
-        yield return new WaitUntil(() => AssetPreview.GetAssetPreview(constructor.gameObject) != null);
-        Texture2D tex = AssetPreview.GetAssetPreview(constructor.gameObject);
+    public IEnumerator LoadIcon(GameObject obj)
+    {
+        icon.gameObject.SetActive(true);
+        yield return new WaitUntil(() => AssetPreview.GetAssetPreview(obj) != null);
+        Texture2D tex = AssetPreview.GetAssetPreview(obj);
         constructorIcon = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
         icon.sprite = constructorIcon;
         yield return 0;
@@ -99,15 +138,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
         foreach (var s in constructor.slots)
         {
             ConstructorTreeViewSlot treeViewSlot = controller.NewConstructorSlot();
-            if (s.constructorInstance == null)
-            {
-                treeViewSlot.Init(controller, this, s);
-            }
-            else
-            {
-                Debug.Log(s.constructorInstance);
-                treeViewSlot.Init(controller, this, s.constructorInstance);
-            }
+            treeViewSlot.Init(controller, this, s);
             treeViewSlot.transform.parent = subTab;
             children.Add(treeViewSlot);
         }
@@ -155,11 +186,53 @@ public class ConstructorTreeViewSlot : ContainerSlot
         draggedUI.OnPointerDown(eventData);
     }
 
+    public void ReplaceConstructor(ConstructorBaseData constructorData)
+    {
+        ConstructorType type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
+        if (constructorSlot.adaptTypes.Contains(type))
+        {
+            List<ConstructorBaseData> removedData = parent.constructor.removeConstructor(constructorSlot);
+
+            parent.constructor.attachConstructor(constructorData, constructorSlot);
+            ClearSubSlot();
+            Clear();
+            Init(controller, parent, constructorSlot);
+            foreach (var data in removedData)
+            {
+                UIController.Instance.inventoryController.AddConstructor(data);
+            }
+        }
+
+    }
+
+    public void RemoveConstructor()
+    {
+        List<ConstructorBaseData> removedData = parent.constructor.removeConstructor(constructorSlot);
+        ClearSubSlot();
+        Clear();
+        Init(controller, parent, constructorSlot);
+        foreach (var data in removedData)
+        {
+            UIController.Instance.inventoryController.AddConstructor(data);
+        }
+    }
+
     public void OnPointerUpEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(true);
         draggedUI.OnPointerUp(eventData);
-
+        if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
+        {
+            ReplaceConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
+        }
+        else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
+        {
+            RemoveConstructor();
+        }
+        else if (InputController.Instance.gridInfo != null)
+        {
+            Debug.Log("Add");
+        }
     }
 
     public void OnDragEvent(PointerEventData eventData)
@@ -169,11 +242,11 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
-
+        controller.pointEnterInventorySlot = this;
     }
 
     public void OnPointerExitEvent(PointerEventData eventData)
     {
-
+        controller.pointEnterInventorySlot = null;
     }
 }

@@ -41,16 +41,19 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         onPointerDownEvent.Invoke(eventData);
+       
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         onDragEvent.Invoke(eventData);
+
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         onPointerUpEvent.Invoke(eventData);
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)

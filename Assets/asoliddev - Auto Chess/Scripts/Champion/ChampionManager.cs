@@ -205,6 +205,7 @@ public class ChampionManager : MonoBehaviour
     {
         if (InputController.Instance.ui == null)
         {
+            UIController.Instance.isSlotUIDragged = false;
             //get trigger info
             GridInfo gridInfo = InputController.Instance.gridInfo;
             //if mouse cursor on trigger
@@ -223,6 +224,10 @@ public class ChampionManager : MonoBehaviour
             UIController.Instance.championInfoController.UpdateUI();
             UIController.Instance.constructorAssembleController.UpdateUI();
         }
+        else
+        {
+            UIController.Instance.isSlotUIDragged = true;
+        }
     }
 
     public void StartDrag()
@@ -239,7 +244,7 @@ public class ChampionManager : MonoBehaviour
         //hide indicators
         //Map.Instance.HideIndicators();
 
-        if (pickedChampion != null && InputController.Instance.ui == null)
+        if (pickedChampion != null && InputController.Instance.ui == null && !UIController.Instance.isSlotUIDragged)
         {
             //set dragged
             pickedChampion.IsDragged = false;

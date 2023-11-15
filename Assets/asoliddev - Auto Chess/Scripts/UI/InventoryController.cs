@@ -24,6 +24,8 @@ public class InventoryController : MonoBehaviour
     public Button pickAllBtn;
     public Button cancelAllBtn;
 
+    public GameObject viewport;
+
     [Serializable]
     public class typeToggle
     {

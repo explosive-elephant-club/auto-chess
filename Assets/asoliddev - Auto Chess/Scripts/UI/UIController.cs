@@ -14,6 +14,7 @@ public enum ViewMode
 public class UIController : CreateSingleton<UIController>
 {
     public ViewMode viewMode;
+    public bool isSlotUIDragged = false;
 
     public GameObject mask;
     public ShopGUIController shop;
