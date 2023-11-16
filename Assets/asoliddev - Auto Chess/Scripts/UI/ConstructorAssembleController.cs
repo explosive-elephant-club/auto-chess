@@ -24,6 +24,8 @@ public class ConstructorAssembleController : MonoBehaviour
     {
         if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
         {
+            baseSlot.Clear();
+            Clear(baseSlot);
             ConstructorBase constructorBase = GamePlayController.Instance.ownChampionManager.pickedChampion.GetBaseTypeConstructor();
             baseSlot.Init(this, constructorBase);
             SetUIActive(true);
@@ -61,19 +63,19 @@ public class ConstructorAssembleController : MonoBehaviour
         slot.ClearSubSlot();
     }
 
-    public ConstructorTreeViewSlot NewConstructorSlot()
+    public GameObject NewConstructorSlot()
     {
         if (DisableSlotsParent.childCount > 0)
         {
-            return DisableSlotsParent.GetChild(0).GetComponent<ConstructorTreeViewSlot>();
+            return DisableSlotsParent.GetChild(0).gameObject;
         }
         GameObject instance = Instantiate(constructorSlotPrefab, DisableSlotsParent);
-        return instance.GetComponent<ConstructorTreeViewSlot>();
+        return instance;
     }
 
     public void RecyclingConstructorSlot(ConstructorTreeViewSlot slot)
     {
-        slot.transform.parent = DisableSlotsParent;
+        slot.transform.parent.SetParent(DisableSlotsParent);
     }
 
     public IEnumerator AllLayoutRebuilder(ConstructorTreeViewSlot slot)

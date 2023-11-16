@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 343858629804856522}
   - component: {fileID: 116838016740032873}
   - component: {fileID: 1003648521778079408}
+  - component: {fileID: 1396383126609706572}
   m_Layer: 5
   m_Name: ConstructorInfo
   m_TagString: Untagged
@@ -177,6 +178,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1396383126609706572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953950292361176670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d7536015612d644b9de49857b96bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subTab: {fileID: 0}
+  emptyIcon: {fileID: 0}
+  constructorIcon: {fileID: 0}
+  constructorSlot:
+    isAble: 0
+    slotTrans: {fileID: 0}
+    adaptTypes: 
+    constructorInstance: {fileID: 0}
+    forbiddenSubSlotTypes: 
+    isForbiddenAllSubSlots: 0
+  constructor: {fileID: 0}
+  children: []
+  parent: {fileID: 0}
 --- !u!1 &1603875978430116862
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +215,6 @@ GameObject:
   - component: {fileID: 7977815764248526592}
   - component: {fileID: 1121936864698699674}
   - component: {fileID: 76040115573566027}
-  - component: {fileID: 3271556685429958341}
   m_Layer: 5
   m_Name: ConstructorSlot
   m_TagString: Untagged
@@ -265,24 +290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &3271556685429958341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1603875978430116862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6d7536015612d644b9de49857b96bae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  subTab: {fileID: 0}
-  emptyIcon: {fileID: 0}
-  constructorIcon: {fileID: 0}
-  constructor: {fileID: 0}
-  children: []
-  parent: {fileID: 0}
 --- !u!1 &3042155316356428354
 GameObject:
   m_ObjectHideFlags: 0

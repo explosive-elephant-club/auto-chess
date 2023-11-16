@@ -124,6 +124,15 @@ public class InventoryController : MonoBehaviour
         }
     }
 
+    public void AddConstructors(List<ConstructorBaseData> constructorBaseDatas)
+    {
+        foreach (var data in constructorBaseDatas)
+        {
+            AddConstructor(data);
+            UpdateInventory();
+        }
+    }
+
     public void AddConstructor(ConstructorBaseData constructorBaseData)
     {
         allConstructors.Add(constructorBaseData);
@@ -132,6 +141,12 @@ public class InventoryController : MonoBehaviour
     public void AddConstructor(int id)
     {
         AddConstructor(GameData.Instance.constructorsArray.Find(c => c.ID == id));
+    }
+
+    public void RemoveConstructor(ConstructorBaseData constructorBaseData)
+    {
+        allConstructors.Remove(constructorBaseData);
+        UpdateInventory();
     }
 
     void GetPickedConstructors()

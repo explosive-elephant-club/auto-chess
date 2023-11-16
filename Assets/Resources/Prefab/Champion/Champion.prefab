@@ -56,6 +56,7 @@ MonoBehaviour:
   team: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
   championManeger: {fileID: 0}
@@ -105,81 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillList: []
-  attackSkill:
-    skillData:
-      _ID: 0
-      _name: 
-      _cd: 0
-      _count: 0
-      _description: 
-      _distance: 0
-      _range: 0
-      _skillTargetType: 
-      _skillTargetSelectorType: 
-      _skillRangeSelectorType: 
-      _addBuffs: 
-      _isBlockOther: 0
-      _skillAnimTrigger: []
-      _effectPrefab: 
-      _hitFXPrefab: 
-      _hexEffectPrefab: 
-      _icon: 
-      _skillBehaviourScriptName: 
-    skillTargetType: 0
-    skillRangeSelectorType: 0
-    skillTargetSelectorType: 0
-    owner: {fileID: 0}
-    constructor: {fileID: 0}
-    cdRemain: 0
-    countRemain: 0
-    effectPrefab: {fileID: 0}
-    hitFXPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    targets: []
-    mapGrids: []
-    state: 0
-    effectScript: {fileID: 0}
-    skillController: {fileID: 0}
-    skillBehaviour: {fileID: 0}
-    manager: {fileID: 0}
-  curCastingSkill:
-    skillData:
-      _ID: 0
-      _name: 
-      _cd: 0
-      _count: 0
-      _description: 
-      _distance: 0
-      _range: 0
-      _skillTargetType: 
-      _skillTargetSelectorType: 
-      _skillRangeSelectorType: 
-      _addBuffs: 
-      _isBlockOther: 0
-      _skillAnimTrigger: []
-      _effectPrefab: 
-      _hitFXPrefab: 
-      _hexEffectPrefab: 
-      _icon: 
-      _skillBehaviourScriptName: 
-    skillTargetType: 0
-    skillRangeSelectorType: 0
-    skillTargetSelectorType: 0
-    owner: {fileID: 0}
-    constructor: {fileID: 0}
-    cdRemain: 0
-    countRemain: 0
-    effectPrefab: {fileID: 0}
-    hitFXPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    targets: []
-    mapGrids: []
-    state: 0
-    effectScript: {fileID: 0}
-    skillController: {fileID: 0}
-    skillBehaviour: {fileID: 0}
-    manager: {fileID: 0}
 --- !u!195 &8870750416845926017
 NavMeshAgent:
   m_ObjectHideFlags: 0

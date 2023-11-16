@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : ContainerSlot
 {
+    RectTransform rect;
     Image icon;
     InventoryController inventoryController;
     public ConstructorBaseData constructorData;
@@ -45,6 +46,23 @@ public class InventorySlot : ContainerSlot
         yield return 0;
     }
 
+    public void AttachConstructor(ConstructorTreeViewSlot constructorTreeViewSlot)
+    {
+        if (constructorTreeViewSlot.AttachConstructor(constructorData))
+        {
+            inventoryController.RemoveConstructor(constructorData);
+        }
+    }
+
+    public void AddConstructor(GridInfo grid)
+    {
+        if (grid.gridType == GridType.Inventory && grid.occupyChampion == null)
+        {
+            GamePlayController.Instance.ownChampionManager.AddChampionToInventory(constructorData, grid);
+            inventoryController.RemoveConstructor(constructorData);
+        }
+    }
+
     public void OnPointerDownEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(false);
@@ -57,7 +75,14 @@ public class InventorySlot : ContainerSlot
     {
         icon.gameObject.SetActive(true);
         draggedUI.OnPointerUp(eventData);
-
+        if (UIController.Instance.constructorAssembleController.pointEnterInventorySlot != null)
+        {
+            AttachConstructor(UIController.Instance.constructorAssembleController.pointEnterInventorySlot);
+        }
+        else if (InputController.Instance.gridInfo != null && constructorData.type == ConstructorType.Base.ToString())
+        {
+            AddConstructor(InputController.Instance.gridInfo);
+        }
     }
 
     public void OnDragEvent(PointerEventData eventData)
@@ -67,7 +92,8 @@ public class InventorySlot : ContainerSlot
 
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
-        inventoryController.pointEnterInventorySlot = this;
+        if (inventoryController.pointEnterInventorySlot == null)
+            inventoryController.pointEnterInventorySlot = this;
     }
 
     public void OnPointerExitEvent(PointerEventData eventData)

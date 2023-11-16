@@ -34,12 +34,12 @@ public class ConstructorTreeViewSlot : ContainerSlot
     // Start is called before the first frame update
     void Awake()
     {
-        icon = transform.Find("ConstructorInfo/Icon").GetComponent<Image>();
+        icon = transform.Find("Icon").GetComponent<Image>();
         emptyIcon = icon.sprite;
-        text = transform.Find("ConstructorInfo/TypeText").GetComponent<TextMeshProUGUI>();
-        expandToggle = transform.Find("ConstructorInfo/Toggle").GetComponent<Toggle>();
-        subTab = transform.Find("SubTab");
-        slotRect = GetComponent<RectTransform>();
+        text = transform.Find("TypeText").GetComponent<TextMeshProUGUI>();
+        expandToggle = transform.Find("Toggle").GetComponent<Toggle>();
+        subTab = transform.parent.Find("SubTab");
+        slotRect = transform.parent.GetComponent<RectTransform>();
         subTabRect = subTab.GetComponent<RectTransform>();
     }
 
@@ -137,9 +137,10 @@ public class ConstructorTreeViewSlot : ContainerSlot
     {
         foreach (var s in constructor.slots)
         {
-            ConstructorTreeViewSlot treeViewSlot = controller.NewConstructorSlot();
+            GameObject obj = controller.NewConstructorSlot();
+            ConstructorTreeViewSlot treeViewSlot = obj.transform.Find("ConstructorInfo").GetComponentInChildren<ConstructorTreeViewSlot>();
             treeViewSlot.Init(controller, this, s);
-            treeViewSlot.transform.parent = subTab;
+            treeViewSlot.transform.parent.SetParent(subTab);
             children.Add(treeViewSlot);
         }
         StartCoroutine(controller.AllLayoutRebuilder(this));
@@ -186,23 +187,18 @@ public class ConstructorTreeViewSlot : ContainerSlot
         draggedUI.OnPointerDown(eventData);
     }
 
-    public void ReplaceConstructor(ConstructorBaseData constructorData)
+    public bool AttachConstructor(ConstructorBaseData constructorData)
     {
         ConstructorType type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
         if (constructorSlot.adaptTypes.Contains(type))
         {
-            List<ConstructorBaseData> removedData = parent.constructor.removeConstructor(constructorSlot);
-
+            if (constructor != null)
+                RemoveConstructor();
             parent.constructor.attachConstructor(constructorData, constructorSlot);
-            ClearSubSlot();
-            Clear();
             Init(controller, parent, constructorSlot);
-            foreach (var data in removedData)
-            {
-                UIController.Instance.inventoryController.AddConstructor(data);
-            }
+            return true;
         }
-
+        return false;
     }
 
     public void RemoveConstructor()
@@ -211,10 +207,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
         ClearSubSlot();
         Clear();
         Init(controller, parent, constructorSlot);
-        foreach (var data in removedData)
-        {
-            UIController.Instance.inventoryController.AddConstructor(data);
-        }
+        UIController.Instance.inventoryController.AddConstructors(removedData);
     }
 
     public void OnPointerUpEvent(PointerEventData eventData)
@@ -223,16 +216,14 @@ public class ConstructorTreeViewSlot : ContainerSlot
         draggedUI.OnPointerUp(eventData);
         if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
         {
-            ReplaceConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
+            AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
         }
         else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
         {
+            Debug.Log("Remove");
             RemoveConstructor();
         }
-        else if (InputController.Instance.gridInfo != null)
-        {
-            Debug.Log("Add");
-        }
+
     }
 
     public void OnDragEvent(PointerEventData eventData)

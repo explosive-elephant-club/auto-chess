@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using ExcelConfig;
 using UnityEngine.PlayerLoop;
 using System.Linq;
+using System.Diagnostics;
 public enum ConstructorType
 {
     Arm,
@@ -85,7 +86,7 @@ public class ConstructorBase : MonoBehaviour
 
     public void Init(ChampionController _championController, bool isAutoPackage)
     {
-        if (constructorData == null)
+        if (constructorData.ID == 0)
             constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
@@ -189,7 +190,8 @@ public class ConstructorBase : MonoBehaviour
             data.Add(c.constructorData);
             c.OnRemove();
         }
-        Destroy(slot.constructorInstance);
+        DestroyImmediate(slot.constructorInstance.gameObject);
+        slot.constructorInstance = null;
         championController.skillController.UpdateSkillCapacity();
         return data;
     }
