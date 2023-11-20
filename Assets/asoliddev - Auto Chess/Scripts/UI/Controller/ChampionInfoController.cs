@@ -35,8 +35,8 @@ public class ChampionInfoController : MonoBehaviour
     ChampionAttributesController attributesController;
     SkillController skillController;
 
+    SkillPopup skillPopup;
 
-    // Start is called before the first frame update
     void Awake()
     {
         foreach (Transform child in transform.Find("Panel/ActivatedSkill/SkillSlot"))
@@ -48,6 +48,7 @@ public class ChampionInfoController : MonoBehaviour
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        skillPopup = GameObject.Find("ScreenCanvas/SkillPopup").GetComponent<SkillPopup>();
     }
 
     // Update is called once per frame
@@ -88,6 +89,19 @@ public class ChampionInfoController : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
         }
 
+    }
+
+    public void OnPointEnterSlot(SkillSlot skillSlot)
+    {
+        pointEnterSlot = skillSlot;
+        if (pointEnterSlot.skill != null)
+            skillPopup.Init(pointEnterSlot.skill, pointEnterSlot.transform.position, this.GetComponent<RectTransform>().rect.width, Vector3.right);
+    }
+
+    public void OnPointLeaveSlot()
+    {
+        pointEnterSlot = null;
+        skillPopup.Clear();
     }
 
     public void OnEnterCombat()

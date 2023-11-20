@@ -116,7 +116,7 @@ public class UIController : CreateSingleton<UIController>
 
     public void OnUpdatePreparation()
     {
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(InputController.Instance.viewModeSwitchKey))
         {
             ChangeViewMode();
         }

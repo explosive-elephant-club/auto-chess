@@ -75,12 +75,12 @@ public class SkillSlot : ContainerSlot
 
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
-        UIController.Instance.championInfoController.pointEnterSlot = this;
+        UIController.Instance.championInfoController.OnPointEnterSlot(this);
     }
 
     public void OnPointerExitEvent(PointerEventData eventData)
     {
-        UIController.Instance.championInfoController.pointEnterSlot = null;
+        UIController.Instance.championInfoController.OnPointLeaveSlot();
     }
 
     // Update is called once per frame

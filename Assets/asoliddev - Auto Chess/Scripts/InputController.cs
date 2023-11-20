@@ -20,6 +20,9 @@ public class InputController : CreateSingleton<InputController>
     Ray ray;
     public List<RaycastResult> uiRaycastResults;
 
+    public KeyCode viewModeSwitchKey;
+    public KeyCode popupNailKey;
+
     protected override void InitSingleton()
     {
 
