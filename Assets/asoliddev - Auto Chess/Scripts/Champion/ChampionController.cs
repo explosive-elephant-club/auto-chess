@@ -107,7 +107,7 @@ public class ChampionController : MonoBehaviour
         foreach (State s in states)
         {
             s.Init();
-            AIActionFsm.states.Add(s.name, s);
+            AIActionFsm.states.Add(s._name, s);
         }
         AIActionFsm.Init("Idle");
     }
@@ -133,7 +133,7 @@ public class ChampionController : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
-        state = AIActionFsm.curState.name;
+        state = AIActionFsm.curState._name;
     }
 
     /// <summary>

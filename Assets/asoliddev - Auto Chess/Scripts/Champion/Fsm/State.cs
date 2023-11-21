@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class State : MonoBehaviour
 {
-    public string name;
+    public string _name;
     public ChampionController championController;
     public Fsm fsm;
     public virtual void Init()

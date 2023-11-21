@@ -22,6 +22,7 @@ public class InputController : CreateSingleton<InputController>
 
     public KeyCode viewModeSwitchKey;
     public KeyCode popupNailKey;
+    public KeyCode popupReleaseKey;
 
     protected override void InitSingleton()
     {

@@ -23,8 +23,7 @@ public class UIController : CreateSingleton<UIController>
     public InventoryController inventoryController;
     public ConstructorAssembleController constructorAssembleController;
     public GameObject restartButton;
-    public GameObject bonusContainer;
-    public GameObject bonusUIPrefab;
+    public PopupController popupController;
 
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 
@@ -47,9 +46,6 @@ public class UIController : CreateSingleton<UIController>
         gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
     }
 
-    /// <summary>
-    /// Called when restart button clicked on UI
-    /// </summary>
     public void Restart_Click()
     {
         GamePlayController.Instance.RestartGame();

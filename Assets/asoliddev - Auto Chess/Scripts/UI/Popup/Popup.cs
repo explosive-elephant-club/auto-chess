@@ -18,13 +18,33 @@ public class TextPair
 
 public class Popup : MonoBehaviour
 {
-    protected CanvasGroup canvasGroup;
-    public Transform parent;
+    public CanvasGroup canvasGroup;
+    public bool isNailed = false;
     void Awake()
     {
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
         SetUIActive(false);
     }
+
+    void Update()
+    {
+    }
+
+    public virtual void Show(Skill skill, Vector3 slotPositon, float length, Vector3 dir)
+    {
+        UpdatePosition(slotPositon, length, dir);
+        SetUIActive(true);
+        UIController.Instance.popupController.curPickedPopup = this;
+    }
+    public virtual void Clear()
+    {
+        if (!isNailed)
+        {
+            SetUIActive(false);
+        }
+        UIController.Instance.popupController.curPickedPopup = null;
+    }
+
     public void SetUIActive(bool isActive)
     {
         if (isActive)
@@ -43,7 +63,6 @@ public class Popup : MonoBehaviour
 
     public void UpdatePosition(Vector3 slotPositon, float length, Vector3 dir)
     {
-
         float selfLength = 0;
         if (dir.x != 0)
         {
@@ -55,5 +74,26 @@ public class Popup : MonoBehaviour
         }
         float offset = (length + selfLength) / 2 + 5;
         transform.position = slotPositon + dir.normalized * offset;
+    }
+
+    public void Nail()
+    {
+        if (!isNailed)
+        {
+            UIController.Instance.popupController.nailedPopups.Add(this);
+            isNailed = true;
+            UIController.Instance.popupController.UpdateNailedPopupsInteract();
+        }
+    }
+
+    public void Release()
+    {
+        if (isNailed)
+        {
+            UIController.Instance.popupController.nailedPopups.Remove(this);
+            isNailed = false;
+            SetUIActive(false);
+            UIController.Instance.popupController.UpdateNailedPopupsInteract();
+        }
     }
 }

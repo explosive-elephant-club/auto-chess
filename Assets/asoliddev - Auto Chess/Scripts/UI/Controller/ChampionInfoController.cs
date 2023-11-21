@@ -35,8 +35,6 @@ public class ChampionInfoController : MonoBehaviour
     ChampionAttributesController attributesController;
     SkillController skillController;
 
-    SkillPopup skillPopup;
-
     void Awake()
     {
         foreach (Transform child in transform.Find("Panel/ActivatedSkill/SkillSlot"))
@@ -48,7 +46,6 @@ public class ChampionInfoController : MonoBehaviour
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
-        skillPopup = GameObject.Find("ScreenCanvas/SkillPopup").GetComponent<SkillPopup>();
     }
 
     // Update is called once per frame
@@ -95,13 +92,13 @@ public class ChampionInfoController : MonoBehaviour
     {
         pointEnterSlot = skillSlot;
         if (pointEnterSlot.skill != null)
-            skillPopup.Init(pointEnterSlot.skill, pointEnterSlot.transform.position, this.GetComponent<RectTransform>().rect.width, Vector3.right);
+            UIController.Instance.popupController.skillPopup.Show(pointEnterSlot.skill, pointEnterSlot.transform.position, this.GetComponent<RectTransform>().rect.width, Vector3.right);
     }
 
     public void OnPointLeaveSlot()
     {
         pointEnterSlot = null;
-        skillPopup.Clear();
+        UIController.Instance.popupController.skillPopup.Clear();
     }
 
     public void OnEnterCombat()

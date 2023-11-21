@@ -166,10 +166,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6768887448515415473}
     m_Modifications:
+    - target: {fileID: 466250830270872877, guid: 9616d756c88a8ec4e9f164395cd3369e,
+        type: 3}
+      propertyPath: _name
+      value: Move
+      objectReference: {fileID: 0}
     - target: {fileID: 548510405648465259, guid: 9616d756c88a8ec4e9f164395cd3369e,
         type: 3}
       propertyPath: m_Name
       value: States
+      objectReference: {fileID: 0}
+    - target: {fileID: 1345018304454812287, guid: 9616d756c88a8ec4e9f164395cd3369e,
+        type: 3}
+      propertyPath: _name
+      value: Idle
       objectReference: {fileID: 0}
     - target: {fileID: 4923030249355857312, guid: 9616d756c88a8ec4e9f164395cd3369e,
         type: 3}
@@ -230,6 +240,11 @@ PrefabInstance:
         type: 3}
       propertyPath: name
       value: CastSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336988416811607416, guid: 9616d756c88a8ec4e9f164395cd3369e,
+        type: 3}
+      propertyPath: _name
+      value: CastSKill
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9616d756c88a8ec4e9f164395cd3369e, type: 3}
