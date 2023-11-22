@@ -84,8 +84,11 @@ public class SkillSlot : ContainerSlot
     }
 
     // Update is called once per frame
-    void Update()
+    public void PopupShow(SkillData data)
     {
-
+        Clear();
+        ClearAllListener();
+        icon.gameObject.SetActive(true);
+        icon.sprite = Resources.Load<Sprite>(data.icon);
     }
 }

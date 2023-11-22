@@ -30,7 +30,7 @@ public class Popup : MonoBehaviour
     {
     }
 
-    public virtual void Show(Skill skill, Vector3 slotPositon, float length, Vector3 dir)
+    public virtual void Show(Vector3 slotPositon, float length, Vector3 dir)
     {
         UpdatePosition(slotPositon, length, dir);
         SetUIActive(true);

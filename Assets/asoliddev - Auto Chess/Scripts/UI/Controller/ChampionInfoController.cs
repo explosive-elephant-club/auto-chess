@@ -92,7 +92,7 @@ public class ChampionInfoController : MonoBehaviour
     {
         pointEnterSlot = skillSlot;
         if (pointEnterSlot.skill != null)
-            UIController.Instance.popupController.skillPopup.Show(pointEnterSlot.skill, pointEnterSlot.transform.position, this.GetComponent<RectTransform>().rect.width, Vector3.right);
+            UIController.Instance.popupController.skillPopup.Show(pointEnterSlot.skill.skillData, pointEnterSlot.transform.position, this.GetComponent<RectTransform>().rect.width, Vector3.right);
     }
 
     public void OnPointLeaveSlot()
@@ -148,7 +148,7 @@ public class ChampionInfoController : MonoBehaviour
         {
             typesBar.transform.GetChild(i).gameObject.SetActive(true);
             typesBar.transform.GetChild(i).gameObject.name = m.Key.name;
-            typesBar.transform.GetChild(i).GetComponent<TypeSlot>().UpdateUI(m.Key, m.Value);
+            typesBar.transform.GetChild(i).GetComponent<TypeSlot>().Init(m.Key, m.Value, true);
             i++;
         }
         for (int k = i; k < typesBar.transform.childCount; k++)

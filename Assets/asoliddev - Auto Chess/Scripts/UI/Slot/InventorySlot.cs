@@ -12,7 +12,6 @@ public class InventorySlot : ContainerSlot
 {
     RectTransform rect;
     Image icon;
-    InventoryController inventoryController;
     public ConstructorBaseData constructorData;
 
     // Start is called before the first frame update
@@ -21,10 +20,9 @@ public class InventorySlot : ContainerSlot
         icon = transform.Find("Icon").GetComponent<Image>();
     }
 
-    public void Init(ConstructorBaseData _constructorData, InventoryController _inventoryController)
+    public void Init(ConstructorBaseData _constructorData)
     {
         constructorData = _constructorData;
-        inventoryController = _inventoryController;
 
 
         StartCoroutine(LoadIcon());
@@ -50,7 +48,7 @@ public class InventorySlot : ContainerSlot
     {
         if (constructorTreeViewSlot.AttachConstructor(constructorData))
         {
-            inventoryController.RemoveConstructor(constructorData);
+            UIController.Instance.inventoryController.RemoveConstructor(constructorData);
         }
     }
 
@@ -59,7 +57,7 @@ public class InventorySlot : ContainerSlot
         if (grid.gridType == GridType.Inventory && grid.occupyChampion == null)
         {
             GamePlayController.Instance.ownChampionManager.AddChampionToInventory(constructorData, grid);
-            inventoryController.RemoveConstructor(constructorData);
+            UIController.Instance.inventoryController.RemoveConstructor(constructorData);
         }
     }
 
@@ -92,13 +90,12 @@ public class InventorySlot : ContainerSlot
 
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
-        if (inventoryController.pointEnterInventorySlot == null)
-            inventoryController.pointEnterInventorySlot = this;
+        UIController.Instance.inventoryController.OnPointEnterSlot(this);
     }
 
     public void OnPointerExitEvent(PointerEventData eventData)
     {
-        inventoryController.pointEnterInventorySlot = null;
+        UIController.Instance.inventoryController.OnPointLeaveSlot();
     }
 
 }

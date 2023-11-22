@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
+using UnityEngine.EventSystems;
 
 public class TypeCountCube
 {
@@ -22,13 +23,15 @@ public class TypeCountCube
     }
 }
 
-public class TypeSlot : MonoBehaviour
+public class TypeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     Image icon;
     public TypeCountCube typeCountCube;
 
     public ConstructorBonusType constructorBonusType;
     public int curCount;
+
+    bool isShowPopup = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +40,12 @@ public class TypeSlot : MonoBehaviour
         typeCountCube = new TypeCountCube(transform.Find("Lvl"));
     }
 
-    // Update is called once per frame
+    public void Init(ConstructorBonusType _constructorBonusType, int _curCount, bool _isShowPopup)
+    {
+        UpdateUI(_constructorBonusType, _curCount);
+        isShowPopup = _isShowPopup;
+    }
+
     public void UpdateUI(ConstructorBonusType _constructorBonusType, int _curCount)
     {
         constructorBonusType = _constructorBonusType;
@@ -70,5 +78,20 @@ public class TypeSlot : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (isShowPopup)
+            UIController.Instance.popupController.typePopup.Show
+                (constructorBonusType, curCount, this.transform.position,
+                    UIController.Instance.championInfoController.GetComponent<RectTransform>().rect.width, Vector3.right);
+
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (isShowPopup)
+            UIController.Instance.popupController.typePopup.Clear();
     }
 }

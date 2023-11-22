@@ -110,6 +110,20 @@ public class InventoryController : MonoBehaviour
 
     }
 
+    public void OnPointEnterSlot(InventorySlot inventorySlot)
+    {
+        pointEnterInventorySlot = inventorySlot;
+        if (pointEnterInventorySlot.constructorData != null)
+            UIController.Instance.popupController.constructorPopup.Show
+                (pointEnterInventorySlot.constructorData, pointEnterInventorySlot.transform.position, this.GetComponent<RectTransform>().rect.height, Vector3.up);
+    }
+
+    public void OnPointLeaveSlot()
+    {
+        pointEnterInventorySlot = null;
+        UIController.Instance.popupController.constructorPopup.Clear();
+    }
+
     public void UpdateInventory()
     {
         GetPickedConstructors();
@@ -119,7 +133,7 @@ public class InventoryController : MonoBehaviour
             if (i < pickedConstructors.Count)
             {
                 inventorySlots[i].gameObject.SetActive(true);
-                inventorySlots[i].Init(pickedConstructors[i], this);
+                inventorySlots[i].Init(pickedConstructors[i]);
             }
         }
     }
