@@ -211,6 +211,8 @@ public class ChampionAttributesController
 
     public void Reset()
     {
+        Debug.Log("curHealth:" + curHealth);
+        Debug.Log("maxHealth:" + maxHealth.GetTrueLinearValue());
         curHealth = maxHealth.GetTrueLinearValue();
         curArmor = maxArmor.GetTrueLinearValue();
         curMana = maxMana.GetTrueLinearValue();

@@ -12,6 +12,7 @@ public class BaseIdleState : State
     }
     public override void OnUpdate()
     {
+
         if (championController.isDead)
         {
             return;
@@ -34,8 +35,10 @@ public class BaseIdleState : State
         }
         else
         {
+            Debug.Log("Idle State");
             if (championController.IsTargetInAttackRange())
             {
+                Debug.Log("Idle IsTargetInAttackRange");
                 fsm.SwitchState("CastSkill");
                 return;
             }

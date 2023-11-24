@@ -107,6 +107,17 @@ public class ChampionInfoController : MonoBehaviour
         transform.Find("Panel/DeactivatedSkill").gameObject.SetActive(false);
     }
 
+    public void OnUpdateCombat()
+    {
+        if (championController != null)
+        {
+            UpdateArmorBar();
+            UpdateMechBar();
+            UpdateManaBar();
+        }
+
+    }
+
     public void OnEnterPreparation()
     {
         transform.Find("Panel/ActivatedSkill").GetComponent<CanvasGroup>().blocksRaycasts = true;
@@ -115,8 +126,10 @@ public class ChampionInfoController : MonoBehaviour
 
     public void UpdateArmorBar()
     {
+
         armorBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
-            attributesController.curArmor + "/" + attributesController.maxArmor.GetTrueLinearValue();
+            Mathf.Floor(attributesController.curArmor) + "/" +
+                Mathf.Floor(attributesController.maxArmor.GetTrueLinearValue());
 
         armorBar.transform.Find("Slider").GetComponent<Slider>().value =
             attributesController.curArmor / attributesController.maxArmor.GetTrueLinearValue();
@@ -124,20 +137,22 @@ public class ChampionInfoController : MonoBehaviour
 
     public void UpdateMechBar()
     {
-        manaBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
-            attributesController.curMana + "/" + attributesController.maxMana.GetTrueLinearValue();
+        mechBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
+            Mathf.Floor(attributesController.curHealth) + "/" +
+                Mathf.Floor(attributesController.maxHealth.GetTrueLinearValue());
 
-        manaBar.transform.Find("Slider").GetComponent<Slider>().value =
-            attributesController.curMana / attributesController.maxMana.GetTrueLinearValue();
+        mechBar.transform.Find("Slider").GetComponent<Slider>().value =
+            attributesController.curHealth / attributesController.maxHealth.GetTrueLinearValue();
     }
 
     public void UpdateManaBar()
     {
-        armorBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
-            attributesController.curArmor + "/" + attributesController.maxArmor.GetTrueLinearValue();
+        manaBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
+            Mathf.Floor(attributesController.curMana) + "/" +
+                Mathf.Floor(attributesController.maxMana.GetTrueLinearValue());
 
-        armorBar.transform.Find("Slider").GetComponent<Slider>().value =
-            attributesController.curArmor / attributesController.maxArmor.GetTrueLinearValue();
+        manaBar.transform.Find("Slider").GetComponent<Slider>().value =
+            attributesController.curMana / attributesController.maxMana.GetTrueLinearValue();
     }
 
     public void UpdateTypesBar()

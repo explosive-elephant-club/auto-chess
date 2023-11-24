@@ -107,6 +107,7 @@ public class ChampionController : MonoBehaviour
         foreach (State s in states)
         {
             s.Init();
+            Debug.Log(s._name);
             AIActionFsm.states.Add(s._name, s);
         }
         AIActionFsm.Init("Idle");

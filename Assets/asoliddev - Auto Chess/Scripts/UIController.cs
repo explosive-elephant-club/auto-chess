@@ -129,7 +129,7 @@ public class UIController : CreateSingleton<UIController>
     }
     public void OnUpdateCombat()
     {
-
+        championInfoController.OnUpdateCombat();
     }
     public void OnLeaveCombat()
     {

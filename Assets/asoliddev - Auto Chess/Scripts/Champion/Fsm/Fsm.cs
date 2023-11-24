@@ -11,6 +11,7 @@ public class Fsm
 
     public void SwitchState(string nextStateKey)
     {
+        Debug.Log("SwitchState :" + nextStateKey + "  " + states.ContainsKey(nextStateKey));
         if (states.ContainsKey(nextStateKey))
         {
             curState.OnLeave();
