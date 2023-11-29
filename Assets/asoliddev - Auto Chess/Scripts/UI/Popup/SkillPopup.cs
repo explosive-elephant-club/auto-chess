@@ -32,7 +32,7 @@ public class SkillPopup : Popup
         }
     }
 
-    public void Show(SkillData skillData, Vector3 slotPositon, float length, Vector3 dir)
+    public void Show(SkillData skillData, GameObject targetUI, Vector3 dir)
     {
         skillName.text = skillData.name;
         description.text = skillData.description;
@@ -42,7 +42,7 @@ public class SkillPopup : Popup
         Count.value.text = skillData.count.ToString();
         Distance.value.text = skillData.distance.ToString();
         Range.value.text = skillData.range.ToString();
-        base.Show(slotPositon, length, dir);
+        base.Show(targetUI, dir);
 
         UpdateDamageInfo(skillData);
     }

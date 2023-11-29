@@ -27,12 +27,12 @@ public class TypePopup : Popup
         }
     }
 
-    public void Show(ConstructorBonusType _constructorBonusType, int _curCount, Vector3 slotPositon, float length, Vector3 dir)
+    public void Show(ConstructorBonusType _constructorBonusType, int _curCount, GameObject targetUI, Vector3 dir)
     {
         typeName.text = _constructorBonusType.name;
         description.text = _constructorBonusType.description;
         selfSlot.Init(_constructorBonusType, _curCount, false);
-        base.Show(slotPositon, length, dir);
+        base.Show(targetUI, dir);
 
         UpdateConstructorInfo(_constructorBonusType);
     }

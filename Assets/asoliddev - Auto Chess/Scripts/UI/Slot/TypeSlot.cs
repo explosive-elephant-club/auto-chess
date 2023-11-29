@@ -84,8 +84,7 @@ public class TypeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (isShowPopup)
             UIController.Instance.popupController.typePopup.Show
-                (constructorBonusType, curCount, this.transform.position,
-                    UIController.Instance.championInfoController.GetComponent<RectTransform>().rect.width, Vector3.right);
+                (constructorBonusType, curCount, this.gameObject, Vector3.right);
 
     }
 

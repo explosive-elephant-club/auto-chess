@@ -234,10 +234,14 @@ public class ConstructorTreeViewSlot : ContainerSlot
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
         controller.pointEnterInventorySlot = this;
+        if (constructor != null)
+            UIController.Instance.popupController.constructorPopup.Show
+                   (constructor.constructorData, this.gameObject, Vector3.right);
     }
 
     public void OnPointerExitEvent(PointerEventData eventData)
     {
         controller.pointEnterInventorySlot = null;
+        UIController.Instance.popupController.constructorPopup.Clear();
     }
 }

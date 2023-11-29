@@ -316,7 +316,7 @@ public class ChampionManager : MonoBehaviour
             currentChampionCount = championsHexaMapArray.Count;
 
             //update ui
-            UIController.Instance.UpdateUI();
+            //UIController.Instance.UpdateUI();
             //draggedChampion = null;
         }
     }

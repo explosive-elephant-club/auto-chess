@@ -15,7 +15,7 @@ public class ConstructorPopup : Popup
     public TextPair cost;
 
     public Transform typeContent;
-    public List<GameObject> typeIcons;
+    public List<SingleTypeSlot> types;
     public Transform attributeContent;
     public List<GameObject> attributeInfo;
     public Transform skillContent;
@@ -25,7 +25,7 @@ public class ConstructorPopup : Popup
     {
         foreach (Transform child in typeContent)
         {
-            typeIcons.Add(child.gameObject);
+            types.Add(child.GetComponent<SingleTypeSlot>());
         }
         foreach (Transform child in attributeContent)
         {
@@ -37,28 +37,28 @@ public class ConstructorPopup : Popup
         }
     }
 
-    public void Show(ConstructorBaseData constructorData, Vector3 slotPositon, float length, Vector3 dir)
+    public void Show(ConstructorBaseData constructorData, GameObject targetUI, Vector3 dir)
     {
         constructorName.text = constructorData.name.ToString();
         cost.value.text = constructorData.cost.ToString();
         UpdateTypesInfo(constructorData);
         UpdateAttributeInfo(constructorData);
         UpdateSkillInfo(constructorData);
-        base.Show(slotPositon, length, dir);
+        base.Show(targetUI, dir);
     }
 
     void UpdateTypesInfo(ConstructorBaseData constructorData)
     {
         List<ConstructorBonusType> bonus = GamePlayController.Instance.GetAllChampionTypes(constructorData);
-        for (int i = 0; i < typeIcons.Count; i++)
+        for (int i = 0; i < types.Count; i++)
         {
-            typeIcons[i].SetActive(false);
+            types[i].gameObject.SetActive(false);
             if (i < bonus.Count)
             {
                 if (bonus[i] != null)
                 {
-                    typeIcons[i].GetComponent<Image>().sprite = Resources.Load<Sprite>(bonus[i].icon);
-                    typeIcons[i].SetActive(true);
+                    types[i].gameObject.SetActive(true);
+                    types[i].Init(bonus[i]);
                 }
             }
         }
@@ -92,7 +92,7 @@ public class ConstructorPopup : Popup
                 slot.onPointerEnterEvent.AddListener((PointerEventData eventData) =>
                 {
                     UIController.Instance.popupController.skillPopup.Show
-                        (data, slot.transform.position, this.GetComponent<RectTransform>().rect.height, Vector3.up);
+                        (data, this.gameObject, Vector3.up);
                 });
                 slot.onPointerExitEvent.AddListener((PointerEventData eventData) =>
                 {

@@ -16,14 +16,17 @@ public class ChampionAttribute
 {
     //基础值
     public float baseValue;
+    //基础值
+    public string attributeName;
     //线性叠加值
     protected List<float> linearValue;
     //倍数叠加值
     protected List<float> multipleValue;
 
-    public ChampionAttribute(float baseValue)
+    public ChampionAttribute(float baseValue, string name)
     {
         this.baseValue = baseValue;
+        attributeName = name;
         linearValue = new List<float>();
         multipleValue = new List<float>();
     }

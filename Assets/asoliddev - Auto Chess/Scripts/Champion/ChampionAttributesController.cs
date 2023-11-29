@@ -76,39 +76,39 @@ public class ChampionAttributesController
 
     public ChampionAttributesController()
     {
-        maxArmor = new ChampionAttribute(0);
-        maxHealth = new ChampionAttribute(0);
-        maxMana = new ChampionAttribute(0);
+        maxArmor = new ChampionAttribute(0, "MaxArmor");
+        maxHealth = new ChampionAttribute(0, "maxHealth");
+        maxMana = new ChampionAttribute(0, "maxMana");
 
-        moveSpeed = new ChampionAttribute(0);
-        addRange = new ChampionAttribute(0);
-        electricPower = new ChampionAttribute(0);
-        castDelay = new ChampionAttribute(1);
-        chargingDelay = new ChampionAttribute(2);
+        moveSpeed = new ChampionAttribute(0, "MoveSpeed");
+        addRange = new ChampionAttribute(0, "AddRange");
+        electricPower = new ChampionAttribute(0, "ElectricPower");
+        castDelay = new ChampionAttribute(1, "CastDelay");
+        chargingDelay = new ChampionAttribute(2, "ChargingDelay");
 
-        castDelayDecr = new ChampionAttribute(1);
-        chargingDelayDecr = new ChampionAttribute(1);
+        castDelayDecr = new ChampionAttribute(1, "CastDelayDecr");
+        chargingDelayDecr = new ChampionAttribute(1, "ChargingDelayDecr");
 
-        dodgeChange = new ChampionAttribute(1);
-        critChange = new ChampionAttribute(1);
-        critMultiple = new ChampionAttribute(1);
+        dodgeChange = new ChampionAttribute(1, "DodgeChange");
+        critChange = new ChampionAttribute(1, "CritChange");
+        critMultiple = new ChampionAttribute(1, "CritMultiple");
 
-        armorRegeneration = new ChampionAttribute(0);
-        manaRegeneration = new ChampionAttribute(0);
-        takeDamageMultiple = new ChampionAttribute(1);
-        applyDamageMultiple = new ChampionAttribute(1);
+        armorRegeneration = new ChampionAttribute(0, "ArmorRegeneration");
+        manaRegeneration = new ChampionAttribute(0, "ManaRegeneration");
+        takeDamageMultiple = new ChampionAttribute(1, "TakeDamageMultiple");
+        applyDamageMultiple = new ChampionAttribute(1, "ApplyDamageMultiple");
 
-        physicalDamage = new ChampionAttribute(0);
-        fireDamage = new ChampionAttribute(0);
-        iceDamage = new ChampionAttribute(0);
-        lightingDamage = new ChampionAttribute(0);
-        acidDamage = new ChampionAttribute(0);
+        physicalDamage = new ChampionAttribute(0, "PhysicalDamage");
+        fireDamage = new ChampionAttribute(0, "FireDamage");
+        iceDamage = new ChampionAttribute(0, "IceDamage");
+        lightingDamage = new ChampionAttribute(0, "LightingDamage");
+        acidDamage = new ChampionAttribute(0, "AcidDamage");
 
-        physicalDefenseRate = new ChampionAttribute(1);
-        fireDefenseRate = new ChampionAttribute(1);
-        iceDefenseRate = new ChampionAttribute(1);
-        lightingDefenseRate = new ChampionAttribute(1);
-        acidDefenseRate = new ChampionAttribute(1);
+        physicalDefenseRate = new ChampionAttribute(1, "PhysicalDefenseRate");
+        fireDefenseRate = new ChampionAttribute(1, "FireDefenseRate");
+        iceDefenseRate = new ChampionAttribute(1, "IceDefenseRate");
+        lightingDefenseRate = new ChampionAttribute(1, "LightingDefenseRate");
+        acidDefenseRate = new ChampionAttribute(1, "AcidDefenseRate");
     }
 
     public bool DodgeCheck()
@@ -211,8 +211,6 @@ public class ChampionAttributesController
 
     public void Reset()
     {
-        Debug.Log("curHealth:" + curHealth);
-        Debug.Log("maxHealth:" + maxHealth.GetTrueLinearValue());
         curHealth = maxHealth.GetTrueLinearValue();
         curArmor = maxArmor.GetTrueLinearValue();
         curMana = maxMana.GetTrueLinearValue();

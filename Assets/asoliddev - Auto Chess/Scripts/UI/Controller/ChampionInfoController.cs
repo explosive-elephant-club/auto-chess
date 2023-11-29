@@ -30,6 +30,7 @@ public class ChampionInfoController : MonoBehaviour
     public SkillSlot pointEnterSlot;
 
     CanvasGroup canvasGroup;
+    RebuildAllLayout rebuildAllLayout;
 
     ChampionController championController;
     ChampionAttributesController attributesController;
@@ -46,10 +47,16 @@ public class ChampionInfoController : MonoBehaviour
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        rebuildAllLayout = gameObject.GetComponent<RebuildAllLayout>();
     }
 
     // Update is called once per frame
     public void UpdateUI()
+    {
+        StartCoroutine(AsyncUpdate());
+    }
+
+    IEnumerator AsyncUpdate()
     {
         if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
         {
@@ -57,16 +64,19 @@ public class ChampionInfoController : MonoBehaviour
             attributesController = championController.attributesController;
             skillController = championController.skillController;
 
-            SetUIActive(true);
             UpdateArmorBar();
             UpdateMechBar();
             UpdateManaBar();
             UpdateTypesBar();
             UpdateAttributeData();
             UpdateSkillSlot();
+            yield return StartCoroutine(rebuildAllLayout.RebuildAllSizeFitterRects());
+            //gameObject.SendMessage("RebuildAll");
+            SetUIActive(true);
         }
         else
         {
+            StopAllCoroutines();
             SetUIActive(false);
         }
     }
@@ -92,7 +102,8 @@ public class ChampionInfoController : MonoBehaviour
     {
         pointEnterSlot = skillSlot;
         if (pointEnterSlot.skill != null)
-            UIController.Instance.popupController.skillPopup.Show(pointEnterSlot.skill.skillData, pointEnterSlot.transform.position, this.GetComponent<RectTransform>().rect.width, Vector3.right);
+            UIController.Instance.popupController.skillPopup.Show
+            (pointEnterSlot.skill.skillData, pointEnterSlot.gameObject, Vector3.right);
     }
 
     public void OnPointLeaveSlot()
@@ -175,54 +186,31 @@ public class ChampionInfoController : MonoBehaviour
 
     public void UpdateAttributeData()
     {
-        state2.transform.Find("Panel1/moveSpeed/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.moveSpeed.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel1/addRange/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.addRange.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel1/electricPower/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.electricPower.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel1/castDelay/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.castDelay.GetTrueLinearValue() * (1 - attributesController.castDelayDecr.GetTrueMultipleValue())).ToString();
-        state2.transform.Find("Panel1/chargingDelay/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.chargingDelay.GetTrueLinearValue() * (1 - attributesController.chargingDelayDecr.GetTrueMultipleValue())).ToString();
-        state2.transform.Find("Panel1/dodgeChange/Text_Value").GetComponent<TextMeshProUGUI>().text =
-                    (attributesController.dodgeChange.GetTrueMultipleValue() * 100f).ToString() + "%";
+        state2.transform.Find("Panel1/moveSpeed").GetComponent<AttributeSlot>().Init(attributesController.moveSpeed, null);
+        state2.transform.Find("Panel1/addRange").GetComponent<AttributeSlot>().Init(attributesController.addRange, null);
+        state2.transform.Find("Panel1/electricPower").GetComponent<AttributeSlot>().Init(attributesController.electricPower, null);
+        state2.transform.Find("Panel1/castDelay").GetComponent<AttributeSlot>().Init(attributesController.castDelay, attributesController.castDelayDecr);
+        state2.transform.Find("Panel1/chargingDelay").GetComponent<AttributeSlot>().Init(attributesController.chargingDelay, attributesController.chargingDelayDecr);
+        state2.transform.Find("Panel1/dodgeChange").GetComponent<AttributeSlot>().Init(attributesController.dodgeChange, null, false);
 
-        state2.transform.Find("Panel2/critChange/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.critChange.GetTrueMultipleValue() * 100f).ToString() + "%";
-        state2.transform.Find("Panel2/critMultiple/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.critMultiple.GetTrueLinearValue() * 100f).ToString() + "%";
-        state2.transform.Find("Panel2/armorRegeneration/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.armorRegeneration.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel2/manaRegeneration/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.manaRegeneration.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel2/takeDamageMultiple/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.takeDamageMultiple.GetTrueLinearValue() * 100f).ToString() + "%";
-        state2.transform.Find("Panel2/applyDamageMultiple/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.applyDamageMultiple.GetTrueLinearValue() * 100f).ToString() + "%";
+        state2.transform.Find("Panel2/critChange").GetComponent<AttributeSlot>().Init(attributesController.critChange, null, false);
+        state2.transform.Find("Panel2/critMultiple").GetComponent<AttributeSlot>().Init(attributesController.critMultiple, null, false);
+        state2.transform.Find("Panel2/armorRegeneration").GetComponent<AttributeSlot>().Init(attributesController.armorRegeneration, null);
+        state2.transform.Find("Panel2/manaRegeneration").GetComponent<AttributeSlot>().Init(attributesController.manaRegeneration, null);
+        state2.transform.Find("Panel2/takeDamageMultiple").GetComponent<AttributeSlot>().Init(attributesController.takeDamageMultiple, null, false);
+        state2.transform.Find("Panel2/applyDamageMultiple").GetComponent<AttributeSlot>().Init(attributesController.applyDamageMultiple, null, false);
 
-        state2.transform.Find("Panel3/physicalDamage/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.physicalDamage.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel3/fireDamage/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.fireDamage.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel3/iceDamage/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.iceDamage.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel3/lightingDamage/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.lightingDamage.GetTrueLinearValue().ToString();
-        state2.transform.Find("Panel3/acidDamage/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            attributesController.acidDamage.GetTrueLinearValue().ToString();
+        state2.transform.Find("Panel3/physicalDamage").GetComponent<AttributeSlot>().Init(attributesController.physicalDamage, null);
+        state2.transform.Find("Panel3/fireDamage").GetComponent<AttributeSlot>().Init(attributesController.fireDamage, null);
+        state2.transform.Find("Panel3/iceDamage").GetComponent<AttributeSlot>().Init(attributesController.iceDamage, null);
+        state2.transform.Find("Panel3/lightingDamage").GetComponent<AttributeSlot>().Init(attributesController.lightingDamage, null);
+        state2.transform.Find("Panel3/acidDamage").GetComponent<AttributeSlot>().Init(attributesController.acidDamage, null);
 
-        state2.transform.Find("Panel4/physicalDefenseRate/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.physicalDefenseRate.GetTrueMultipleValue() * 100f).ToString() + "%";
-        state2.transform.Find("Panel4/fireDefenseRate/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.fireDefenseRate.GetTrueMultipleValue() * 100f).ToString() + "%";
-        state2.transform.Find("Panel4/iceDefenseRate/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.iceDefenseRate.GetTrueMultipleValue() * 100f).ToString() + "%";
-        state2.transform.Find("Panel4/lightingDefenseRate/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.lightingDefenseRate.GetTrueMultipleValue() * 100f).ToString() + "%";
-        state2.transform.Find("Panel4/acidDefenseRate/Text_Value").GetComponent<TextMeshProUGUI>().text =
-            (attributesController.acidDefenseRate.GetTrueMultipleValue() * 100f).ToString() + "%";
-
+        state2.transform.Find("Panel4/physicalDefenseRate").GetComponent<AttributeSlot>().Init(attributesController.physicalDefenseRate, null, false);
+        state2.transform.Find("Panel4/fireDefenseRate").GetComponent<AttributeSlot>().Init(attributesController.fireDefenseRate, null, false);
+        state2.transform.Find("Panel4/iceDefenseRate").GetComponent<AttributeSlot>().Init(attributesController.iceDefenseRate, null, false);
+        state2.transform.Find("Panel4/lightingDefenseRate").GetComponent<AttributeSlot>().Init(attributesController.lightingDefenseRate, null, false);
+        state2.transform.Find("Panel4/acidDefenseRate").GetComponent<AttributeSlot>().Init(attributesController.acidDefenseRate, null, false);
     }
 
     public void UpdateSkillSlot()
@@ -305,5 +293,6 @@ public class ChampionInfoController : MonoBehaviour
         }
 
         UpdateSkillSlot();
+        gameObject.SendMessage("RebuildAll");
     }
 }

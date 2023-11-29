@@ -19,10 +19,12 @@ public class TextPair
 public class Popup : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
+    RebuildAllLayout rebuildAllLayout;
     public bool isNailed = false;
     void Awake()
     {
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        rebuildAllLayout = gameObject.GetComponent<RebuildAllLayout>();
         SetUIActive(false);
     }
 
@@ -30,14 +32,22 @@ public class Popup : MonoBehaviour
     {
     }
 
-    public virtual void Show(Vector3 slotPositon, float length, Vector3 dir)
+    public virtual void Show(GameObject targetUI, Vector3 dir, float length = 5f)
     {
-        UpdatePosition(slotPositon, length, dir);
-        SetUIActive(true);
+        UpdatePosition(targetUI, dir, length);
         UIController.Instance.popupController.curPickedPopup = this;
+        StartCoroutine(AsyncUpdate());
     }
+
+    IEnumerator AsyncUpdate()
+    {
+        yield return StartCoroutine(rebuildAllLayout.RebuildAllSizeFitterRects());
+        SetUIActive(true);
+    }
+
     public virtual void Clear()
     {
+        StopAllCoroutines();
         if (!isNailed)
         {
             SetUIActive(false);
@@ -61,19 +71,22 @@ public class Popup : MonoBehaviour
         }
     }
 
-    public void UpdatePosition(Vector3 slotPositon, float length, Vector3 dir)
+    public void UpdatePosition(GameObject targetUI, Vector3 dir, float length)
     {
         float selfLength = 0;
+        float targetLength = 0;
         if (dir.x != 0)
         {
             selfLength = GetComponent<RectTransform>().rect.width;
+            targetLength = targetUI.GetComponent<RectTransform>().rect.width;
         }
         else
         {
             selfLength = GetComponent<RectTransform>().rect.height;
+            targetLength = targetUI.GetComponent<RectTransform>().rect.height;
         }
-        float offset = (length + selfLength) / 2 + 5;
-        transform.position = slotPositon + dir.normalized * offset;
+        float offset = (targetLength + selfLength) + length;
+        transform.position = targetUI.transform.position + dir.normalized * offset;
     }
 
     public void Nail()

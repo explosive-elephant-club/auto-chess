@@ -115,7 +115,7 @@ public class InventoryController : MonoBehaviour
         pointEnterInventorySlot = inventorySlot;
         if (pointEnterInventorySlot.constructorData != null)
             UIController.Instance.popupController.constructorPopup.Show
-                (pointEnterInventorySlot.constructorData, pointEnterInventorySlot.transform.position, this.GetComponent<RectTransform>().rect.height, Vector3.up);
+                (pointEnterInventorySlot.constructorData, pointEnterInventorySlot.gameObject, Vector3.up);
     }
 
     public void OnPointLeaveSlot()

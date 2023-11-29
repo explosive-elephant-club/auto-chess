@@ -8,6 +8,7 @@ public class PopupController : MonoBehaviour
     public SkillPopup skillPopup;
     public ConstructorPopup constructorPopup;
     public TypePopup typePopup;
+    public AttributePopup attributePopup;
     public Popup curPickedPopup;
     public List<Popup> nailedPopups = new List<Popup>();
     // Start is called before the first frame update
