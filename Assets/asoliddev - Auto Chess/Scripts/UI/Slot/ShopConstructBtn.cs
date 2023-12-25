@@ -5,10 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
 
-public class ChampionShopBtn : MonoBehaviour
+public class ShopConstructBtn : MonoBehaviour
 {
-
-
     public GameObject ablePanel;
     public GameObject disablePanel;
     public GameObject lockImage;
@@ -24,62 +22,55 @@ public class ChampionShopBtn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //GetComponent<Button>().onClick.AddListener(OnClicked);
+        GetComponent<Button>().onClick.AddListener(OnClicked);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    /*
     public void OnClicked()
     {
         if (ablePanel.activeSelf)
-            ChampionShop.Instance.OnChampionClicked(constructorData, this);
+            UIController.Instance.shopController.shopConstructController.BuyConstruct(constructorData, this);
         else if (disablePanel.activeSelf)
-            ChampionShop.Instance.AddShopSlot();
+            UIController.Instance.shopController.shopConstructController.AddShopSlot();
     }
 
     public void Onlocked(bool isLocked)
     {
         lockImage.SetActive(isLocked);
     }
-
-    public void BuySuccessHide()
-    {
-        ablePanel.SetActive(false);
-        disablePanel.SetActive(false);
-    }
-
-    public void Refresh(ChampionBaseData data)
+    public void Refresh(ConstructorBaseData data)
     {
         ablePanel.SetActive(true);
         disablePanel.SetActive(false);
-        championData = data;
-        nameText.text = championData.name;
-        buyCostText.text = championData.cost.ToString();
+        constructorData = data;
+        nameText.text = constructorData.name;
+        buyCostText.text = constructorData.cost.ToString();
         UpdateType();
-    }
-
-    public void ShowAdd()
-    {
-        ablePanel.SetActive(false);
-        disablePanel.SetActive(true);
-        addCostText.text = GamePlayController.Instance.addSlotCostList[ChampionShop.Instance.curShopChampionLimit - 3].ToString();
     }
 
     public void UpdateType()
     {
-        List<ChampionType> types = GamePlayController.Instance.GetAllChampionTypes(championData);
+        List<ConstructorBonusType> types = GamePlayController.Instance.GetAllChampionTypes(constructorData);
+
         for (int i = 0; i < typeIconArray.Length; i++)
         {
             typeIconArray[i].SetActive(false);
-            if (i < types.Count)
+            if (i < types.Count && types[i] != null)
             {
                 typeIconArray[i].SetActive(true);
                 typeIconArray[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
             }
         }
-    }*/
+    }
+    public void ShowAdd()
+    {
+        ablePanel.SetActive(false);
+        disablePanel.SetActive(true);
+        addCostText.text = GameConfig.Instance.addSlotCostList
+            [GameData.Instance.constructsOnSaleLimit - 3].ToString();
+    }
+    public void BuySuccessHide()
+    {
+        ablePanel.SetActive(false);
+        disablePanel.SetActive(false);
+    }
 }

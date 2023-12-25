@@ -17,7 +17,7 @@ public class UIController : CreateSingleton<UIController>
     public bool isSlotUIDragged = false;
 
     public GameObject mask;
-    public ShopGUIController shop;
+    public ShopGUIController shopController;
     public LevelInfoController levelInfo;
     public ChampionInfoController championInfoController;
     public InventoryController inventoryController;
@@ -107,6 +107,7 @@ public class UIController : CreateSingleton<UIController>
     {
         OnEnterBattleViewMode();
         championInfoController.OnEnterPreparation();
+        shopController.OnEnterPreparation();
         UpdateUI();
     }
 

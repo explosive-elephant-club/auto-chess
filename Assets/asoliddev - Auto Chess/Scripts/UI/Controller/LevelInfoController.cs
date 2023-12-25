@@ -14,6 +14,7 @@ public class LevelInfoController : MonoBehaviour
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI HPText;
     public Button readyBtn;
+    public Button shopBtn;
     public RectTransform Panel1;
     public RectTransform Panel2;
 
@@ -21,6 +22,7 @@ public class LevelInfoController : MonoBehaviour
     void Start()
     {
         readyBtn.onClick.AddListener(OnReadyBtnClicked);
+        shopBtn.onClick.AddListener(OnShopBtnClicked);
         ResetReadyBtn();
     }
 
@@ -32,12 +34,17 @@ public class LevelInfoController : MonoBehaviour
 
     public void UpdateUI()
     {
-        goldText.text = GamePlayController.Instance.currentGold.ToString();
-        HPText.text = GamePlayController.Instance.currentHP.ToString();
+        goldText.text = GameData.Instance.currentGold.ToString();
+        HPText.text = GameData.Instance.currentHP.ToString();
         LayoutRebuilder.ForceRebuildLayoutImmediate(Panel1);
         LayoutRebuilder.ForceRebuildLayoutImmediate(Panel2);
     }
 
+    public void OnShopBtnClicked()
+    {
+        UIController.Instance.shopController.gameObject.SetActive
+            (!UIController.Instance.shopController.gameObject.activeSelf);
+    }
     public void OnReadyBtnClicked()
     {
         GamePlayController.Instance.StageChange(GameStage.Combat);

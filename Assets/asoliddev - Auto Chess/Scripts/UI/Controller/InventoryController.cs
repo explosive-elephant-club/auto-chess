@@ -15,7 +15,7 @@ public class InventoryController : MonoBehaviour
 
     CanvasGroup canvasGroup;
 
-    public List<ConstructorBaseData> allConstructors = new List<ConstructorBaseData>();
+    
     public List<ConstructorBaseData> pickedConstructors = new List<ConstructorBaseData>();
 
     public InventorySlot pointEnterInventorySlot;
@@ -149,17 +149,17 @@ public class InventoryController : MonoBehaviour
 
     public void AddConstructor(ConstructorBaseData constructorBaseData)
     {
-        allConstructors.Add(constructorBaseData);
+        GameData.Instance.allInventoryConstructors.Add(constructorBaseData);
     }
 
     public void AddConstructor(int id)
     {
-        AddConstructor(GameData.Instance.constructorsArray.Find(c => c.ID == id));
+        AddConstructor(GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == id));
     }
 
     public void RemoveConstructor(ConstructorBaseData constructorBaseData)
     {
-        allConstructors.Remove(constructorBaseData);
+        GameData.Instance.allInventoryConstructors.Remove(constructorBaseData);
         UpdateInventory();
     }
 
@@ -173,7 +173,7 @@ public class InventoryController : MonoBehaviour
                 types = types.Concat(new List<ConstructorType>(t.types)).ToList<ConstructorType>();
             }
         }
-        pickedConstructors = allConstructors.FindAll(c => IsTypeEqual(c, types));
+        pickedConstructors = GameData.Instance.allInventoryConstructors.FindAll(c => IsTypeEqual(c, types));
     }
 
     bool IsTypeEqual(ConstructorBaseData constructorBaseData, List<ConstructorType> types)

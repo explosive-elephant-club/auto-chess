@@ -77,15 +77,15 @@ public class BuffController : MonoBehaviour
     //添加一个buff
     public void AddBuff(int id, ChampionController _caster = null)
     {
-        AddBuff(GameData.Instance.baseBuffsArray.Find(b => b.ID == id), _caster);
+        AddBuff(GameExcelConfig.Instance.baseBuffsArray.Find(b => b.ID == id), _caster);
     }
 
     public void AddBuff(BaseBuffData buffData, ChampionController _caster = null)
     {
         Buff buff;
-        if (GameData.Instance.modifyAttributeBuffsArray.Exists(b => b.ID == buffData.ID))
+        if (GameExcelConfig.Instance.modifyAttributeBuffsArray.Exists(b => b.ID == buffData.ID))
         {
-            ModifyAttributeBuffData mBuffData = GameData.Instance.modifyAttributeBuffsArray.Find(b => b.ID == buffData.ID);
+            ModifyAttributeBuffData mBuffData = GameExcelConfig.Instance.modifyAttributeBuffsArray.Find(b => b.ID == buffData.ID);
             buff = new ModifyAttributeBuff(buffData, mBuffData, championController, _caster);
         }
 
@@ -193,7 +193,7 @@ public class BuffController : MonoBehaviour
         BuffStateContainer tempBuffStateContainer = new BuffStateContainer();
         foreach (Buff b in buffList)
         {
-            if (GameData.Instance.modifyAttributeBuffsArray.Exists(b1 => b1.ID == b.buffData.ID))
+            if (GameExcelConfig.Instance.modifyAttributeBuffsArray.Exists(b1 => b1.ID == b.buffData.ID))
             {
                 ModifyAttributeBuff modifyBuff = b as ModifyAttributeBuff;
                 tempBuffStateContainer.allSuperposStates |= modifyBuff.buffStateContainer.allSuperposStates;

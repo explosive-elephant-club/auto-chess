@@ -87,7 +87,7 @@ public class ConstructorBase : MonoBehaviour
     public void Init(ChampionController _championController, bool isAutoPackage)
     {
         if (constructorData.ID == 0)
-            constructorData = GameData.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
+            constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 

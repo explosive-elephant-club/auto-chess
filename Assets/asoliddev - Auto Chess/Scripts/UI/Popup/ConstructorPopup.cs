@@ -85,7 +85,7 @@ public class ConstructorPopup : Popup
             skillInfo[i].SetActive(false);
             if (i < constructorData.skillID.Length && constructorData.skillID[0] != 0)
             {
-                SkillData data = GameData.Instance.skillDatasArray.Find(d => d.ID == constructorData.skillID[i]);
+                SkillData data = GameExcelConfig.Instance.skillDatasArray.Find(d => d.ID == constructorData.skillID[i]);
                 skillInfo[i].SetActive(true);
                 SkillSlot slot = skillInfo[i].GetComponent<SkillSlot>();
                 slot.PopupShow(data);

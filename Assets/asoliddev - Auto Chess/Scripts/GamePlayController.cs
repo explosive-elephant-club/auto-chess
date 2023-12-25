@@ -16,22 +16,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public GameStage currentGameStage;
     public GameStage lastStage;
     public float timer = 0;
-
     private bool isReady = false;
-
-
-    ///Maximum time the combat stage can last
-    public int CombatStageDuration = 60;
-    ///base gold value to get after every round
-    public int baseGoldIncome = 5;
-    public int currentGold = 0;
-
-    public int[] levelUpCostList;
-    public int[] addSlotCostList;
-
-    [HideInInspector]
-    public int currentHP = 100;
-
 
     public EventCenter eventCenter = new EventCenter();
     public ChampionManager ownChampionManager;
@@ -77,13 +62,13 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     /// </summary>
     public bool BuyConstructorFromShop(ConstructorBaseData constructorData)
     {
-        if (currentGold < constructorData.cost)
+        if (GameData.Instance.currentGold < constructorData.cost)
             return false;
 
 
         /* if (ownChampionManager.AddChampionToInventory(constructorData))
         {
-            currentGold -= constructorData.cost;
+            GameData.Instance.currentGold -= constructorData.cost;
             UIController.Instance.UpdateUI();
             return true;
         }
@@ -103,9 +88,9 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         int income = 0;
 
         //banked gold
-        int bank = (int)(currentGold / 10);
+        int bank = (int)(GameData.Instance.currentGold / 10);
 
-        income += baseGoldIncome;
+        income += GameConfig.Instance.baseGoldIncome;
         income += bank;
 
         return income;
@@ -117,7 +102,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public void Buylvl()
     {
         //return if we dont have enough gold
-        if (currentGold < levelUpCostList[ownChampionManager.currentChampionLimit - 3])
+        if (GameData.Instance.currentGold < GameConfig.Instance.levelUpCostList[ownChampionManager.currentChampionLimit - 3])
             return;
 
         if (ownChampionManager.currentChampionLimit < 9)
@@ -126,7 +111,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
             ownChampionManager.currentChampionLimit++;
 
             //decrase gold
-            currentGold -= levelUpCostList[ownChampionManager.currentChampionLimit - 3];
+            GameData.Instance.currentGold -= GameConfig.Instance.levelUpCostList[ownChampionManager.currentChampionLimit - 3];
 
             //update ui
             UIController.Instance.levelInfo.UpdateUI();
@@ -142,8 +127,8 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     {
         ownChampionManager.Reset();
         oponentChampionManager.Reset();
-        currentHP = 100;
-        currentGold = 0;
+        GameData.Instance.currentHP = 100;
+        GameData.Instance.currentGold = 0;
         StageChange(GameStage.Preparation);
 
         UIController.Instance.ShowGameScreen();
@@ -155,16 +140,16 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     /// </summary>
     public void EndRound()
     {
-        timer = CombatStageDuration - 3; //reduce timer so game ends fast
+        timer = GameConfig.Instance.combatStageDuration - 3; //reduce timer so game ends fast
     }
 
 
     public List<ConstructorBonusType> GetAllChampionTypes(ConstructorBaseData constructorData)
     {
         List<ConstructorBonusType> types = new List<ConstructorBonusType>();
-        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property1));
-        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property2));
-        types.Add(GameData.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property3));
+        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property1));
+        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property2));
+        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property3));
         return types;
     }
 
@@ -214,10 +199,10 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public void OnEnterPreparation()
     {
         UIController.Instance.levelInfo.ResetReadyBtn();
-        currentGold += CalculateIncome();
+        GameData.Instance.currentGold += CalculateIncome();
         //ChampionShop.Instance.RefreshShop(true);
 
-        if (currentHP <= 0)
+        if (GameData.Instance.currentHP <= 0)
         {
             currentGameStage = GameStage.Loss;
             StageChange(GameStage.Loss);
@@ -251,11 +236,11 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public void OnUpdateCombat()
     {
         timer += Time.deltaTime;
-        if (timer > CombatStageDuration - 10)
+        if (timer > GameConfig.Instance.combatStageDuration - 10)
         {
-            UIController.Instance.levelInfo.UpdateCombatTimer((int)(CombatStageDuration - timer));
+            UIController.Instance.levelInfo.UpdateCombatTimer((int)(GameConfig.Instance.combatStageDuration - timer));
         }
-        if (timer > CombatStageDuration)
+        if (timer > GameConfig.Instance.combatStageDuration)
         {
             StageChange(GameStage.Preparation);
         }

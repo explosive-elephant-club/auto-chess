@@ -149,7 +149,7 @@ public class SkillController : MonoBehaviour
 
     public void AddSkill(int skillID, ConstructorBase _constructor)
     {
-        AddSkill(GameData.Instance.skillDatasArray.Find(s => s.ID == skillID), _constructor);
+        AddSkill(GameExcelConfig.Instance.skillDatasArray.Find(s => s.ID == skillID), _constructor);
     }
 
     public void AddSkill(SkillData skillData, ConstructorBase _constructor)
