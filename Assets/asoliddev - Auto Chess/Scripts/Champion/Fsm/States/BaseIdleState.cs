@@ -38,7 +38,6 @@ public class BaseIdleState : State
             Debug.Log("Idle State");
             if (championController.IsTargetInAttackRange())
             {
-                Debug.Log("Idle IsTargetInAttackRange");
                 fsm.SwitchState("CastSkill");
                 return;
             }

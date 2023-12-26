@@ -30,7 +30,7 @@ public enum ConstructorType
 public class ConstructorSlot
 {
     [HideInInspector]
-    public bool isAble;
+    public bool isAble = true;
     public Transform slotTrans;
     public List<ConstructorType> adaptTypes;
     public ConstructorBase constructorInstance;
@@ -39,7 +39,6 @@ public class ConstructorSlot
     public List<ConstructorType> forbiddenSubSlotTypes;
     //是否禁用子物体所有槽位
     public bool isForbiddenAllSubSlots;
-
 }
 
 
@@ -90,6 +89,13 @@ public class ConstructorBase : MonoBehaviour
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
+        if (type == ConstructorType.Base)
+        {
+            foreach (var s in slots)
+            {
+                s.isAble = true;
+            }
+        }
 
         if (!string.IsNullOrEmpty(constructorData.valueChanges[0]))
         {
@@ -111,6 +117,7 @@ public class ConstructorBase : MonoBehaviour
                 championController.skillController.AddSkill(id, this);
             }
         }
+
         if (isAutoPackage)
             AutoPackage();
         championController.skillController.UpdateSkillCapacity();
@@ -129,12 +136,14 @@ public class ConstructorBase : MonoBehaviour
             operation.reset.Invoke();
         }
         championController.skillController.RemoveSkill(this);
+        UIController.Instance.championInfoController.UpdateSkillSlot();
     }
 
     //添加子组件
     public virtual bool attachConstructor(ConstructorBase constructor, ConstructorSlot slot)
     {
-        if (slot.adaptTypes.Contains(constructor.type))
+        UnityEngine.Debug.Log(name + " " + slot.isAble);
+        if (slot.adaptTypes.Contains(constructor.type) && slot.isAble)
         {
             constructor.gameObject.transform.SetParent(slot.slotTrans);
             constructor.gameObject.transform.localPosition = Vector3.zero;
@@ -178,6 +187,7 @@ public class ConstructorBase : MonoBehaviour
         GameObject obj = Instantiate(Resources.Load<GameObject>(constructorData.prefab));
         ConstructorBase _constructorBase = obj.GetComponent<ConstructorBase>();
         _constructorBase.Init(constructorData, championController, false);
+        UIController.Instance.championInfoController.UpdateSkillSlot();
         return attachConstructor(_constructorBase, slot);
     }
 
@@ -242,7 +252,7 @@ public class ConstructorBase : MonoBehaviour
         {
             if (s.constructorInstance != null)
             {
-                constructors.Union<ConstructorBase>(s.constructorInstance.GetAllChildrenConstructors(true));
+                constructors = constructors.Concat(s.constructorInstance.GetAllChildrenConstructors(true)).ToList<ConstructorBase>();
             }
         }
         return constructors;

@@ -190,7 +190,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
     public bool AttachConstructor(ConstructorBaseData constructorData)
     {
         ConstructorType type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
-        if (constructorSlot.adaptTypes.Contains(type))
+        if (constructorSlot.adaptTypes.Contains(type) && constructorSlot.isAble)
         {
             if (constructor != null)
                 RemoveConstructor();
@@ -220,7 +220,6 @@ public class ConstructorTreeViewSlot : ContainerSlot
         }
         else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
         {
-            Debug.Log("Remove");
             RemoveConstructor();
         }
 

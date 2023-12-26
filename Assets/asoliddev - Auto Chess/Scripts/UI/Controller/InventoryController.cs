@@ -15,7 +15,7 @@ public class InventoryController : MonoBehaviour
 
     CanvasGroup canvasGroup;
 
-    
+
     public List<ConstructorBaseData> pickedConstructors = new List<ConstructorBaseData>();
 
     public InventorySlot pointEnterInventorySlot;

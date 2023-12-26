@@ -12,6 +12,7 @@ public class BaseCastSkillState : State
         {
             fsm.SwitchState("Idle");
         }
+        StartCoroutine(championController.TurnToTarget());
     }
     public override void OnUpdate()
     {

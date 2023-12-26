@@ -215,6 +215,19 @@ public class ChampionController : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(rotation);
     }
 
+    public IEnumerator TurnToTarget()
+    {
+        Vector3 dir = target.transform.position - transform.position;
+        while (Vector3.Angle(dir, transform.forward) > 2f)
+        {
+            Debug.Log(Vector3.Angle(dir, transform.forward));
+            dir = target.transform.position - transform.position;
+            Quaternion q = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, 8 * Time.deltaTime);
+            yield return null;
+        }
+    }
+
     public ChampionController FindTarget(int bestDistance, FindTargetMode mode)
     {
         ChampionManager manager;

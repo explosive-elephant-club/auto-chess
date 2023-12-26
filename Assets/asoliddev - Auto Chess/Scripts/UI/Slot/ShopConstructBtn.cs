@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
+using UnityEngine.EventSystems;
 
-public class ShopConstructBtn : MonoBehaviour
+public class ShopConstructBtn : ContainerSlot
 {
     public GameObject ablePanel;
     public GameObject disablePanel;
@@ -20,9 +21,15 @@ public class ShopConstructBtn : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         GetComponent<Button>().onClick.AddListener(OnClicked);
+    }
+    private void Start()
+    {
+        ClearAllListener();
+        onPointerEnterEvent.AddListener(OnPointerEnterEvent);
+        onPointerExitEvent.AddListener(OnPointerExitEvent);
     }
 
     public void OnClicked()
@@ -73,4 +80,15 @@ public class ShopConstructBtn : MonoBehaviour
         ablePanel.SetActive(false);
         disablePanel.SetActive(false);
     }
+    public void OnPointerEnterEvent(PointerEventData eventData)
+    {
+        if (ablePanel.activeSelf)
+            UIController.Instance.shopController.shopConstructController.OnPointEnterSlot(this);
+    }
+
+    public void OnPointerExitEvent(PointerEventData eventData)
+    {
+        UIController.Instance.shopController.shopConstructController.OnPointLeaveSlot();
+    }
+
 }

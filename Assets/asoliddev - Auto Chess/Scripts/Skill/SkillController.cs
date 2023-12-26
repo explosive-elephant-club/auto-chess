@@ -167,7 +167,6 @@ public class SkillController : MonoBehaviour
                 RemoveSkill(skillList[i]);
             }
         }
-
     }
 
     public void RemoveSkill(Skill skill)
@@ -175,7 +174,6 @@ public class SkillController : MonoBehaviour
         if (activedSkillList.Contains(skill))
             RemoveActivedSkill(activedSkillList.IndexOf(skill));
         skillList.Remove(skill);
-        UIController.Instance.championInfoController.UpdateSkillSlot();
     }
 
     public void SwitchDeactivedSkill(int index1, int index2)

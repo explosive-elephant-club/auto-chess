@@ -218,6 +218,7 @@ public class ChampionInfoController : MonoBehaviour
         for (int i = 0; i < activatedSkillSlots.Count; i++)
         {
             activatedSkillSlots[i].gameObject.SetActive(false);
+
             if (i < skillController.activedSkillList.Count)
             {
                 activatedSkillSlots[i].gameObject.SetActive(true);

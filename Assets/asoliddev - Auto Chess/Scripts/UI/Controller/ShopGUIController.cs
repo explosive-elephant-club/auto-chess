@@ -42,7 +42,6 @@ public class ShopGUIController : MonoBehaviour
     {
         hideBtn.onClick.AddListener(() =>
             {
-                UIController.Instance.levelInfo.shopBtn.interactable = true;
                 gameObject.SetActive(false);
             });
         constructToggle.onValueChanged.AddListener((bool b) =>
@@ -93,7 +92,6 @@ public class ShopGUIController : MonoBehaviour
 
     void OnToggleActive(Toggle toggle)
     {
-        Debug.Log(toggle.GetComponentInChildren<TextMeshProUGUI>().text);
         lastActivedToggle.isOn = false;
         lastActivedToggle = toggle;
     }
@@ -113,9 +111,12 @@ public class ShopGUIController : MonoBehaviour
 
     public void OnEnterPreparation()
     {
-
         gameObject.SetActive(true);
         shopConstructController.RefreshShop(false);
+    }
+    public void OnLeavePreparation()
+    {
+        gameObject.SetActive(false);
     }
 
     /*

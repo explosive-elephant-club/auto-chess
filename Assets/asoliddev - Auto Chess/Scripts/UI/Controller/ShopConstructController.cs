@@ -17,7 +17,7 @@ public class ShopConstructController : MonoBehaviour
     GameObject constructsContent;
 
     public List<ShopConstructBtn> shopConstructBtns = new List<ShopConstructBtn>();
-
+    public ShopConstructBtn pointEnterBtn;
     bool isLocked = false;
     private void Awake()
     {
@@ -26,6 +26,7 @@ public class ShopConstructController : MonoBehaviour
         {
             shopConstructBtns.Add(child.GetComponent<ShopConstructBtn>());
         }
+
         lockBtn.onClick.AddListener(OnLockBtnClicked);
         refreshBtn.onClick.AddListener(() =>
         {
@@ -119,8 +120,8 @@ public class ShopConstructController : MonoBehaviour
 
         if (GameData.Instance.constructsOnSaleLimit < 7)
         {
-            GameData.Instance.constructsOnSaleLimit++;
             GameData.Instance.currentGold -= GameConfig.Instance.addSlotCostList[GameData.Instance.constructsOnSaleLimit - 3];
+            GameData.Instance.constructsOnSaleLimit++;
 
             UIController.Instance.UpdateUI();
             AddSlotSuccess(GetRandomChampionInfo());
@@ -137,10 +138,26 @@ public class ShopConstructController : MonoBehaviour
 
     public void BuyConstruct(ConstructorBaseData data, ShopConstructBtn btn)
     {
-        if (GameData.Instance.currentGold < data.cost)
+        if (GameData.Instance.currentGold >= data.cost)
         {
             UIController.Instance.inventoryController.AddConstructor(data);
+            UIController.Instance.inventoryController.UpdateInventory();
             btn.BuySuccessHide();
+
         }
+    }
+
+    public void OnPointEnterSlot(ShopConstructBtn btn)
+    {
+        pointEnterBtn = btn;
+        if (pointEnterBtn.constructorData != null)
+            UIController.Instance.popupController.constructorPopup.Show
+                (pointEnterBtn.constructorData, pointEnterBtn.gameObject, Vector3.right);
+    }
+
+    public void OnPointLeaveSlot()
+    {
+        pointEnterBtn = null;
+        UIController.Instance.popupController.constructorPopup.Clear();
     }
 }

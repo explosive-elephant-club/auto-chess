@@ -369,7 +369,7 @@ MonoBehaviour:
     isForbiddenAllSubSlots: 0
   - isAble: 0
     slotTrans: {fileID: 400002}
-    adaptTypes: 0c000000
+    adaptTypes: 0d000000
     constructorInstance: {fileID: 0}
     forbiddenSubSlotTypes: 
     isForbiddenAllSubSlots: 0

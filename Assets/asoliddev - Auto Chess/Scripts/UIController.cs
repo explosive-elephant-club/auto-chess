@@ -120,7 +120,7 @@ public class UIController : CreateSingleton<UIController>
     }
     public void OnLeavePreparation()
     {
-
+        shopController.OnLeavePreparation();
     }
 
     public void OnEnterCombat()

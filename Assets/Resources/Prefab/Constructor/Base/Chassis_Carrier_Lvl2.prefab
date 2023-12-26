@@ -337,6 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400012}
   - component: {fileID: 9500000}
+  - component: {fileID: 2518353950181188253}
   m_Layer: 0
   m_Name: Chassis_Carrier_Lvl2
   m_TagString: Untagged
@@ -383,3 +384,53 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2518353950181188253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructorDataID: 1
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _cost: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _otherEntries: []
+    _valueChanges: []
+    _skillID: 
+  type: 2
+  slots:
+  - isAble: 0
+    slotTrans: {fileID: 400008}
+    adaptTypes: 01000000
+    constructorInstance: {fileID: 0}
+    forbiddenSubSlotTypes: 
+    isForbiddenAllSubSlots: 0
+  - isAble: 0
+    slotTrans: {fileID: 400006}
+    adaptTypes: 0300000005000000
+    constructorInstance: {fileID: 0}
+    forbiddenSubSlotTypes: 
+    isForbiddenAllSubSlots: 1
+  - isAble: 0
+    slotTrans: {fileID: 400006}
+    adaptTypes: 050000000c000000
+    constructorInstance: {fileID: 0}
+    forbiddenSubSlotTypes: 
+    isForbiddenAllSubSlots: 0
+  parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
+  animator: {fileID: 9500000}
+  skillCastPoint: {fileID: 0}
