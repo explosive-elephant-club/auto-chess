@@ -68,7 +68,7 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     /// <param name="_champion"></param>
     /// <param name="_teamID"></param>
-    public void Init(ChampionTeam _team, ChampionManager _championManeger)
+    public void Init(ChampionTeam _team, ChampionManager _championManeger, ConstructorBaseData constructorData = null)
     {
         team = _team;
         if (team == ChampionTeam.Player)
@@ -96,7 +96,11 @@ public class ChampionController : MonoBehaviour
         AIActionFsm = new Fsm();
         InitFsm();
 
-        GetBaseTypeConstructor().Init(this, true);
+        if (constructorData == null)
+            GetBaseTypeConstructor().Init(this, true);
+        else
+            GetBaseTypeConstructor().Init(constructorData, this, true);
+            
         attributesController.Reset();
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }

@@ -77,35 +77,6 @@ public class ChampionManager : MonoBehaviour
         champion.LeaveGrid();
     }
 
-    public bool AddChampionToInventory()
-    {
-        GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.Inventory);
-        if (emptyGrid == null)
-            return false;
-
-        //instantiate champion prefab
-        GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/Champion"));
-
-        //get championController
-        ChampionController championController = championPrefab.GetComponent<ChampionController>();
-
-        //store champion in inventory array
-        StoreChampionInArray(emptyGrid, championController);
-
-        //setup chapioncontroller
-        championController.Init(team, this);
-
-        //set position and rotation
-        championController.SetWorldPosition();
-        championController.SetWorldRotation();
-
-        //set gold on ui
-        UIController.Instance.UpdateUI();
-
-        //return true if succesful buy
-        return true;
-    }
-
     public void AddChampionToInventory(ConstructorBaseData constructorData, GridInfo grid)
     {
         GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/ChampionEmpty"));
@@ -118,7 +89,7 @@ public class ChampionManager : MonoBehaviour
 
         //setup chapioncontroller
         championController.constructors.Add(constructorBase);
-        championController.Init(team, this);
+        championController.Init(team, this, constructorData);
 
         //set position and rotation
         championController.SetWorldPosition();

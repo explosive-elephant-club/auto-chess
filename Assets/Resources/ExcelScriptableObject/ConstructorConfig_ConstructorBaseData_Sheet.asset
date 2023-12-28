@@ -16,79 +16,665 @@ MonoBehaviour:
   ExcelSheetName: ConstructorBaseData
   KeyFieldName: _ID
   elements:
-  - _ID: 1
-    _name: TrackChassis
+  - _ID: 11
+    _name: GM100
     _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
     _type: Base
-    _cost: 3
+    _cost: 10
     _property1: 3ZeroGroup
     _property2: Machine
     _property3: 
-    _otherEntries:
-    - 
+    _Rarity: 0_2
     _valueChanges:
     - maxArmor + 30
-    - maxHealth + 100
-    - maxMana + 100
-    - moveSpeed + 10
-    - electricPower + 5
+    - maxHealth + 50
+    - maxMana + 30
+    - moveSpeed + 5
+    - electricPower + 2
     - armorRegeneration + 3
+    - manaRegeneration + 5
+    _skillID: 00000000
+  - _ID: 12
+    _name: GM100
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 1_2
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 20
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 13
+    _name: GM100
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 2_2
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 20
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 14
+    _name: GM100
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 3_2
+    _valueChanges:
+    - armorRegeneration + 3
+    - manaRegeneration + 5
+    _skillID: 00000000
+  - _ID: 15
+    _name: GM100
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 4_2
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 40
+    - maxMana + 20
+    _skillID: 00000000
+  - _ID: 16
+    _name: GM100
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 5_2
+    _valueChanges:
+    - armorRegeneration + 8
     - manaRegeneration + 10
     _skillID: 00000000
-  - _ID: 2
-    _name: Bot
+  - _ID: 21
+    _name: GM300
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl2
+    _type: Base
+    _cost: 15
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 0_2
+    _valueChanges:
+    - maxArmor + 40
+    - maxHealth + 60
+    - maxMana + 30
+    - moveSpeed + 5
+    - electricPower + 2
+    - armorRegeneration + 5
+    - manaRegeneration + 5
+    _skillID: 00000000
+  - _ID: 22
+    _name: GM300
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl2
+    _type: Base
+    _cost: 15
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 1_2
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 20
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 23
+    _name: GM300
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl2
+    _type: Base
+    _cost: 15
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 2_2
+    _valueChanges:
+    - maxArmor + 15
+    - maxHealth + 30
+    - maxMana + 15
+    _skillID: 00000000
+  - _ID: 24
+    _name: GM300
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl2
+    _type: Base
+    _cost: 15
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 3_2
+    _valueChanges:
+    - armorRegeneration + 5
+    - manaRegeneration + 5
+    _skillID: 00000000
+  - _ID: 25
+    _name: GM300
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl2
+    _type: Base
+    _cost: 15
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 4_2
+    _valueChanges:
+    - maxArmor + 30
+    - maxHealth + 50
+    - maxMana + 20
+    _skillID: 00000000
+  - _ID: 26
+    _name: GM300
+    _prefab: Prefab/Constructor/Base/Chassis_Carrier_Lvl2
+    _type: Base
+    _cost: 15
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 5_2
+    _valueChanges:
+    - armorRegeneration + 12
+    - manaRegeneration + 15
+    _skillID: 00000000
+  - _ID: 31
+    _name: LW100
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 0_2
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 30
+    - maxMana + 30
+    - moveSpeed + 6
+    - electricPower + 2
+    - armorRegeneration + 4
+    - manaRegeneration + 8
+    _skillID: 00000000
+  - _ID: 32
+    _name: LW100
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 1_2
+    _valueChanges:
+    - maxArmor + 5
+    - maxHealth + 10
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 33
+    _name: LW100
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 2_2
+    _valueChanges:
+    - maxArmor + 5
+    - maxHealth + 20
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 34
+    _name: LW100
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 3_2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed + 3
+    _skillID: 00000000
+  - _ID: 35
+    _name: LW100
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 4_2
+    _valueChanges:
+    - maxArmor + 5
+    - maxHealth + 30
+    - maxMana + 20
+    _skillID: 00000000
+  - _ID: 36
+    _name: LW100
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _Rarity: 5_2
+    _valueChanges:
+    - armorRegeneration + 5
+    - manaRegeneration + 15
+    _skillID: 00000000
+  - _ID: 41
+    _name: LW300
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl2
+    _type: Base
+    _cost: 16
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 0_2
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 50
+    - maxMana + 30
+    - moveSpeed + 6
+    - electricPower + 2
+    - armorRegeneration + 5
+    - manaRegeneration + 8
+    _skillID: 00000000
+  - _ID: 42
+    _name: LW300
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl2
+    _type: Base
+    _cost: 16
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 1_2
+    _valueChanges:
+    - maxArmor + 5
+    - maxHealth + 10
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 43
+    _name: LW300
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl2
+    _type: Base
+    _cost: 16
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 2_2
+    _valueChanges:
+    - maxArmor + 5
+    - maxHealth + 20
+    - maxMana + 15
+    _skillID: 00000000
+  - _ID: 44
+    _name: LW300
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl2
+    _type: Base
+    _cost: 16
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 3_2
+    _valueChanges:
+    - maxArmor + 10
+    - moveSpeed + 4
+    _skillID: 00000000
+  - _ID: 45
+    _name: LW300
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl2
+    _type: Base
+    _cost: 16
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 4_2
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 40
+    - maxMana + 20
+    _skillID: 00000000
+  - _ID: 46
+    _name: LW300
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl2
+    _type: Base
+    _cost: 16
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 5_2
+    _valueChanges:
+    - armorRegeneration + 5
+    - manaRegeneration + 15
+    _skillID: 00000000
+  - _ID: 51
+    _name: Python
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl3
+    _type: Base
+    _cost: 20
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 0_2
+    _valueChanges:
+    - maxArmor + 30
+    - maxHealth + 40
+    - maxMana + 30
+    - moveSpeed + 6
+    - electricPower + 3
+    - armorRegeneration + 5
+    - manaRegeneration + 8
+    _skillID: 00000000
+  - _ID: 52
+    _name: Python
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl3
+    _type: Base
+    _cost: 20
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 1_2
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 20
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 53
+    _name: Python
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl3
+    _type: Base
+    _cost: 20
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 2_2
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 20
+    - maxMana + 15
+    _skillID: 00000000
+  - _ID: 54
+    _name: Python
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl3
+    _type: Base
+    _cost: 20
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 3_2
+    _valueChanges:
+    - maxArmor + 10
+    - moveSpeed + 4
+    - maxMana + 10
+    _skillID: 00000000
+  - _ID: 55
+    _name: Python
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl3
+    _type: Base
+    _cost: 20
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 4_2
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 30
+    - maxMana + 20
+    _skillID: 00000000
+  - _ID: 56
+    _name: Python
+    _prefab: Prefab/Constructor/Base/Chassis_Tank_Lvl3
+    _type: Base
+    _cost: 20
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: Power
+    _Rarity: 5_2
+    _valueChanges:
+    - armorRegeneration + 10
+    - manaRegeneration + 15
+    _skillID: 00000000
+  - _ID: 201
+    _name: Thinker1.0
     _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
     _type: Cockpit
-    _cost: 3
+    _cost: 5
     _property1: Helix
     _property2: AI
     _property3: 
-    _otherEntries:
-    - 
+    _Rarity: 0_3
     _valueChanges:
     - maxHealth + 10
     - moveSpeed - 1
-    - addRange + 1
+    - electricPower + 1
     _skillID: 00000000
-  - _ID: 3
-    _name: BackBox
+  - _ID: 202
+    _name: Thinker1.0
+    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _type: Cockpit
+    _cost: 5
+    _property1: Helix
+    _property2: AI
+    _property3: 
+    _Rarity: 1_3
+    _valueChanges:
+    - 
+    _skillID: 00000000
+  - _ID: 203
+    _name: Thinker1.0
+    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _type: Cockpit
+    _cost: 5
+    _property1: Helix
+    _property2: AI
+    _property3: 
+    _Rarity: 2_3
+    _valueChanges:
+    - 
+    _skillID: 00000000
+  - _ID: 204
+    _name: Thinker1.0
+    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _type: Cockpit
+    _cost: 5
+    _property1: Helix
+    _property2: AI
+    _property3: 
+    _Rarity: 3_3
+    _valueChanges:
+    - 
+    _skillID: 00000000
+  - _ID: 205
+    _name: Thinker1.0
+    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _type: Cockpit
+    _cost: 5
+    _property1: Helix
+    _property2: AI
+    _property3: 
+    _Rarity: 4_3
+    _valueChanges:
+    - electricPower + 1
+    _skillID: 00000000
+  - _ID: 206
+    _name: Thinker1.0
+    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _type: Cockpit
+    _cost: 5
+    _property1: Helix
+    _property2: AI
+    _property3: 
+    _Rarity: 5_3
+    _valueChanges:
+    - electricPower + 1
+    _skillID: 00000000
+  - _ID: 301
+    _name: Standard Expansion Backpack
     _prefab: Prefab/Constructor/Backpack/Backpack_Box
     _type: Backpack
     _cost: 3
-    _property1: MatsunoSociety
-    _property2: Energy
+    _property1: MiliForce
+    _property2: Machine
     _property3: 
-    _otherEntries:
-    - 
+    _Rarity: 0_3
     _valueChanges:
-    - maxHealth + 5
-    - electricPower + 1
+    - maxMana + 5
     _skillID: 00000000
-  - _ID: 4
-    _name: TopPlatform
+  - _ID: 302
+    _name: Standard Expansion Backpack
+    _prefab: Prefab/Constructor/Backpack/Backpack_Box
+    _type: Backpack
+    _cost: 3
+    _property1: MiliForce
+    _property2: Machine
+    _property3: 
+    _Rarity: 1_3
+    _valueChanges:
+    - 
+    _skillID: 00000000
+  - _ID: 303
+    _name: Standard Expansion Backpack
+    _prefab: Prefab/Constructor/Backpack/Backpack_Box
+    _type: Backpack
+    _cost: 3
+    _property1: MiliForce
+    _property2: Machine
+    _property3: 
+    _Rarity: 2_3
+    _valueChanges:
+    - 
+    _skillID: 00000000
+  - _ID: 304
+    _name: Standard Expansion Backpack
+    _prefab: Prefab/Constructor/Backpack/Backpack_Box
+    _type: Backpack
+    _cost: 3
+    _property1: MiliForce
+    _property2: Machine
+    _property3: 
+    _Rarity: 3_3
+    _valueChanges:
+    - 
+    _skillID: 00000000
+  - _ID: 305
+    _name: Standard Expansion Backpack
+    _prefab: Prefab/Constructor/Backpack/Backpack_Box
+    _type: Backpack
+    _cost: 3
+    _property1: MiliForce
+    _property2: Machine
+    _property3: 
+    _Rarity: 4_3
+    _valueChanges:
+    - maxMana + 5
+    _skillID: 00000000
+  - _ID: 306
+    _name: Standard Expansion Backpack
+    _prefab: Prefab/Constructor/Backpack/Backpack_Box
+    _type: Backpack
+    _cost: 3
+    _property1: MiliForce
+    _property2: Machine
+    _property3: 
+    _Rarity: 5_3
+    _valueChanges:
+    - maxMana + 5
+    _skillID: 00000000
+  - _ID: 400
+    _name: Standard Extension Platform
     _prefab: Prefab/Constructor/TopPlatform/Top_Weapon_Platform
     _type: TopPlatform
-    _cost: 3
+    _cost: 5
     _property1: MiliForce
     _property2: 
     _property3: 
-    _otherEntries:
-    - 
+    _Rarity: 
     _valueChanges:
-    - maxHealth + 5
-    - fireDamage + 1
+    - 
     _skillID: 00000000
-  - _ID: 5
+  - _ID: 501
     _name: Bazooka
     _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
     _type: Weapon
     _cost: 3
-    _property1: MiliForce
+    _property1: MatsunoSociety
     _property2: Ballistics
     _property3: 
-    _otherEntries:
-    - 
+    _Rarity: 0_3
     _valueChanges:
-    - maxHealth + 5
+    - maxArmor + 5
     - moveSpeed - 1
+    _skillID: 01000000
+  - _ID: 502
+    _name: Bazooka
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Ballistics
+    _property3: 
+    _Rarity: 1_3
+    _valueChanges:
+    - 
+    _skillID: 01000000
+  - _ID: 503
+    _name: Bazooka
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Ballistics
+    _property3: 
+    _Rarity: 2_3
+    _valueChanges:
+    - 
+    _skillID: 01000000
+  - _ID: 504
+    _name: Bazooka
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Ballistics
+    _property3: 
+    _Rarity: 3_3
+    _valueChanges:
+    - 
+    _skillID: 01000000
+  - _ID: 505
+    _name: Bazooka
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Ballistics
+    _property3: 
+    _Rarity: 4_3
+    _valueChanges:
+    - 
+    _skillID: 01000000
+  - _ID: 506
+    _name: Bazooka
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Ballistics
+    _property3: 
+    _Rarity: 5_3
+    _valueChanges:
+    - 
     _skillID: 01000000

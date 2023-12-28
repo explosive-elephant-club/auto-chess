@@ -47,6 +47,14 @@ public class ConstructorBase : MonoBehaviour
     public int constructorDataID;
     [HideInInspector]
     public ConstructorBaseData constructorData;
+
+    [HideInInspector]
+    public ConstructorRarity rarity;
+
+
+
+
+
     //属性修改
     public ValueOperation[] valueOperations = new ValueOperation[0];
     //种类
@@ -64,6 +72,7 @@ public class ConstructorBase : MonoBehaviour
     public Transform skillCastPoint;
     public UnityAction onSkillAnimEffect = new UnityAction(() => { });
     public UnityAction onSkillAnimFinish = new UnityAction(() => { });
+    public Renderer[] renderers;
 
     private void OnEnable()
     {
@@ -87,6 +96,8 @@ public class ConstructorBase : MonoBehaviour
     {
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
+        UnityEngine.Debug.Log(constructorData.ID);
+        rarity = GameExcelConfig.Instance.constructorsRarityArray.Find(c => c.id == constructorData.Rarity);
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
         if (type == ConstructorType.Base)
@@ -96,6 +107,8 @@ public class ConstructorBase : MonoBehaviour
                 s.isAble = true;
             }
         }
+
+        InitPainting();
 
         if (!string.IsNullOrEmpty(constructorData.valueChanges[0]))
         {
@@ -120,6 +133,8 @@ public class ConstructorBase : MonoBehaviour
 
         if (isAutoPackage)
             AutoPackage();
+
+
         championController.skillController.UpdateSkillCapacity();
     }
 
@@ -139,10 +154,28 @@ public class ConstructorBase : MonoBehaviour
         UIController.Instance.championInfoController.UpdateSkillSlot();
     }
 
+    //更换涂装
+    public void InitPainting()
+    {
+        //UnityEngine.Debug.Log(constructorData.name);
+        if (rarity == null)
+        {
+            return;
+        }
+        Material mat = Resources.Load<Material>(rarity.material);
+        foreach (var mesh in renderers)
+        {
+            if (mesh.gameObject.name.Contains("_Geom"))
+            {
+                mesh.materials = new Material[] { mat };
+            }
+        }
+    }
+
     //添加子组件
     public virtual bool attachConstructor(ConstructorBase constructor, ConstructorSlot slot)
     {
-        UnityEngine.Debug.Log(name + " " + slot.isAble);
+        //UnityEngine.Debug.Log(name + " " + slot.isAble);
         if (slot.adaptTypes.Contains(constructor.type) && slot.isAble)
         {
             constructor.gameObject.transform.SetParent(slot.slotTrans);
@@ -154,6 +187,7 @@ public class ConstructorBase : MonoBehaviour
             //禁用子物体所有槽位
             if (slot.isForbiddenAllSubSlots)
             {
+                //UnityEngine.Debug.Log(name + " isForbiddenAllSubSlots");
                 foreach (ConstructorSlot s in constructor.slots)
                 {
                     s.isAble = false;
@@ -163,15 +197,12 @@ public class ConstructorBase : MonoBehaviour
             {
                 foreach (ConstructorSlot s in constructor.slots)
                 {
+                    s.isAble = true;
                     foreach (ConstructorType t in slot.forbiddenSubSlotTypes)
                     {
                         if (s.adaptTypes.Contains(t))
                         {
                             s.isAble = false;
-                        }
-                        else
-                        {
-                            s.isAble = true;
                         }
                     }
                 }

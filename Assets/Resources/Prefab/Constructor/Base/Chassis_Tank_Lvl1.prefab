@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 3300012}
   - component: {fileID: 2300012}
   m_Layer: 0
-  m_Name: Tracks_R_Geom
+  m_Name: Tracks_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 3300014}
   - component: {fileID: 2300014}
   m_Layer: 0
-  m_Name: Tracks_L_Geom
+  m_Name: Tracks_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -886,9 +886,14 @@ MonoBehaviour:
     _property1: 
     _property2: 
     _property3: 
-    _otherEntries: []
+    _Rarity: 
     _valueChanges: []
     _skillID: 
+  rarity:
+    _id: 
+    _c_name: 
+    _material: 
+    _color: 
   type: 2
   slots:
   - isAble: 0
@@ -908,3 +913,11 @@ MonoBehaviour:
   championController: {fileID: 0}
   animator: {fileID: 9500000}
   skillCastPoint: {fileID: 0}
+  renderers:
+  - {fileID: 2300016}
+  - {fileID: 2300010}
+  - {fileID: 2300008}
+  - {fileID: 2300006}
+  - {fileID: 2300004}
+  - {fileID: 2300002}
+  - {fileID: 2300000}

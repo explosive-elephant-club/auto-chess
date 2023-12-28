@@ -51,11 +51,11 @@ public class InventoryController : MonoBehaviour
     {
         AddAllListener();
 
-        AddConstructor(1);
-        AddConstructor(2);
-        AddConstructor(3);
-        AddConstructor(4);
-        AddConstructor(5);
+        AddConstructor(11);
+        AddConstructor(21);
+        AddConstructor(31);
+        AddConstructor(41);
+        AddConstructor(51);
 
         UpdateInventory();
     }

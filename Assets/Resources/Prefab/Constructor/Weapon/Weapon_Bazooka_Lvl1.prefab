@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  constructorDataID: 0
+  constructorDataID: 5
   constructorData:
     _ID: 0
     _name: 
@@ -75,16 +75,23 @@ MonoBehaviour:
     _property1: 
     _property2: 
     _property3: 
-    _otherEntries: []
+    _Rarity: 
     _valueChanges: []
     _skillID: 
+  rarity:
+    _id: 
+    _c_name: 
+    _material: 
+    _color: 
   type: 13
   slots: []
   parentConstructor: {fileID: 0}
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
   animator: {fileID: 9500000}
-  skillCastPoint: {fileID: 400008}
+  skillCastPoint: {fileID: 400016}
+  renderers:
+  - {fileID: 13700000}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

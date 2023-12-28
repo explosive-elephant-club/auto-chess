@@ -51,8 +51,8 @@ namespace ExcelConfig
 		public string property3 { get { return _property3; } }
 
 		[SerializeField]
-		private string[] _otherEntries;
-		public string[] otherEntries { get { return _otherEntries; } }
+		private string _Rarity;
+		public string Rarity { get { return _Rarity; } }
 
 		[SerializeField]
 		private string[] _valueChanges;
@@ -78,11 +78,7 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _property1);
 			TryParse(sheet[row][column++], out _property2);
 			TryParse(sheet[row][column++], out _property3);
-			string[] _otherEntriesArray = sheet[row][column++].Split(',');
-			int _otherEntriesCount = _otherEntriesArray.Length;
-			_otherEntries = new string[_otherEntriesCount];
-			for(int i = 0; i < _otherEntriesCount; i++)
-				TryParse(_otherEntriesArray[i], out _otherEntries[i]);
+			TryParse(sheet[row][column++], out _Rarity);
 			string[] _valueChangesArray = sheet[row][column++].Split(',');
 			int _valueChangesCount = _valueChangesArray.Length;
 			_valueChanges = new string[_valueChangesCount];
