@@ -13,8 +13,7 @@ public class GameExcelConfig : CreateSingleton<GameExcelConfig>
     //public Champion[] championsArray;
 
     public List<ConstructorBaseData> constructorsArray;
-    public List<ConstructorRarity> constructorsRarityArray;
-
+    public List<ConstructorSlotType> constructorSlotTypesArray;
     public List<BaseBuffData> baseBuffsArray;
     public List<ModifyAttributeBuffData> modifyAttributeBuffsArray;
 
@@ -27,8 +26,8 @@ public class GameExcelConfig : CreateSingleton<GameExcelConfig>
         _eeDataManager.Load();
 
         constructorsArray = _eeDataManager.GetList<ConstructorBaseData>();
-        constructorsRarityArray = _eeDataManager.GetList<ConstructorRarity>();
-        
+        constructorSlotTypesArray = _eeDataManager.GetList<ConstructorSlotType>();
+
         baseBuffsArray = _eeDataManager.GetList<BaseBuffData>();
         modifyAttributeBuffsArray = _eeDataManager.GetList<ModifyAttributeBuffData>();
 

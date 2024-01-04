@@ -11,17 +11,16 @@ public enum ConstructorType
 {
     Arm,
     Backpack,
-    Base,
+    Chassis,
     Cockpit,
-    Cockpit_Platform,
+    WeaponPlatform,
     Cockpit_Weapon,
     Gadget_Attach,
     Gadget_Replace,
-    HalfShoulder,
-    Prop,
+    Sidepod,
+    Antenna,
     Shield,
-    SubBase,
-    TopPlatform,
+    Base,
     Weapon
 }
 
@@ -29,16 +28,29 @@ public enum ConstructorType
 [Serializable]
 public class ConstructorSlot
 {
+    public int slotDataID;
+    public Transform slotTrans;
+    [HideInInspector]
+    public ConstructorSlotType slotType;
+    [HideInInspector]
+    public List<ConstructorType> adaptTypes = new List<ConstructorType>();
+
+
+
     [HideInInspector]
     public bool isAble = true;
-    public Transform slotTrans;
-    public List<ConstructorType> adaptTypes;
     public ConstructorBase constructorInstance;
 
-    //禁用子物体槽位类别
-    public List<ConstructorType> forbiddenSubSlotTypes;
-    //是否禁用子物体所有槽位
-    public bool isForbiddenAllSubSlots;
+    public void Init()
+    {
+        slotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotDataID);
+        foreach (var t in slotType.adaptTypes)
+        {
+            if (!string.IsNullOrEmpty(t))
+                adaptTypes.Add((ConstructorType)Enum.Parse(typeof(ConstructorType), t));
+        }
+    }
+
 }
 
 
@@ -47,13 +59,6 @@ public class ConstructorBase : MonoBehaviour
     public int constructorDataID;
     [HideInInspector]
     public ConstructorBaseData constructorData;
-
-    [HideInInspector]
-    public ConstructorRarity rarity;
-
-
-
-
 
     //属性修改
     public ValueOperation[] valueOperations = new ValueOperation[0];
@@ -97,14 +102,16 @@ public class ConstructorBase : MonoBehaviour
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         UnityEngine.Debug.Log(constructorData.ID);
-        rarity = GameExcelConfig.Instance.constructorsRarityArray.Find(c => c.id == constructorData.Rarity);
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
-        if (type == ConstructorType.Base)
+
+        foreach (var s in slots)
         {
-            foreach (var s in slots)
+            s.Init();
+            s.isAble = true;
+            if (type == ConstructorType.Chassis)
             {
-                s.isAble = true;
+
             }
         }
 
@@ -157,19 +164,6 @@ public class ConstructorBase : MonoBehaviour
     //更换涂装
     public void InitPainting()
     {
-        //UnityEngine.Debug.Log(constructorData.name);
-        if (rarity == null)
-        {
-            return;
-        }
-        Material mat = Resources.Load<Material>(rarity.material);
-        foreach (var mesh in renderers)
-        {
-            if (mesh.gameObject.name.Contains("_Geom"))
-            {
-                mesh.materials = new Material[] { mat };
-            }
-        }
     }
 
     //添加子组件
@@ -185,7 +179,7 @@ public class ConstructorBase : MonoBehaviour
             constructor.parentConstructor = this;
 
             //禁用子物体所有槽位
-            if (slot.isForbiddenAllSubSlots)
+            if (slot.slotType.isForbiddenAllChildrenSlots)
             {
                 //UnityEngine.Debug.Log(name + " isForbiddenAllSubSlots");
                 foreach (ConstructorSlot s in constructor.slots)
@@ -198,11 +192,37 @@ public class ConstructorBase : MonoBehaviour
                 foreach (ConstructorSlot s in constructor.slots)
                 {
                     s.isAble = true;
-                    foreach (ConstructorType t in slot.forbiddenSubSlotTypes)
+                    foreach (int id in slot.slotType.forbiddenChildrenSlotTypes)
                     {
-                        if (s.adaptTypes.Contains(t))
+                        if (s.slotDataID == id)
                         {
                             s.isAble = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //禁用父物体所有槽位
+            if (slot.slotType.isForbiddenAllParentsSlots)
+            {
+                //UnityEngine.Debug.Log(name + " isForbiddenAllSubSlots");
+                foreach (ConstructorSlot s in slots)
+                {
+                    s.isAble = false;
+                }
+            }
+            else//禁用父物体对应类别的槽位
+            {
+                foreach (ConstructorSlot s in slots)
+                {
+                    s.isAble = true;
+                    foreach (int id in slot.slotType.forbiddenParentsSlotTypes)
+                    {
+                        if (s.slotDataID == id)
+                        {
+                            s.isAble = false;
+                            break;
                         }
                     }
                 }

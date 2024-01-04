@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 9500000}
+  - component: {fileID: 3928957032837842375}
   m_Layer: 0
   m_Name: Cockpit_Weapon_DoubleGun_Lvl3
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 400002}
   - {fileID: 400004}
@@ -55,6 +56,85 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3928957032837842375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructorDataID: 0
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _cost: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _PaintingType: 
+    _valueChanges: []
+    _skillID: 
+  type: 0
+  slots:
+  - slotDataID: 1001
+    slotTrans: {fileID: 400006}
+    slotType:
+      _ID: 0
+      _name: 
+      _adaptTypes: []
+      _forbiddenChildrenSlotTypes: []
+      _forbiddenParentsSlotTypes: []
+      _isForbiddenAllChildrenSlots: 0
+      _isForbiddenAllParentsSlots: 0
+    adaptTypes: 01000000
+    forbiddenChildrenSlotTypes: 
+    forbiddenParentsSlotTypes: 
+    isAble: 0
+    constructorInstance: {fileID: 0}
+  - slotDataID: 1005
+    slotTrans: {fileID: 400008}
+    slotType:
+      _ID: 0
+      _name: 
+      _adaptTypes: []
+      _forbiddenChildrenSlotTypes: []
+      _forbiddenParentsSlotTypes: []
+      _isForbiddenAllChildrenSlots: 0
+      _isForbiddenAllParentsSlots: 0
+    adaptTypes: 000000000000000000000000
+    forbiddenChildrenSlotTypes: 
+    forbiddenParentsSlotTypes: 
+    isAble: 0
+    constructorInstance: {fileID: 0}
+  - slotDataID: 1005
+    slotTrans: {fileID: 400010}
+    slotType:
+      _ID: 0
+      _name: 
+      _adaptTypes: []
+      _forbiddenChildrenSlotTypes: []
+      _forbiddenParentsSlotTypes: []
+      _isForbiddenAllChildrenSlots: 0
+      _isForbiddenAllParentsSlots: 0
+    adaptTypes: 
+    forbiddenChildrenSlotTypes: 
+    forbiddenParentsSlotTypes: 
+    isAble: 0
+    constructorInstance: {fileID: 0}
+  parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
+  animator: {fileID: 0}
+  skillCastPoint: {fileID: 0}
+  renderers:
+  - {fileID: 13700000}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

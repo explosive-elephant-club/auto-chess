@@ -51,8 +51,8 @@ namespace ExcelConfig
 		public string property3 { get { return _property3; } }
 
 		[SerializeField]
-		private string _Rarity;
-		public string Rarity { get { return _Rarity; } }
+		private string _PaintingType;
+		public string PaintingType { get { return _PaintingType; } }
 
 		[SerializeField]
 		private string[] _valueChanges;
@@ -78,7 +78,7 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _property1);
 			TryParse(sheet[row][column++], out _property2);
 			TryParse(sheet[row][column++], out _property3);
-			TryParse(sheet[row][column++], out _Rarity);
+			TryParse(sheet[row][column++], out _PaintingType);
 			string[] _valueChangesArray = sheet[row][column++].Split(',');
 			int _valueChangesCount = _valueChangesArray.Length;
 			_valueChanges = new string[_valueChangesCount];

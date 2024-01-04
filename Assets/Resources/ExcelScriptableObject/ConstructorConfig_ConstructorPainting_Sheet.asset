@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a4b79ecec22d64ca55eeca1805f43d, type: 3}
+  m_Name: ConstructorConfig_ConstructorPainting_Sheet
+  m_EditorClassIdentifier: 
+  ExcelFileName: ConstructorConfig.xlsx
+  ExcelSheetName: ConstructorPainting
+  KeyFieldName: _id
+  elements:
+  - _id: 1
+    _type: 1
+    _c_name: "\u65E0\u6D82\u88C5"
+    _name: None
+    _material: Materials/Constructs/Humanoids_Mat_Grey
+    _color: '#7D7D7D'
+  - _id: 2
+    _type: 2
+    _c_name: "\u65E0\u6D82\u88C5"
+    _name: None
+    _material: Materials/Constructs/Spiders_Mat_Grey
+    _color: '#7D7D7D'
+  - _id: 3
+    _type: 3
+    _c_name: "\u65E0\u6D82\u88C5"
+    _name: None
+    _material: Materials/Constructs/Turrets_Mat_Grey
+    _color: '#7D7D7D'
+  - _id: 4
+    _type: 1
+    _c_name: "\u767D"
+    _name: White
+    _material: Materials/Constructs/Humanoids_Mat_White
+    _color: '#FFFFFF'
+  - _id: 5
+    _type: 2
+    _c_name: "\u767D"
+    _name: White
+    _material: Materials/Constructs/Spiders_Mat_White
+    _color: '#FFFFFF'
+  - _id: 6
+    _type: 3
+    _c_name: "\u767D"
+    _name: White
+    _material: Materials/Constructs/Turrets_Mat_White
+    _color: '#FFFFFF'
+  - _id: 7
+    _type: 1
+    _c_name: "\u7EFF"
+    _name: Green
+    _material: Materials/Constructs/Humanoids_Mat_Green
+    _color: '#33CC33'
+  - _id: 8
+    _type: 2
+    _c_name: "\u7EFF"
+    _name: Green
+    _material: Materials/Constructs/Spiders_Mat_Green
+    _color: '#33CC33'
+  - _id: 9
+    _type: 3
+    _c_name: "\u7EFF"
+    _name: Green
+    _material: Materials/Constructs/Turrets_Mat_Green
+    _color: '#33CC33'
+  - _id: 10
+    _type: 1
+    _c_name: "\u84DD"
+    _name: Blue
+    _material: Materials/Constructs/Humanoids_Mat_Blue
+    _color: '#0099FF'
+  - _id: 11
+    _type: 2
+    _c_name: "\u84DD"
+    _name: Blue
+    _material: Materials/Constructs/Spiders_Mat_Blue
+    _color: '#0099FF'
+  - _id: 12
+    _type: 3
+    _c_name: "\u84DD"
+    _name: Blue
+    _material: Materials/Constructs/Turrets_Mat_Blue
+    _color: '#0099FF'
+  - _id: 13
+    _type: 1
+    _c_name: "\u9ED1"
+    _name: Black
+    _material: Materials/Constructs/Humanoids_Mat_Black
+    _color: '#000000'
+  - _id: 14
+    _type: 2
+    _c_name: "\u9ED1"
+    _name: Black
+    _material: Materials/Constructs/Spiders_Mat_Black
+    _color: '#000000'
+  - _id: 15
+    _type: 3
+    _c_name: "\u9ED1"
+    _name: Black
+    _material: Materials/Constructs/Turrets_Mat_Black
+    _color: '#000000'
+  - _id: 16
+    _type: 1
+    _c_name: "\u6DF7\u5408\u9EC4"
+    _name: Yellow
+    _material: Materials/Constructs/Humanoids_Mat_Yellow
+    _color: '#FF6600'
+  - _id: 17
+    _type: 2
+    _c_name: "\u6DF7\u5408\u9EC4"
+    _name: Yellow
+    _material: Materials/Constructs/Spiders_Mat_Yellow
+    _color: '#FF6600'
+  - _id: 18
+    _type: 3
+    _c_name: "\u6DF7\u5408\u9EC4"
+    _name: Yellow
+    _material: Materials/Constructs/Turrets_Mat_Yellow
+    _color: '#FF6600'
+  - _id: 19
+    _type: 1
+    _c_name: "\u6DF7\u5408\u7EA2"
+    _name: Red
+    _material: Materials/Constructs/Humanoids_Mat_Red
+    _color: '#EE0000'
+  - _id: 20
+    _type: 2
+    _c_name: "\u6DF7\u5408\u7EA2"
+    _name: Red
+    _material: Materials/Constructs/Spiders_Mat_Red
+    _color: '#EE0000'
+  - _id: 21
+    _type: 3
+    _c_name: "\u6DF7\u5408\u7EA2"
+    _name: Red
+    _material: Materials/Constructs/Turrets_Mat_Red
+    _color: '#EE0000'

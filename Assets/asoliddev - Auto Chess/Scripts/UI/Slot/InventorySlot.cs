@@ -77,7 +77,7 @@ public class InventorySlot : ContainerSlot
         {
             AttachConstructor(UIController.Instance.constructorAssembleController.pointEnterInventorySlot);
         }
-        else if (InputController.Instance.gridInfo != null && constructorData.type == ConstructorType.Base.ToString())
+        else if (InputController.Instance.gridInfo != null && constructorData.type == ConstructorType.Chassis.ToString())
         {
             AddConstructor(InputController.Instance.gridInfo);
         }

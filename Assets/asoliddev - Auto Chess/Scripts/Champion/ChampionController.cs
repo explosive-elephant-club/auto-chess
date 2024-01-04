@@ -100,7 +100,7 @@ public class ChampionController : MonoBehaviour
             GetBaseTypeConstructor().Init(this, true);
         else
             GetBaseTypeConstructor().Init(constructorData, this, true);
-            
+
         attributesController.Reset();
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }
@@ -188,7 +188,7 @@ public class ChampionController : MonoBehaviour
 
     public ConstructorBase GetBaseTypeConstructor()
     {
-        return constructors.Find(c => c.type == ConstructorType.Base);
+        return constructors.Find(c => c.type == ConstructorType.Chassis);
     }
 
     /// <summary>
