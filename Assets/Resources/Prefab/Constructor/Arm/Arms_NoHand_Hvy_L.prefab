@@ -369,12 +369,19 @@ MonoBehaviour:
     _skillID: 
   type: 0
   slots:
-  - isAble: 0
+  - slotDataID: 0
     slotTrans: {fileID: 400014}
+    slotType:
+      _ID: 0
+      _name: 
+      _adaptTypes: []
+      _forbiddenChildrenSlotTypes: 
+      _forbiddenParentsSlotTypes: 
+      _isForbiddenAllChildrenSlots: 0
+      _isForbiddenAllParentsSlots: 0
     adaptTypes: 0600000007000000
+    isAble: 0
     constructorInstance: {fileID: 0}
-    forbiddenSubSlotTypes: 
-    isForbiddenAllSubSlots: 0
   parentConstructor: {fileID: 0}
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}

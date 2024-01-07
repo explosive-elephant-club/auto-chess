@@ -21,7 +21,9 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public EventCenter eventCenter = new EventCenter();
     public ChampionManager ownChampionManager;
     public ChampionManager oponentChampionManager;
-    public CameraController cameraController;
+    public MainCameraController mainCameraController;
+    public GOToUICameraController _GOToUICameraController;
+
 
     Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 

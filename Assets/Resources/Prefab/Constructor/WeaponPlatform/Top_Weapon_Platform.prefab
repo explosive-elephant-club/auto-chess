@@ -66,13 +66,11 @@ MonoBehaviour:
       _ID: 0
       _name: 
       _adaptTypes: []
-      _forbiddenChildrenSlotTypes: []
-      _forbiddenParentsSlotTypes: []
+      _forbiddenChildrenSlotTypes: 
+      _forbiddenParentsSlotTypes: 
       _isForbiddenAllChildrenSlots: 0
       _isForbiddenAllParentsSlots: 0
     adaptTypes: 0d000000
-    forbiddenChildrenSlotTypes: 
-    forbiddenParentsSlotTypes: 
     isAble: 0
     constructorInstance: {fileID: 0}
   parentConstructor: {fileID: 0}

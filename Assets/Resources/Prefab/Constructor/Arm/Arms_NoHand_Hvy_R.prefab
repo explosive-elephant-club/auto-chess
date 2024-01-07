@@ -355,17 +355,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constructorDataID: 0
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _cost: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _PaintingType: 
+    _valueChanges: []
+    _skillID: 
   type: 0
   slots:
-  - isAble: 0
+  - slotDataID: 0
     slotTrans: {fileID: 400014}
+    slotType:
+      _ID: 0
+      _name: 
+      _adaptTypes: []
+      _forbiddenChildrenSlotTypes: 
+      _forbiddenParentsSlotTypes: 
+      _isForbiddenAllChildrenSlots: 0
+      _isForbiddenAllParentsSlots: 0
     adaptTypes: 0600000007000000
+    isAble: 0
     constructorInstance: {fileID: 0}
-    forbiddenSubSlotTypes: 
-    isForbiddenAllSubSlots: 0
   parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
   animator: {fileID: 0}
   skillCastPoint: {fileID: 400014}
+  renderers: []
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

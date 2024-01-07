@@ -417,13 +417,11 @@ MonoBehaviour:
       _ID: 0
       _name: 
       _adaptTypes: []
-      _forbiddenChildrenSlotTypes: []
-      _forbiddenParentsSlotTypes: []
+      _forbiddenChildrenSlotTypes: 
+      _forbiddenParentsSlotTypes: 
       _isForbiddenAllChildrenSlots: 0
       _isForbiddenAllParentsSlots: 0
     adaptTypes: 01000000
-    forbiddenChildrenSlotTypes: 
-    forbiddenParentsSlotTypes: 
     isAble: 0
     constructorInstance: {fileID: 0}
   - slotDataID: 1000
@@ -432,13 +430,11 @@ MonoBehaviour:
       _ID: 0
       _name: 
       _adaptTypes: []
-      _forbiddenChildrenSlotTypes: []
-      _forbiddenParentsSlotTypes: []
+      _forbiddenChildrenSlotTypes: 
+      _forbiddenParentsSlotTypes: 
       _isForbiddenAllChildrenSlots: 0
       _isForbiddenAllParentsSlots: 0
     adaptTypes: 0300000005000000
-    forbiddenChildrenSlotTypes: 
-    forbiddenParentsSlotTypes: 
     isAble: 0
     constructorInstance: {fileID: 0}
   - slotDataID: 1002
@@ -447,13 +443,11 @@ MonoBehaviour:
       _ID: 0
       _name: 
       _adaptTypes: []
-      _forbiddenChildrenSlotTypes: []
-      _forbiddenParentsSlotTypes: []
+      _forbiddenChildrenSlotTypes: 
+      _forbiddenParentsSlotTypes: 
       _isForbiddenAllChildrenSlots: 0
       _isForbiddenAllParentsSlots: 0
     adaptTypes: 050000000c000000030000000b000000
-    forbiddenChildrenSlotTypes: 
-    forbiddenParentsSlotTypes: 
     isAble: 0
     constructorInstance: {fileID: 0}
   parentConstructor: {fileID: 0}

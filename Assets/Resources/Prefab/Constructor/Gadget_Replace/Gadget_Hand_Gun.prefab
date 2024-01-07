@@ -65,11 +65,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constructorDataID: 0
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _cost: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _PaintingType: 
+    _valueChanges: []
+    _skillID: 
   type: 7
   slots: []
   parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
   animator: {fileID: 0}
   skillCastPoint: {fileID: 400002}
+  renderers: []
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

@@ -88,7 +88,7 @@ public class UIController : CreateSingleton<UIController>
         if (viewMode != ViewMode.Battle)
         {
             viewMode = ViewMode.Battle;
-            GamePlayController.Instance.cameraController.OnEnterBattleViewMode();
+            GamePlayController.Instance.mainCameraController.OnEnterBattleViewMode();
         }
     }
 
@@ -98,7 +98,7 @@ public class UIController : CreateSingleton<UIController>
         if (viewMode != ViewMode.Logistics)
         {
             viewMode = ViewMode.Logistics;
-            GamePlayController.Instance.cameraController.OnEnterLogisticsViewMode();
+            GamePlayController.Instance.mainCameraController.OnEnterLogisticsViewMode();
         }
     }
 

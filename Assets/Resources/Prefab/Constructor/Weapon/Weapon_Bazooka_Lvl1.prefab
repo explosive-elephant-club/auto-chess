@@ -75,14 +75,9 @@ MonoBehaviour:
     _property1: 
     _property2: 
     _property3: 
-    _Rarity: 
+    _PaintingType: 
     _valueChanges: []
     _skillID: 
-  rarity:
-    _id: 
-    _c_name: 
-    _material: 
-    _color: 
   type: 13
   slots: []
   parentConstructor: {fileID: 0}

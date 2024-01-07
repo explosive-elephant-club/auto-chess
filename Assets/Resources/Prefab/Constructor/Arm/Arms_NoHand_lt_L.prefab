@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 400012}
   - component: {fileID: 9500000}
   m_Layer: 0
-  m_Name: Arm_L
+  m_Name: Arms_NoHand_lt_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -266,6 +266,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Props_Battery_Lvl3
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 9e8528cb46f16184abeaa8dcddccd413, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 9e8528cb46f16184abeaa8dcddccd413, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9e8528cb46f16184abeaa8dcddccd413, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -334,6 +342,14 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 9e8528cb46f16184abeaa8dcddccd413, type: 3}
       propertyPath: m_Name
       value: Props_Battery_Lvl3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 9e8528cb46f16184abeaa8dcddccd413, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 9e8528cb46f16184abeaa8dcddccd413, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9e8528cb46f16184abeaa8dcddccd413, type: 3}
       propertyPath: m_RootOrder

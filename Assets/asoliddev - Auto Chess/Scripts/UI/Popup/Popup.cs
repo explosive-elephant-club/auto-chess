@@ -86,7 +86,7 @@ public class Popup : MonoBehaviour
             targetLength = targetUI.GetComponent<RectTransform>().rect.height;
         }
         float offset = (targetLength + selfLength) + length;
-        transform.position = targetUI.transform.position + dir.normalized * offset;
+        transform.position = Input.mousePosition + dir.normalized * offset;
     }
 
     public void Nail()

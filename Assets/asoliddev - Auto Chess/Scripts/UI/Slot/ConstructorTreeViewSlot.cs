@@ -12,18 +12,15 @@ using System;
 public class ConstructorTreeViewSlot : ContainerSlot
 {
     Image icon;
-    TextMeshProUGUI text;
-    Toggle expandToggle;
     public Transform subTab;
 
     RectTransform slotRect;
     RectTransform subTabRect;
-
+    Camera cam;
 
 
     ConstructorAssembleController controller;
 
-    public Sprite emptyIcon;
     public Sprite constructorIcon;
 
     public ConstructorSlot constructorSlot;
@@ -34,13 +31,35 @@ public class ConstructorTreeViewSlot : ContainerSlot
     // Start is called before the first frame update
     void Awake()
     {
-        icon = transform.Find("Icon").GetComponent<Image>();
-        emptyIcon = icon.sprite;
-        text = transform.Find("TypeText").GetComponent<TextMeshProUGUI>();
-        expandToggle = transform.Find("Toggle").GetComponent<Toggle>();
-        subTab = transform.parent.Find("SubTab");
-        slotRect = transform.parent.GetComponent<RectTransform>();
-        subTabRect = subTab.GetComponent<RectTransform>();
+        icon = transform.Find("ConstructorInfo/FrameMask/Icon").GetComponent<Image>();
+        cam = GameObject.Find("3DToUICamera").GetComponent<Camera>();
+    }
+    private void Update()
+    {
+        if (constructorSlot != null)
+        {
+            if (constructorSlot.slotTrans != null)
+                transform.position = GetScreenPosition(constructorSlot.slotTrans) + controller.GetComponent<RectTransform>().transform.position;
+        }
+        else
+        {
+            if (constructor != null)
+            {
+                transform.position = GetScreenPosition(constructor.transform) + controller.GetComponent<RectTransform>().transform.position;
+            }
+        }
+
+
+    }
+
+    public Vector3 GetScreenPosition(Transform target)
+    {
+        Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
+        RectTransform canvasRtm = controller.GetComponent<RectTransform>();
+        Vector2 uguiPos = Vector2.zero;
+        uguiPos.x = (viewportPos.x - 0.5f) * canvasRtm.sizeDelta.x * 3f;
+        uguiPos.y = (viewportPos.y - 0.5f) * canvasRtm.sizeDelta.y * 3f;
+        return uguiPos;
     }
 
     public void Init(ConstructorAssembleController _controller, ConstructorTreeViewSlot _parent, ConstructorSlot _constructorSlot)
@@ -54,47 +73,30 @@ public class ConstructorTreeViewSlot : ContainerSlot
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
 
+
         if (constructor != null)
         {
-            expandToggle.onValueChanged.RemoveAllListeners();
             onPointerDownEvent.AddListener(OnPointerDownEvent);
             onPointerUpEvent.AddListener(OnPointerUpEvent);
             onDragEvent.AddListener(OnDragEvent);
 
             StartCoroutine(LoadIcon(constructor.gameObject));
-            text.text = constructor.parentConstructor.slots.Find(s => s.constructorInstance == constructor).slotTrans.name;
             if (constructor.slots.Count > 0)
             {
-                expandToggle.gameObject.SetActive(true);
-                expandToggle.onValueChanged.AddListener((bool var) =>
-                {
-                    if (var)
-                        ExpandSubSlot();
-                    else
-                        ClearSubSlot();
-                });
-            }
-            else
-            {
-                expandToggle.gameObject.SetActive(false);
+                ExpandSubSlot();
             }
         }
         else
         {
-            text.text = _constructorSlot.slotTrans.name;
-
-            expandToggle.gameObject.SetActive(false);
             icon.gameObject.SetActive(false);
         }
-
     }
 
-    public void Init(ConstructorAssembleController _controller, ConstructorBase _constructor)
+    public void ChassisConstructorInit(ConstructorAssembleController _controller, ConstructorBase _constructor)
     {
         controller = _controller;
         constructor = _constructor;
         ClearAllListener();
-        expandToggle.onValueChanged.RemoveAllListeners();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
         //onPointerDownEvent.AddListener(OnPointerDownEvent);
@@ -102,27 +104,12 @@ public class ConstructorTreeViewSlot : ContainerSlot
         //onDragEvent.AddListener(OnDragEvent);
 
         StartCoroutine(LoadIcon(constructor.gameObject));
-        text.text = _constructor.type.ToString();
 
         if (constructor.slots.Count > 0)
         {
-            expandToggle.gameObject.SetActive(true);
-            expandToggle.onValueChanged.AddListener((bool var) =>
-            {
-                if (var)
-                    ExpandSubSlot();
-                else
-                    ClearSubSlot();
-            });
+            ExpandSubSlot();
         }
-        else
-        {
-            expandToggle.gameObject.SetActive(false);
-        }
-
     }
-
-
     public IEnumerator LoadIcon(GameObject obj)
     {
         icon.gameObject.SetActive(true);
@@ -135,15 +122,18 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public void ExpandSubSlot()
     {
+        Debug.Log("ExpandSubSlot " + constructor.gameObject);
         foreach (var s in constructor.slots)
         {
+            Debug.Log(s.slotTrans.name);
             GameObject obj = controller.NewConstructorSlot();
-            ConstructorTreeViewSlot treeViewSlot = obj.transform.Find("ConstructorInfo").GetComponentInChildren<ConstructorTreeViewSlot>();
+            obj.transform.SetParent(subTab);
+            ConstructorTreeViewSlot treeViewSlot = obj.GetComponent<ConstructorTreeViewSlot>();
             treeViewSlot.Init(controller, this, s);
-            treeViewSlot.transform.parent.SetParent(subTab);
+
             children.Add(treeViewSlot);
         }
-        StartCoroutine(controller.AllLayoutRebuilder(this));
+
     }
 
     public void ClearSubSlot()
@@ -151,40 +141,59 @@ public class ConstructorTreeViewSlot : ContainerSlot
         foreach (var c in children)
         {
             c.ClearSubSlot();
-            c.Clear();
+            c.Reset();
             controller.RecyclingConstructorSlot(c);
         }
         children.Clear();
-        if (controller != null)
-            StartCoroutine(controller.AllLayoutRebuilder(this));
     }
-
-    public void Clear()
+    public void Reset()
     {
-        icon.sprite = emptyIcon;
-        text.text = "";
+        constructorSlot = null;
+        constructor = null;
+        parent = null;
+        icon.gameObject.SetActive(false);
         ClearAllListener();
-        expandToggle.isOn = false;
     }
-
-    public IEnumerator UpdateRectSize()
+    public void OnPointerUpEvent(PointerEventData eventData)
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(subTabRect);
-        yield return new WaitForEndOfFrame();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(slotRect);
-        yield return new WaitForEndOfFrame();
-        if (parent != null)
+        icon.gameObject.SetActive(true);
+        draggedUI.OnPointerUp(eventData);
+        if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
         {
-            parent.UpdateRectSize();
+            AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
         }
-    }
+        else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
+        {
+            RemoveConstructor();
+        }
 
+    }
     public void OnPointerDownEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(false);
         draggedUI.Init(icon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
+    }
+
+
+    public void OnDragEvent(PointerEventData eventData)
+    {
+        draggedUI.OnDrag(eventData);
+    }
+
+    public void OnPointerEnterEvent(PointerEventData eventData)
+    {
+        controller.pointEnterInventorySlot = this;
+        if (constructor != null)
+            UIController.Instance.popupController.constructorPopup.Show
+                   (constructor.constructorData, this.gameObject, Vector3.right);
+    }
+
+    public void OnPointerExitEvent(PointerEventData eventData)
+    {
+        controller.pointEnterInventorySlot = null;
+        UIController.Instance.popupController.constructorPopup.Clear();
     }
 
     public bool AttachConstructor(ConstructorBaseData constructorData)
@@ -205,42 +214,25 @@ public class ConstructorTreeViewSlot : ContainerSlot
     {
         List<ConstructorBaseData> removedData = parent.constructor.removeConstructor(constructorSlot);
         ClearSubSlot();
-        Clear();
+        Reset();
         Init(controller, parent, constructorSlot);
         UIController.Instance.inventoryController.AddConstructors(removedData);
     }
 
-    public void OnPointerUpEvent(PointerEventData eventData)
+    /*
+    public IEnumerator UpdateRectSize()
     {
-        icon.gameObject.SetActive(true);
-        draggedUI.OnPointerUp(eventData);
-        if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
+        LayoutRebuilder.ForceRebuildLayoutImmediate(subTabRect);
+        yield return new WaitForEndOfFrame();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(slotRect);
+        yield return new WaitForEndOfFrame();
+        if (parent != null)
         {
-            AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
+            parent.UpdateRectSize();
         }
-        else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
-        {
-            RemoveConstructor();
-        }
-
     }
+    
 
-    public void OnDragEvent(PointerEventData eventData)
-    {
-        draggedUI.OnDrag(eventData);
-    }
-
-    public void OnPointerEnterEvent(PointerEventData eventData)
-    {
-        controller.pointEnterInventorySlot = this;
-        if (constructor != null)
-            UIController.Instance.popupController.constructorPopup.Show
-                   (constructor.constructorData, this.gameObject, Vector3.right);
-    }
-
-    public void OnPointerExitEvent(PointerEventData eventData)
-    {
-        controller.pointEnterInventorySlot = null;
-        UIController.Instance.popupController.constructorPopup.Clear();
-    }
+    
+     */
 }

@@ -97,9 +97,9 @@ public class ChampionController : MonoBehaviour
         InitFsm();
 
         if (constructorData == null)
-            GetBaseTypeConstructor().Init(this, true);
+            GetChassisConstructor().Init(this, true);
         else
-            GetBaseTypeConstructor().Init(constructorData, this, true);
+            GetChassisConstructor().Init(constructorData, this, true);
 
         attributesController.Reset();
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
@@ -186,7 +186,7 @@ public class ChampionController : MonoBehaviour
         effects = new List<Effect>();
     }
 
-    public ConstructorBase GetBaseTypeConstructor()
+    public ConstructorBase GetChassisConstructor()
     {
         return constructors.Find(c => c.type == ConstructorType.Chassis);
     }

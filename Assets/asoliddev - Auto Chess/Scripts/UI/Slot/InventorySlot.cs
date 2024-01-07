@@ -46,10 +46,12 @@ public class InventorySlot : ContainerSlot
 
     public void AttachConstructor(ConstructorTreeViewSlot constructorTreeViewSlot)
     {
+        /*
         if (constructorTreeViewSlot.AttachConstructor(constructorData))
         {
             UIController.Instance.inventoryController.RemoveConstructor(constructorData);
         }
+        */
     }
 
     public void AddConstructor(GridInfo grid)

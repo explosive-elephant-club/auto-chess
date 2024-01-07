@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class MainCameraController : MonoBehaviour
 {
     public Camera mainCamera;
     public Camera worldCanvasCamera;

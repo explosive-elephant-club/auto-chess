@@ -196,6 +196,28 @@ public class ChampionManager : MonoBehaviour
         return farthestTarget;
     }
 
+    void SetPickedChampion(ChampionController championCtrl)
+    {
+        if (pickedChampion != null)
+        {
+            foreach (Transform tran in pickedChampion.GetComponentsInChildren<Transform>())
+            {
+                tran.gameObject.layer = 0;
+            }
+        }
+        pickedChampion = championCtrl;
+        if (pickedChampion != null)
+        {
+            foreach (Transform tran in pickedChampion.GetComponentsInChildren<Transform>())
+            {
+                tran.gameObject.layer = 9;
+            }
+            GamePlayController.Instance._GOToUICameraController.ResetCam();
+            GamePlayController.Instance._GOToUICameraController.cameraTarget = pickedChampion.transform;
+        }
+
+    }
+
     public void PickChampion()
     {
         if (InputController.Instance.ui == null)
@@ -209,13 +231,13 @@ public class ChampionManager : MonoBehaviour
                 ChampionController championCtrl = gridInfo.occupyChampion;
                 if (championCtrl != null)
                 {
-                    pickedChampion = championCtrl;
+                    SetPickedChampion(championCtrl);
                     UIController.Instance.championInfoController.UpdateUI();
                     UIController.Instance.constructorAssembleController.UpdateUI();
                     return;
                 }
             }
-            pickedChampion = null;
+            SetPickedChampion(null);
             UIController.Instance.championInfoController.UpdateUI();
             UIController.Instance.constructorAssembleController.UpdateUI();
         }
@@ -239,7 +261,7 @@ public class ChampionManager : MonoBehaviour
         //hide indicators
         //Map.Instance.HideIndicators();
 
-        if (pickedChampion != null && InputController.Instance.ui == null && !UIController.Instance.isSlotUIDragged)
+        if (pickedChampion != null && !UIController.Instance.isSlotUIDragged)
         {
             //set dragged
             pickedChampion.IsDragged = false;
