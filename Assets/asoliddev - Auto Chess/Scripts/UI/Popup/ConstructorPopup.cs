@@ -12,6 +12,7 @@ using UnityEngine.EventSystems;
 public class ConstructorPopup : Popup
 {
     public TextMeshProUGUI constructorName;
+    public TextMeshProUGUI typeName;
     public TextPair cost;
 
     public Transform typeContent;
@@ -40,6 +41,7 @@ public class ConstructorPopup : Popup
     public void Show(ConstructorBaseData constructorData, GameObject targetUI, Vector3 dir)
     {
         constructorName.text = constructorData.name.ToString();
+        typeName.text = constructorData.type.ToString();
         cost.value.text = constructorData.cost.ToString();
         UpdateTypesInfo(constructorData);
         UpdateAttributeInfo(constructorData);

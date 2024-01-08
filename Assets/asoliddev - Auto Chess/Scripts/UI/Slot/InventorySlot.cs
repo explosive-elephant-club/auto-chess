@@ -12,18 +12,19 @@ public class InventorySlot : ContainerSlot
 {
     RectTransform rect;
     Image icon;
+    Transform[] slots;
     public ConstructorBaseData constructorData;
 
     // Start is called before the first frame update
     void Awake()
     {
         icon = transform.Find("Icon").GetComponent<Image>();
+        //slots = transform.Find("Panel").GetComponentsInChildren<Transform>();
     }
 
     public void Init(ConstructorBaseData _constructorData)
     {
         constructorData = _constructorData;
-
 
         StartCoroutine(LoadIcon());
         ClearAllListener();
@@ -75,9 +76,9 @@ public class InventorySlot : ContainerSlot
     {
         icon.gameObject.SetActive(true);
         draggedUI.OnPointerUp(eventData);
-        if (UIController.Instance.constructorAssembleController.pointEnterInventorySlot != null)
+        if (UIController.Instance.constructorAssembleController.pointEnterTreeViewSlot != null)
         {
-            AttachConstructor(UIController.Instance.constructorAssembleController.pointEnterInventorySlot);
+            AttachConstructor(UIController.Instance.constructorAssembleController.pointEnterTreeViewSlot);
         }
         else if (InputController.Instance.gridInfo != null && constructorData.type == ConstructorType.Chassis.ToString())
         {

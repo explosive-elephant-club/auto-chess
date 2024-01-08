@@ -101,7 +101,6 @@ public class ConstructorBase : MonoBehaviour
     {
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
-        UnityEngine.Debug.Log(constructorData.ID);
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 

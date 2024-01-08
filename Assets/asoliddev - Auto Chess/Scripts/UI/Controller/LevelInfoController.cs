@@ -42,8 +42,8 @@ public class LevelInfoController : MonoBehaviour
 
     public void OnShopBtnClicked()
     {
-        UIController.Instance.shopController.gameObject.SetActive
-            (!UIController.Instance.shopController.gameObject.activeSelf);
+        UIController.Instance.shopController.SetUIActive
+            (!UIController.Instance.shopController.canvasGroup.interactable);
     }
     public void OnReadyBtnClicked()
     {

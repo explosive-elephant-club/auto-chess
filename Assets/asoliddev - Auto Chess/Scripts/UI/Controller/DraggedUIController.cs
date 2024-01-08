@@ -33,9 +33,9 @@ public class DraggedUIController : MonoBehaviour
     {
         icon.sprite = _icon;
         Vector2 size = ui.GetComponent<RectTransform>().sizeDelta;
-        float min = size.x > size.y ? size.y : size.x;
+        //float min = size.x > size.y ? size.y : size.x;
 
-        GetComponent<RectTransform>().sizeDelta = new Vector2(min, min);
+        //GetComponent<RectTransform>().sizeDelta = new Vector2(min, min);
         SetUIActive(true);
     }
 

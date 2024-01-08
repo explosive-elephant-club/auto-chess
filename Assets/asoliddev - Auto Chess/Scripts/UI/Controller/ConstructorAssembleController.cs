@@ -9,23 +9,28 @@ public class ConstructorAssembleController : MonoBehaviour
 {
     public GameObject constructorSlotPrefab;
     public ConstructorTreeViewSlot chassisSlot;
-    public ConstructorTreeViewSlot pointEnterInventorySlot;
+    public ConstructorTreeViewSlot pointEnterTreeViewSlot;
+    public GameObject constructorPanel;
     public Slider pitchSlider;
     public Slider yawSlider;
     public Button zoomInBtn;
     public Button zoomOutBtn;
+    public Toggle editToggle;
     float[] zoomValues = { 2, 2.5f, 3, 3.5f, 4 };
     int zoomIndex = 2;
     public TextMeshProUGUI zoomValueText;
     GOToUICameraController camController;
-
-    Transform DisableSlotsParent;
+    [HideInInspector]
+    public Transform DisableSlotsParent;
+    [HideInInspector]
+    public Transform lineLayer;
     CanvasGroup canvasGroup;
 
     // Start is called before the first frame update
     void Awake()
     {
-        DisableSlotsParent = transform.Find("Panel/DisableSlots");
+        DisableSlotsParent = constructorPanel.transform.Find("DisableSlots");
+        lineLayer = constructorPanel.transform.Find("LineLayer");
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
 
@@ -41,6 +46,7 @@ public class ConstructorAssembleController : MonoBehaviour
         yawSlider.onValueChanged.AddListener(UpdateYawSlider);
         zoomInBtn.onClick.AddListener(ZoomInBtnClick);
         zoomOutBtn.onClick.AddListener(ZoomOutBtnClick);
+        editToggle.onValueChanged.AddListener(editToggleClick);
     }
 
     void UpdatePitchSlider(float value)
@@ -69,6 +75,10 @@ public class ConstructorAssembleController : MonoBehaviour
             zoomValueText.text = (zoomValues[zoomIndex] / zoomValues[0]).ToString("0.00");
         }
     }
+    void editToggleClick(bool value)
+    {
+        constructorPanel.SetActive(value);
+    }
 
     public void UpdateUI()
     {
@@ -79,7 +89,7 @@ public class ConstructorAssembleController : MonoBehaviour
             zoomIndex = 2;
             camController.UpdateZoom(zoomValues[zoomIndex]);
             zoomValueText.text = (zoomValues[zoomIndex] / zoomValues[0]).ToString("0.00");
-
+            editToggle.isOn = true;
             ConstructorBase chassisConstructor = GamePlayController.Instance.ownChampionManager.pickedChampion.GetChassisConstructor();
             chassisSlot.ChassisConstructorInit(this, chassisConstructor);
             SetUIActive(true);
@@ -124,11 +134,6 @@ public class ConstructorAssembleController : MonoBehaviour
         }
         GameObject instance = Instantiate(constructorSlotPrefab, DisableSlotsParent);
         return instance;
-    }
-
-    public void RecyclingConstructorSlot(ConstructorTreeViewSlot slot)
-    {
-        slot.transform.SetParent(DisableSlotsParent);
     }
 
     /*

@@ -14,6 +14,7 @@ public class ShopConstructBtn : ContainerSlot
     public Image characterImage;
     public GameObject[] typeIconArray;
     public TextMeshProUGUI nameText;
+    public TextMeshProUGUI typeText;
     public TextMeshProUGUI buyCostText;
     public TextMeshProUGUI addCostText;
 
@@ -50,6 +51,7 @@ public class ShopConstructBtn : ContainerSlot
         disablePanel.SetActive(false);
         constructorData = data;
         nameText.text = constructorData.name;
+        typeText.text = constructorData.type.ToString();
         buyCostText.text = constructorData.cost.ToString();
         UpdateType();
     }

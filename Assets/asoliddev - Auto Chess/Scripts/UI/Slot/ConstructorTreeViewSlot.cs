@@ -9,17 +9,21 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 using System;
 
-public class ConstructorTreeViewSlot : ContainerSlot
+public class ConstructorTreeViewSlot : MonoBehaviour
 {
-    Image icon;
+    [HideInInspector]
+    public Image icon;
     public Transform subTab;
 
     RectTransform slotRect;
     RectTransform subTabRect;
     Camera cam;
+    [HideInInspector]
+    public Image lineImage;
+    public GameObject linePrefab;
 
-
-    ConstructorAssembleController controller;
+    [HideInInspector]
+    public ConstructorAssembleController controller;
 
     public Sprite constructorIcon;
 
@@ -27,13 +31,20 @@ public class ConstructorTreeViewSlot : ContainerSlot
     public ConstructorBase constructor;
     public List<ConstructorTreeViewSlot> children = new List<ConstructorTreeViewSlot>();
     public ConstructorTreeViewSlot parent;
+    ConstructorTreeViewInfo constructorTreeViewInfo;
 
     // Start is called before the first frame update
     void Awake()
     {
         icon = transform.Find("ConstructorInfo/FrameMask/Icon").GetComponent<Image>();
         cam = GameObject.Find("3DToUICamera").GetComponent<Camera>();
+        constructorTreeViewInfo = transform.Find("ConstructorInfo").GetComponent<ConstructorTreeViewInfo>();
     }
+    void Start()
+    {
+
+    }
+
     private void Update()
     {
         if (constructorSlot != null)
@@ -48,8 +59,34 @@ public class ConstructorTreeViewSlot : ContainerSlot
                 transform.position = GetScreenPosition(constructor.transform) + controller.GetComponent<RectTransform>().transform.position;
             }
         }
+        if (parent != null)
+        {
+            SetLine(transform.position, parent.transform.position);
+        }
 
+    }
 
+    public void SetLine(Vector3 startPoint, Vector3 endPoint)
+    {
+        if (lineImage == null)
+        {
+            return;
+        }
+        // 角度计算
+        Vector2 dir = endPoint - startPoint;
+        Vector2 dirV2 = new Vector2(dir.x, dir.y);
+        float angle = Vector2.SignedAngle(dirV2, Vector2.down);
+
+        // 距离长度，偏转设置
+        lineImage.transform.Rotate(0, 0, angle);
+        lineImage.transform.localRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
+        float distance = Vector2.Distance(endPoint, startPoint);
+
+        lineImage.rectTransform.sizeDelta = new Vector2(0.5f, distance / 2);
+
+        // 设置位置
+        dir = endPoint + startPoint;
+        lineImage.GetComponent<RectTransform>().position = new Vector3((float)(dir.x * 0.5f), (float)(dir.y * 0.5f), 0f);
     }
 
     public Vector3 GetScreenPosition(Transform target)
@@ -67,18 +104,19 @@ public class ConstructorTreeViewSlot : ContainerSlot
         controller = _controller;
         parent = _parent;
         constructorSlot = _constructorSlot;
-        constructor = constructorSlot.constructorInstance;
+        if (constructorSlot.constructorInstance != null)
+            constructor = constructorSlot.constructorInstance;
 
-        ClearAllListener();
-        onPointerEnterEvent.AddListener(OnPointerEnterEvent);
-        onPointerExitEvent.AddListener(OnPointerExitEvent);
+        constructorTreeViewInfo.Init(this);
+        constructorTreeViewInfo.onPointerEnterEvent.AddListener(constructorTreeViewInfo.OnPointerEnterEvent);
+        constructorTreeViewInfo.onPointerExitEvent.AddListener(constructorTreeViewInfo.OnPointerExitEvent);
 
 
         if (constructor != null)
         {
-            onPointerDownEvent.AddListener(OnPointerDownEvent);
-            onPointerUpEvent.AddListener(OnPointerUpEvent);
-            onDragEvent.AddListener(OnDragEvent);
+            constructorTreeViewInfo.onPointerDownEvent.AddListener(constructorTreeViewInfo.OnPointerDownEvent);
+            constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
+            constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
 
             StartCoroutine(LoadIcon(constructor.gameObject));
             if (constructor.slots.Count > 0)
@@ -90,15 +128,28 @@ public class ConstructorTreeViewSlot : ContainerSlot
         {
             icon.gameObject.SetActive(false);
         }
+
+        if (_parent != null)
+        {
+            if (lineImage == null)
+            {
+                lineImage = Instantiate(linePrefab, controller.lineLayer).GetComponent<Image>();
+            }
+            else
+            {
+                lineImage.gameObject.SetActive(true);
+            }
+        }
     }
 
     public void ChassisConstructorInit(ConstructorAssembleController _controller, ConstructorBase _constructor)
     {
         controller = _controller;
         constructor = _constructor;
-        ClearAllListener();
-        onPointerEnterEvent.AddListener(OnPointerEnterEvent);
-        onPointerExitEvent.AddListener(OnPointerExitEvent);
+
+        constructorTreeViewInfo.Init(this);
+        constructorTreeViewInfo.onPointerEnterEvent.AddListener(constructorTreeViewInfo.OnPointerEnterEvent);
+        constructorTreeViewInfo.onPointerExitEvent.AddListener(constructorTreeViewInfo.OnPointerExitEvent);
         //onPointerDownEvent.AddListener(OnPointerDownEvent);
         //onPointerUpEvent.AddListener(OnPointerUpEvent);
         //onDragEvent.AddListener(OnDragEvent);
@@ -122,10 +173,8 @@ public class ConstructorTreeViewSlot : ContainerSlot
 
     public void ExpandSubSlot()
     {
-        Debug.Log("ExpandSubSlot " + constructor.gameObject);
         foreach (var s in constructor.slots)
         {
-            Debug.Log(s.slotTrans.name);
             GameObject obj = controller.NewConstructorSlot();
             obj.transform.SetParent(subTab);
             ConstructorTreeViewSlot treeViewSlot = obj.GetComponent<ConstructorTreeViewSlot>();
@@ -142,7 +191,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
         {
             c.ClearSubSlot();
             c.Reset();
-            controller.RecyclingConstructorSlot(c);
+            c.Recycling();
         }
         children.Clear();
     }
@@ -152,48 +201,12 @@ public class ConstructorTreeViewSlot : ContainerSlot
         constructor = null;
         parent = null;
         icon.gameObject.SetActive(false);
-        ClearAllListener();
+        constructorTreeViewInfo.ClearAllListener();
     }
-    public void OnPointerUpEvent(PointerEventData eventData)
+    public void Recycling()
     {
-        icon.gameObject.SetActive(true);
-        draggedUI.OnPointerUp(eventData);
-        if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
-        {
-            AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
-        }
-        else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
-        {
-            RemoveConstructor();
-        }
-
-    }
-    public void OnPointerDownEvent(PointerEventData eventData)
-    {
-        icon.gameObject.SetActive(false);
-        draggedUI.Init(icon.sprite, gameObject);
-        draggedUI.transform.position = transform.position;
-        draggedUI.OnPointerDown(eventData);
-    }
-
-
-    public void OnDragEvent(PointerEventData eventData)
-    {
-        draggedUI.OnDrag(eventData);
-    }
-
-    public void OnPointerEnterEvent(PointerEventData eventData)
-    {
-        controller.pointEnterInventorySlot = this;
-        if (constructor != null)
-            UIController.Instance.popupController.constructorPopup.Show
-                   (constructor.constructorData, this.gameObject, Vector3.right);
-    }
-
-    public void OnPointerExitEvent(PointerEventData eventData)
-    {
-        controller.pointEnterInventorySlot = null;
-        UIController.Instance.popupController.constructorPopup.Clear();
+        transform.SetParent(controller.DisableSlotsParent);
+        lineImage.gameObject.SetActive(false);
     }
 
     public bool AttachConstructor(ConstructorBaseData constructorData)
@@ -214,7 +227,9 @@ public class ConstructorTreeViewSlot : ContainerSlot
     {
         List<ConstructorBaseData> removedData = parent.constructor.removeConstructor(constructorSlot);
         ClearSubSlot();
-        Reset();
+        constructor = null;
+        icon.gameObject.SetActive(false);
+        constructorTreeViewInfo.ClearAllListener();
         Init(controller, parent, constructorSlot);
         UIController.Instance.inventoryController.AddConstructors(removedData);
     }
