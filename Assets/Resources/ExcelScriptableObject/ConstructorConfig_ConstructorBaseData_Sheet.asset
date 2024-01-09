@@ -31,6 +31,7 @@ MonoBehaviour:
     - maxMana + 30
     - moveSpeed + 5
     - electricPower + 3
+    _slots: e8030000e9030000ea030000
     _skillID: 00000000
   - _ID: 2
     _name: GM300
@@ -47,6 +48,7 @@ MonoBehaviour:
     - maxMana + 50
     - moveSpeed + 5
     - electricPower + 3
+    _slots: e8030000e9030000ea030000
     _skillID: 00000000
   - _ID: 3
     _name: LW100
@@ -63,6 +65,7 @@ MonoBehaviour:
     - maxMana + 50
     - moveSpeed + 8
     - electricPower + 2
+    _slots: e9030000eb030000
     _skillID: 00000000
   - _ID: 4
     _name: LW300
@@ -79,6 +82,7 @@ MonoBehaviour:
     - maxMana + 100
     - moveSpeed + 8
     - electricPower + 2
+    _slots: e9030000eb030000
     _skillID: 00000000
   - _ID: 5
     _name: Python
@@ -95,6 +99,7 @@ MonoBehaviour:
     - maxMana + 200
     - moveSpeed + 8
     - electricPower + 3
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 6
     _name: Salticidae
@@ -112,6 +117,7 @@ MonoBehaviour:
     - moveSpeed + 4
     - electricPower + 1
     - dodgeChange + 0.1
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 7
     _name: Heteropoda
@@ -129,6 +135,7 @@ MonoBehaviour:
     - moveSpeed + 5
     - electricPower + 1
     - dodgeChange + 0.2
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 8
     _name: Tarantula
@@ -146,6 +153,7 @@ MonoBehaviour:
     - moveSpeed + 4
     - electricPower + 1
     - dodgeChange + 0.3
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 9
     _name: Porter
@@ -162,6 +170,7 @@ MonoBehaviour:
     - maxMana + 30
     - moveSpeed + 4
     - electricPower + 1
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 10
     _name: Hunter1.0
@@ -178,6 +187,7 @@ MonoBehaviour:
     - maxMana + 50
     - moveSpeed + 4
     - electricPower + 1
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 11
     _name: Hunter2.0
@@ -194,6 +204,7 @@ MonoBehaviour:
     - maxMana + 90
     - moveSpeed + 4
     - electricPower + 1
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 12
     _name: Cerberus
@@ -210,6 +221,7 @@ MonoBehaviour:
     - maxMana + 120
     - moveSpeed + 4
     - electricPower + 2
+    _slots: eb030000
     _skillID: 00000000
   - _ID: 13
     _name: Heidelberg
@@ -226,6 +238,7 @@ MonoBehaviour:
     - maxMana + 80
     - moveSpeed + 3
     - electricPower + 3
+    _slots: ec030000
     _skillID: 00000000
   - _ID: 14
     _name: Ochre
@@ -242,6 +255,7 @@ MonoBehaviour:
     - maxMana + 160
     - moveSpeed + 3
     - electricPower + 3
+    _slots: ec030000
     _skillID: 00000000
   - _ID: 15
     _name: Amaterasu
@@ -258,6 +272,7 @@ MonoBehaviour:
     - maxMana + 320
     - moveSpeed + 3
     - electricPower + 4
+    _slots: ec030000
     _skillID: 00000000
   - _ID: 16
     _name: Thinker
@@ -272,6 +287,7 @@ MonoBehaviour:
     - maxHealth + 10
     - moveSpeed - 1
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 17
     _name: Rover
@@ -287,6 +303,7 @@ MonoBehaviour:
     - maxHealth + 10
     - moveSpeed - 1
     - electricPower + 2
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 18
     _name: Spy
@@ -302,6 +319,7 @@ MonoBehaviour:
     - maxHealth + 10
     - moveSpeed - 1
     - electricPower + 2
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 19
     _name: Edge100
@@ -314,6 +332,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 20
     _name: Edge300
@@ -327,6 +346,7 @@ MonoBehaviour:
     _valueChanges:
     - electricPower + 1
     - maxmana + 30
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 21
     _name: Vanguard
@@ -339,6 +359,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 22
     _name: Specter
@@ -351,6 +372,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 23
     _name: Pilot
@@ -363,6 +385,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 24
     _name: GunGuardian
@@ -375,6 +398,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 25
     _name: EliteGuardian
@@ -387,6 +411,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 26
     _name: Titan1
@@ -399,6 +424,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 27
     _name: Titan2
@@ -411,6 +437,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 28
     _name: Titan3
@@ -423,6 +450,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 29
     _name: Warper
@@ -435,6 +463,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 30
     _name: Runner
@@ -447,6 +476,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 31
     _name: Behemoth
@@ -459,6 +489,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 32
     _name: Roadhog
@@ -471,6 +502,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 33
     _name: Sprinter
@@ -483,6 +515,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 34
     _name: Sentinel
@@ -495,6 +528,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 35
     _name: Blaster
@@ -507,6 +541,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 36
     _name: AmmunitionPack
@@ -519,6 +554,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 37
     _name: AmmunitionPack+
@@ -531,6 +567,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 38
     _name: Scanner100
@@ -543,6 +580,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 39
     _name: Scanner300
@@ -555,6 +593,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 40
     _name: Scanner400
@@ -567,6 +606,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 41
     _name: EnergyShieldGenerator1.0
@@ -579,6 +619,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 42
     _name: EnergyShieldGenerator2.0
@@ -591,6 +632,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 43
     _name: EnergyShieldGenerator3.0
@@ -603,6 +645,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 44
     _name: BackExtensionPlatform
@@ -615,6 +658,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - maxMana + 5
+    _slots: ee030000
     _skillID: 00000000
   - _ID: 45
     _name: HossarL
@@ -627,6 +671,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - maxMana + 5
+    _slots: f1030000
     _skillID: 00000000
   - _ID: 46
     _name: HossarM
@@ -639,6 +684,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - maxMana + 5
+    _slots: f1030000
     _skillID: 00000000
   - _ID: 47
     _name: PowerDrivePack
@@ -651,6 +697,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 48
     _name: MedicalPack
@@ -663,6 +710,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - maxMana + 5
+    _slots: f1030000
     _skillID: 00000000
   - _ID: 49
     _name: MedicalProPack
@@ -675,6 +723,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - maxMana + 5
+    _slots: f1030000
     _skillID: 00000000
   - _ID: 50
     _name: ExplosivePack
@@ -687,6 +736,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 51
     _name: RackPack
@@ -699,6 +749,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 52
     _name: Interferencer
@@ -711,6 +762,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 53
     _name: RadioPack
@@ -723,6 +775,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 54
     _name: ShieldGenerator1.0
@@ -735,6 +788,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 55
     _name: ShieldGenerator2.0
@@ -747,6 +801,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 56
     _name: ShieldGenerator3.0
@@ -759,6 +814,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 57
     _name: PowerPack100
@@ -771,6 +827,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: f1030000
     _skillID: 00000000
   - _ID: 58
     _name: PowerPack200
@@ -783,6 +840,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: f1030000
     _skillID: 00000000
   - _ID: 59
     _name: PowerPack300
@@ -795,6 +853,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
+    _slots: f1030000
     _skillID: 00000000
   - _ID: 60
     _name: SeatPlatform3X
@@ -807,6 +866,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - 
+    _slots: e9030000ee030000ee030000ee030000
     _skillID: 00000000
   - _ID: 61
     _name: StoolPlatform
@@ -819,6 +879,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - 
+    _slots: e9030000ee030000ee030000
     _skillID: 00000000
   - _ID: 62
     _name: SeatPlatform
@@ -831,6 +892,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - 
+    _slots: e9030000f2030000f2030000ee030000
     _skillID: 00000000
   - _ID: 63
     _name: StoolPlatform+
@@ -843,6 +905,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - 
+    _slots: ee030000ee030000
     _skillID: 00000000
   - _ID: 64
     _name: StandardPlatform
@@ -855,6 +918,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - 
+    _slots: ee030000
     _skillID: 00000000
   - _ID: 65
     _name: StandardPlatform+
@@ -867,6 +931,7 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - 
+    _slots: ee030000ee030000
     _skillID: 00000000
   - _ID: 66
     _name: CW_DoubleGun_Lvl1
@@ -879,6 +944,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 67
     _name: CW_DoubleGun_Lvl2
@@ -891,6 +957,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 68
     _name: CW_DoubleGun_Lvl3
@@ -903,6 +970,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 69
     _name: CW_Mortar_Lvl1
@@ -915,6 +983,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 70
     _name: CW_Mortar_Lvl2
@@ -927,6 +996,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 71
     _name: CW_Mortar_Lvl3
@@ -939,6 +1009,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 72
     _name: CW_Raygun_Lvl1
@@ -951,6 +1022,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 73
     _name: CW_Raygun_Lvl2
@@ -963,6 +1035,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 74
     _name: CW_Raygun_Lvl3
@@ -975,6 +1048,7 @@ MonoBehaviour:
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
+    _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 75
     _name: Sidepod_Battery_Lvl1
@@ -988,6 +1062,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 76
     _name: Sidepod_Battery_Lvl2
@@ -1001,6 +1076,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 77
     _name: Sidepod_Battery_Lvl3
@@ -1014,6 +1090,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: 00000000
     _skillID: 00000000
   - _ID: 78
     _name: Sidepod_Armor_Lvl1
@@ -1027,6 +1104,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 79
     _name: Sidepod_Armor_Lvl2
@@ -1040,6 +1118,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 80
     _name: Sidepod_Armor_Lvl3
@@ -1053,6 +1132,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 81
     _name: Sidepod_Barrier
@@ -1066,6 +1146,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 82
     _name: Sidepod_Bot
@@ -1079,6 +1160,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 83
     _name: Sidepod_Cobra
@@ -1092,6 +1174,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 84
     _name: Sidepod_Diablo
@@ -1105,6 +1188,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 85
     _name: Sidepod_Extender
@@ -1118,6 +1202,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 86
     _name: Sidepod_Hog
@@ -1131,6 +1216,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 87
     _name: Sidepod_Ox
@@ -1144,6 +1230,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 88
     _name: Sidepod_Plates
@@ -1157,6 +1244,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 89
     _name: Sidepod_Rhino
@@ -1170,6 +1258,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 90
     _name: Sidepod_Saucer
@@ -1183,6 +1272,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 91
     _name: Sidepod_Skinny_Up
@@ -1196,6 +1286,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 92
     _name: Sidepod_Tank
@@ -1209,6 +1300,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 93
     _name: Sidepod_Visor_Lvl1
@@ -1222,6 +1314,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 94
     _name: Sidepod_Visor_Lvl2
@@ -1235,6 +1328,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 95
     _name: Sidepod_Visor_Lvl3
@@ -1248,6 +1342,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 96
     _name: Sidepod_Visor_Simple_Lvl1
@@ -1261,6 +1356,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 97
     _name: Sidepod_Visor_Simple_Lvl2
@@ -1274,6 +1370,7 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 98
     _name: Sidepod_Visor_Simple_Lvl3
@@ -1287,10 +1384,11 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 10
     - maxHealth + 10
+    _slots: f3030000
     _skillID: 00000000
   - _ID: 99
     _name: Base_Battery_Lvl1
-    _prefab: Prefab/Constructor/Sidepod/Shoulders_Armor_Ammo_Lvl1
+    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Ammo_Lvl1
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
@@ -1300,6 +1398,217 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 20
     - maxHealth + 20
+    _slots: f4030000
+    _skillID: 00000000
+  - _ID: 100
+    _name: Base_Battery_Lvl2
+    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Ammo_Lvl2
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000
+    _skillID: 00000000
+  - _ID: 101
+    _name: Base_Battery_Lvl3
+    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Ammo_Lvl3
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000
+    _skillID: 00000000
+  - _ID: 102
+    _name: Base_Armor_Lvl1
+    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Lvl1
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 103
+    _name: Base_Armor_Lvl2
+    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Lvl2
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 104
+    _name: Base_Armor_Lvl3
+    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Lvl3
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 105
+    _name: Base_Diablo
+    _prefab: Prefab/Constructor/Base/Shoulders_Diablo
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 106
+    _name: Base_Hog
+    _prefab: Prefab/Constructor/Base/Shoulders_Hog
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 107
+    _name: Base_Bot
+    _prefab: Prefab/Constructor/Base/Shoulders_Med_Bot
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 108
+    _name: Base_Cobra
+    _prefab: Prefab/Constructor/Base/Shoulders_Med_Cobra
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 109
+    _name: Base_Tank
+    _prefab: Prefab/Constructor/Base/Shoulders_Med_Tank
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 110
+    _name: Base_Ox
+    _prefab: Prefab/Constructor/Base/Shoulders_Ox
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 111
+    _name: Base_Plates
+    _prefab: Prefab/Constructor/Base/Shoulders_Plates
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 112
+    _name: Base_Rhino
+    _prefab: Prefab/Constructor/Base/Shoulders_Rhino
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 113
+    _name: Base_Saucer
+    _prefab: Prefab/Constructor/Base/Shoulders_Saucer
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
+    _skillID: 00000000
+  - _ID: 114
+    _name: Base_Skinny_Up
+    _prefab: Prefab/Constructor/Base/Shoulders_Skinny_Up
+    _type: Base
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Defense
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 20
+    - maxHealth + 20
+    _slots: f4030000f5030000f5030000
     _skillID: 00000000
   - _ID: 501
     _name: Bazooka
@@ -1313,4 +1622,5 @@ MonoBehaviour:
     _valueChanges:
     - maxArmor + 5
     - moveSpeed - 1
+    _slots: 00000000
     _skillID: 01000000

@@ -1,0 +1,110 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using ExcelConfig;
+using General;
+using System.Diagnostics;
+using System;
+using UnityEngine.EventSystems;
+
+public class ConstructorSlotPopup : Popup
+{
+    public TextMeshProUGUI constructorName;
+    public Transform adaptTypesContent;
+    public List<TextMeshProUGUI> adaptTypes;
+    public Transform forbiddenChildrenTypesContent;
+    public List<TextMeshProUGUI> forbiddenChildrenTypes;
+    public Transform forbiddenParentsTypesContent;
+    public List<TextMeshProUGUI> forbiddenParentsTypes;
+    // Start is called before the first frame update
+    void Start()
+    {
+        foreach (Transform child in adaptTypesContent)
+        {
+            adaptTypes.Add(child.GetComponent<TextMeshProUGUI>());
+        }
+        foreach (Transform child in forbiddenChildrenTypesContent)
+        {
+            forbiddenChildrenTypes.Add(child.GetComponent<TextMeshProUGUI>());
+        }
+        foreach (Transform child in forbiddenParentsTypesContent)
+        {
+            forbiddenParentsTypes.Add(child.GetComponent<TextMeshProUGUI>());
+        }
+    }
+
+    public void Show(ConstructorSlotType slotType, GameObject targetUI, Vector3 dir)
+    {
+        constructorName.text = slotType.name.ToString();
+        UpdateAdaptTypes(slotType);
+        UpdateForbiddenChildrenTypes(slotType);
+        UpdateForbiddenParentsTypes(slotType);
+        base.Show(targetUI, dir);
+    }
+    void UpdateAdaptTypes(ConstructorSlotType slotType)
+    {
+        for (int i = 0; i < adaptTypes.Count; i++)
+        {
+            adaptTypes[i].gameObject.SetActive(false);
+            if (i < slotType.adaptTypes.Length && !string.IsNullOrEmpty(slotType.adaptTypes[0]))
+            {
+                adaptTypes[i].text = slotType.adaptTypes[i];
+                adaptTypes[i].gameObject.SetActive(true);
+            }
+        }
+    }
+
+    void UpdateForbiddenChildrenTypes(ConstructorSlotType slotType)
+    {
+        for (int i = 0; i < forbiddenChildrenTypes.Count; i++)
+        {
+            forbiddenChildrenTypes[i].gameObject.SetActive(false);
+            if (slotType.isForbiddenAllChildrenSlots)
+            {
+                if (i == 0)
+                {
+                    forbiddenChildrenTypes[i].text = "All";
+                    forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                }
+                return;
+            }
+            else
+            {
+                if (i < slotType.forbiddenChildrenSlotTypes.Length && slotType.forbiddenChildrenSlotTypes[0] != 0)
+                {
+                    ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenChildrenSlotTypes[i]);
+                    forbiddenChildrenTypes[i].text = forbiddenSlotType.name.ToString();
+                    forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+    void UpdateForbiddenParentsTypes(ConstructorSlotType slotType)
+    {
+        for (int i = 0; i < forbiddenParentsTypes.Count; i++)
+        {
+            forbiddenParentsTypes[i].gameObject.SetActive(false);
+            if (slotType.isForbiddenAllParentsSlots)
+            {
+                if (i == 0)
+                {
+                    forbiddenParentsTypes[i].text = "All";
+                    forbiddenParentsTypes[i].gameObject.SetActive(true);
+                }
+                return;
+            }
+            else
+            {
+                if (i < slotType.forbiddenParentsSlotTypes.Length && slotType.forbiddenParentsSlotTypes[0] != 0)
+                {
+                    ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenParentsSlotTypes[i]);
+                    forbiddenParentsTypes[i].text = forbiddenSlotType.name.ToString();
+                    forbiddenParentsTypes[i].gameObject.SetActive(true);
+                }
+            }
+
+        }
+    }
+}

@@ -9,6 +9,7 @@ public class PopupController : MonoBehaviour
     public ConstructorPopup constructorPopup;
     public TypePopup typePopup;
     public AttributePopup attributePopup;
+    public ConstructorSlotPopup constructorSlotPopup;
     public Popup curPickedPopup;
     public List<Popup> nailedPopups = new List<Popup>();
     // Start is called before the first frame update

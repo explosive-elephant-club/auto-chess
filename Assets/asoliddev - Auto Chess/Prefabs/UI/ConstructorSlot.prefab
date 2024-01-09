@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
   subTab: {fileID: 6352040751835265876}
+  lineImage: {fileID: 0}
   linePrefab: {fileID: 4531432745850375373, guid: f0c7960957a756a43bfbf3dc0f9266d0,
     type: 3}
   controller: {fileID: 0}
@@ -205,7 +206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.04300022, y: 0.0010004044}
+  m_AnchoredPosition: {x: -0.042999268, y: 0.0010070801}
   m_SizeDelta: {x: -2.001831, y: -4.496625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3250976114112795086
@@ -323,7 +324,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000019073486, y: 0.0000019073486}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2.8275757, y: 2.8275757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3741866262277646804
@@ -399,7 +400,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000019073486, y: 0.0000019073486}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2.8275757, y: 2.8275757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2914547791988667823

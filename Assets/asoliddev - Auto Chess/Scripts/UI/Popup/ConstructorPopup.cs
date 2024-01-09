@@ -19,6 +19,8 @@ public class ConstructorPopup : Popup
     public List<SingleTypeSlot> types;
     public Transform attributeContent;
     public List<GameObject> attributeInfo;
+    public Transform slotContent;
+    public List<GameObject> slotInfo;
     public Transform skillContent;
     public List<GameObject> skillInfo;
 
@@ -32,19 +34,24 @@ public class ConstructorPopup : Popup
         {
             attributeInfo.Add(child.gameObject);
         }
+        foreach (Transform child in slotContent)
+        {
+            slotInfo.Add(child.gameObject);
+        }
         foreach (Transform child in skillContent)
         {
             skillInfo.Add(child.gameObject);
         }
     }
 
-    public void Show(ConstructorBaseData constructorData, GameObject targetUI, Vector3 dir)
+    public void Show(ConstructorBaseData constructorData, GameObject targetUI, Vector3 dir, ConstructorSlot slot = null)
     {
         constructorName.text = constructorData.name.ToString();
         typeName.text = constructorData.type.ToString();
         cost.value.text = constructorData.cost.ToString();
         UpdateTypesInfo(constructorData);
         UpdateAttributeInfo(constructorData);
+        UpdateSlotInfo(constructorData, slot);
         UpdateSkillInfo(constructorData);
         base.Show(targetUI, dir);
     }
@@ -79,6 +86,19 @@ public class ConstructorPopup : Popup
         }
     }
 
+    void UpdateSlotInfo(ConstructorBaseData constructorData, ConstructorSlot slot)
+    {
+        for (int i = 0; i < slotInfo.Count; i++)
+        {
+            slotInfo[i].SetActive(false);
+            if (i < constructorData.slots.Length && constructorData.slots[0] != 0)
+            {
+                slotInfo[i].GetComponent<ConstructorSlotSlot>().Init(constructorData.slots[i], slot);
+                slotInfo[i].SetActive(true);
+            }
+        }
+    }
+
 
     void UpdateSkillInfo(ConstructorBaseData constructorData)
     {
@@ -100,9 +120,6 @@ public class ConstructorPopup : Popup
                 {
                     UIController.Instance.popupController.skillPopup.Clear();
                 });
-
-
-
             }
         }
     }

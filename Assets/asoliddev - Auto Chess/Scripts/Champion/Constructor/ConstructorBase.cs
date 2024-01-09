@@ -108,9 +108,12 @@ public class ConstructorBase : MonoBehaviour
         {
             s.Init();
             s.isAble = true;
-            if (type == ConstructorType.Chassis)
+        }
+        if (GamePlayController.Instance.ownChampionManager.pickedChampion == championController)
+        {
+            foreach (Transform tran in transform.GetComponentsInChildren<Transform>())
             {
-
+                tran.gameObject.layer = 9;
             }
         }
 

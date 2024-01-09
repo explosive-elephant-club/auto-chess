@@ -59,6 +59,10 @@ namespace ExcelConfig
 		public string[] valueChanges { get { return _valueChanges; } }
 
 		[SerializeField]
+		private int[] _slots;
+		public int[] slots { get { return _slots; } }
+
+		[SerializeField]
 		private int[] _skillID;
 		public int[] skillID { get { return _skillID; } }
 
@@ -84,6 +88,11 @@ namespace ExcelConfig
 			_valueChanges = new string[_valueChangesCount];
 			for(int i = 0; i < _valueChangesCount; i++)
 				TryParse(_valueChangesArray[i], out _valueChanges[i]);
+			string[] _slotsArray = sheet[row][column++].Split(',');
+			int _slotsCount = _slotsArray.Length;
+			_slots = new int[_slotsCount];
+			for(int i = 0; i < _slotsCount; i++)
+				TryParse(_slotsArray[i], out _slots[i]);
 			string[] _skillIDArray = sheet[row][column++].Split(',');
 			int _skillIDCount = _skillIDArray.Length;
 			_skillID = new int[_skillIDCount];

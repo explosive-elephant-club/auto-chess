@@ -32,7 +32,7 @@ public class Popup : MonoBehaviour
     {
     }
 
-    public virtual void Show(GameObject targetUI, Vector3 dir, float length = 5f)
+    public virtual void Show(GameObject targetUI, Vector2 dir, float length = 5f)
     {
         UpdatePosition(targetUI, dir, length);
         UIController.Instance.popupController.curPickedPopup = this;
@@ -71,7 +71,7 @@ public class Popup : MonoBehaviour
         }
     }
 
-    public void UpdatePosition(GameObject targetUI, Vector3 dir, float length)
+    public void UpdatePosition(GameObject targetUI, Vector2 dir, float length)
     {
         float selfLength = 0;
         float targetLength = 0;
@@ -85,8 +85,9 @@ public class Popup : MonoBehaviour
             selfLength = GetComponent<RectTransform>().rect.height;
             targetLength = targetUI.GetComponent<RectTransform>().rect.height;
         }
-        float offset = (targetLength + selfLength) + length;
-        transform.position = Input.mousePosition + dir.normalized * offset;
+        float offset = (targetLength + selfLength) / 2 + length;
+        transform.position = targetUI.transform.position;
+        GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + dir.normalized * offset;
     }
 
     public void Nail()

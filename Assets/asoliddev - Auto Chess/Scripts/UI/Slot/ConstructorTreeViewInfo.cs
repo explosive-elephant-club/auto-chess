@@ -24,7 +24,8 @@ public class ConstructorTreeViewInfo : ContainerSlot
         draggedUI.OnPointerUp(eventData);
         if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
         {
-            treeViewSlot.AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
+            UIController.Instance.inventoryController.pointEnterInventorySlot.AttachConstructor(treeViewSlot);
+            //treeViewSlot.AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
         }
         else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
         {
@@ -52,7 +53,7 @@ public class ConstructorTreeViewInfo : ContainerSlot
         if (treeViewSlot.constructor != null)
         {
             UIController.Instance.popupController.constructorPopup.Show
-                         (treeViewSlot.constructor.constructorData, this.gameObject, Vector3.right);
+                         (treeViewSlot.constructor.constructorData, this.gameObject, Vector3.right, treeViewSlot.constructorSlot);
         }
 
     }

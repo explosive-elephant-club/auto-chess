@@ -18,6 +18,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     RectTransform slotRect;
     RectTransform subTabRect;
     Camera cam;
+    RectTransform screenCanvasRectTransform;
     [HideInInspector]
     public Image lineImage;
     public GameObject linePrefab;
@@ -33,11 +34,13 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     public ConstructorTreeViewSlot parent;
     ConstructorTreeViewInfo constructorTreeViewInfo;
 
+
     // Start is called before the first frame update
     void Awake()
     {
         icon = transform.Find("ConstructorInfo/FrameMask/Icon").GetComponent<Image>();
         cam = GameObject.Find("3DToUICamera").GetComponent<Camera>();
+        screenCanvasRectTransform = GameObject.Find("ScreenCanvas").GetComponent<RectTransform>();
         constructorTreeViewInfo = transform.Find("ConstructorInfo").GetComponent<ConstructorTreeViewInfo>();
     }
     void Start()
@@ -50,13 +53,13 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         if (constructorSlot != null)
         {
             if (constructorSlot.slotTrans != null)
-                transform.position = GetScreenPosition(constructorSlot.slotTrans) + controller.GetComponent<RectTransform>().transform.position;
+                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructorSlot.slotTrans);
         }
         else
         {
             if (constructor != null)
             {
-                transform.position = GetScreenPosition(constructor.transform) + controller.GetComponent<RectTransform>().transform.position;
+                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructor.transform);
             }
         }
         if (parent != null)
@@ -66,7 +69,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
 
     }
 
-    public void SetLine(Vector3 startPoint, Vector3 endPoint)
+    public void SetLine(Vector2 startPoint, Vector2 endPoint)
     {
         if (lineImage == null)
         {
@@ -94,8 +97,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
         RectTransform canvasRtm = controller.GetComponent<RectTransform>();
         Vector2 uguiPos = Vector2.zero;
-        uguiPos.x = (viewportPos.x - 0.5f) * canvasRtm.sizeDelta.x * 3f;
-        uguiPos.y = (viewportPos.y - 0.5f) * canvasRtm.sizeDelta.y * 3f;
+        uguiPos.x = (viewportPos.x - .5f) * canvasRtm.rect.width * 1.2f;
+        uguiPos.y = (viewportPos.y - .5f) * canvasRtm.rect.height * 1.2f;
         return uguiPos;
     }
 
@@ -176,7 +179,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         foreach (var s in constructor.slots)
         {
             GameObject obj = controller.NewConstructorSlot();
-            obj.transform.SetParent(subTab);
+            obj.transform.SetParent(controller.constructorPanel.transform);
+            //obj.transform.SetParent(subTab);
             ConstructorTreeViewSlot treeViewSlot = obj.GetComponent<ConstructorTreeViewSlot>();
             treeViewSlot.Init(controller, this, s);
 

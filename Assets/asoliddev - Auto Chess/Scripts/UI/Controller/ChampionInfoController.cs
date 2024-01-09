@@ -101,9 +101,14 @@ public class ChampionInfoController : MonoBehaviour
     public void OnPointEnterSlot(SkillSlot skillSlot)
     {
         pointEnterSlot = skillSlot;
+        UnityEngine.Debug.Log("OnPointEnterSlot");
         if (pointEnterSlot.skill != null)
+        {
+            UnityEngine.Debug.Log("Show");
             UIController.Instance.popupController.skillPopup.Show
-            (pointEnterSlot.skill.skillData, pointEnterSlot.gameObject, Vector3.right);
+                (pointEnterSlot.skill.skillData, pointEnterSlot.gameObject, Vector3.right);
+        }
+
     }
 
     public void OnPointLeaveSlot()
