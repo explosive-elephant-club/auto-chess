@@ -14,8 +14,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     [HideInInspector]
     public Image icon;
     public Transform subTab;
-
-    RectTransform slotRect;
+    public Image pickedFrame;
     RectTransform subTabRect;
     Camera cam;
     RectTransform screenCanvasRectTransform;
@@ -39,13 +38,14 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     void Awake()
     {
         icon = transform.Find("ConstructorInfo/FrameMask/Icon").GetComponent<Image>();
+        pickedFrame = transform.Find("PickedFrame").GetComponent<Image>();
         cam = GameObject.Find("3DToUICamera").GetComponent<Camera>();
         screenCanvasRectTransform = GameObject.Find("ScreenCanvas").GetComponent<RectTransform>();
         constructorTreeViewInfo = transform.Find("ConstructorInfo").GetComponent<ConstructorTreeViewInfo>();
     }
     void Start()
     {
-
+        pickedFrame.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -178,13 +178,16 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     {
         foreach (var s in constructor.slots)
         {
-            GameObject obj = controller.NewConstructorSlot();
-            obj.transform.SetParent(controller.constructorPanel.transform);
-            //obj.transform.SetParent(subTab);
-            ConstructorTreeViewSlot treeViewSlot = obj.GetComponent<ConstructorTreeViewSlot>();
-            treeViewSlot.Init(controller, this, s);
+            if (s.isAble)
+            {
+                GameObject obj = controller.NewConstructorSlot();
+                obj.transform.SetParent(controller.constructorPanel.transform);
+                //obj.transform.SetParent(subTab);
+                ConstructorTreeViewSlot treeViewSlot = obj.GetComponent<ConstructorTreeViewSlot>();
+                treeViewSlot.Init(controller, this, s);
+                children.Add(treeViewSlot);
+            }
 
-            children.Add(treeViewSlot);
         }
 
     }
@@ -220,7 +223,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         {
             if (constructor != null)
                 RemoveConstructor();
-            parent.constructor.attachConstructor(constructorData, constructorSlot);
+            parent.constructor.AttachConstructor(constructorData, constructorSlot);
             Init(controller, parent, constructorSlot);
             return true;
         }
@@ -236,6 +239,21 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         constructorTreeViewInfo.ClearAllListener();
         Init(controller, parent, constructorSlot);
         UIController.Instance.inventoryController.AddConstructors(removedData);
+    }
+
+    public void FindPickedSlot(ConstructorSlot slot)
+    {
+        if (constructorSlot == slot)
+        {
+            controller.pickedSlot = this;
+        }
+        else
+        {
+            foreach (var c in children)
+            {
+                c.FindPickedSlot(slot);
+            }
+        }
     }
 
     /*

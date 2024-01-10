@@ -5,8 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
 using General;
-using System.Diagnostics;
-using System;
 using UnityEngine.EventSystems;
 
 public class ConstructorSlotSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -15,15 +13,25 @@ public class ConstructorSlotSlot : MonoBehaviour, IPointerEnterHandler, IPointer
     public GameObject forbidden;
     public GameObject picked;
 
+    ConstructorSlot slot;
     ConstructorSlotType slotTypeData;
     void Start()
     {
 
     }
 
-    public void Init(int id, ConstructorSlot slot)
+    public void Init(int id)
     {
+        slot = null;
         slotTypeData = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == id);
+        slotName.text = slotTypeData.name;
+        forbidden.SetActive(false);
+        picked.SetActive(false);
+    }
+    public void Init(ConstructorSlot _slot)
+    {
+        slot = _slot;
+        slotTypeData = slot.slotType;
         slotName.text = slotTypeData.name;
         forbidden.SetActive(false);
         picked.SetActive(false);
@@ -33,10 +41,6 @@ public class ConstructorSlotSlot : MonoBehaviour, IPointerEnterHandler, IPointer
             {
                 forbidden.SetActive(true);
             }
-            if (id == slot.slotType.ID)
-            {
-                picked.SetActive(true);
-            }
         }
     }
 
@@ -44,11 +48,14 @@ public class ConstructorSlotSlot : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         UIController.Instance.popupController.constructorSlotPopup.Show
             (slotTypeData, this.gameObject, Vector3.right);
-
+        if (slot != null)
+            UIController.Instance.constructorAssembleController.ShowPickedSlot(slot);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         UIController.Instance.popupController.constructorSlotPopup.Clear();
+        if (slot != null)
+            UIController.Instance.constructorAssembleController.ClearPickedSlot();
     }
 }

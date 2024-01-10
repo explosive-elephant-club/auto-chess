@@ -26,6 +26,8 @@ public class ConstructorAssembleController : MonoBehaviour
     public Transform lineLayer;
     CanvasGroup canvasGroup;
 
+    public ConstructorTreeViewSlot pickedSlot;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -136,16 +138,22 @@ public class ConstructorAssembleController : MonoBehaviour
         return instance;
     }
 
-    /*
-    public IEnumerator AllLayoutRebuilder(ConstructorTreeViewSlot slot)
-    {
-        StartCoroutine(slot.UpdateRectSize());
 
-        yield return 0;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(this.transform.Find("Tab").GetComponent<RectTransform>());
-        LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
-        yield return new WaitForEndOfFrame();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
+    public void ShowPickedSlot(ConstructorSlot slot)
+    {
+        chassisSlot.FindPickedSlot(slot);
+        if (pickedSlot != null)
+        {
+            pickedSlot.pickedFrame.gameObject.SetActive(true);
+        }
     }
-    */
+
+    public void ClearPickedSlot()
+    {
+        if (pickedSlot != null)
+        {
+            pickedSlot.pickedFrame.gameObject.SetActive(false);
+            pickedSlot = null;
+        }
+    }
 }

@@ -43,6 +43,7 @@ public class ConstructorSlot
 
     public void Init()
     {
+        isAble = true;
         slotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotDataID);
         foreach (var t in slotType.adaptTypes)
         {
@@ -104,10 +105,12 @@ public class ConstructorBase : MonoBehaviour
         championController = _championController;
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 
+
         foreach (var s in slots)
         {
             s.Init();
-            s.isAble = true;
+            //if (constructorData.type == ConstructorType.Chassis.ToString())
+
         }
         if (GamePlayController.Instance.ownChampionManager.pickedChampion == championController)
         {
@@ -168,80 +171,79 @@ public class ConstructorBase : MonoBehaviour
     {
     }
 
-    //添加子组件
-    public virtual bool attachConstructor(ConstructorBase constructor, ConstructorSlot slot)
+    public bool CanAttach(ConstructorBase constructor, ConstructorSlot slot)
     {
-        //UnityEngine.Debug.Log(name + " " + slot.isAble);
-        if (slot.adaptTypes.Contains(constructor.type) && slot.isAble)
-        {
-            constructor.gameObject.transform.SetParent(slot.slotTrans);
-            constructor.gameObject.transform.localPosition = Vector3.zero;
-            constructor.gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            slot.constructorInstance = constructor;
-            constructor.parentConstructor = this;
-
-            //禁用子物体所有槽位
-            if (slot.slotType.isForbiddenAllChildrenSlots)
-            {
-                //UnityEngine.Debug.Log(name + " isForbiddenAllSubSlots");
-                foreach (ConstructorSlot s in constructor.slots)
-                {
-                    s.isAble = false;
-                }
-            }
-            else//禁用子物体对应类别的槽位
-            {
-                foreach (ConstructorSlot s in constructor.slots)
-                {
-                    s.isAble = true;
-                    foreach (int id in slot.slotType.forbiddenChildrenSlotTypes)
-                    {
-                        if (s.slotDataID == id)
-                        {
-                            s.isAble = false;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            //禁用父物体所有槽位
-            if (slot.slotType.isForbiddenAllParentsSlots)
-            {
-                //UnityEngine.Debug.Log(name + " isForbiddenAllSubSlots");
-                foreach (ConstructorSlot s in slots)
-                {
-                    s.isAble = false;
-                }
-            }
-            else//禁用父物体对应类别的槽位
-            {
-                foreach (ConstructorSlot s in slots)
-                {
-                    s.isAble = true;
-                    foreach (int id in slot.slotType.forbiddenParentsSlotTypes)
-                    {
-                        if (s.slotDataID == id)
-                        {
-                            s.isAble = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            championController.skillController.UpdateSkillCapacity();
-            return true;
-        }
-        return false;
+        return (slot.adaptTypes.Contains(constructor.type) && slot.isAble);
     }
 
-    public virtual bool attachConstructor(ConstructorBaseData constructorData, ConstructorSlot slot)
+    //添加子组件
+    public virtual void AttachConstructor(ConstructorBase constructor, ConstructorSlot slot)
+    {
+        //UnityEngine.Debug.Log(name + " " + slot.isAble);
+        constructor.gameObject.transform.SetParent(slot.slotTrans);
+        constructor.gameObject.transform.localPosition = Vector3.zero;
+        constructor.gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        slot.constructorInstance = constructor;
+        constructor.parentConstructor = this;
+
+        //禁用子物体所有槽位
+        if (slot.slotType.isForbiddenAllChildrenSlots)
+        {
+            foreach (ConstructorSlot s in constructor.slots)
+            {
+                s.isAble = false;
+            }
+        }
+        else//禁用子物体对应类别的槽位
+        {
+            foreach (ConstructorSlot s in constructor.slots)
+            {
+                s.isAble = true;
+                foreach (int id in slot.slotType.forbiddenChildrenSlotTypes)
+                {
+                    if (s.slotDataID == id)
+                    {
+                        s.isAble = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //禁用父物体所有槽位
+        if (slot.slotType.isForbiddenAllParentsSlots)
+        {
+            //UnityEngine.Debug.Log(name + " isForbiddenAllSubSlots");
+            foreach (ConstructorSlot s in slots)
+            {
+                s.isAble = false;
+            }
+        }
+        else//禁用父物体对应类别的槽位
+        {
+            foreach (ConstructorSlot s in slots)
+            {
+                s.isAble = true;
+                foreach (int id in slot.slotType.forbiddenParentsSlotTypes)
+                {
+                    if (s.slotDataID == id)
+                    {
+                        s.isAble = false;
+                        break;
+                    }
+                }
+            }
+        }
+        championController.skillController.UpdateSkillCapacity();
+    }
+
+    public virtual void AttachConstructor(ConstructorBaseData constructorData, ConstructorSlot slot)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(constructorData.prefab));
         ConstructorBase _constructorBase = obj.GetComponent<ConstructorBase>();
         _constructorBase.Init(constructorData, championController, false);
         UIController.Instance.championInfoController.UpdateSkillSlot();
-        return attachConstructor(_constructorBase, slot);
+        AttachConstructor(_constructorBase, slot);
     }
 
     //移除子组件
@@ -267,9 +269,10 @@ public class ConstructorBase : MonoBehaviour
             if (s.slotTrans.childCount > 0)
             {
                 ConstructorBase constructor = s.slotTrans.GetChild(0).GetComponent<ConstructorBase>();
-                if (attachConstructor(constructor, s))
+                if (CanAttach(constructor, s))
                 {
                     constructor.Init(championController, false);
+                    AttachConstructor(constructor, s);
                     if (!championController.constructors.Contains(constructor))
                         championController.constructors.Add(constructor);
                     constructor.AutoPackage();

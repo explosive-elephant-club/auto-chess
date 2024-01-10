@@ -53,7 +53,12 @@ public class ConstructorTreeViewInfo : ContainerSlot
         if (treeViewSlot.constructor != null)
         {
             UIController.Instance.popupController.constructorPopup.Show
-                         (treeViewSlot.constructor.constructorData, this.gameObject, Vector3.right, treeViewSlot.constructorSlot);
+                (treeViewSlot.constructor, treeViewSlot.controller.gameObject, Vector3.up);
+        }
+        else
+        {
+            UIController.Instance.popupController.constructorSlotPopup.Show
+                           (treeViewSlot.constructorSlot.slotType, treeViewSlot.controller.gameObject, Vector3.up);
         }
 
     }
@@ -62,5 +67,6 @@ public class ConstructorTreeViewInfo : ContainerSlot
     {
         treeViewSlot.controller.pointEnterTreeViewSlot = null;
         UIController.Instance.popupController.constructorPopup.Clear();
+        UIController.Instance.popupController.constructorSlotPopup.Clear();
     }
 }
