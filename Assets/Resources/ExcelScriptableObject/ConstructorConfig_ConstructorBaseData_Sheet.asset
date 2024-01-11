@@ -1610,6 +1610,258 @@ MonoBehaviour:
     - maxHealth + 20
     _slots: f4030000f5030000f5030000
     _skillID: 00000000
+  - _ID: 115
+    _name: Arm_Weapon_Lt
+    _prefab: Prefab/Constructor/Arm/Arm_Weapon_Lt
+    _type: Arm
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: f6030000
+    _skillID: 00000000
+  - _ID: 116
+    _name: Arm_Weapon_Med
+    _prefab: Prefab/Constructor/Arm/Arm_Weapon_Med
+    _type: Arm
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: f6030000
+    _skillID: 00000000
+  - _ID: 117
+    _name: Arm_Weapon_Hvy
+    _prefab: Prefab/Constructor/Arm/Arm_Weapon_Hvy
+    _type: Arm
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: f6030000
+    _skillID: 00000000
+  - _ID: 118
+    _name: Arm_NoHand_lt
+    _prefab: Prefab/Constructor/Arm/Arms_NoHand_lt_L
+    _type: Arm
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: f7030000
+    _skillID: 00000000
+  - _ID: 119
+    _name: Arm_NoHand_Med
+    _prefab: Prefab/Constructor/Arm/Arms_NoHand_Med_L
+    _type: Arm
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: f7030000
+    _skillID: 00000000
+  - _ID: 120
+    _name: Arm_NoHand_Hvy
+    _prefab: Prefab/Constructor/Arm/Arms_NoHand_Hvy_L
+    _type: Arm
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: f7030000
+    _skillID: 00000000
+  - _ID: 121
+    _name: Gadget_Hand
+    _prefab: Prefab/Constructor/Gadget/Gadget_Hand
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 122
+    _name: Gadget_Hand_Gun
+    _prefab: Prefab/Constructor/Gadget/Gadget_Hand_Gun
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 123
+    _name: Gadget_Hand_Saw
+    _prefab: Prefab/Constructor/Gadget/Gadget_Hand_Saw
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 124
+    _name: Gadget_Weapon_Flamethrower
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Flamethrower
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 125
+    _name: Gadget_Weapon_Launcher
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Launcher
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 126
+    _name: Gadget_Weapon_Minigun_Lvl1
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Minigun_Lvl1
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 127
+    _name: Gadget_Weapon_Minigun_Lvl2
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Minigun_Lvl2
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 128
+    _name: Gadget_Weapon_Minigun_Lvl3
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Minigun_Lvl3
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 129
+    _name: Gadget_Weapon_Shocker
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shocker
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 130
+    _name: Gadget_Weapon_Shotgun_Lvl1
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shotgun_Lvl1
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 131
+    _name: Gadget_Weapon_Shotgun_Lvl2
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shotgun_Lvl2
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 132
+    _name: Gadget_Weapon_Shotgun_Lvl3
+    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shotgun_Lvl3
+    _type: Gadget
+    _cost: 10
+    _property1: 3ZeroGroup
+    _property2: Machine
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 10
+    - maxHealth + 10
+    _slots: 00000000
+    _skillID: 00000000
   - _ID: 501
     _name: Bazooka
     _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1

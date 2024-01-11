@@ -29,7 +29,7 @@ public class InventoryController : MonoBehaviour
     [Serializable]
     public class typeToggle
     {
-        public ConstructorType[] types;
+        public ConstructorType type;
         public Toggle toggle;
     }
 
@@ -161,9 +161,9 @@ public class InventoryController : MonoBehaviour
         List<ConstructorType> types = new List<ConstructorType>();
         foreach (var t in typeToggles)
         {
-            if (t.toggle.isOn)
+            if (t.toggle.isOn && !types.Contains(t.type))
             {
-                types = types.Concat(new List<ConstructorType>(t.types)).ToList<ConstructorType>();
+                types.Add(t.type);
             }
         }
         pickedConstructors = GameData.Instance.allInventoryConstructors.FindAll(c => IsTypeEqual(c, types));

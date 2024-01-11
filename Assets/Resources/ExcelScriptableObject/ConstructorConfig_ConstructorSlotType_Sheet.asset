@@ -158,3 +158,22 @@ MonoBehaviour:
     _forbiddenParentsSlotTypes: 00000000
     _isForbiddenAllChildrenSlots: 0
     _isForbiddenAllParentsSlots: 0
+  - _ID: 1014
+    _name: Arm's Side Slot
+    _c_name: "\u624B\u81C2\u4FA7\u9762\u6269\u5C55\u69FD"
+    _adaptTypes:
+    - Weapon
+    - Shield
+    _forbiddenChildrenSlotTypes: 00000000
+    _forbiddenParentsSlotTypes: 00000000
+    _isForbiddenAllChildrenSlots: 0
+    _isForbiddenAllParentsSlots: 0
+  - _ID: 1015
+    _name: Arm's Hand Slot
+    _c_name: "\u624B\u81C2\u66FF\u6362\u6269\u5C55\u69FD"
+    _adaptTypes:
+    - Gadget
+    _forbiddenChildrenSlotTypes: 00000000
+    _forbiddenParentsSlotTypes: 00000000
+    _isForbiddenAllChildrenSlots: 0
+    _isForbiddenAllParentsSlots: 0

@@ -316,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 400010}
   - {fileID: 400008}
@@ -367,6 +367,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 
     _valueChanges: []
+    _slots: 
     _skillID: 
   type: 0
   slots:
@@ -375,6 +376,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
