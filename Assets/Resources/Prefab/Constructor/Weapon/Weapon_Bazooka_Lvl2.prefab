@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 9500000}
+  - component: {fileID: 1773107558640302390}
   m_Layer: 0
   m_Name: Weapon_Bazooka_Lvl2
   m_TagString: Untagged
@@ -52,6 +53,45 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1773107558640302390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructorDataID: 0
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _cost: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _PaintingType: 
+    _valueChanges: []
+    _slots: 
+    _skillID: 
+  type: 13
+  slots: []
+  parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
+  animator: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 400016}
+  - {fileID: 400018}
+  - {fileID: 400020}
+  - {fileID: 400022}
+  renderers:
+  - {fileID: 13700000}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

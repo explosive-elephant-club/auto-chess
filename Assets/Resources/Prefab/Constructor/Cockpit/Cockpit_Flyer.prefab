@@ -60,6 +60,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 
     _valueChanges: []
+    _slots: 
     _skillID: 
   type: 3
   slots:
@@ -68,6 +69,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -81,6 +83,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -94,6 +97,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -107,6 +111,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -119,7 +124,8 @@ MonoBehaviour:
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
   animator: {fileID: 0}
-  skillCastPoint: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 400002}
   renderers:
   - {fileID: 2300000}
 --- !u!1 &100002

@@ -78,15 +78,21 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 
     _valueChanges: []
+    _slots: 
     _skillID: 
   type: 13
   slots: []
   parentConstructor: {fileID: 0}
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
-  animator: {fileID: 9500000}
-  skillCastPoint: {fileID: 400012}
-  renderers: []
+  animator: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 400012}
+  - {fileID: 400014}
+  - {fileID: 400016}
+  - {fileID: 400018}
+  renderers:
+  - {fileID: 13700000}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

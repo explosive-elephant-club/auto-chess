@@ -396,7 +396,8 @@ MonoBehaviour:
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
   animator: {fileID: 0}
-  skillCastPoint: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 5701690549542927053}
   renderers:
   - {fileID: 5701690549537483747}
 --- !u!1 &5701690549542758125

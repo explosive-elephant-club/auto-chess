@@ -87,6 +87,7 @@ public class Skill
 
     public ChampionManager manager;
 
+    int curCastPointIndex;
 
     public Skill(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
     {
@@ -99,6 +100,7 @@ public class Skill
         owner = _owner;
         constructor = _constructor;
         countRemain = skillData.count;
+        curCastPointIndex = 0;
 
         if (!string.IsNullOrEmpty(skillData.effectPrefab))
         {
@@ -291,7 +293,8 @@ public class Skill
         if (countRemain != -1)
             countRemain -= 1;
 
-        skillBehaviour.OnCast(constructor.skillCastPoint);
+        skillBehaviour.OnCast(constructor.skillCastPoints, curCastPointIndex);
+        curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
 
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterCast.ToString());
     }
@@ -303,7 +306,7 @@ public class Skill
         if (effectPrefab != null)
         {
             GameObject effectInstance = GameObject.Instantiate(effectPrefab);
-            effectInstance.transform.position = constructor.skillCastPoint.position;
+            effectInstance.transform.position = constructor.skillCastPoints[curCastPointIndex].position;
             effectScript = effectInstance.GetComponent<SkillEffect>();
             effectScript.Init(this);
         }
@@ -336,3 +339,5 @@ public class Skill
         countRemain = skillData.count;
     }
 }
+
+

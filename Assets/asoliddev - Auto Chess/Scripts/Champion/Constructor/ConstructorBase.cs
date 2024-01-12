@@ -74,7 +74,7 @@ public class ConstructorBase : MonoBehaviour
 
     public ChampionController championController;
     public Animator animator;
-    public Transform skillCastPoint;
+    public Transform[] skillCastPoints;
     public UnityAction onSkillAnimEffect = new UnityAction(() => { });
     public UnityAction onSkillAnimFinish = new UnityAction(() => { });
     public Renderer[] renderers;

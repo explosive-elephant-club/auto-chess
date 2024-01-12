@@ -33,6 +33,7 @@ Transform:
   - {fileID: 400006}
   - {fileID: 400008}
   - {fileID: 400010}
+  - {fileID: 4309515768589731368}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,6 +61,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 
     _valueChanges: []
+    _slots: 
     _skillID: 
   type: 3
   slots:
@@ -68,6 +70,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -81,6 +84,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -94,6 +98,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -107,6 +112,7 @@ MonoBehaviour:
     slotType:
       _ID: 0
       _name: 
+      _c_name: 
       _adaptTypes: []
       _forbiddenChildrenSlotTypes: 
       _forbiddenParentsSlotTypes: 
@@ -119,7 +125,8 @@ MonoBehaviour:
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
   animator: {fileID: 0}
-  skillCastPoint: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 4309515768589731368}
   renderers:
   - {fileID: 2300000}
 --- !u!1 &100002
@@ -320,4 +327,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400000}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2672357429767979852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4309515768589731368}
+  m_Layer: 0
+  m_Name: Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4309515768589731368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2672357429767979852}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.173, y: 0.929, z: 0.805}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400000}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

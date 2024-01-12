@@ -379,7 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400014}
   - component: {fileID: 9500000}
-  - component: {fileID: 4678148808836507547}
+  - component: {fileID: -2199482340581439171}
   m_Layer: 0
   m_Name: Weapon_Energy_Shield_Lvl1
   m_TagString: Untagged
@@ -396,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 400012}
   - {fileID: 400010}
@@ -422,7 +422,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4678148808836507547
+--- !u!114 &-2199482340581439171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -446,12 +446,15 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 
     _valueChanges: []
+    _slots: 
     _skillID: 
-  type: 10
+  type: 0
   slots: []
   parentConstructor: {fileID: 0}
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
-  animator: {fileID: 9500000}
-  skillCastPoint: {fileID: 400008}
-  renderers: []
+  animator: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 400008}
+  renderers:
+  - {fileID: 13700000}

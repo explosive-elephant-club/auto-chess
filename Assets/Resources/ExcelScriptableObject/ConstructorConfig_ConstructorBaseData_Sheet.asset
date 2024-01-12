@@ -22,7 +22,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 20
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -39,8 +39,8 @@ MonoBehaviour:
     _type: Chassis
     _cost: 30
     _property1: 3ZeroGroup
-    _property2: Machine
-    _property3: Power
+    _property2: Mechanical
+    _property3: Dynamics
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 60
@@ -56,7 +56,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 30
     _property1: MiliForce
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -73,8 +73,8 @@ MonoBehaviour:
     _type: Chassis
     _cost: 40
     _property1: MiliForce
-    _property2: Machine
-    _property3: Power
+    _property2: Mechanical
+    _property3: Dynamics
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 120
@@ -90,8 +90,8 @@ MonoBehaviour:
     _type: Chassis
     _cost: 50
     _property1: MatsunoSociety
-    _property2: Machine
-    _property3: Signal
+    _property2: Mechanical
+    _property3: Electronic
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 240
@@ -107,7 +107,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 20
     _property1: Helix
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -125,7 +125,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 30
     _property1: Helix
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -143,8 +143,8 @@ MonoBehaviour:
     _type: Chassis
     _cost: 40
     _property1: Helix
-    _property2: Machine
-    _property3: Defense
+    _property2: Mechanical
+    _property3: Materials
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 60
@@ -161,7 +161,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 10
     _property1: AA
-    _property2: Machine
+    _property2: Mechanical
     _property3: Energy
     _PaintingType: 2
     _valueChanges:
@@ -178,7 +178,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 20
     _property1: NewCentury
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -195,7 +195,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 30
     _property1: NewCentury
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -212,7 +212,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 40
     _property1: NewCentury
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -229,7 +229,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 30
     _property1: MatsunoSociety
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -246,7 +246,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 40
     _property1: MatsunoSociety
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -263,7 +263,7 @@ MonoBehaviour:
     _type: Chassis
     _cost: 50
     _property1: MatsunoSociety
-    _property2: Machine
+    _property2: Mechanical
     _property3: AI
     _PaintingType: 1
     _valueChanges:
@@ -312,7 +312,7 @@ MonoBehaviour:
     _cost: 30
     _property1: Helix
     _property2: AI
-    _property3: Signal
+    _property3: Electronic
     _PaintingType: 3
     _valueChanges:
     - maxArmor + 10
@@ -328,7 +328,7 @@ MonoBehaviour:
     _cost: 10
     _property1: 3ZeroGroup
     _property2: AI
-    _property3: Machine
+    _property3: Mechanical
     _PaintingType: 3
     _valueChanges:
     - electricPower + 1
@@ -341,7 +341,7 @@ MonoBehaviour:
     _cost: 20
     _property1: 3ZeroGroup
     _property2: AI
-    _property3: Machine
+    _property3: Mechanical
     _PaintingType: 3
     _valueChanges:
     - electricPower + 1
@@ -355,7 +355,7 @@ MonoBehaviour:
     _cost: 30
     _property1: 3ZeroGroup
     _property2: AI
-    _property3: Defense
+    _property3: Materials
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
@@ -394,7 +394,7 @@ MonoBehaviour:
     _cost: 40
     _property1: MiliForce
     _property2: AI
-    _property3: Ballistics
+    _property3: Firearms
     _PaintingType: 2
     _valueChanges:
     - electricPower + 1
@@ -407,7 +407,7 @@ MonoBehaviour:
     _cost: 50
     _property1: MiliForce
     _property2: AI
-    _property3: Ballistics
+    _property3: Firearms
     _PaintingType: 2
     _valueChanges:
     - electricPower + 1
@@ -446,7 +446,7 @@ MonoBehaviour:
     _cost: 50
     _property1: MatsunoSociety
     _property2: AI
-    _property3: Power
+    _property3: Dynamics
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
@@ -485,7 +485,7 @@ MonoBehaviour:
     _cost: 30
     _property1: AA
     _property2: AI
-    _property3: Defense
+    _property3: Materials
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
@@ -498,7 +498,7 @@ MonoBehaviour:
     _cost: 40
     _property1: AA
     _property2: AI
-    _property3: Defense
+    _property3: Materials
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
@@ -537,7 +537,7 @@ MonoBehaviour:
     _cost: 50
     _property1: NewCentury
     _property2: AI
-    _property3: Machine
+    _property3: Mechanical
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
@@ -549,7 +549,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: MiliForce
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -562,7 +562,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: MiliForce
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -575,7 +575,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Signal
+    _property2: Electronic
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -588,7 +588,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Signal
+    _property2: Electronic
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -601,47 +601,8 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Signal
+    _property2: Electronic
     _property3: 
-    _PaintingType: 1
-    _valueChanges:
-    - maxMana + 5
-    _slots: 00000000
-    _skillID: 00000000
-  - _ID: 41
-    _name: EnergyShieldGenerator1.0
-    _prefab: Prefab/Constructor/Backpack/Backpack_Energy_Shield_Lvl1
-    _type: Backpack
-    _cost: 10
-    _property1: LaserWizard
-    _property2: Defense
-    _property3: Energy
-    _PaintingType: 1
-    _valueChanges:
-    - maxMana + 5
-    _slots: 00000000
-    _skillID: 00000000
-  - _ID: 42
-    _name: EnergyShieldGenerator2.0
-    _prefab: Prefab/Constructor/Backpack/Backpack_Energy_Shield_Lvl2
-    _type: Backpack
-    _cost: 10
-    _property1: LaserWizard
-    _property2: Defense
-    _property3: Energy
-    _PaintingType: 1
-    _valueChanges:
-    - maxMana + 5
-    _slots: 00000000
-    _skillID: 00000000
-  - _ID: 43
-    _name: EnergyShieldGenerator3.0
-    _prefab: Prefab/Constructor/Backpack/Backpack_Energy_Shield_Lvl3
-    _type: Backpack
-    _cost: 10
-    _property1: LaserWizard
-    _property2: Defense
-    _property3: Energy
     _PaintingType: 1
     _valueChanges:
     - maxMana + 5
@@ -692,7 +653,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: AA
-    _property2: Power
+    _property2: Dynamics
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -705,7 +666,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: MatsunoSociety
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -718,7 +679,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: MatsunoSociety
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -731,7 +692,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: MatsunoSociety
-    _property2: 
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -744,7 +705,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: NewCentury
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -757,7 +718,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: NewCentury
-    _property2: Signal
+    _property2: Electronic
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -770,46 +731,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: NewCentury
-    _property2: Signal
-    _property3: 
-    _PaintingType: 1
-    _valueChanges:
-    - maxMana + 5
-    _slots: 00000000
-    _skillID: 00000000
-  - _ID: 54
-    _name: ShieldGenerator1.0
-    _prefab: Prefab/Constructor/Backpack/Backpack_Shield_Lvl1
-    _type: Backpack
-    _cost: 10
-    _property1: MiliForce
-    _property2: Defense
-    _property3: 
-    _PaintingType: 1
-    _valueChanges:
-    - maxMana + 5
-    _slots: 00000000
-    _skillID: 00000000
-  - _ID: 55
-    _name: ShieldGenerator2.0
-    _prefab: Prefab/Constructor/Backpack/Backpack_Shield_Lvl2
-    _type: Backpack
-    _cost: 10
-    _property1: MiliForce
-    _property2: Defense
-    _property3: 
-    _PaintingType: 1
-    _valueChanges:
-    - maxMana + 5
-    _slots: 00000000
-    _skillID: 00000000
-  - _ID: 56
-    _name: ShieldGenerator3.0
-    _prefab: Prefab/Constructor/Backpack/Backpack_Shield_Lvl3
-    _type: Backpack
-    _cost: 10
-    _property1: MiliForce
-    _property2: Defense
+    _property2: Electronic
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -822,7 +744,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: AA
-    _property2: Power
+    _property2: Dynamics
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -835,7 +757,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: AA
-    _property2: Power
+    _property2: Dynamics
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -848,7 +770,7 @@ MonoBehaviour:
     _type: Backpack
     _cost: 10
     _property1: AA
-    _property2: Power
+    _property2: Dynamics
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -939,7 +861,7 @@ MonoBehaviour:
     _type: Cockpit_Weapon
     _cost: 10
     _property1: MiliForce
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -952,7 +874,7 @@ MonoBehaviour:
     _type: Cockpit_Weapon
     _cost: 10
     _property1: MiliForce
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -965,7 +887,7 @@ MonoBehaviour:
     _type: Cockpit_Weapon
     _cost: 10
     _property1: MiliForce
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -978,7 +900,7 @@ MonoBehaviour:
     _type: Cockpit_Weapon
     _cost: 10
     _property1: Helix
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -991,7 +913,7 @@ MonoBehaviour:
     _type: Cockpit_Weapon
     _cost: 10
     _property1: Helix
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1004,7 +926,7 @@ MonoBehaviour:
     _type: Cockpit_Weapon
     _cost: 10
     _property1: Helix
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1018,7 +940,7 @@ MonoBehaviour:
     _cost: 10
     _property1: LaserWizard
     _property2: Energy
-    _property3: Laser
+    _property3: Optics
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
@@ -1031,7 +953,7 @@ MonoBehaviour:
     _cost: 10
     _property1: LaserWizard
     _property2: Energy
-    _property3: Laser
+    _property3: Optics
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
@@ -1044,7 +966,7 @@ MonoBehaviour:
     _cost: 10
     _property1: LaserWizard
     _property2: Energy
-    _property3: Laser
+    _property3: Optics
     _PaintingType: 3
     _valueChanges:
     - physicalDamage + 1
@@ -1056,7 +978,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1070,7 +992,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1084,7 +1006,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1098,7 +1020,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1112,7 +1034,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1126,7 +1048,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1140,7 +1062,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1154,7 +1076,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -1168,7 +1090,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -1182,7 +1104,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1196,7 +1118,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -1210,7 +1132,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1224,7 +1146,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1238,7 +1160,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1252,7 +1174,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1266,7 +1188,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1280,7 +1202,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1294,7 +1216,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -1308,7 +1230,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1322,7 +1244,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1336,7 +1258,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1350,7 +1272,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1364,7 +1286,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1378,7 +1300,7 @@ MonoBehaviour:
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1392,7 +1314,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1406,7 +1328,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1420,7 +1342,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1434,7 +1356,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1448,7 +1370,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1462,7 +1384,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1476,7 +1398,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1490,7 +1412,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1504,7 +1426,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -1518,7 +1440,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -1532,7 +1454,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 2
     _valueChanges:
@@ -1546,7 +1468,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1560,7 +1482,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1574,7 +1496,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1588,7 +1510,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1602,7 +1524,7 @@ MonoBehaviour:
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Defense
+    _property2: Materials
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1616,7 +1538,7 @@ MonoBehaviour:
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1630,7 +1552,7 @@ MonoBehaviour:
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1644,7 +1566,7 @@ MonoBehaviour:
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1658,7 +1580,7 @@ MonoBehaviour:
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1672,7 +1594,7 @@ MonoBehaviour:
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1686,7 +1608,7 @@ MonoBehaviour:
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1700,7 +1622,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1714,7 +1636,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1728,7 +1650,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1742,7 +1664,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1756,7 +1678,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1770,7 +1692,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1784,7 +1706,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1798,7 +1720,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1812,7 +1734,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1826,7 +1748,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1840,7 +1762,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1854,7 +1776,7 @@ MonoBehaviour:
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
-    _property2: Machine
+    _property2: Mechanical
     _property3: 
     _PaintingType: 1
     _valueChanges:
@@ -1862,13 +1784,13 @@ MonoBehaviour:
     - maxHealth + 10
     _slots: 00000000
     _skillID: 00000000
-  - _ID: 501
-    _name: Bazooka
+  - _ID: 133
+    _name: Weapon_Bazooka_Lvl1
     _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
     _type: Weapon
     _cost: 3
     _property1: MatsunoSociety
-    _property2: Ballistics
+    _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
@@ -1876,3 +1798,731 @@ MonoBehaviour:
     - moveSpeed - 1
     _slots: 00000000
     _skillID: 01000000
+  - _ID: 134
+    _name: Weapon_Bazooka_Lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 135
+    _name: Weapon_Bazooka_Lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 136
+    _name: Weapon_Bazooka_Simple_Lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Simple_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 137
+    _name: Weapon_Bazooka_Simple_Lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Simple_Lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 138
+    _name: Weapon_Bazooka_Simple_Lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Simple_Lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 139
+    _name: Weapon_DoubleGun_lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 140
+    _name: Weapon_DoubleGun_lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 141
+    _name: Weapon_DoubleGun_lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 142
+    _name: Weapon_DoubleGun_lvl4
+    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl4
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 143
+    _name: Weapon_DoubleGun_lvl5
+    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl5
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 144
+    _name: Weapon_GLauncher_lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_GLauncher_lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 145
+    _name: Weapon_GLauncher_lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_GLauncher_lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 146
+    _name: Weapon_GLauncher_lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_GLauncher_lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 147
+    _name: Weapon_Plasma_Lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Plasma_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 148
+    _name: Weapon_Plasma_Lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Plasma_Lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 149
+    _name: Weapon_Plasma_Lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Plasma_Lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 150
+    _name: Weapon_Radar_Lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Radar_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 151
+    _name: Weapon_Radar_Lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Radar_Lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 152
+    _name: Weapon_Radar_Lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Radar_Lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 153
+    _name: Weapon_Shock_Rifle_lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 154
+    _name: Weapon_Shock_Rifle_lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 155
+    _name: Weapon_Shock_Rifle_lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 156
+    _name: Weapon_Shock_Rifle_lvl4
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl4
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 157
+    _name: Weapon_Shock_Rifle_lvl5
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl5
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 158
+    _name: Weapon_Shocker_lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 159
+    _name: Weapon_Shocker_lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 160
+    _name: Weapon_Shocker_lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 161
+    _name: Weapon_Shocker_lvl4
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl4
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 162
+    _name: Weapon_Shocker_lvl5
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl5
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 163
+    _name: Weapon_Shotgun_Lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 164
+    _name: Weapon_Shotgun_Lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 165
+    _name: Weapon_Shotgun_Lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 166
+    _name: Weapon_Shotgun_Lvl4
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl4
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 167
+    _name: Weapon_Shotgun_Lvl5
+    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl5
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 168
+    _name: Weapon_Sniper_lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 169
+    _name: Weapon_Sniper_lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 170
+    _name: Weapon_Sniper_lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 171
+    _name: Weapon_Sniper_lvl4
+    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl4
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 172
+    _name: Weapon_Sniper_lvl5
+    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl5
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 173
+    _name: Weapon_Top_Radar_Lvl1
+    _prefab: Prefab/Constructor/Weapon/Weapon_Top_Radar_Lvl1
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 174
+    _name: Weapon_Top_Radar_Lvl2
+    _prefab: Prefab/Constructor/Weapon/Weapon_Top_Radar_Lvl2
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 175
+    _name: Weapon_Top_Radar_Lvl3
+    _prefab: Prefab/Constructor/Weapon/Weapon_Top_Radar_Lvl3
+    _type: Weapon
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 5
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 01000000
+  - _ID: 176
+    _name: Weapon_Energy_Shield_Lvl1
+    _prefab: Prefab/Constructor/Shield/Weapon_Energy_Shield_Lvl1
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 177
+    _name: Weapon_Energy_Shield_Lvl2
+    _prefab: Prefab/Constructor/Shield/Weapon_Energy_Shield_Lvl2
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 178
+    _name: Weapon_Energy_Shield_Lvl3
+    _prefab: Prefab/Constructor/Shield/Weapon_Energy_Shield_Lvl3
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 179
+    _name: Weapon_Shield_Lvl1
+    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Lvl1
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 180
+    _name: Weapon_Shield_Lvl2
+    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Lvl2
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 181
+    _name: Weapon_Shield_Lvl3
+    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Lvl3
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 182
+    _name: Weapon_Shield_Nimbus
+    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Nimbus
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 183
+    _name: Weapon_TankShield_Lvl1
+    _prefab: Prefab/Constructor/Shield/Weapon_TankShield_Lvl1
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: ee030000
+    _skillID: 00000000
+  - _ID: 184
+    _name: Weapon_TankShield_Lvl2
+    _prefab: Prefab/Constructor/Shield/Weapon_TankShield_Lvl2
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: ee030000
+    _skillID: 00000000
+  - _ID: 185
+    _name: Weapon_TankShield_Lvl3
+    _prefab: Prefab/Constructor/Shield/Weapon_TankShield_Lvl3
+    _type: Shield
+    _cost: 3
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 3
+    _valueChanges:
+    - maxArmor + 30
+    - moveSpeed - 1
+    _slots: ee030000
+    _skillID: 00000000

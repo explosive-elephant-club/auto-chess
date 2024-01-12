@@ -297,6 +297,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 
     _valueChanges: []
+    _slots: 
     _skillID: 
   type: 1
   slots: []
@@ -304,7 +305,8 @@ MonoBehaviour:
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
   animator: {fileID: 9500000}
-  skillCastPoint: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 400006}
   renderers:
   - {fileID: 2300002}
   - {fileID: 2300000}

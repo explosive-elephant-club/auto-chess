@@ -27,7 +27,7 @@ public class SkillBehaviour
     }
 
 
-    public virtual void OnCast(Transform castPoint)
+    public virtual void OnCast(Transform[] castPoints, int pointIndex)
     {
 
         //绑定动画结束时间

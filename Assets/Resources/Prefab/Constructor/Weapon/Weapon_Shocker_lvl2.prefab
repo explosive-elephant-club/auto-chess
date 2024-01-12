@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400000}
+  - component: {fileID: -434979589571216465}
   m_Layer: 0
   m_Name: Weapon_Shocker_lvl2
   m_TagString: Untagged
@@ -34,6 +35,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-434979589571216465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructorDataID: 0
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _cost: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _PaintingType: 
+    _valueChanges: []
+    _slots: 
+    _skillID: 
+  type: 0
+  slots: []
+  parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
+  animator: {fileID: 0}
+  skillCastPoints:
+  - {fileID: 400002}
+  renderers:
+  - {fileID: 2300000}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0
