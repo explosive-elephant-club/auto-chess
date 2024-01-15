@@ -26,7 +26,7 @@ public class InventorySlot : ContainerSlot
     {
         constructorData = _constructorData;
 
-        StartCoroutine(LoadIcon());
+        LoadIcon();
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
@@ -35,14 +35,15 @@ public class InventorySlot : ContainerSlot
         onDragEvent.AddListener(OnDragEvent);
     }
 
-    public IEnumerator LoadIcon()
+    public void LoadIcon()
     {
-        GameObject prefab = Resources.Load<GameObject>(constructorData.prefab);
 
-        yield return new WaitUntil(() => AssetPreview.GetAssetPreview(prefab) != null);
-        Texture2D tex = AssetPreview.GetAssetPreview(prefab);
-        icon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
-        yield return 0;
+        string iconPath = constructorData.prefab.Substring(0, constructorData.prefab.IndexOf(constructorData.type));
+        iconPath = iconPath + constructorData.type + "/Icon/";
+        string namePath = constructorData.prefab.Substring(constructorData.prefab.IndexOf(constructorData.type) + constructorData.type.Length + 1);
+
+        Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);
+        icon.sprite = _icon;
     }
 
     public void AttachConstructor(ConstructorTreeViewSlot constructorTreeViewSlot)

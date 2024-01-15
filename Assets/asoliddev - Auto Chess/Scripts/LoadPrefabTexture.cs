@@ -67,8 +67,10 @@ public class LoadPrefabTexture : MonoBehaviour
             Debug.Log(prefab);
             // 获取缩略图
             Texture2D Tex = AssetPreview.GetAssetPreview(prefab);
+            Debug.Log(Tex);
             if (Tex != null)
             {
+
                 byte[] bytes = Tex.EncodeToPNG();
                 string totalPath = GetTotalPath(_bgFolder) + strBaseName + ".png";
                 File.WriteAllBytes(totalPath, bytes);

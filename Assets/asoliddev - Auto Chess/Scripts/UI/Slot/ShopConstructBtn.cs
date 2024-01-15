@@ -11,7 +11,7 @@ public class ShopConstructBtn : ContainerSlot
     public GameObject ablePanel;
     public GameObject disablePanel;
     public GameObject lockImage;
-    public Image characterImage;
+    public Image iconImage;
     public GameObject[] typeIconArray;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI typeText;
@@ -26,6 +26,17 @@ public class ShopConstructBtn : ContainerSlot
     {
         GetComponent<Button>().onClick.AddListener(OnClicked);
     }
+
+    public void LoadIcon()
+    {
+        string iconPath = constructorData.prefab.Substring(0, constructorData.prefab.IndexOf(constructorData.type));
+        iconPath = iconPath + constructorData.type + "/Icon/";
+        string namePath = constructorData.prefab.Substring(constructorData.prefab.IndexOf(constructorData.type) + constructorData.type.Length + 1);
+
+        Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);
+        iconImage.sprite = _icon;
+    }
+
     private void Start()
     {
         ClearAllListener();
@@ -50,6 +61,7 @@ public class ShopConstructBtn : ContainerSlot
         ablePanel.SetActive(true);
         disablePanel.SetActive(false);
         constructorData = data;
+        LoadIcon();
         nameText.text = constructorData.name;
         typeText.text = constructorData.type.ToString();
         buyCostText.text = constructorData.cost.ToString();
