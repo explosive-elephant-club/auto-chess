@@ -1,21 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GOToUICameraController : MonoBehaviour
 {
-    [SerializeField]
-    private Transform cameraTransform;
-
-    [SerializeField]
-    private Transform targetUnit;
-    [SerializeField]
-    private Transform targetSlot;
-
-
     [Header("Camera Target")]
     public Transform cameraTarget;
-    public Vector3 cameraTargetPos;
 
     [Header("Init Position")]
     [SerializeField]
@@ -25,7 +16,7 @@ public class GOToUICameraController : MonoBehaviour
     [SerializeField]
     private float cameraYaw = 180.0f;
     [SerializeField]
-    private Vector3 cameraStaticOffset;
+    private Vector3 cameraTargetOffset;
 
     [Header("Parameter")]
     [SerializeField]
@@ -56,32 +47,23 @@ public class GOToUICameraController : MonoBehaviour
     private float moveSpeed = 0.002f;
 
     [Header("State")]
+    public float curCameraDist;
+    public float curCameraPitch;
+    public float curCameraYaw;
     public float setCameraDist;
     public float setCameraPitch;
     public float setCameraYaw;
     private float cameraDistVelocity;
     private float cameraPitchVelocity;
     private float cameraYawVelocity;
-    [SerializeField]
-    private Vector3 cameraMoveOffset = Vector3.zero;
-    [SerializeField]
-    private Vector3 cameraTargetOffset;
+
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        if (cameraTransform == null)
-        {
-            var cam = GetComponent<Camera>();
-            if (cam)
-                cameraTransform = cam.transform;
-        }
-        if (cameraTransform == null)
-            enabled = false;
-
         ResetCam();
-
     }
 
     // Update is called once per frame
@@ -98,43 +80,31 @@ public class GOToUICameraController : MonoBehaviour
 
     private void updateCamera()
     {
-        if (cameraTransform == null)
-            return;
-
-        if (cameraTarget != null)
-        {
-            cameraTargetPos = cameraTarget.position;
-        }
-        else
+        if (cameraTarget == null)
         {
             return;
         }
+        transform.LookAt(cameraTarget.position + cameraTargetOffset);
 
-        Vector3 staticOffset = Vector3.Lerp(Vector3.zero, cameraStaticOffset,
-         (cameraDist - cameraDistMin) / (cameraDistMax - cameraDistMin));
+        Vector3 targetDir = transform.position - (cameraTarget.position + cameraTargetOffset);
+        Vector3 forward = cameraTarget.forward + cameraTargetOffset;
+        targetDir.y = 0; forward.y = 0;
+        curCameraYaw = Vector3.SignedAngle(targetDir, forward, Vector3.up);
+        if (Math.Abs(setCameraYaw - curCameraYaw) > 1f)
+        {
+            float yawAngle = (setCameraYaw - curCameraYaw) * cameraAngleHokanTime * Time.deltaTime;
+            transform.RotateAround(cameraTarget.position + cameraTargetOffset, Vector3.down, yawAngle);
+        }
 
-        cameraTargetOffset = Vector3.Lerp(Vector3.zero, cameraMoveOffset,
-         (cameraDistMax - cameraDist) / (cameraDistMax - cameraDistMin));
-
-
-        cameraDist = Mathf.SmoothDamp(cameraDist, setCameraDist, ref cameraDistVelocity, cameraDistHokanTime);
-        cameraPitch = Mathf.SmoothDampAngle(cameraPitch, setCameraPitch, ref cameraPitchVelocity, cameraAngleHokanTime);
-        cameraYaw = Mathf.SmoothDampAngle(cameraYaw, setCameraYaw, ref cameraYawVelocity, cameraAngleHokanTime);
-
-
-        Quaternion q = Quaternion.Euler(cameraPitch, cameraYaw + cameraTarget.rotation.eulerAngles.y, 0);
-        q = transform.rotation * q; // コンポーネントの回転
-        Vector3 v = new Vector3(0, 0, -cameraDist);
-        Vector3 pos = q * v;
-
-
-        Vector3 tarpos = cameraTargetPos + cameraTargetOffset + cameraStaticOffset;
-        Vector3 fixpos = tarpos + pos;
-        cameraTransform.localPosition = fixpos;
-
-        Vector3 relativePos = tarpos - cameraTransform.position;
-        Quaternion rot = Quaternion.LookRotation(relativePos);
-        cameraTransform.rotation = rot;
+        targetDir = transform.position - (cameraTarget.position + cameraTargetOffset);
+        forward = cameraTarget.forward + cameraTargetOffset;
+        targetDir.x = 0; forward.x = 0;
+        curCameraPitch = Vector3.SignedAngle(targetDir, forward, Vector3.right);
+        if (Math.Abs(setCameraPitch - curCameraPitch) > 1f)
+        {
+            float pitchAngle = (setCameraPitch - curCameraPitch) * cameraAngleHokanTime * Time.deltaTime;
+            transform.RotateAround(cameraTarget.position + cameraTargetOffset, GetNormalVector(), pitchAngle);
+        }
     }
 
     public void UpdatePitch(float value)
@@ -143,31 +113,39 @@ public class GOToUICameraController : MonoBehaviour
     }
     public void UpdateYaw(float value)
     {
-        setCameraYaw = Mathf.Lerp(0, 360, value);
+        setCameraYaw = Mathf.Lerp(180, -180, value);
     }
 
     public void UpdateOffset(Vector2 speed)
     {
-        Vector3 offset = cameraTransform.up * -speed.y * moveSpeed;
-        offset += cameraTransform.right * -speed.x * moveSpeed;
 
-        cameraTargetOffset += offset;
     }
 
     public void UpdateZoom(float value)
     {
-        setCameraDist = Mathf.Clamp(value, cameraDistMin, cameraDistMax);
-        if (cameraDist > cameraDistMin + 0.05f)
+
+    }
+
+    public void ResetCam(Transform _cameraTarget = null)
+    {
+        cameraTarget = _cameraTarget;
+        if (cameraTarget != null)
         {
-            cameraMoveOffset = Vector3.zero;
+            transform.SetParent(cameraTarget);
+            transform.localPosition = new Vector3(0, 0, cameraDist) + cameraTargetOffset;
+            transform.localEulerAngles = Vector3.zero;
+
+            transform.RotateAround(cameraTarget.position + cameraTargetOffset, Vector3.up, cameraYaw);
+            transform.RotateAround(cameraTarget.position + cameraTargetOffset, GetNormalVector(), cameraPitch);
         }
     }
 
-    public void ResetCam()
+    Vector3 GetNormalVector()
     {
-        setCameraDist = cameraDist;
-        setCameraPitch = cameraPitch;
-        setCameraYaw = cameraYaw;
-        cameraMoveOffset = Vector3.zero;
+        Vector3 a = transform.position;
+        Vector3 b = cameraTarget.position + cameraTargetOffset;
+        Vector3 c = cameraTarget.position + cameraTargetOffset + Vector3.up;
+
+        return Vector3.Cross(b - a, c - a);
     }
 }

@@ -212,8 +212,7 @@ public class ChampionManager : MonoBehaviour
             {
                 tran.gameObject.layer = 9;
             }
-            GamePlayController.Instance._GOToUICameraController.ResetCam();
-            GamePlayController.Instance._GOToUICameraController.cameraTarget = pickedChampion.transform;
+            GamePlayController.Instance._GOToUICameraController.ResetCam(pickedChampion.transform);
         }
 
     }
