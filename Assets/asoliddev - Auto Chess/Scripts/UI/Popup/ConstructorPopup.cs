@@ -138,7 +138,7 @@ public class ConstructorPopup : Popup
                 slot.onPointerEnterEvent.AddListener((PointerEventData eventData) =>
                 {
                     UIController.Instance.popupController.skillPopup.Show
-                        (data, this.gameObject, Vector3.up);
+                        (data, this.gameObject, Vector3.right);
                 });
                 slot.onPointerExitEvent.AddListener((PointerEventData eventData) =>
                 {

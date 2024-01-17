@@ -12,12 +12,19 @@ public class SkillSlot : ContainerSlot
     Image icon;
     public Skill skill;
     public bool isActivated;
+    public SkillState skillState;
 
     private void Awake()
     {
         icon = transform.Find("Image_Item").GetComponent<Image>();
         icon.gameObject.SetActive(false);
 
+    }
+
+    private void Update()
+    {
+        if (skill != null)
+            skillState = skill.state;
     }
 
     public void Init(Skill _skill, bool _isActivated)
@@ -28,15 +35,11 @@ public class SkillSlot : ContainerSlot
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
-
-        if (_skill == null)
+        if (_skill != null)
         {
-
-        }
-        else
-        {
-            if (!isActivated && skill.state == SkillState.CD)
+            if (!isActivated && skill.state != SkillState.Disable)
                 return;
+
             onPointerDownEvent.AddListener(OnPointerDownEvent);
             onPointerUpEvent.AddListener(OnPointerUpEvent);
             onDragEvent.AddListener(OnDragEvent);

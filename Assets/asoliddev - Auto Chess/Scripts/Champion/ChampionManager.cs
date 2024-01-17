@@ -385,6 +385,7 @@ public class ChampionManager : MonoBehaviour
     {
         if (championController == pickedChampion)
         {
+            SetPickedChampion(null);
             UIController.Instance.championInfoController.UpdateUI();
             UIController.Instance.constructorAssembleController.UpdateUI();
         }

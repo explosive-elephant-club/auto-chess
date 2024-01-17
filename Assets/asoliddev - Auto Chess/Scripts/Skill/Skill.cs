@@ -335,6 +335,7 @@ public class Skill
 
     public void Reset()
     {
+        state = SkillState.CD;
         targets.Clear();
         countRemain = skillData.count;
     }

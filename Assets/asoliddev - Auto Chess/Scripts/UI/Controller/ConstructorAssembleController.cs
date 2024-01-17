@@ -65,7 +65,7 @@ public class ConstructorAssembleController : MonoBehaviour
         {
             zoomIndex++;
             camController.UpdateZoom(zoomValues[zoomIndex]);
-            zoomValueText.text = (zoomValues[zoomIndex] / zoomValues[0]).ToString("0.00");
+            zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
         }
     }
     void ZoomOutBtnClick()
@@ -74,7 +74,7 @@ public class ConstructorAssembleController : MonoBehaviour
         {
             zoomIndex--;
             camController.UpdateZoom(zoomValues[zoomIndex]);
-            zoomValueText.text = (zoomValues[zoomIndex] / zoomValues[0]).ToString("0.00");
+            zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
         }
     }
     void editToggleClick(bool value)
@@ -84,13 +84,18 @@ public class ConstructorAssembleController : MonoBehaviour
 
     public void UpdateUI()
     {
+        ClearAllSub(chassisSlot);
+        chassisSlot.Reset();
+
         if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
         {
             pitchSlider.value = 0.5f;
+            UpdatePitchSlider(0.5f);
             yawSlider.value = 0.5f;
+            UpdateYawSlider(0.5f);
             zoomIndex = 2;
             camController.UpdateZoom(zoomValues[zoomIndex]);
-            zoomValueText.text = (zoomValues[zoomIndex] / zoomValues[0]).ToString("0.00");
+            zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
             editToggle.isOn = true;
             ConstructorBase chassisConstructor = GamePlayController.Instance.ownChampionManager.pickedChampion.GetChassisConstructor();
             chassisSlot.ChassisConstructorInit(this, chassisConstructor);
@@ -98,8 +103,6 @@ public class ConstructorAssembleController : MonoBehaviour
         }
         else
         {
-            ClearAllSub(chassisSlot);
-            chassisSlot.Reset();
             SetUIActive(false);
         }
     }
