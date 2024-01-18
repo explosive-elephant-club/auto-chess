@@ -82,7 +82,7 @@ public class ChampionManager : MonoBehaviour
         GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/ChampionEmpty"));
         ChampionController championController = championPrefab.GetComponent<ChampionController>();
 
-        GameObject constructorPrefab = Instantiate(Resources.Load<GameObject>(constructorData.prefab), championPrefab.transform);
+        GameObject constructorPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Constructor/" + constructorData.prefab), championPrefab.transform);
         ConstructorBase constructorBase = constructorPrefab.GetComponent<ConstructorBase>();
 
         StoreChampionInArray(grid, championController);

@@ -90,11 +90,11 @@ MonoBehaviour:
     _isForbiddenAllChildrenSlots: 0
     _isForbiddenAllParentsSlots: 0
   - _ID: 1007
-    _name: Universal Sidepod Slot
-    _c_name: "\u901A\u7528\u4FA7\u8FB9\u6269\u5C55\u69FD"
+    _name: Cockpit's Backpack Slot
+    _c_name: "\u5E95\u76D8\u80CC\u5305\u69FD"
     _adaptTypes:
-    - Sidepod
-    _forbiddenChildrenSlotTypes: 00000000
+    - Backpack
+    _forbiddenChildrenSlotTypes: ee030000
     _forbiddenParentsSlotTypes: 00000000
     _isForbiddenAllChildrenSlots: 0
     _isForbiddenAllParentsSlots: 0

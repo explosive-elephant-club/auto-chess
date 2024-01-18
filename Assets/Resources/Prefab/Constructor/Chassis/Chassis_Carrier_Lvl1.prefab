@@ -923,7 +923,7 @@ MonoBehaviour:
     _skillID: 
   type: 2
   slots:
-  - slotDataID: 1001
+  - slotDataID: 1006
     slotTrans: {fileID: 400022}
     slotType:
       _ID: 0

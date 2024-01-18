@@ -93,8 +93,8 @@ public class ChampionAttributesController
         critChange = new ChampionAttribute(1, "CritChange");
         critMultiple = new ChampionAttribute(1, "CritMultiple");
 
-        armorRegeneration = new ChampionAttribute(0, "ArmorRegeneration");
-        manaRegeneration = new ChampionAttribute(0, "ManaRegeneration");
+        armorRegeneration = new ChampionAttribute(1, "ArmorRegeneration");
+        manaRegeneration = new ChampionAttribute(1, "ManaRegeneration");
         takeDamageMultiple = new ChampionAttribute(1, "TakeDamageMultiple");
         applyDamageMultiple = new ChampionAttribute(1, "ApplyDamageMultiple");
 

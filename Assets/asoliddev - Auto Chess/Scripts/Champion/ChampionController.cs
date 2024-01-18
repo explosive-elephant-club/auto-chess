@@ -53,6 +53,7 @@ public class ChampionController : MonoBehaviour
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 
     public float totalDamage = 0;
+    public Vector3 speed;
 
     /// Start is called before the first frame update
     void Awake()
@@ -138,6 +139,7 @@ public class ChampionController : MonoBehaviour
     void Update()
     {
         state = AIActionFsm.curState._name;
+        speed = navMeshAgent.velocity;
     }
 
     /// <summary>

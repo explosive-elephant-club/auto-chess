@@ -29,7 +29,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 55
+    - dmg: 15
       correction: 3
       type: Fire
     - dmg: 3

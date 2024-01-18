@@ -18,9 +18,9 @@ MonoBehaviour:
   elements:
   - _ID: 1
     _name: GM100
-    _prefab: Prefab/Constructor/Chassis/Chassis_Carrier_Lvl1
+    _prefab: Chassis/Chassis_Carrier_Lvl1
     _type: Chassis
-    _cost: 20
+    _cost: 10
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -31,11 +31,11 @@ MonoBehaviour:
     - maxMana + 30
     - moveSpeed + 5
     - electricPower + 3
-    _slots: e8030000e9030000ea030000
+    _slots: e8030000ee030000ea030000
     _skillID: 00000000
   - _ID: 2
     _name: GM300
-    _prefab: Prefab/Constructor/Chassis/Chassis_Carrier_Lvl2
+    _prefab: Chassis/Chassis_Carrier_Lvl2
     _type: Chassis
     _cost: 30
     _property1: 3ZeroGroup
@@ -44,68 +44,68 @@ MonoBehaviour:
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 60
-    - maxHealth + 120
-    - maxMana + 50
+    - maxHealth + 100
+    - maxMana + 30
     - moveSpeed + 5
     - electricPower + 3
-    _slots: e8030000e9030000ea030000
+    _slots: e8030000ee030000ea030000
     _skillID: 00000000
   - _ID: 3
     _name: LW100
-    _prefab: Prefab/Constructor/Chassis/Chassis_Tank_Lvl1
+    _prefab: Chassis/Chassis_Tank_Lvl1
     _type: Chassis
-    _cost: 30
-    _property1: MiliForce
+    _cost: 10
+    _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 60
-    - maxHealth + 120
-    - maxMana + 50
+    - maxArmor + 30
+    - maxHealth + 50
+    - maxMana + 40
     - moveSpeed + 8
-    - electricPower + 2
-    _slots: e9030000eb030000
+    - electricPower + 3
+    _slots: ee030000eb030000
     _skillID: 00000000
   - _ID: 4
     _name: LW300
-    _prefab: Prefab/Constructor/Chassis/Chassis_Tank_Lvl2
+    _prefab: Chassis/Chassis_Tank_Lvl2
     _type: Chassis
-    _cost: 40
-    _property1: MiliForce
+    _cost: 30
+    _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: Dynamics
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 120
-    - maxHealth + 240
-    - maxMana + 100
+    - maxArmor + 60
+    - maxHealth + 100
+    - maxMana + 40
     - moveSpeed + 8
-    - electricPower + 2
-    _slots: e9030000eb030000
+    - electricPower + 3
+    _slots: ee030000eb030000
     _skillID: 00000000
   - _ID: 5
     _name: Python
-    _prefab: Prefab/Constructor/Chassis/Chassis_Tank_Lvl3
+    _prefab: Chassis/Chassis_Tank_Lvl3
     _type: Chassis
-    _cost: 50
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Mechanical
     _property3: Electronic
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 240
-    - maxHealth + 480
-    - maxMana + 200
+    - maxArmor + 100
+    - maxHealth + 200
+    - maxMana + 40
     - moveSpeed + 8
     - electricPower + 3
     _slots: eb030000
     _skillID: 00000000
   - _ID: 6
     _name: Salticidae
-    _prefab: Prefab/Constructor/Chassis/Legs_Spider_Lt
+    _prefab: Chassis/Legs_Spider_Lt
     _type: Chassis
-    _cost: 20
+    _cost: 10
     _property1: Helix
     _property2: Mechanical
     _property3: 
@@ -115,13 +115,12 @@ MonoBehaviour:
     - maxHealth + 40
     - maxMana + 30
     - moveSpeed + 4
-    - electricPower + 1
-    - dodgeChange + 0.1
+    - electricPower + 3
     _slots: eb030000
     _skillID: 00000000
   - _ID: 7
     _name: Heteropoda
-    _prefab: Prefab/Constructor/Chassis/Legs_Spider_Med
+    _prefab: Chassis/Legs_Spider_Med
     _type: Chassis
     _cost: 30
     _property1: Helix
@@ -129,35 +128,33 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 30
+    - maxArmor + 40
     - maxHealth + 80
-    - maxMana + 50
-    - moveSpeed + 5
-    - electricPower + 1
-    - dodgeChange + 0.2
+    - maxMana + 30
+    - moveSpeed + 4
+    - electricPower + 3
     _slots: eb030000
     _skillID: 00000000
   - _ID: 8
     _name: Tarantula
-    _prefab: Prefab/Constructor/Chassis/Legs_Spider_Hvy
+    _prefab: Chassis/Legs_Spider_Hvy
     _type: Chassis
-    _cost: 40
+    _cost: 100
     _property1: Helix
     _property2: Mechanical
     _property3: Materials
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 60
-    - maxHealth + 200
-    - maxMana + 80
+    - maxArmor + 80
+    - maxHealth + 160
+    - maxMana + 30
     - moveSpeed + 4
-    - electricPower + 1
-    - dodgeChange + 0.3
+    - electricPower + 3
     _slots: eb030000
     _skillID: 00000000
   - _ID: 9
     _name: Porter
-    _prefab: Prefab/Constructor/Chassis/Legs_Tracks_Lvl0
+    _prefab: Chassis/Legs_Tracks_Lvl0
     _type: Chassis
     _cost: 10
     _property1: AA
@@ -165,33 +162,16 @@ MonoBehaviour:
     _property3: Energy
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 20
+    - maxArmor + 15
     - maxHealth + 30
-    - maxMana + 30
-    - moveSpeed + 4
-    - electricPower + 1
+    - maxMana + 100
+    - moveSpeed + 6
+    - electricPower + 2
     _slots: eb030000
     _skillID: 00000000
   - _ID: 10
     _name: Hunter1.0
-    _prefab: Prefab/Constructor/Chassis/Legs_Tracks_Lvl1
-    _type: Chassis
-    _cost: 20
-    _property1: NewCentury
-    _property2: Mechanical
-    _property3: 
-    _PaintingType: 2
-    _valueChanges:
-    - maxArmor + 40
-    - maxHealth + 60
-    - maxMana + 50
-    - moveSpeed + 4
-    - electricPower + 1
-    _slots: eb030000
-    _skillID: 00000000
-  - _ID: 11
-    _name: Hunter2.0
-    _prefab: Prefab/Constructor/Chassis/Legs_Tracks_Lvl2
+    _prefab: Chassis/Legs_Tracks_Lvl1
     _type: Chassis
     _cost: 30
     _property1: NewCentury
@@ -199,33 +179,67 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 80
-    - maxHealth + 150
-    - maxMana + 90
+    - maxArmor + 30
+    - maxHealth + 60
+    - maxMana + 100
+    - moveSpeed + 6
+    - electricPower + 2
+    _slots: eb030000
+    _skillID: 00000000
+  - _ID: 11
+    _name: Hunter2.0
+    _prefab: Chassis/Legs_Tracks_Lvl2
+    _type: Chassis
+    _cost: 30
+    _property1: NewCentury
+    _property2: Mechanical
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - maxArmor + 50
+    - maxHealth + 40
+    - maxMana + 100
     - moveSpeed + 4
-    - electricPower + 1
+    - electricPower + 2
     _slots: eb030000
     _skillID: 00000000
   - _ID: 12
     _name: Cerberus
-    _prefab: Prefab/Constructor/Chassis/Legs_Tracks_Lvl3
+    _prefab: Chassis/Legs_Tracks_Lvl3
     _type: Chassis
-    _cost: 40
+    _cost: 100
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 100
-    - maxHealth + 300
-    - maxMana + 120
+    - maxHealth + 120
+    - maxMana + 100
     - moveSpeed + 4
     - electricPower + 2
     _slots: eb030000
     _skillID: 00000000
   - _ID: 13
     _name: Heidelberg
-    _prefab: Prefab/Constructor/Chassis/Walker_Legs_Lt
+    _prefab: Chassis/Walker_Legs_Lt
+    _type: Chassis
+    _cost: 10
+    _property1: MatsunoSociety
+    _property2: Mechanical
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - maxArmor + 40
+    - maxHealth + 60
+    - maxMana + 10
+    - moveSpeed + 4
+    - electricPower + 3
+    _slots: ec030000
+    _skillID: 00000000
+  - _ID: 14
+    _name: Ochre
+    _prefab: Chassis/Walker_Legs_Med
     _type: Chassis
     _cost: 30
     _property1: MatsunoSociety
@@ -233,50 +247,33 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxArmor + 50
-    - maxHealth + 100
-    - maxMana + 80
-    - moveSpeed + 3
-    - electricPower + 3
-    _slots: ec030000
-    _skillID: 00000000
-  - _ID: 14
-    _name: Ochre
-    _prefab: Prefab/Constructor/Chassis/Walker_Legs_Med
-    _type: Chassis
-    _cost: 40
-    _property1: MatsunoSociety
-    _property2: Mechanical
-    _property3: 
-    _PaintingType: 1
-    _valueChanges:
-    - maxArmor + 100
-    - maxHealth + 200
-    - maxMana + 160
-    - moveSpeed + 3
+    - maxArmor + 80
+    - maxHealth + 120
+    - maxMana + 10
+    - moveSpeed + 4
     - electricPower + 3
     _slots: ec030000
     _skillID: 00000000
   - _ID: 15
     _name: Amaterasu
-    _prefab: Prefab/Constructor/Chassis/Walker_Legs_Hvy
+    _prefab: Chassis/Walker_Legs_Hvy
     _type: Chassis
-    _cost: 50
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Mechanical
     _property3: AI
     _PaintingType: 1
     _valueChanges:
-    - maxArmor + 200
-    - maxHealth + 400
-    - maxMana + 320
-    - moveSpeed + 3
-    - electricPower + 4
+    - maxArmor + 150
+    - maxHealth + 240
+    - maxMana + 10
+    - moveSpeed + 4
+    - electricPower + 3
     _slots: ec030000
     _skillID: 00000000
   - _ID: 16
     _name: Thinker
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl1
+    _prefab: Cockpit/Cockpit_Bot_Round_Lvl1
     _type: Cockpit
     _cost: 10
     _property1: Helix
@@ -291,23 +288,22 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 17
     _name: Rover
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Round_Lvl2
+    _prefab: Cockpit/Cockpit_Bot_Round_Lvl2
     _type: Cockpit
-    _cost: 20
+    _cost: 10
     _property1: Helix
     _property2: AI
     _property3: 
     _PaintingType: 3
     _valueChanges:
     - maxArmor + 10
-    - maxHealth + 10
     - moveSpeed - 1
-    - electricPower + 2
+    - electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 18
     _name: Spy
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Spy
+    _prefab: Cockpit/Cockpit_Bot_Spy
     _type: Cockpit
     _cost: 30
     _property1: Helix
@@ -315,15 +311,12 @@ MonoBehaviour:
     _property3: Electronic
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 10
-    - maxHealth + 10
-    - moveSpeed - 1
     - electricPower + 2
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 19
     _name: Edge100
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Wedge_Lvl1
+    _prefab: Cockpit/Cockpit_Bot_Wedge_Lvl1
     _type: Cockpit
     _cost: 10
     _property1: 3ZeroGroup
@@ -331,26 +324,27 @@ MonoBehaviour:
     _property3: Mechanical
     _PaintingType: 3
     _valueChanges:
+    - physicalDamage + 1
     - electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 20
     _name: Edge300
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bot_Wedge_Lvl2
+    _prefab: Cockpit/Cockpit_Bot_Wedge_Lvl2
     _type: Cockpit
-    _cost: 20
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: AI
     _property3: Mechanical
     _PaintingType: 3
     _valueChanges:
+    - physicalDamage + 3
     - electricPower + 1
-    - maxmana + 30
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 21
     _name: Vanguard
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Bulldog
+    _prefab: Cockpit/Cockpit_Bulldog
     _type: Cockpit
     _cost: 30
     _property1: 3ZeroGroup
@@ -358,14 +352,17 @@ MonoBehaviour:
     _property3: Materials
     _PaintingType: 1
     _valueChanges:
+    - maxArmor + 15
+    - maxHealth + 20
+    - moveSpeed - 1
     - electricPower + 1
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 22
     _name: Specter
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Flybot
+    _prefab: Cockpit/Cockpit_Flybot
     _type: Cockpit
-    _cost: 20
+    _cost: 100
     _property1: MiliForce
     _property2: AI
     _property3: 
@@ -376,9 +373,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 23
     _name: Pilot
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Flyer
+    _prefab: Cockpit/Cockpit_Flyer
     _type: Cockpit
-    _cost: 30
+    _cost: 100
     _property1: MiliForce
     _property2: AI
     _property3: 
@@ -388,10 +385,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 24
-    _name: GunGuardian
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Gunbot
+    _name: Guardian-OSA
+    _prefab: Cockpit/Cockpit_Gunbot
     _type: Cockpit
-    _cost: 40
+    _cost: 30
     _property1: MiliForce
     _property2: AI
     _property3: Firearms
@@ -401,10 +398,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 25
-    _name: EliteGuardian
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Gunner
+    _name: Guardian-OSD
+    _prefab: Cockpit/Cockpit_Gunner
     _type: Cockpit
-    _cost: 50
+    _cost: 30
     _property1: MiliForce
     _property2: AI
     _property3: Firearms
@@ -414,8 +411,21 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 26
-    _name: Titan1
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Humanoid_Lvl1
+    _name: Titan-L
+    _prefab: Cockpit/Cockpit_Humanoid_Lvl1
+    _type: Cockpit
+    _cost: 10
+    _property1: MatsunoSociety
+    _property2: AI
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - electricPower + 1
+    _slots: e9030000ed030000ed030000
+    _skillID: 00000000
+  - _ID: 27
+    _name: Titan-M
+    _prefab: Cockpit/Cockpit_Humanoid_Lvl2
     _type: Cockpit
     _cost: 30
     _property1: MatsunoSociety
@@ -426,24 +436,11 @@ MonoBehaviour:
     - electricPower + 1
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
-  - _ID: 27
-    _name: Titan2
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Humanoid_Lvl2
-    _type: Cockpit
-    _cost: 40
-    _property1: MatsunoSociety
-    _property2: AI
-    _property3: 
-    _PaintingType: 1
-    _valueChanges:
-    - electricPower + 1
-    _slots: e9030000ed030000ed030000
-    _skillID: 00000000
   - _ID: 28
-    _name: Titan3
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Humanoid_Lvl3
+    _name: Titan-H
+    _prefab: Cockpit/Cockpit_Humanoid_Lvl3
     _type: Cockpit
-    _cost: 50
+    _cost: 100
     _property1: MatsunoSociety
     _property2: AI
     _property3: Dynamics
@@ -454,9 +451,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 29
     _name: Warper
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Moto
+    _prefab: Cockpit/Cockpit_Moto
     _type: Cockpit
-    _cost: 10
+    _cost: 100
     _property1: AA
     _property2: AI
     _property3: 
@@ -467,9 +464,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 30
     _name: Runner
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Rabbit_No_Interior
+    _prefab: Cockpit/Cockpit_Rabbit_No_Interior
     _type: Cockpit
-    _cost: 20
+    _cost: 30
     _property1: AA
     _property2: AI
     _property3: 
@@ -480,9 +477,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 31
     _name: Behemoth
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Rhino_No_Interior
+    _prefab: Cockpit/Cockpit_Rhino_No_Interior
     _type: Cockpit
-    _cost: 30
+    _cost: 100
     _property1: AA
     _property2: AI
     _property3: Materials
@@ -493,9 +490,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 32
     _name: Roadhog
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Roadhog_No_Interior
+    _prefab: Cockpit/Cockpit_Roadhog_No_Interior
     _type: Cockpit
-    _cost: 40
+    _cost: 30
     _property1: AA
     _property2: AI
     _property3: Materials
@@ -506,7 +503,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 33
     _name: Sprinter
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Shuttle_No_Interior
+    _prefab: Cockpit/Cockpit_Shuttle_No_Interior
     _type: Cockpit
     _cost: 30
     _property1: NewCentury
@@ -519,9 +516,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 34
     _name: Sentinel
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Trooper
+    _prefab: Cockpit/Cockpit_Trooper
     _type: Cockpit
-    _cost: 40
+    _cost: 100
     _property1: NewCentury
     _property2: AI
     _property3: 
@@ -532,12 +529,12 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 35
     _name: Blaster
-    _prefab: Prefab/Constructor/Cockpit/Cockpit_Trucker_No_Interior
+    _prefab: Cockpit/Cockpit_Trucker_No_Interior
     _type: Cockpit
-    _cost: 50
+    _cost: 10
     _property1: NewCentury
     _property2: AI
-    _property3: Mechanical
+    _property3: 
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
@@ -545,7 +542,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 36
     _name: AmmunitionPack
-    _prefab: Prefab/Constructor/Backpack/Backpack_Box_Container
+    _prefab: Backpack/Backpack_Box_Container
     _type: Backpack
     _cost: 10
     _property1: MiliForce
@@ -558,7 +555,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 37
     _name: AmmunitionPack+
-    _prefab: Prefab/Constructor/Backpack/Backpack_Box_Container_2
+    _prefab: Backpack/Backpack_Box_Container_2
     _type: Backpack
     _cost: 10
     _property1: MiliForce
@@ -571,7 +568,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 38
     _name: Scanner100
-    _prefab: Prefab/Constructor/Backpack/Backpack_Dish_Lvl1
+    _prefab: Backpack/Backpack_Dish_Lvl1
     _type: Backpack
     _cost: 10
     _property1: 3ZeroGroup
@@ -584,9 +581,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 39
     _name: Scanner300
-    _prefab: Prefab/Constructor/Backpack/Backpack_Dish_Lvl2
+    _prefab: Backpack/Backpack_Dish_Lvl2
     _type: Backpack
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Electronic
     _property3: 
@@ -597,9 +594,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 40
     _name: Scanner400
-    _prefab: Prefab/Constructor/Backpack/Backpack_Dish_Lvl3
+    _prefab: Backpack/Backpack_Dish_Lvl3
     _type: Backpack
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Electronic
     _property3: 
@@ -610,9 +607,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 44
     _name: BackExtensionPlatform
-    _prefab: Prefab/Constructor/Backpack/Backpack_Gun
+    _prefab: Backpack/Backpack_Gun
     _type: Backpack
-    _cost: 10
+    _cost: 100
     _property1: MiliForce
     _property2: 
     _property3: 
@@ -623,10 +620,10 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 45
     _name: HossarL
-    _prefab: Prefab/Constructor/Backpack/Backpack_Hussar_Lt
+    _prefab: Backpack/Backpack_Hussar_Lt
     _type: Backpack
-    _cost: 10
-    _property1: Helix
+    _cost: 30
+    _property1: AA
     _property2: AI
     _property3: 
     _PaintingType: 2
@@ -636,10 +633,10 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 46
     _name: HossarM
-    _prefab: Prefab/Constructor/Backpack/Backpack_Hussar_Med
+    _prefab: Backpack/Backpack_Hussar_Med
     _type: Backpack
-    _cost: 10
-    _property1: Helix
+    _cost: 100
+    _property1: AA
     _property2: AI
     _property3: 
     _PaintingType: 2
@@ -649,7 +646,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 47
     _name: PowerDrivePack
-    _prefab: Prefab/Constructor/Backpack/Backpack_Lt_Motor
+    _prefab: Backpack/Backpack_Lt_Motor
     _type: Backpack
     _cost: 10
     _property1: AA
@@ -662,7 +659,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 48
     _name: MedicalPack
-    _prefab: Prefab/Constructor/Backpack/Backpack_Med_Frame
+    _prefab: Backpack/Backpack_Med_Frame
     _type: Backpack
     _cost: 10
     _property1: MatsunoSociety
@@ -675,9 +672,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 49
     _name: MedicalProPack
-    _prefab: Prefab/Constructor/Backpack/Backpack_Med_Safari
+    _prefab: Backpack/Backpack_Med_Safari
     _type: Backpack
-    _cost: 10
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Materials
     _property3: 
@@ -688,9 +685,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 50
     _name: ExplosivePack
-    _prefab: Prefab/Constructor/Backpack/Backpack_MineLayer
+    _prefab: Backpack/Backpack_MineLayer
     _type: Backpack
-    _cost: 10
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -701,7 +698,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 51
     _name: RackPack
-    _prefab: Prefab/Constructor/Backpack/Backpack_Rack
+    _prefab: Backpack/Backpack_Rack
     _type: Backpack
     _cost: 10
     _property1: NewCentury
@@ -714,9 +711,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 52
     _name: Interferencer
-    _prefab: Prefab/Constructor/Backpack/Backpack_Radar
+    _prefab: Backpack/Backpack_Radar
     _type: Backpack
-    _cost: 10
+    _cost: 30
     _property1: NewCentury
     _property2: Electronic
     _property3: 
@@ -727,7 +724,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 53
     _name: RadioPack
-    _prefab: Prefab/Constructor/Backpack/Backpack_Radio
+    _prefab: Backpack/Backpack_Radio
     _type: Backpack
     _cost: 10
     _property1: NewCentury
@@ -740,7 +737,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 57
     _name: PowerPack100
-    _prefab: Prefab/Constructor/Backpack/Backpack_Tank_Lt
+    _prefab: Backpack/Backpack_Tank_Lt
     _type: Backpack
     _cost: 10
     _property1: AA
@@ -753,9 +750,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 58
     _name: PowerPack200
-    _prefab: Prefab/Constructor/Backpack/Backpack_Tank_Med
+    _prefab: Backpack/Backpack_Tank_Med
     _type: Backpack
-    _cost: 10
+    _cost: 30
     _property1: AA
     _property2: Dynamics
     _property3: 
@@ -766,9 +763,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 59
     _name: PowerPack300
-    _prefab: Prefab/Constructor/Backpack/Backpack_Tank_Hvy
+    _prefab: Backpack/Backpack_Tank_Hvy
     _type: Backpack
-    _cost: 10
+    _cost: 100
     _property1: AA
     _property2: Dynamics
     _property3: 
@@ -779,9 +776,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 60
     _name: SeatPlatform3X
-    _prefab: Prefab/Constructor/WeaponPlatform/Cockpit_Gun
+    _prefab: WeaponPlatform/Cockpit_Gun
     _type: WeaponPlatform
-    _cost: 10
+    _cost: 100
     _property1: MiliForce
     _property2: 
     _property3: 
@@ -792,9 +789,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 61
     _name: StoolPlatform
-    _prefab: Prefab/Constructor/WeaponPlatform/Cockpit_Gun_2x
+    _prefab: WeaponPlatform/Cockpit_Gun_2x
     _type: WeaponPlatform
-    _cost: 10
+    _cost: 100
     _property1: MiliForce
     _property2: 
     _property3: 
@@ -805,9 +802,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 62
     _name: SeatPlatform
-    _prefab: Prefab/Constructor/WeaponPlatform/Cockpit_Gun_Flat_Part
+    _prefab: WeaponPlatform/Cockpit_Gun_Flat_Part
     _type: WeaponPlatform
-    _cost: 10
+    _cost: 100
     _property1: MiliForce
     _property2: 
     _property3: 
@@ -818,9 +815,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 63
     _name: StoolPlatform+
-    _prefab: Prefab/Constructor/WeaponPlatform/Cockpit_Gun_Mount_2x
+    _prefab: WeaponPlatform/Cockpit_Gun_Mount_2x
     _type: WeaponPlatform
-    _cost: 10
+    _cost: 100
     _property1: MiliForce
     _property2: 
     _property3: 
@@ -831,9 +828,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 64
     _name: StandardPlatform
-    _prefab: Prefab/Constructor/WeaponPlatform/Top_Weapon_Platform
+    _prefab: WeaponPlatform/Top_Weapon_Platform
     _type: WeaponPlatform
-    _cost: 5
+    _cost: 30
     _property1: MiliForce
     _property2: 
     _property3: 
@@ -844,9 +841,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 65
     _name: StandardPlatform+
-    _prefab: Prefab/Constructor/WeaponPlatform/Top_Weapon_Platform_2X
+    _prefab: WeaponPlatform/Top_Weapon_Platform_2X
     _type: WeaponPlatform
-    _cost: 5
+    _cost: 100
     _property1: MiliForce
     _property2: 
     _property3: 
@@ -856,8 +853,8 @@ MonoBehaviour:
     _slots: ee030000ee030000
     _skillID: 00000000
   - _ID: 66
-    _name: CW_DoubleGun_Lvl1
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl1
+    _name: STH BB
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl1
     _type: Cockpit_Weapon
     _cost: 10
     _property1: MiliForce
@@ -869,10 +866,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 67
-    _name: CW_DoubleGun_Lvl2
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl2
+    _name: STH OS
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl2
     _type: Cockpit_Weapon
-    _cost: 10
+    _cost: 30
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -882,10 +879,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 68
-    _name: CW_DoubleGun_Lvl3
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl3
+    _name: STH SV
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl3
     _type: Cockpit_Weapon
-    _cost: 10
+    _cost: 100
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -895,8 +892,8 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 69
-    _name: CW_Mortar_Lvl1
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl1
+    _name: MAW Mortar I
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl1
     _type: Cockpit_Weapon
     _cost: 10
     _property1: Helix
@@ -908,10 +905,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 70
-    _name: CW_Mortar_Lvl2
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl2
+    _name: MAW Mortar II
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl2
     _type: Cockpit_Weapon
-    _cost: 10
+    _cost: 30
     _property1: Helix
     _property2: Firearms
     _property3: 
@@ -921,10 +918,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 71
-    _name: CW_Mortar_Lvl3
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl3
+    _name: MAW Mortar III
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl3
     _type: Cockpit_Weapon
-    _cost: 10
+    _cost: 100
     _property1: Helix
     _property2: Firearms
     _property3: 
@@ -934,8 +931,8 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 72
-    _name: CW_Raygun_Lvl1
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl1
+    _name: Ray Pulse Emitter 100
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl1
     _type: Cockpit_Weapon
     _cost: 10
     _property1: LaserWizard
@@ -947,10 +944,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 73
-    _name: CW_Raygun_Lvl2
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl2
+    _name: Ray Pulse Emitter 300
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl2
     _type: Cockpit_Weapon
-    _cost: 10
+    _cost: 30
     _property1: LaserWizard
     _property2: Energy
     _property3: Optics
@@ -960,10 +957,10 @@ MonoBehaviour:
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 74
-    _name: CW_Raygun_Lvl3
-    _prefab: Prefab/Constructor/Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl3
+    _name: Ray Pulse Emitter 500
+    _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl3
     _type: Cockpit_Weapon
-    _cost: 10
+    _cost: 100
     _property1: LaserWizard
     _property2: Energy
     _property3: Optics
@@ -974,7 +971,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 75
     _name: Sidepod_Battery_Lvl1
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Armor_Ammo_Lvl1
+    _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl1
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -988,9 +985,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 76
     _name: Sidepod_Battery_Lvl2
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Armor_Ammo_Lvl2
+    _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl2
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1002,9 +999,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 77
     _name: Sidepod_Battery_Lvl3
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Armor_Ammo_Lvl3
+    _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl3
     _type: Sidepod
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1016,7 +1013,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 78
     _name: Sidepod_Armor_Lvl1
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Armor_Lvl1
+    _prefab: Sidepod/HalfShoulder_Armor_Lvl1
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -1030,9 +1027,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 79
     _name: Sidepod_Armor_Lvl2
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Armor_Lvl2
+    _prefab: Sidepod/HalfShoulder_Armor_Lvl2
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1044,9 +1041,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 80
     _name: Sidepod_Armor_Lvl3
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Armor_Lvl3
+    _prefab: Sidepod/HalfShoulder_Armor_Lvl3
     _type: Sidepod
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1058,7 +1055,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 81
     _name: Sidepod_Barrier
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Barrier
+    _prefab: Sidepod/HalfShoulder_Barrier
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -1072,9 +1069,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 82
     _name: Sidepod_Bot
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Bot
+    _prefab: Sidepod/HalfShoulder_Bot
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1086,9 +1083,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 83
     _name: Sidepod_Cobra
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Cobra
+    _prefab: Sidepod/HalfShoulder_Cobra
     _type: Sidepod
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1100,9 +1097,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 84
     _name: Sidepod_Diablo
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Diablo
+    _prefab: Sidepod/HalfShoulder_Diablo
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1114,7 +1111,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 85
     _name: Sidepod_Extender
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Extender
+    _prefab: Sidepod/HalfShoulder_Extender
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -1128,7 +1125,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 86
     _name: Sidepod_Hog
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Hog
+    _prefab: Sidepod/HalfShoulder_Hog
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -1142,9 +1139,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 87
     _name: Sidepod_Ox
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Ox
+    _prefab: Sidepod/HalfShoulder_Ox
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1156,9 +1153,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 88
     _name: Sidepod_Plates
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Plates
+    _prefab: Sidepod/HalfShoulder_Plates
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1170,9 +1167,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 89
     _name: Sidepod_Rhino
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Rhino
+    _prefab: Sidepod/HalfShoulder_Rhino
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1184,9 +1181,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 90
     _name: Sidepod_Saucer
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Saucer
+    _prefab: Sidepod/HalfShoulder_Saucer
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1198,7 +1195,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 91
     _name: Sidepod_Skinny_Up
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Skinny_Up
+    _prefab: Sidepod/HalfShoulder_Skinny_Up
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -1212,9 +1209,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 92
     _name: Sidepod_Tank
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Tank
+    _prefab: Sidepod/HalfShoulder_Tank
     _type: Sidepod
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1226,7 +1223,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 93
     _name: Sidepod_Visor_Lvl1
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Visor_Lvl1
+    _prefab: Sidepod/HalfShoulder_Visor_Lvl1
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -1240,9 +1237,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 94
     _name: Sidepod_Visor_Lvl2
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Visor_Lvl2
+    _prefab: Sidepod/HalfShoulder_Visor_Lvl2
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1254,9 +1251,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 95
     _name: Sidepod_Visor_Lvl3
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Visor_Lvl3
+    _prefab: Sidepod/HalfShoulder_Visor_Lvl3
     _type: Sidepod
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1268,7 +1265,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 96
     _name: Sidepod_Visor_Simple_Lvl1
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Visor_Simple_Lvl1
+    _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl1
     _type: Sidepod
     _cost: 10
     _property1: 3ZeroGroup
@@ -1282,9 +1279,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 97
     _name: Sidepod_Visor_Simple_Lvl2
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Visor_Simple_Lvl2
+    _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl2
     _type: Sidepod
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1296,9 +1293,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 98
     _name: Sidepod_Visor_Simple_Lvl3
-    _prefab: Prefab/Constructor/Sidepod/HalfShoulder_Visor_Simple_Lvl3
+    _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl3
     _type: Sidepod
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1310,7 +1307,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 99
     _name: Base_Battery_Lvl1
-    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Ammo_Lvl1
+    _prefab: Base/Shoulders_Armor_Ammo_Lvl1
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
@@ -1324,9 +1321,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 100
     _name: Base_Battery_Lvl2
-    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Ammo_Lvl2
+    _prefab: Base/Shoulders_Armor_Ammo_Lvl2
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1338,9 +1335,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 101
     _name: Base_Battery_Lvl3
-    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Ammo_Lvl3
+    _prefab: Base/Shoulders_Armor_Ammo_Lvl3
     _type: Base
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1352,7 +1349,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 102
     _name: Base_Armor_Lvl1
-    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Lvl1
+    _prefab: Base/Shoulders_Armor_Lvl1
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
@@ -1366,9 +1363,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 103
     _name: Base_Armor_Lvl2
-    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Lvl2
+    _prefab: Base/Shoulders_Armor_Lvl2
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1380,9 +1377,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 104
     _name: Base_Armor_Lvl3
-    _prefab: Prefab/Constructor/Base/Shoulders_Armor_Lvl3
+    _prefab: Base/Shoulders_Armor_Lvl3
     _type: Base
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1394,9 +1391,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 105
     _name: Base_Diablo
-    _prefab: Prefab/Constructor/Base/Shoulders_Diablo
+    _prefab: Base/Shoulders_Diablo
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1408,7 +1405,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 106
     _name: Base_Hog
-    _prefab: Prefab/Constructor/Base/Shoulders_Hog
+    _prefab: Base/Shoulders_Hog
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
@@ -1422,9 +1419,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 107
     _name: Base_Bot
-    _prefab: Prefab/Constructor/Base/Shoulders_Med_Bot
+    _prefab: Base/Shoulders_Med_Bot
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1436,9 +1433,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 108
     _name: Base_Cobra
-    _prefab: Prefab/Constructor/Base/Shoulders_Med_Cobra
+    _prefab: Base/Shoulders_Med_Cobra
     _type: Base
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1450,9 +1447,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 109
     _name: Base_Tank
-    _prefab: Prefab/Constructor/Base/Shoulders_Med_Tank
+    _prefab: Base/Shoulders_Med_Tank
     _type: Base
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1464,9 +1461,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 110
     _name: Base_Ox
-    _prefab: Prefab/Constructor/Base/Shoulders_Ox
+    _prefab: Base/Shoulders_Ox
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1478,9 +1475,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 111
     _name: Base_Plates
-    _prefab: Prefab/Constructor/Base/Shoulders_Plates
+    _prefab: Base/Shoulders_Plates
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1492,9 +1489,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 112
     _name: Base_Rhino
-    _prefab: Prefab/Constructor/Base/Shoulders_Rhino
+    _prefab: Base/Shoulders_Rhino
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1506,9 +1503,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 113
     _name: Base_Saucer
-    _prefab: Prefab/Constructor/Base/Shoulders_Saucer
+    _prefab: Base/Shoulders_Saucer
     _type: Base
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1520,7 +1517,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 114
     _name: Base_Skinny_Up
-    _prefab: Prefab/Constructor/Base/Shoulders_Skinny_Up
+    _prefab: Base/Shoulders_Skinny_Up
     _type: Base
     _cost: 10
     _property1: 3ZeroGroup
@@ -1534,7 +1531,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 115
     _name: Arm_Weapon_Lt
-    _prefab: Prefab/Constructor/Arm/Arm_Weapon_Lt
+    _prefab: Arm/Arm_Weapon_Lt
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
@@ -1548,9 +1545,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 116
     _name: Arm_Weapon_Med
-    _prefab: Prefab/Constructor/Arm/Arm_Weapon_Med
+    _prefab: Arm/Arm_Weapon_Med
     _type: Arm
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1562,9 +1559,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 117
     _name: Arm_Weapon_Hvy
-    _prefab: Prefab/Constructor/Arm/Arm_Weapon_Hvy
+    _prefab: Arm/Arm_Weapon_Hvy
     _type: Arm
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1576,7 +1573,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 118
     _name: Arm_NoHand_lt
-    _prefab: Prefab/Constructor/Arm/Arms_NoHand_lt_L
+    _prefab: Arm/Arms_NoHand_lt_L
     _type: Arm
     _cost: 10
     _property1: 3ZeroGroup
@@ -1590,9 +1587,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 119
     _name: Arm_NoHand_Med
-    _prefab: Prefab/Constructor/Arm/Arms_NoHand_Med_L
+    _prefab: Arm/Arms_NoHand_Med_L
     _type: Arm
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1604,9 +1601,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 120
     _name: Arm_NoHand_Hvy
-    _prefab: Prefab/Constructor/Arm/Arms_NoHand_Hvy_L
+    _prefab: Arm/Arms_NoHand_Hvy_L
     _type: Arm
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1618,7 +1615,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 121
     _name: Gadget_Hand
-    _prefab: Prefab/Constructor/Gadget/Gadget_Hand
+    _prefab: Gadget/Gadget_Hand
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
@@ -1632,7 +1629,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 122
     _name: Gadget_Hand_Gun
-    _prefab: Prefab/Constructor/Gadget/Gadget_Hand_Gun
+    _prefab: Gadget/Gadget_Hand_Gun
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
@@ -1646,7 +1643,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 123
     _name: Gadget_Hand_Saw
-    _prefab: Prefab/Constructor/Gadget/Gadget_Hand_Saw
+    _prefab: Gadget/Gadget_Hand_Saw
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
@@ -1660,9 +1657,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 124
     _name: Gadget_Weapon_Flamethrower
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Flamethrower
+    _prefab: Gadget/Gadget_Weapon_Flamethrower
     _type: Gadget
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1674,9 +1671,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 125
     _name: Gadget_Weapon_Launcher
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Launcher
+    _prefab: Gadget/Gadget_Weapon_Launcher
     _type: Gadget
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1688,7 +1685,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 126
     _name: Gadget_Weapon_Minigun_Lvl1
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Minigun_Lvl1
+    _prefab: Gadget/Gadget_Weapon_Minigun_Lvl1
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
@@ -1702,9 +1699,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 127
     _name: Gadget_Weapon_Minigun_Lvl2
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Minigun_Lvl2
+    _prefab: Gadget/Gadget_Weapon_Minigun_Lvl2
     _type: Gadget
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1716,9 +1713,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 128
     _name: Gadget_Weapon_Minigun_Lvl3
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Minigun_Lvl3
+    _prefab: Gadget/Gadget_Weapon_Minigun_Lvl3
     _type: Gadget
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1730,9 +1727,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 129
     _name: Gadget_Weapon_Shocker
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shocker
+    _prefab: Gadget/Gadget_Weapon_Shocker
     _type: Gadget
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1744,7 +1741,7 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 130
     _name: Gadget_Weapon_Shotgun_Lvl1
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shotgun_Lvl1
+    _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl1
     _type: Gadget
     _cost: 10
     _property1: 3ZeroGroup
@@ -1758,9 +1755,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 131
     _name: Gadget_Weapon_Shotgun_Lvl2
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shotgun_Lvl2
+    _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl2
     _type: Gadget
-    _cost: 10
+    _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1772,9 +1769,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 132
     _name: Gadget_Weapon_Shotgun_Lvl3
-    _prefab: Prefab/Constructor/Gadget/Gadget_Weapon_Shotgun_Lvl3
+    _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl3
     _type: Gadget
-    _cost: 10
+    _cost: 100
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1786,611 +1783,568 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 133
     _name: Weapon_Bazooka_Lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl1
+    _prefab: Weapon/Weapon_Bazooka_Lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 134
     _name: Weapon_Bazooka_Lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl2
+    _prefab: Weapon/Weapon_Bazooka_Lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 135
     _name: Weapon_Bazooka_Lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Lvl3
+    _prefab: Weapon/Weapon_Bazooka_Lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 136
     _name: Weapon_Bazooka_Simple_Lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Simple_Lvl1
+    _prefab: Weapon/Weapon_Bazooka_Simple_Lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 137
     _name: Weapon_Bazooka_Simple_Lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Simple_Lvl2
+    _prefab: Weapon/Weapon_Bazooka_Simple_Lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 138
     _name: Weapon_Bazooka_Simple_Lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Bazooka_Simple_Lvl3
+    _prefab: Weapon/Weapon_Bazooka_Simple_Lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 139
     _name: Weapon_DoubleGun_lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl1
+    _prefab: Weapon/Weapon_DoubleGun_lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 140
     _name: Weapon_DoubleGun_lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl2
+    _prefab: Weapon/Weapon_DoubleGun_lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 141
     _name: Weapon_DoubleGun_lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl3
+    _prefab: Weapon/Weapon_DoubleGun_lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 142
     _name: Weapon_DoubleGun_lvl4
-    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl4
+    _prefab: Weapon/Weapon_DoubleGun_lvl4
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 143
     _name: Weapon_DoubleGun_lvl5
-    _prefab: Prefab/Constructor/Weapon/Weapon_DoubleGun_lvl5
+    _prefab: Weapon/Weapon_DoubleGun_lvl5
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 144
     _name: Weapon_GLauncher_lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_GLauncher_lvl1
+    _prefab: Weapon/Weapon_GLauncher_lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 145
     _name: Weapon_GLauncher_lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_GLauncher_lvl2
+    _prefab: Weapon/Weapon_GLauncher_lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 146
     _name: Weapon_GLauncher_lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_GLauncher_lvl3
+    _prefab: Weapon/Weapon_GLauncher_lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 147
     _name: Weapon_Plasma_Lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Plasma_Lvl1
+    _prefab: Weapon/Weapon_Plasma_Lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 148
     _name: Weapon_Plasma_Lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Plasma_Lvl2
+    _prefab: Weapon/Weapon_Plasma_Lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 149
     _name: Weapon_Plasma_Lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Plasma_Lvl3
+    _prefab: Weapon/Weapon_Plasma_Lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 150
     _name: Weapon_Radar_Lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Radar_Lvl1
+    _prefab: Weapon/Weapon_Radar_Lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 151
     _name: Weapon_Radar_Lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Radar_Lvl2
+    _prefab: Weapon/Weapon_Radar_Lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 152
     _name: Weapon_Radar_Lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Radar_Lvl3
+    _prefab: Weapon/Weapon_Radar_Lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 153
     _name: Weapon_Shock_Rifle_lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl1
+    _prefab: Weapon/Weapon_Shock_Rifle_lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 154
     _name: Weapon_Shock_Rifle_lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl2
+    _prefab: Weapon/Weapon_Shock_Rifle_lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 155
     _name: Weapon_Shock_Rifle_lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl3
+    _prefab: Weapon/Weapon_Shock_Rifle_lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 156
     _name: Weapon_Shock_Rifle_lvl4
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl4
+    _prefab: Weapon/Weapon_Shock_Rifle_lvl4
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 157
     _name: Weapon_Shock_Rifle_lvl5
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shock_Rifle_lvl5
+    _prefab: Weapon/Weapon_Shock_Rifle_lvl5
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 158
     _name: Weapon_Shocker_lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl1
+    _prefab: Weapon/Weapon_Shocker_lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 159
     _name: Weapon_Shocker_lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl2
+    _prefab: Weapon/Weapon_Shocker_lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 160
     _name: Weapon_Shocker_lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl3
+    _prefab: Weapon/Weapon_Shocker_lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 161
     _name: Weapon_Shocker_lvl4
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl4
+    _prefab: Weapon/Weapon_Shocker_lvl4
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 162
     _name: Weapon_Shocker_lvl5
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shocker_lvl5
+    _prefab: Weapon/Weapon_Shocker_lvl5
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 163
     _name: Weapon_Shotgun_Lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl1
+    _prefab: Weapon/Weapon_Shotgun_Lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 164
     _name: Weapon_Shotgun_Lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl2
+    _prefab: Weapon/Weapon_Shotgun_Lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 165
     _name: Weapon_Shotgun_Lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl3
+    _prefab: Weapon/Weapon_Shotgun_Lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 166
     _name: Weapon_Shotgun_Lvl4
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl4
+    _prefab: Weapon/Weapon_Shotgun_Lvl4
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 167
     _name: Weapon_Shotgun_Lvl5
-    _prefab: Prefab/Constructor/Weapon/Weapon_Shotgun_Lvl5
+    _prefab: Weapon/Weapon_Shotgun_Lvl5
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 168
     _name: Weapon_Sniper_lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl1
+    _prefab: Weapon/Weapon_Sniper_lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 169
     _name: Weapon_Sniper_lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl2
+    _prefab: Weapon/Weapon_Sniper_lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 170
     _name: Weapon_Sniper_lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl3
+    _prefab: Weapon/Weapon_Sniper_lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 171
     _name: Weapon_Sniper_lvl4
-    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl4
+    _prefab: Weapon/Weapon_Sniper_lvl4
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 172
     _name: Weapon_Sniper_lvl5
-    _prefab: Prefab/Constructor/Weapon/Weapon_Sniper_lvl5
+    _prefab: Weapon/Weapon_Sniper_lvl5
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 173
     _name: Weapon_Top_Radar_Lvl1
-    _prefab: Prefab/Constructor/Weapon/Weapon_Top_Radar_Lvl1
+    _prefab: Weapon/Weapon_Top_Radar_Lvl1
     _type: Weapon
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 174
     _name: Weapon_Top_Radar_Lvl2
-    _prefab: Prefab/Constructor/Weapon/Weapon_Top_Radar_Lvl2
+    _prefab: Weapon/Weapon_Top_Radar_Lvl2
     _type: Weapon
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 175
     _name: Weapon_Top_Radar_Lvl3
-    _prefab: Prefab/Constructor/Weapon/Weapon_Top_Radar_Lvl3
+    _prefab: Weapon/Weapon_Top_Radar_Lvl3
     _type: Weapon
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 5
-    - moveSpeed - 1
+    - 
     _slots: 00000000
     _skillID: 01000000
   - _ID: 176
     _name: Weapon_Energy_Shield_Lvl1
-    _prefab: Prefab/Constructor/Shield/Weapon_Energy_Shield_Lvl1
+    _prefab: Shield/Weapon_Energy_Shield_Lvl1
     _type: Shield
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2402,9 +2356,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 177
     _name: Weapon_Energy_Shield_Lvl2
-    _prefab: Prefab/Constructor/Shield/Weapon_Energy_Shield_Lvl2
+    _prefab: Shield/Weapon_Energy_Shield_Lvl2
     _type: Shield
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2416,9 +2370,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 178
     _name: Weapon_Energy_Shield_Lvl3
-    _prefab: Prefab/Constructor/Shield/Weapon_Energy_Shield_Lvl3
+    _prefab: Shield/Weapon_Energy_Shield_Lvl3
     _type: Shield
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2430,9 +2384,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 179
     _name: Weapon_Shield_Lvl1
-    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Lvl1
+    _prefab: Shield/Weapon_Shield_Lvl1
     _type: Shield
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2444,9 +2398,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 180
     _name: Weapon_Shield_Lvl2
-    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Lvl2
+    _prefab: Shield/Weapon_Shield_Lvl2
     _type: Shield
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2458,9 +2412,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 181
     _name: Weapon_Shield_Lvl3
-    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Lvl3
+    _prefab: Shield/Weapon_Shield_Lvl3
     _type: Shield
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2472,9 +2426,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 182
     _name: Weapon_Shield_Nimbus
-    _prefab: Prefab/Constructor/Shield/Weapon_Shield_Nimbus
+    _prefab: Shield/Weapon_Shield_Nimbus
     _type: Shield
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2486,9 +2440,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 183
     _name: Weapon_TankShield_Lvl1
-    _prefab: Prefab/Constructor/Shield/Weapon_TankShield_Lvl1
+    _prefab: Shield/Weapon_TankShield_Lvl1
     _type: Shield
-    _cost: 3
+    _cost: 10
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2500,9 +2454,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 184
     _name: Weapon_TankShield_Lvl2
-    _prefab: Prefab/Constructor/Shield/Weapon_TankShield_Lvl2
+    _prefab: Shield/Weapon_TankShield_Lvl2
     _type: Shield
-    _cost: 3
+    _cost: 30
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2514,9 +2468,9 @@ MonoBehaviour:
     _skillID: 00000000
   - _ID: 185
     _name: Weapon_TankShield_Lvl3
-    _prefab: Prefab/Constructor/Shield/Weapon_TankShield_Lvl3
+    _prefab: Shield/Weapon_TankShield_Lvl3
     _type: Shield
-    _cost: 3
+    _cost: 100
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 

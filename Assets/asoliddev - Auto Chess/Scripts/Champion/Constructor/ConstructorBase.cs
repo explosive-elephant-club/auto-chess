@@ -47,7 +47,11 @@ public class ConstructorSlot
         foreach (var t in slotType.adaptTypes)
         {
             if (!string.IsNullOrEmpty(t))
+            {
+                UnityEngine.Debug.Log("adaptTypes add " + t);
                 adaptTypes.Add((ConstructorType)Enum.Parse(typeof(ConstructorType), t));
+            }
+
         }
     }
 
@@ -94,6 +98,7 @@ public class ConstructorBase : MonoBehaviour
 
     public void _onSkillAnimEffect()
     {
+        UnityEngine.Debug.Log("_onSkillAnimEffect");
         onSkillAnimEffect.Invoke();
     }
 
@@ -102,14 +107,12 @@ public class ConstructorBase : MonoBehaviour
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
-        type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 
+        type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 
         foreach (var s in slots)
         {
             s.Init();
-            //if (constructorData.type == ConstructorType.Chassis.ToString())
-
         }
         if (GamePlayController.Instance.ownChampionManager.pickedChampion == championController)
         {
@@ -172,7 +175,8 @@ public class ConstructorBase : MonoBehaviour
 
     public bool CanAttach(ConstructorBase constructor, ConstructorSlot slot)
     {
-        return (slot.adaptTypes.Contains(constructor.type) && slot.isAble);
+        ConstructorType t = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructor.constructorData.type);
+        return (slot.adaptTypes.Contains(t) && slot.isAble);
     }
 
     //添加子组件
@@ -238,7 +242,7 @@ public class ConstructorBase : MonoBehaviour
 
     public virtual void AttachConstructor(ConstructorBaseData constructorData, ConstructorSlot slot)
     {
-        GameObject obj = Instantiate(Resources.Load<GameObject>(constructorData.prefab));
+        GameObject obj = Instantiate(Resources.Load<GameObject>("Prefab/Constructor/" + constructorData.prefab));
         ConstructorBase _constructorBase = obj.GetComponent<ConstructorBase>();
         _constructorBase.Init(constructorData, championController, false);
         UIController.Instance.championInfoController.UpdateSkillSlot();
@@ -267,17 +271,21 @@ public class ConstructorBase : MonoBehaviour
         {
             if (s.slotTrans.childCount > 0)
             {
-                ConstructorBase constructor = s.slotTrans.GetChild(0).GetComponent<ConstructorBase>();
+                ConstructorBase constructor = s.slotTrans.GetComponentInChildren<ConstructorBase>();
+                constructor.Init(championController, false);
                 if (CanAttach(constructor, s))
                 {
-                    constructor.Init(championController, false);
                     AttachConstructor(constructor, s);
                     if (!championController.constructors.Contains(constructor))
                         championController.constructors.Add(constructor);
                     constructor.AutoPackage();
                 }
                 else
+                {
+                    UnityEngine.Debug.Log(constructor.name + " Destroy");
                     Destroy(constructor.gameObject);
+                }
+
             }
         }
     }
