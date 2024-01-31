@@ -225,8 +225,13 @@ public class Buff
         {
             if (b.buff_ID != 0)
             {
-                AddBuffTargetType targetType = (AddBuffTargetType)Enum.Parse(typeof(AddBuffTargetType), b.targetType);
-                buffController.AddSubBuff(b.buff_ID, targetType);
+                int n = UnityEngine.Random.Range(0, 100);
+                if (n < b.odds * 100)
+                {
+                    AddBuffTargetType targetType = (AddBuffTargetType)Enum.Parse(typeof(AddBuffTargetType), b.targetType);
+                    buffController.AddSubBuff(b.buff_ID, targetType);
+                }
+
             }
 
         }

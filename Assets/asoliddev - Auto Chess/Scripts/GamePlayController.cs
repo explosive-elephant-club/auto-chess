@@ -31,6 +31,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     {
         isReady = true;
         StageChange(GameStage.Preparation);
+        //Time.timeScale = .2f;
     }
 
     protected override void InitSingleton()
@@ -47,8 +48,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         StageStateAddListener(oponentChampionManager.gameStageActions);
         StageStateAddListener(ownChampionManager.gameStageActions);
         StageStateAddListener(UIController.Instance.gameStageActions);
-
-        //Time.timeScale = 0.1f;
     }
 
     /// Update is called once per frame

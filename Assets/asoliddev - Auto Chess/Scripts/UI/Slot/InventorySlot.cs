@@ -37,9 +37,8 @@ public class InventorySlot : ContainerSlot
 
     public void LoadIcon()
     {
-
         string iconPath = constructorData.prefab.Substring(0, constructorData.prefab.IndexOf(constructorData.type));
-        iconPath = iconPath + constructorData.type + "/Icon/";
+        iconPath = "Prefab/Constructor/" + iconPath + constructorData.type + "/Icon/";
         string namePath = constructorData.prefab.Substring(constructorData.prefab.IndexOf(constructorData.type) + constructorData.type.Length + 1);
 
         Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);

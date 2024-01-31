@@ -29,18 +29,20 @@ public class SkillBehaviour
 
     public virtual void OnCast(Transform[] castPoints, int pointIndex)
     {
+        skill.InstanceEffect();
 
         //绑定动画结束时间
         if (!string.IsNullOrEmpty(skill.skillData.skillAnimTrigger[0].constructorType))
         {
-            skill.constructor.onSkillAnimEffect = new UnityAction(() =>
-            {
-                skill.InstanceEffect();
-            });
-            skill.constructor.onSkillAnimFinish = new UnityAction(() =>
-            {
-                skill.OnFinish();
-            });
+            /* skill.constructor.onSkillAnimEffect = new UnityAction(() =>
+             {
+                 skill.InstanceEffect();
+             });
+             skill.constructor.onSkillAnimFinish = new UnityAction(() =>
+             {
+                 skill.OnFinish();
+             });
+             */
             //触发动画
             foreach (var animTrigger in skill.skillData.skillAnimTrigger)
             {
@@ -57,9 +59,9 @@ public class SkillBehaviour
         }
         else//直接结束
         {
-            skill.InstanceEffect();
-            skill.OnFinish();
+
         }
+        skill.OnFinish();
     }
 
     public virtual void OnEffect()

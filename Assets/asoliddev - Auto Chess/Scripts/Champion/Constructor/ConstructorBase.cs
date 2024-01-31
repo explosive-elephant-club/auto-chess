@@ -48,7 +48,6 @@ public class ConstructorSlot
         {
             if (!string.IsNullOrEmpty(t))
             {
-                UnityEngine.Debug.Log("adaptTypes add " + t);
                 adaptTypes.Add((ConstructorType)Enum.Parse(typeof(ConstructorType), t));
             }
 
@@ -137,10 +136,13 @@ public class ConstructorBase : MonoBehaviour
         {
             operation.operate.Invoke();
         }
+        UnityEngine.Debug.Log(constructorData.name);
         if (constructorData.skillID[0] != 0)
         {
+            UnityEngine.Debug.Log("AddSkill");
             foreach (var id in constructorData.skillID)
             {
+                UnityEngine.Debug.Log("id " + id);
                 championController.skillController.AddSkill(id, this);
             }
         }

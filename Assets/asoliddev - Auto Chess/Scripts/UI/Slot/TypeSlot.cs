@@ -5,7 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
 using UnityEngine.EventSystems;
+using System;
 
+[Serializable]
 public class TypeCountCube
 {
     public GameObject[,] cubes;

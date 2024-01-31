@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 9500000}
   - component: {fileID: 1015026864475639928}
+  - component: {fileID: 5252871151292583084}
   m_Layer: 0
   m_Name: Walker_Legs_Lt
   m_TagString: Untagged
@@ -47,7 +48,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 0044b323732ba3d409025b29d2c64754, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -82,7 +83,7 @@ MonoBehaviour:
   type: 2
   slots:
   - slotDataID: 1004
-    slotTrans: {fileID: 400048}
+    slotTrans: {fileID: 400046}
     slotType:
       _ID: 0
       _name: 
@@ -103,6 +104,19 @@ MonoBehaviour:
   - {fileID: 400002}
   renderers:
   - {fileID: 13700000}
+--- !u!114 &5252871151292583084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976daa3f2bff9b34ebc28fb7a37ee12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

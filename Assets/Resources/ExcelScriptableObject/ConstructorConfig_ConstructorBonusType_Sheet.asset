@@ -21,57 +21,77 @@ MonoBehaviour:
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
     - count: 3
-      buff_ID: 2
-    - count: 6
-      buff_ID: 2
-    - count: 9
-      buff_ID: 2
+      buff_ID: 6
+    - count: 3
+      buff_ID: 7
+    - count: 3
+      buff_ID: 8
     _description: 
   - _name: Helix
     _c_name: "\u6D77\u529B\u514B\u65AF"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 2
-      buff_ID: 2
     - count: 3
-      buff_ID: 2
+      buff_ID: 9
+    - count: 3
+      buff_ID: 10
+    - count: 3
+      buff_ID: 11
     _description: 
   - _name: LaserWizard
     _c_name: "\u5C04\u7EBF\u5DEB\u5E08"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 2
+      buff_ID: 12
+    - count: 3
+      buff_ID: 13
+    - count: 1
+      buff_ID: 14
     _description: 
   - _name: MiliForce
     _c_name: "\u519B\u7528\u6B66\u88C5"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 1
-      buff_ID: 2
-    - count: 2
-      buff_ID: 2
+    - count: 3
+      buff_ID: 15
+    - count: 3
+      buff_ID: 16
+    - count: 3
+      buff_ID: 17
     _description: 
   - _name: MatsunoSociety
     _c_name: "\u677E\u91CE\u4F1A\u793E"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 2
+      buff_ID: 18
+    - count: 2
+      buff_ID: 19
+    - count: 2
+      buff_ID: 20
     _description: 
   - _name: NewCentury
     _c_name: "\u65B0\u4E16\u7EAA\u6750\u6599"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 21
+    - count: 3
+      buff_ID: 22
+    - count: 3
+      buff_ID: 23
     _description: 
   - _name: AA
     _c_name: "\u5B87\u822A\u534F\u4F1A"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 2
+      buff_ID: 27
+    - count: 2
+      buff_ID: 28
+    - count: 1
+      buff_ID: 29
     _description: 
   - _name: Mechanical
     _c_name: "\u673A\u68B0\u5DE5\u7A0B"

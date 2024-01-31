@@ -17,7 +17,8 @@ MonoBehaviour:
   KeyFieldName: _ID
   elements:
   - _ID: 1
-    _name: "\u7729\u6655"
+    _name: "\u5B95\u673A"
+    _des: 
     _duration: 4
     _intervalTime: 0
     _layer: 1
@@ -28,17 +29,425 @@ MonoBehaviour:
     _buffBehaviourScriptName: 
     _addBuffs:
     - buff_ID: 0
+      odds: 0
       targetType: 
   - _ID: 2
-    _name: test
+    _name: "\u52A8\u529B\u5931\u6548"
+    _des: 
+    _duration: 4
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 3
+    _name: "\u6B66\u5668\u5931\u6548"
+    _des: 
+    _duration: 4
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 4
+    _name: "\u7EDD\u5BF9\u9632\u5FA1"
+    _des: 
+    _duration: 4
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 5
+    _name: "\u9690\u8EAB"
+    _des: 
+    _duration: 4
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 6
+    _name: "\u91CD\u578B\u9632\u5FA11"
+    _des: 
     _duration: -1
     _intervalTime: 0
     _layer: 1
     _bNoCaster: 0
-    _activeMode: AfterAttack
+    _activeMode: Always
     _consumeMode: None
     _superposeMode: None
     _buffBehaviourScriptName: 
     _addBuffs:
-    - buff_ID: 1
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 7
+    _name: "\u91CD\u578B\u9632\u5FA12"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 8
+    _name: "\u91CD\u578B\u9632\u5FA13"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 9
+    _name: "\u5B8C\u7F8E\u8FDB\u53161"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 10
+    _name: "\u5B8C\u7F8E\u8FDB\u53162"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 11
+    _name: "\u5B8C\u7F8E\u8FDB\u53163"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 12
+    _name: "\u80FD\u91CF\u7A7F\u900F1"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 13
+    _name: "\u80FD\u91CF\u7A7F\u900F2"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 14
+    _name: "\u80FD\u91CF\u7A7F\u900F3"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 15
+    _name: "\u706B\u529B\u538B\u52361"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 16
+    _name: "\u706B\u529B\u538B\u52362"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 17
+    _name: "\u706B\u529B\u538B\u52363"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 18
+    _name: "\u65E7\u4E16\u9020\u72691"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 19
+    _name: "\u65E7\u4E16\u9020\u72692"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 20
+    _name: "\u65E7\u4E16\u9020\u72693"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 21
+    _name: "\u4FEE\u590D\u578B\u6750\u65991"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: BeforeHit
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 24
+      odds: 0.3
       targetType: Enemy
+  - _ID: 22
+    _name: "\u4FEE\u590D\u578B\u6750\u65992"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: BeforeHit
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 25
+      odds: 0.4
+      targetType: Enemy
+  - _ID: 23
+    _name: "\u4FEE\u590D\u578B\u6750\u65993"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: BeforeHit
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 26
+      odds: 0.5
+      targetType: Enemy
+  - _ID: 24
+    _name: "\u4FEE\u590D1"
+    _des: 
+    _duration: 3
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 25
+    _name: "\u4FEE\u590D2"
+    _des: 
+    _duration: 4
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 26
+    _name: "\u4FEE\u590D3"
+    _des: 
+    _duration: 5
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: AfterDuration
+    _superposeMode: Cover
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 27
+    _name: "\u5FEB\u901F\u53CD\u5E941"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 28
+    _name: "\u5FEB\u901F\u53CD\u5E942"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 29
+    _name: "\u5FEB\u901F\u53CD\u5E943"
+    _des: 
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 

@@ -40,7 +40,7 @@ MonoBehaviour:
     _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
-    _property3: Dynamics
+    _property3: 
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 60
@@ -74,7 +74,7 @@ MonoBehaviour:
     _cost: 30
     _property1: 3ZeroGroup
     _property2: Mechanical
-    _property3: Dynamics
+    _property3: 
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 60
@@ -159,7 +159,7 @@ MonoBehaviour:
     _cost: 10
     _property1: AA
     _property2: Mechanical
-    _property3: Energy
+    _property3: 
     _PaintingType: 2
     _valueChanges:
     - maxArmor + 15
@@ -281,8 +281,6 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxHealth + 10
-    - moveSpeed - 1
     - electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
@@ -296,7 +294,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - maxArmor + 10
+    - armorRegeneration + 2
     - moveSpeed - 1
     - electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
@@ -308,7 +306,7 @@ MonoBehaviour:
     _cost: 30
     _property1: Helix
     _property2: AI
-    _property3: Electronic
+    _property3: 
     _PaintingType: 3
     _valueChanges:
     - electricPower + 2
@@ -321,10 +319,9 @@ MonoBehaviour:
     _cost: 10
     _property1: 3ZeroGroup
     _property2: AI
-    _property3: Mechanical
+    _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
     - electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
@@ -335,10 +332,10 @@ MonoBehaviour:
     _cost: 30
     _property1: 3ZeroGroup
     _property2: AI
-    _property3: Mechanical
+    _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 3
+    - addRange + 1
     - electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
@@ -349,7 +346,7 @@ MonoBehaviour:
     _cost: 30
     _property1: 3ZeroGroup
     _property2: AI
-    _property3: Materials
+    _property3: 
     _PaintingType: 1
     _valueChanges:
     - maxArmor + 15
@@ -363,12 +360,15 @@ MonoBehaviour:
     _prefab: Cockpit/Cockpit_Flybot
     _type: Cockpit
     _cost: 100
-    _property1: MiliForce
+    _property1: 3ZeroGroup
     _property2: AI
-    _property3: 
+    _property3: Electronic
     _PaintingType: 2
     _valueChanges:
-    - electricPower + 1
+    - maxArmor + 30
+    - maxHealth + 40
+    - moveSpeed - 1
+    - electricPower + 2
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 23
@@ -378,23 +378,25 @@ MonoBehaviour:
     _cost: 100
     _property1: MiliForce
     _property2: AI
-    _property3: 
+    _property3: Mechanical
     _PaintingType: 2
     _valueChanges:
-    - electricPower + 1
+    - addRange + 2
+    - physicalDamage + 5
+    - electricPower + 2
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 24
     _name: Guardian-OSA
     _prefab: Cockpit/Cockpit_Gunbot
     _type: Cockpit
-    _cost: 30
+    _cost: 10
     _property1: MiliForce
     _property2: AI
-    _property3: Firearms
+    _property3: 
     _PaintingType: 2
     _valueChanges:
-    - electricPower + 1
+    - physicalDamage + 2
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 25
@@ -404,9 +406,11 @@ MonoBehaviour:
     _cost: 30
     _property1: MiliForce
     _property2: AI
-    _property3: Firearms
+    _property3: 
     _PaintingType: 2
     _valueChanges:
+    - addRange + 1
+    - physicalDamage + 2
     - electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
@@ -420,7 +424,8 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - electricPower + 1
+    - electricPower + 2
+    - moveSpeed - 1
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 27
@@ -433,7 +438,8 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - electricPower + 1
+    - electricPower + 3
+    - moveSpeed - 1
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 28
@@ -443,10 +449,11 @@ MonoBehaviour:
     _cost: 100
     _property1: MatsunoSociety
     _property2: AI
-    _property3: Dynamics
+    _property3: Materials
     _PaintingType: 1
     _valueChanges:
-    - electricPower + 1
+    - electricPower + 4
+    - moveSpeed - 1
     _slots: e9030000ed030000ed030000
     _skillID: 00000000
   - _ID: 29
@@ -456,10 +463,11 @@ MonoBehaviour:
     _cost: 100
     _property1: AA
     _property2: AI
-    _property3: 
+    _property3: Dynamics
     _PaintingType: 2
     _valueChanges:
-    - electricPower + 1
+    - electricPower + 2
+    - moveSpeed + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 30
@@ -473,6 +481,7 @@ MonoBehaviour:
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
+    - moveSpeed + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 31
@@ -480,22 +489,24 @@ MonoBehaviour:
     _prefab: Cockpit/Cockpit_Rhino_No_Interior
     _type: Cockpit
     _cost: 100
-    _property1: AA
+    _property1: Helix
     _property2: AI
-    _property3: Materials
+    _property3: 
     _PaintingType: 1
     _valueChanges:
-    - electricPower + 1
+    - armorRegeneration + 5
+    - moveSpeed - 1
+    - electricPower + 2
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 32
     _name: Roadhog
     _prefab: Cockpit/Cockpit_Roadhog_No_Interior
     _type: Cockpit
-    _cost: 30
+    _cost: 10
     _property1: AA
     _property2: AI
-    _property3: Materials
+    _property3: 
     _PaintingType: 1
     _valueChanges:
     - electricPower + 1
@@ -511,7 +522,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - electricPower + 1
+    - physicalDefenseRate + 0.1electricPower + 1
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 34
@@ -521,10 +532,11 @@ MonoBehaviour:
     _cost: 100
     _property1: NewCentury
     _property2: AI
-    _property3: 
+    _property3: Energy
     _PaintingType: 1
     _valueChanges:
-    - electricPower + 1
+    - physicalDefenseRate + 0.2
+    - electricPower + 2
     _slots: e9030000ed030000ed030000ee030000
     _skillID: 00000000
   - _ID: 35
@@ -550,20 +562,20 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 10
     _slots: 00000000
     _skillID: 00000000
   - _ID: 37
     _name: AmmunitionPack+
     _prefab: Backpack/Backpack_Box_Container_2
     _type: Backpack
-    _cost: 10
+    _cost: 30
     _property1: MiliForce
     _property2: Firearms
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 20
     _slots: 00000000
     _skillID: 00000000
   - _ID: 38
@@ -576,7 +588,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 10
     _slots: 00000000
     _skillID: 00000000
   - _ID: 39
@@ -589,7 +601,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 15
     _slots: 00000000
     _skillID: 00000000
   - _ID: 40
@@ -599,10 +611,10 @@ MonoBehaviour:
     _cost: 100
     _property1: 3ZeroGroup
     _property2: Electronic
-    _property3: 
+    _property3: Optics
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 40
     _slots: 00000000
     _skillID: 00000000
   - _ID: 44
@@ -611,11 +623,11 @@ MonoBehaviour:
     _type: Backpack
     _cost: 100
     _property1: MiliForce
-    _property2: 
-    _property3: 
+    _property2: Mechanical
+    _property3: Firearms
     _PaintingType: 2
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 20
     _slots: ee030000
     _skillID: 00000000
   - _ID: 45
@@ -624,11 +636,12 @@ MonoBehaviour:
     _type: Backpack
     _cost: 30
     _property1: AA
-    _property2: AI
+    _property2: Dynamics
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 30
+    - moveSpeed + 1
     _slots: f1030000
     _skillID: 00000000
   - _ID: 46
@@ -638,10 +651,11 @@ MonoBehaviour:
     _cost: 100
     _property1: AA
     _property2: AI
-    _property3: 
+    _property3: Dynamics
     _PaintingType: 2
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 15
+    - moveSpeed + 1
     _slots: f1030000
     _skillID: 00000000
   - _ID: 47
@@ -654,7 +668,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 10
     _slots: 00000000
     _skillID: 00000000
   - _ID: 48
@@ -667,7 +681,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 10
     _slots: f1030000
     _skillID: 00000000
   - _ID: 49
@@ -680,20 +694,22 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 15
+    - maxArmor + 20
     _slots: f1030000
     _skillID: 00000000
   - _ID: 50
     _name: ExplosivePack
     _prefab: Backpack/Backpack_MineLayer
     _type: Backpack
-    _cost: 30
+    _cost: 100
     _property1: MatsunoSociety
-    _property2: Firearms
-    _property3: 
+    _property2: Materials
+    _property3: Firearms
     _PaintingType: 3
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 30
+    - maxArmor + 20
     _slots: 00000000
     _skillID: 00000000
   - _ID: 51
@@ -706,12 +722,25 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 10
     _slots: 00000000
     _skillID: 00000000
   - _ID: 52
     _name: Interferencer
     _prefab: Backpack/Backpack_Radar
+    _type: Backpack
+    _cost: 100
+    _property1: NewCentury
+    _property2: Electronic
+    _property3: Optics
+    _PaintingType: 1
+    _valueChanges:
+    - maxMana + 30
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 53
+    _name: RadioPack
+    _prefab: Backpack/Backpack_Radio
     _type: Backpack
     _cost: 30
     _property1: NewCentury
@@ -719,20 +748,7 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
-    _slots: 00000000
-    _skillID: 00000000
-  - _ID: 53
-    _name: RadioPack
-    _prefab: Backpack/Backpack_Radio
-    _type: Backpack
-    _cost: 10
-    _property1: NewCentury
-    _property2: Electronic
-    _property3: 
-    _PaintingType: 1
-    _valueChanges:
-    - maxMana + 5
+    - maxMana + 15
     _slots: 00000000
     _skillID: 00000000
   - _ID: 57
@@ -740,12 +756,12 @@ MonoBehaviour:
     _prefab: Backpack/Backpack_Tank_Lt
     _type: Backpack
     _cost: 10
-    _property1: AA
+    _property1: Helix
     _property2: Dynamics
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 10
     _slots: f1030000
     _skillID: 00000000
   - _ID: 58
@@ -753,12 +769,12 @@ MonoBehaviour:
     _prefab: Backpack/Backpack_Tank_Med
     _type: Backpack
     _cost: 30
-    _property1: AA
+    _property1: Helix
     _property2: Dynamics
     _property3: 
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 20
     _slots: f1030000
     _skillID: 00000000
   - _ID: 59
@@ -766,12 +782,12 @@ MonoBehaviour:
     _prefab: Backpack/Backpack_Tank_Hvy
     _type: Backpack
     _cost: 100
-    _property1: AA
+    _property1: Helix
     _property2: Dynamics
-    _property3: 
+    _property3: Energy
     _PaintingType: 1
     _valueChanges:
-    - maxMana + 5
+    - maxMana + 50
     _slots: f1030000
     _skillID: 00000000
   - _ID: 60
@@ -779,12 +795,12 @@ MonoBehaviour:
     _prefab: WeaponPlatform/Cockpit_Gun
     _type: WeaponPlatform
     _cost: 100
-    _property1: MiliForce
+    _property1: 3ZeroGroup
     _property2: 
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - 
+    - maxHealth + 20
     _slots: e9030000ee030000ee030000ee030000
     _skillID: 00000000
   - _ID: 61
@@ -792,12 +808,12 @@ MonoBehaviour:
     _prefab: WeaponPlatform/Cockpit_Gun_2x
     _type: WeaponPlatform
     _cost: 100
-    _property1: MiliForce
+    _property1: Helix
     _property2: 
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - 
+    - maxHealth + 40
     _slots: e9030000ee030000ee030000
     _skillID: 00000000
   - _ID: 62
@@ -805,12 +821,12 @@ MonoBehaviour:
     _prefab: WeaponPlatform/Cockpit_Gun_Flat_Part
     _type: WeaponPlatform
     _cost: 100
-    _property1: MiliForce
+    _property1: LaserWizard
     _property2: 
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - 
+    - maxHealth + 20
     _slots: e9030000f2030000f2030000ee030000
     _skillID: 00000000
   - _ID: 63
@@ -823,20 +839,21 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - 
+    - maxHealth + 40
     _slots: ee030000ee030000
     _skillID: 00000000
   - _ID: 64
     _name: StandardPlatform
     _prefab: WeaponPlatform/Top_Weapon_Platform
     _type: WeaponPlatform
-    _cost: 30
-    _property1: MiliForce
+    _cost: 100
+    _property1: MatsunoSociety
     _property2: 
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - 
+    - maxHealth + 40
+    - maxArmor + 20
     _slots: ee030000
     _skillID: 00000000
   - _ID: 65
@@ -844,12 +861,12 @@ MonoBehaviour:
     _prefab: WeaponPlatform/Top_Weapon_Platform_2X
     _type: WeaponPlatform
     _cost: 100
-    _property1: MiliForce
+    _property1: NewCentury
     _property2: 
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - 
+    - maxHealth + 40
     _slots: ee030000ee030000
     _skillID: 00000000
   - _ID: 66
@@ -862,9 +879,9 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - physicalDamage + 2
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 67
     _name: STH OS
     _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl2
@@ -875,9 +892,9 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - physicalDamage + 5
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 68
     _name: STH SV
     _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl3
@@ -888,9 +905,9 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - physicalDamage + 10
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 69
     _name: MAW Mortar I
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl1
@@ -901,9 +918,9 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - fireDamage + 1
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 70
     _name: MAW Mortar II
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl2
@@ -914,9 +931,9 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - fireDamage + 3
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 71
     _name: MAW Mortar III
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl3
@@ -927,9 +944,9 @@ MonoBehaviour:
     _property3: 
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - fireDamage + 5
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 72
     _name: Ray Pulse Emitter 100
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl1
@@ -940,9 +957,9 @@ MonoBehaviour:
     _property3: Optics
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - lightingDamage + 1
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 73
     _name: Ray Pulse Emitter 300
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl2
@@ -953,9 +970,9 @@ MonoBehaviour:
     _property3: Optics
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - lightingDamage + 3
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 74
     _name: Ray Pulse Emitter 500
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl3
@@ -966,15 +983,15 @@ MonoBehaviour:
     _property3: Optics
     _PaintingType: 3
     _valueChanges:
-    - physicalDamage + 1
+    - lightingDamage + 5
     _slots: e9030000ed030000ed030000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 75
     _name: Sidepod_Battery_Lvl1
     _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl1
     _type: Sidepod
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: LaserWizard
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -988,7 +1005,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl2
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: LaserWizard
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1002,7 +1019,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl3
     _type: Sidepod
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: LaserWizard
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1058,7 +1075,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Barrier
     _type: Sidepod
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: MiliForce
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1072,7 +1089,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Bot
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: MiliForce
     _property2: Materials
     _property3: 
     _PaintingType: 2
@@ -1086,7 +1103,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Cobra
     _type: Sidepod
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: MiliForce
     _property2: Materials
     _property3: 
     _PaintingType: 2
@@ -1100,7 +1117,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Diablo
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1114,7 +1131,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Extender
     _type: Sidepod
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: MiliForce
     _property2: Materials
     _property3: 
     _PaintingType: 2
@@ -1128,7 +1145,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Hog
     _type: Sidepod
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1142,7 +1159,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Ox
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1156,7 +1173,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Plates
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1170,7 +1187,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Rhino
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1184,7 +1201,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Saucer
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: MatsunoSociety
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1198,7 +1215,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Skinny_Up
     _type: Sidepod
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: MatsunoSociety
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1212,7 +1229,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Tank
     _type: Sidepod
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: MatsunoSociety
     _property2: Materials
     _property3: 
     _PaintingType: 2
@@ -1226,7 +1243,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Visor_Lvl1
     _type: Sidepod
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: NewCentury
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1240,7 +1257,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Visor_Lvl2
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: NewCentury
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1254,7 +1271,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Visor_Lvl3
     _type: Sidepod
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: NewCentury
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1268,7 +1285,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl1
     _type: Sidepod
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: AA
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1282,7 +1299,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl2
     _type: Sidepod
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: AA
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1296,7 +1313,7 @@ MonoBehaviour:
     _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl3
     _type: Sidepod
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: AA
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1310,7 +1327,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Armor_Ammo_Lvl1
     _type: Base
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: LaserWizard
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1324,7 +1341,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Armor_Ammo_Lvl2
     _type: Base
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: LaserWizard
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1338,7 +1355,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Armor_Ammo_Lvl3
     _type: Base
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: LaserWizard
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1394,7 +1411,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Diablo
     _type: Base
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1408,7 +1425,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Hog
     _type: Base
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1422,7 +1439,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Med_Bot
     _type: Base
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: MiliForce
     _property2: Materials
     _property3: 
     _PaintingType: 2
@@ -1436,7 +1453,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Med_Cobra
     _type: Base
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: MiliForce
     _property2: Materials
     _property3: 
     _PaintingType: 2
@@ -1450,7 +1467,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Med_Tank
     _type: Base
     _cost: 100
-    _property1: 3ZeroGroup
+    _property1: MatsunoSociety
     _property2: Materials
     _property3: 
     _PaintingType: 2
@@ -1464,7 +1481,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Ox
     _type: Base
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1478,7 +1495,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Plates
     _type: Base
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1492,7 +1509,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Rhino
     _type: Base
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: Helix
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1506,7 +1523,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Saucer
     _type: Base
     _cost: 30
-    _property1: 3ZeroGroup
+    _property1: MatsunoSociety
     _property2: Materials
     _property3: 
     _PaintingType: 3
@@ -1520,7 +1537,7 @@ MonoBehaviour:
     _prefab: Base/Shoulders_Skinny_Up
     _type: Base
     _cost: 10
-    _property1: 3ZeroGroup
+    _property1: MatsunoSociety
     _property2: Materials
     _property3: 
     _PaintingType: 1
@@ -1640,7 +1657,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 123
     _name: Gadget_Hand_Saw
     _prefab: Gadget/Gadget_Hand_Saw
@@ -1668,7 +1685,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 125
     _name: Gadget_Weapon_Launcher
     _prefab: Gadget/Gadget_Weapon_Launcher
@@ -1682,7 +1699,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 126
     _name: Gadget_Weapon_Minigun_Lvl1
     _prefab: Gadget/Gadget_Weapon_Minigun_Lvl1
@@ -1696,7 +1713,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 127
     _name: Gadget_Weapon_Minigun_Lvl2
     _prefab: Gadget/Gadget_Weapon_Minigun_Lvl2
@@ -1710,7 +1727,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 128
     _name: Gadget_Weapon_Minigun_Lvl3
     _prefab: Gadget/Gadget_Weapon_Minigun_Lvl3
@@ -1724,7 +1741,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 129
     _name: Gadget_Weapon_Shocker
     _prefab: Gadget/Gadget_Weapon_Shocker
@@ -1752,7 +1769,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 131
     _name: Gadget_Weapon_Shotgun_Lvl2
     _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl2
@@ -1766,7 +1783,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 132
     _name: Gadget_Weapon_Shotgun_Lvl3
     _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl3
@@ -1780,7 +1797,7 @@ MonoBehaviour:
     - maxArmor + 10
     - maxHealth + 10
     _slots: 00000000
-    _skillID: 00000000
+    _skillID: 01000000
   - _ID: 133
     _name: Weapon_Bazooka_Lvl1
     _prefab: Weapon/Weapon_Bazooka_Lvl1
@@ -2479,4 +2496,69 @@ MonoBehaviour:
     - maxArmor + 30
     - moveSpeed - 1
     _slots: ee030000
+    _skillID: 00000000
+  - _ID: 186
+    _name: Antenna
+    _prefab: Antenna/Antenna
+    _type: Antenna
+    _cost: 10
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - 
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 187
+    _name: Antenna_Long_1
+    _prefab: Antenna/Antenna_Long_1
+    _type: Antenna
+    _cost: 30
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - 
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 188
+    _name: Antenna_Long_2
+    _prefab: Antenna/Antenna_Long_2
+    _type: Antenna
+    _cost: 30
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - 
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 189
+    _name: Antenna_Short_1
+    _prefab: Antenna/Antenna_Short_1
+    _type: Antenna
+    _cost: 10
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - 
+    _slots: 00000000
+    _skillID: 00000000
+  - _ID: 190
+    _name: Antenna_Short_2
+    _prefab: Antenna/Antenna_Short_2
+    _type: Antenna
+    _cost: 10
+    _property1: MatsunoSociety
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 1
+    _valueChanges:
+    - 
+    _slots: 00000000
     _skillID: 00000000

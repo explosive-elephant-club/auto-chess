@@ -596,6 +596,7 @@ GameObject:
   - component: {fileID: 400022}
   - component: {fileID: 9500000}
   - component: {fileID: 957208806072243576}
+  - component: {fileID: -3716610965505810345}
   m_Layer: 0
   m_Name: Legs_Tracks_Lvl1
   m_TagString: Untagged
@@ -631,7 +632,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 0dbf0b74a468de143a6a3472534f4e14, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -689,3 +690,16 @@ MonoBehaviour:
   - {fileID: 2300008}
   - {fileID: 2300006}
   - {fileID: 2300002}
+--- !u!114 &-3716610965505810345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976daa3f2bff9b34ebc28fb7a37ee12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}

@@ -121,7 +121,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
             constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
 
-            StartCoroutine(LoadIcon(constructor.gameObject));
+            LoadIcon();
             if (constructor.slots.Count > 0)
             {
                 ExpandSubSlot();
@@ -157,21 +157,20 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         //onPointerUpEvent.AddListener(OnPointerUpEvent);
         //onDragEvent.AddListener(OnDragEvent);
 
-        StartCoroutine(LoadIcon(constructor.gameObject));
-
+        LoadIcon();
         if (constructor.slots.Count > 0)
         {
             ExpandSubSlot();
         }
     }
-    public IEnumerator LoadIcon(GameObject obj)
+    public void LoadIcon()
     {
         icon.gameObject.SetActive(true);
-        yield return new WaitUntil(() => AssetPreview.GetAssetPreview(obj) != null);
-        Texture2D tex = AssetPreview.GetAssetPreview(obj);
-        constructorIcon = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
-        icon.sprite = constructorIcon;
-        yield return 0;
+        string iconPath = constructor.constructorData.prefab.Substring(0, constructor.constructorData.prefab.IndexOf(constructor.constructorData.type));
+        iconPath = "Prefab/Constructor/" + iconPath + constructor.constructorData.type + "/Icon/";
+        string namePath = constructor.constructorData.prefab.Substring(constructor.constructorData.prefab.IndexOf(constructor.constructorData.type) + constructor.constructorData.type.Length + 1);
+        Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);
+        icon.sprite = _icon;
     }
 
     public void ExpandSubSlot()

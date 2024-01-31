@@ -27,6 +27,10 @@ namespace ExcelConfig
 		public string name { get { return _name; } }
 
 		[SerializeField]
+		private string _des;
+		public string des { get { return _des; } }
+
+		[SerializeField]
 		private float _duration;
 		public float duration { get { return _duration; } }
 
@@ -62,6 +66,7 @@ namespace ExcelConfig
 		public class addBuffsClass
 		{
 			public int buff_ID;
+			public float odds;
 			public string targetType;
 		}
 		[SerializeField]
@@ -78,6 +83,7 @@ namespace ExcelConfig
 		{
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
+			TryParse(sheet[row][column++], out _des);
 			TryParse(sheet[row][column++], out _duration);
 			TryParse(sheet[row][column++], out _intervalTime);
 			TryParse(sheet[row][column++], out _layer);
@@ -100,6 +106,8 @@ namespace ExcelConfig
 					if (i == 0)
 						TryParse(strValue, out _addBuffsone.buff_ID);
 					else if (i == 1)
+						TryParse(strValue, out _addBuffsone.odds);
+					else if (i == 2)
 						TryParse(strValue, out _addBuffsone.targetType);
 				}
 			}
