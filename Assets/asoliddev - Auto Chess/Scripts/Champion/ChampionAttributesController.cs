@@ -24,17 +24,12 @@ public class ChampionAttributesController
     public ChampionAttribute castDelay;
     //充能延迟
     public ChampionAttribute chargingDelay;
-    //施法延迟减少
-    public ChampionAttribute castDelayDecr;
-    //充能延迟减少
-    public ChampionAttribute chargingDelayDecr;
 
 
-
-    //闪避率
-    public ChampionAttribute dodgeChange;
-    //暴击率
-    public ChampionAttribute critChange;
+    //受击命中率 闪避率=1-受击命中率 hitRate*-0.3=闪避率+30%
+    public ChampionAttribute hitRate;
+    //非暴击率 暴击率=1-非暴击率 nonCritChange*-0.3=暴击率+30%
+    public ChampionAttribute nonCritChange;
     //暴击倍数
     public ChampionAttribute critMultiple;
 
@@ -48,27 +43,27 @@ public class ChampionAttributesController
     //受到的伤害倍率
     public ChampionAttribute applyDamageMultiple;
 
-    //物理属性伤害增强
+    //物理属性伤害
     public ChampionAttribute physicalDamage;
-    //燃烧属性伤害增强
+    //燃烧属性伤害
     public ChampionAttribute fireDamage;
-    //冰冻属性伤害增强
+    //冰冻属性伤害
     public ChampionAttribute iceDamage;
-    //电击属性伤害增强
+    //电击属性伤害
     public ChampionAttribute lightingDamage;
-    //酸蚀属性伤害增强
+    //酸蚀属性伤害
     public ChampionAttribute acidDamage;
 
-    //物理属性伤害减免
-    public ChampionAttribute physicalDefenseRate;
-    //燃烧属性伤害减免
-    public ChampionAttribute fireDefenseRate;
-    //冰冻属性伤害减免
-    public ChampionAttribute iceDefenseRate;
-    //电击属性伤害减免
-    public ChampionAttribute lightingDefenseRate;
-    //酸蚀属性伤害减免
-    public ChampionAttribute acidDefenseRate;
+    //物理属性伤害承受率 减伤率=1-伤害承受率 DamageApplyRate*-0.3=减伤率+30%
+    public ChampionAttribute physicalDamageApplyRate;
+    //燃烧属性伤害承受率
+    public ChampionAttribute fireDamageApplyRate;
+    //冰冻属性伤害承受率
+    public ChampionAttribute iceDamageApplyRate;
+    //电击属性伤害承受率
+    public ChampionAttribute lightingDamageApplyRate;
+    //酸蚀属性伤害承受率
+    public ChampionAttribute acidDamageApplyRate;
 
     public float curHealth;
     public float curArmor;
@@ -86,12 +81,9 @@ public class ChampionAttributesController
         castDelay = new ChampionAttribute(1, "CastDelay");
         chargingDelay = new ChampionAttribute(2, "ChargingDelay");
 
-        castDelayDecr = new ChampionAttribute(1, "CastDelayDecr");
-        chargingDelayDecr = new ChampionAttribute(1, "ChargingDelayDecr");
-
-        dodgeChange = new ChampionAttribute(1, "DodgeChange");
-        critChange = new ChampionAttribute(1, "CritChange");
-        critMultiple = new ChampionAttribute(1, "CritMultiple");
+        hitRate = new ChampionAttribute(1, "HitRate");
+        nonCritChange = new ChampionAttribute(1, "CritChange");
+        critMultiple = new ChampionAttribute(1.5f, "CritMultiple");
 
         armorRegeneration = new ChampionAttribute(1, "ArmorRegeneration");
         manaRegeneration = new ChampionAttribute(1, "ManaRegeneration");
@@ -104,54 +96,65 @@ public class ChampionAttributesController
         lightingDamage = new ChampionAttribute(0, "LightingDamage");
         acidDamage = new ChampionAttribute(0, "AcidDamage");
 
-        physicalDefenseRate = new ChampionAttribute(1, "PhysicalDefenseRate");
-        fireDefenseRate = new ChampionAttribute(1, "FireDefenseRate");
-        iceDefenseRate = new ChampionAttribute(1, "IceDefenseRate");
-        lightingDefenseRate = new ChampionAttribute(1, "LightingDefenseRate");
-        acidDefenseRate = new ChampionAttribute(1, "AcidDefenseRate");
+        physicalDamageApplyRate = new ChampionAttribute(1, "PhysicalDamageApplyRate");
+        fireDamageApplyRate = new ChampionAttribute(1, "FireDamageApplyRate");
+        iceDamageApplyRate = new ChampionAttribute(1, "IceDamageApplyRate");
+        lightingDamageApplyRate = new ChampionAttribute(1, "LightingDamageApplyRate");
+        acidDamageApplyRate = new ChampionAttribute(1, "AcidDamageApplyRate");
     }
 
-    public bool DodgeCheck()
+    public bool HitCheck()
     {
         float randomValue = Random.Range(0, 1f);
-        return randomValue <= dodgeChange.GetTrueMultipleValue();
+        return randomValue <= hitRate.GetTrueValue();
+    }
+
+    public bool CritCheck()
+    {
+        float randomValue = Random.Range(0, 1f);
+        return randomValue <= (1 - nonCritChange.GetTrueValue());
     }
 
     public void Regenerate()
     {
-        if ((curArmor + armorRegeneration.GetTrueLinearValue() * Time.deltaTime) < maxArmor.GetTrueLinearValue())
-            curArmor += armorRegeneration.GetTrueLinearValue() * Time.deltaTime;
+        if ((curArmor + armorRegeneration.GetTrueValue() * Time.deltaTime) < maxArmor.GetTrueValue())
+            curArmor += armorRegeneration.GetTrueValue() * Time.deltaTime;
         else
-            curArmor = maxArmor.GetTrueLinearValue();
+            curArmor = maxArmor.GetTrueValue();
 
-        if ((curMana + manaRegeneration.GetTrueLinearValue() * Time.deltaTime) < maxMana.GetTrueLinearValue())
-            curMana += manaRegeneration.GetTrueLinearValue() * Time.deltaTime;
+        if ((curMana + manaRegeneration.GetTrueValue() * Time.deltaTime) < maxMana.GetTrueValue())
+            curMana += manaRegeneration.GetTrueValue() * Time.deltaTime;
         else
-            curMana = maxMana.GetTrueLinearValue();
+            curMana = maxMana.GetTrueValue();
     }
 
     public float GetTrueDamage(float dmg, DamageType type, float correction = 1)
     {
         float trueDamage = dmg;
-        trueDamage *= takeDamageMultiple.GetTrueLinearValue();
+        trueDamage *= takeDamageMultiple.GetTrueValue();
         switch (type)
         {
             case DamageType.Physical:
-                trueDamage = physicalDamage.GetTrueLinearValue(trueDamage, correction);
+                trueDamage += physicalDamage.GetTrueValue() * correction;
+                if (CritCheck())
+                {
+                    Debug.Log("暴击");
+                    trueDamage *= critMultiple.GetTrueValue();
+                }
                 break;
             case DamageType.Pure:
                 break;
             case DamageType.Fire:
-                trueDamage = fireDamage.GetTrueLinearValue(trueDamage, correction);
+                trueDamage += fireDamage.GetTrueValue() * correction;
                 break;
             case DamageType.Ice:
-                trueDamage = iceDamage.GetTrueLinearValue(trueDamage, correction);
+                trueDamage += iceDamage.GetTrueValue() * correction;
                 break;
             case DamageType.Lightning:
-                trueDamage = lightingDamage.GetTrueLinearValue(trueDamage, correction);
+                trueDamage += lightingDamage.GetTrueValue() * correction;
                 break;
             case DamageType.Acid:
-                trueDamage = acidDamage.GetTrueLinearValue(trueDamage, correction);
+                trueDamage += acidDamage.GetTrueValue() * correction;
                 break;
         }
 
@@ -165,25 +168,25 @@ public class ChampionAttributesController
     public float ApplyDamage(float dmg, DamageType type)
     {
         float trueDamage = dmg;
-        trueDamage *= applyDamageMultiple.GetTrueLinearValue();
+        trueDamage *= applyDamageMultiple.GetTrueValue();
         switch (type)
         {
             case DamageType.Physical:
-                trueDamage *= (1 - physicalDefenseRate.GetTrueMultipleValue());
+                trueDamage *= physicalDamageApplyRate.GetTrueValue();
                 break;
             case DamageType.Pure:
                 break;
             case DamageType.Fire:
-                trueDamage *= (1 - fireDefenseRate.GetTrueMultipleValue());
+                trueDamage *= fireDamageApplyRate.GetTrueValue();
                 break;
             case DamageType.Ice:
-                trueDamage *= (1 - iceDefenseRate.GetTrueMultipleValue());
+                trueDamage *= iceDamageApplyRate.GetTrueValue();
                 break;
             case DamageType.Lightning:
-                trueDamage *= (1 - lightingDefenseRate.GetTrueMultipleValue());
+                trueDamage *= lightingDamageApplyRate.GetTrueValue();
                 break;
             case DamageType.Acid:
-                trueDamage *= (1 - acidDefenseRate.GetTrueMultipleValue());
+                trueDamage *= acidDamageApplyRate.GetTrueValue();
                 break;
         }
         trueDamage = Mathf.Floor(trueDamage);
@@ -211,8 +214,8 @@ public class ChampionAttributesController
 
     public void Reset()
     {
-        curHealth = maxHealth.GetTrueLinearValue();
-        curArmor = maxArmor.GetTrueLinearValue();
-        curMana = maxMana.GetTrueLinearValue();
+        curHealth = maxHealth.GetTrueValue();
+        curArmor = maxArmor.GetTrueValue();
+        curMana = maxMana.GetTrueValue();
     }
 }

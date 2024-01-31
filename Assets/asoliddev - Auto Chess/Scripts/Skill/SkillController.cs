@@ -29,7 +29,7 @@ public class SkillController : MonoBehaviour
 
     public void UpdateSkillCapacity()
     {
-        int capacity = (int)championController.attributesController.electricPower.GetTrueLinearValue();
+        int capacity = (int)championController.attributesController.electricPower.GetTrueValue();
         if (activedSkillList.Count > capacity)
         {
             for (int i = capacity; i < activedSkillList.Count; i++)
@@ -65,9 +65,8 @@ public class SkillController : MonoBehaviour
 
     float GetSkillCastDelay(Skill skill)
     {
-        float cd = championController.attributesController.castDelay.GetTrueLinearValue()
+        float cd = championController.attributesController.castDelay.GetTrueValue()
          + skill.skillData.castDelay;
-        cd *= 1 - championController.attributesController.castDelayDecr.GetTrueMultipleValue();
         if (cd > 0)
             return cd;
         else
@@ -76,13 +75,12 @@ public class SkillController : MonoBehaviour
 
     float GetSkillChargingDelay()
     {
-        float cd = championController.attributesController.chargingDelay.GetTrueLinearValue();
+        float cd = championController.attributesController.chargingDelay.GetTrueValue();
         foreach (var s in activedSkillList)
         {
             if (s != null)
                 cd += s.skillData.chargingDelay;
         }
-        cd *= 1 - championController.attributesController.chargingDelayDecr.GetTrueMultipleValue();
         if (cd > 0)
             return cd;
         else

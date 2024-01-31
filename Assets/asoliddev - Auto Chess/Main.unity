@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17830938, g: 0.2232613, b: 0.30529967, a: 1}
+  m_IndirectSpecularColor: {r: 0.1783091, g: 0.22326094, b: 0.30529875, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 18907275}
   - component: {fileID: 18907276}
   m_Layer: 5
-  m_Name: fireDefenseRate
+  m_Name: fireDamageApplyRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47832,7 +47832,7 @@ GameObject:
   - component: {fileID: 764915554}
   - component: {fileID: 764915555}
   m_Layer: 5
-  m_Name: physicalDefenseRate
+  m_Name: physicalDamageApplyRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72212,7 +72212,7 @@ GameObject:
   - component: {fileID: 1144389237}
   - component: {fileID: 1144389238}
   m_Layer: 5
-  m_Name: lightingDefenseRate
+  m_Name: lightingDamageApplyRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81162,7 +81162,7 @@ GameObject:
   - component: {fileID: 1285569051}
   - component: {fileID: 1285569052}
   m_Layer: 5
-  m_Name: acidDefenseRate
+  m_Name: acidDamageApplyRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111213,7 +111213,7 @@ GameObject:
   - component: {fileID: 1828898120}
   - component: {fileID: 1828898121}
   m_Layer: 5
-  m_Name: iceDefenseRate
+  m_Name: iceDamageApplyRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

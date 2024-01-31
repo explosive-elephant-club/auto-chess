@@ -51,7 +51,7 @@ public class ChampionAttribute
         multipleValue.Remove(value);
     }
 
-    public float GetTrueLinearValue()
+    public float GetTrueValue()
     {
         float trueLinearValue = 0;
         float trueMultipleValueValue = 1;
@@ -61,39 +61,8 @@ public class ChampionAttribute
         }
         foreach (float value in multipleValue)
         {
-            trueMultipleValueValue += value;
+            trueMultipleValueValue *= value > -1 ? (1 + value) : 0;
         }
         return (baseValue + trueLinearValue) * trueMultipleValueValue;
     }
-
-    public float GetTrueLinearValue(float baseValue2, float correction = 1)
-    {
-        float trueLinearValue = 0;
-        float trueMultipleValueValue = 1;
-        foreach (float value in linearValue)
-        {
-            trueLinearValue += value;
-        }
-        foreach (float value in multipleValue)
-        {
-            trueMultipleValueValue += value;
-        }
-        return baseValue2 + (baseValue + trueLinearValue) * trueMultipleValueValue * correction;
-    }
-
-    public float GetTrueMultipleValue()
-    {
-        float trueLinearValue = 0;
-        float trueMultipleValueValue = 1;
-        foreach (float value in linearValue)
-        {
-            trueLinearValue += value;
-        }
-        foreach (float value in multipleValue)
-        {
-            trueMultipleValueValue *= value < 1 ? (1 - value) : 0;
-        }
-        return (baseValue + trueLinearValue) * (1 - trueMultipleValueValue);
-    }
-
 }

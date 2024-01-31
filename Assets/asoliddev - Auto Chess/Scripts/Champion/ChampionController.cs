@@ -309,7 +309,7 @@ public class ChampionController : MonoBehaviour
 
     public int GetInAttackRange()
     {
-        return (int)attributesController.addRange.GetTrueLinearValue() + skillController.GetNextSkillRange();
+        return (int)attributesController.addRange.GetTrueValue() + skillController.GetNextSkillRange();
     }
 
     public bool IsTargetInAttackRange()
@@ -329,9 +329,9 @@ public class ChampionController : MonoBehaviour
     {
         if (navMeshAgent.enabled)
         {
-            if (navMeshAgent.speed != attributesController.moveSpeed.GetTrueLinearValue())
+            if (navMeshAgent.speed != attributesController.moveSpeed.GetTrueValue())
             {
-                navMeshAgent.speed = attributesController.moveSpeed.GetTrueLinearValue();
+                navMeshAgent.speed = attributesController.moveSpeed.GetTrueValue();
             }
             navMeshAgent.destination = bookGridInfo.transform.position;
             navMeshAgent.isStopped = false;
@@ -370,11 +370,7 @@ public class ChampionController : MonoBehaviour
     /// <param name="damage"></param>
     public bool OnGotHit(List<SkillData.damageDataClass> addDamages)
     {
-        if (attributesController.DodgeCheck())
-        {
-            Debug.Log("闪避");
-        }
-        else
+        if (attributesController.HitCheck())
         {
             buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
 
@@ -391,6 +387,11 @@ public class ChampionController : MonoBehaviour
             }
 
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterHit.ToString());
+        }
+        else
+        {
+            Debug.Log("闪避");
+
         }
         return isDead;
     }
@@ -561,7 +562,7 @@ public class ChampionController : MonoBehaviour
         if (!isDead && occupyGridInfo != null)
         {
             attributesController.Regenerate();
-            navMeshAgent.speed = attributesController.moveSpeed.GetTrueLinearValue();
+            navMeshAgent.speed = attributesController.moveSpeed.GetTrueValue();
 
             if (occupyGridInfo.gridType == GridType.HexaMap)
                 AIActionFsm.curState.OnUpdate();
