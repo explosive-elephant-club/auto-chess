@@ -202,8 +202,8 @@ public class ChampionInfoController : MonoBehaviour
         state2.transform.Find("Panel2/critMultiple").GetComponent<AttributeSlot>().Init("CritMultiple", attributesController.critMultiple.GetTrueValue());
         state2.transform.Find("Panel2/armorRegeneration").GetComponent<AttributeSlot>().Init("ArmorRegeneration", attributesController.armorRegeneration.GetTrueValue());
         state2.transform.Find("Panel2/manaRegeneration").GetComponent<AttributeSlot>().Init("ManaRegeneration", attributesController.manaRegeneration.GetTrueValue());
-        state2.transform.Find("Panel2/takeDamageMultiple").GetComponent<AttributeSlot>().Init("TakeDamageMultiple", attributesController.takeDamageMultiple.GetTrueValue());
-        state2.transform.Find("Panel2/applyDamageMultiple").GetComponent<AttributeSlot>().Init("ApplyDamageMultiple", attributesController.applyDamageMultiple.GetTrueValue());
+        state2.transform.Find("Panel2/takeDamageMultiple").GetComponent<AttributeSlot>().Init("TakeDamageMultiple", attributesController.takeDamageMultiple.GetTrueValue(), false);
+        state2.transform.Find("Panel2/applyDamageMultiple").GetComponent<AttributeSlot>().Init("DamageDefenceRate", 1 - attributesController.applyDamageMultiple.GetTrueValue(), false);
 
         state2.transform.Find("Panel3/physicalDamage").GetComponent<AttributeSlot>().Init("PhysicalDamage", attributesController.physicalDamage.GetTrueValue());
         state2.transform.Find("Panel3/fireDamage").GetComponent<AttributeSlot>().Init("FireDamage", attributesController.fireDamage.GetTrueValue());
@@ -211,11 +211,11 @@ public class ChampionInfoController : MonoBehaviour
         state2.transform.Find("Panel3/lightingDamage").GetComponent<AttributeSlot>().Init("LightingDamage", attributesController.lightingDamage.GetTrueValue());
         state2.transform.Find("Panel3/acidDamage").GetComponent<AttributeSlot>().Init("AcidDamage", attributesController.acidDamage.GetTrueValue());
 
-        state2.transform.Find("Panel4/physicalDamageApplyRate").GetComponent<AttributeSlot>().Init("PhysicalDamageApplyRate", attributesController.physicalDamageApplyRate.GetTrueValue(), false);
-        state2.transform.Find("Panel4/fireDamageApplyRate").GetComponent<AttributeSlot>().Init("FireDamageApplyRate", attributesController.fireDamageApplyRate.GetTrueValue(), false);
-        state2.transform.Find("Panel4/iceDamageApplyRate").GetComponent<AttributeSlot>().Init("IceDamageApplyRate", attributesController.iceDamageApplyRate.GetTrueValue(), false);
-        state2.transform.Find("Panel4/lightingDamageApplyRate").GetComponent<AttributeSlot>().Init("LightingDamageApplyRate", attributesController.lightingDamageApplyRate.GetTrueValue(), false);
-        state2.transform.Find("Panel4/acidDamageApplyRate").GetComponent<AttributeSlot>().Init("AcidDamageApplyRate", attributesController.acidDamageApplyRate.GetTrueValue(), false);
+        state2.transform.Find("Panel4/physicalDamageApplyRate").GetComponent<AttributeSlot>().Init("PhysicalDefenceRate", 1 - attributesController.physicalDamageApplyRate.GetTrueValue(), false);
+        state2.transform.Find("Panel4/fireDamageApplyRate").GetComponent<AttributeSlot>().Init("FireDefenceRate", 1 - attributesController.fireDamageApplyRate.GetTrueValue(), false);
+        state2.transform.Find("Panel4/iceDamageApplyRate").GetComponent<AttributeSlot>().Init("IceDefenceRate", 1 - attributesController.iceDamageApplyRate.GetTrueValue(), false);
+        state2.transform.Find("Panel4/lightingDamageApplyRate").GetComponent<AttributeSlot>().Init("LightingDefenceRate", 1 - attributesController.lightingDamageApplyRate.GetTrueValue(), false);
+        state2.transform.Find("Panel4/acidDamageApplyRate").GetComponent<AttributeSlot>().Init("AcidDefenceRate", 1 - attributesController.acidDamageApplyRate.GetTrueValue(), false);
     }
 
     public void UpdateSkillSlot()

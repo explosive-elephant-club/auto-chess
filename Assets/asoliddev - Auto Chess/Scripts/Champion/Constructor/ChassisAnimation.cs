@@ -31,10 +31,6 @@ public class ChassisAnimation : MonoBehaviour
             float cosAngle = Vector3.Angle(speed, transform.forward);
             v = Mathf.Lerp(v, Mathf.Cos(cosAngle * Mathf.Deg2Rad) * speed.magnitude, 20f * Time.deltaTime);
             h = Mathf.Lerp(h, Mathf.Sin(cosAngle * Mathf.Deg2Rad), 20f * Time.deltaTime);
-
-            Debug.Log("Angle:" + cosAngle);
-            Debug.Log("v:" + v);
-            Debug.Log("h:" + h);
         }
         else
         {
