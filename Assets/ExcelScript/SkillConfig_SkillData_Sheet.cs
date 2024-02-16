@@ -27,6 +27,14 @@ namespace ExcelConfig
 		public string name { get { return _name; } }
 
 		[SerializeField]
+		private float _duration;
+		public float duration { get { return _duration; } }
+
+		[SerializeField]
+		private float _interval;
+		public float interval { get { return _interval; } }
+
+		[SerializeField]
 		private float _castDelay;
 		public float castDelay { get { return _castDelay; } }
 
@@ -125,6 +133,8 @@ namespace ExcelConfig
 		{
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
+			TryParse(sheet[row][column++], out _duration);
+			TryParse(sheet[row][column++], out _interval);
 			TryParse(sheet[row][column++], out _castDelay);
 			TryParse(sheet[row][column++], out _chargingDelay);
 			TryParse(sheet[row][column++], out _manaCost);

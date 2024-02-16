@@ -63,8 +63,8 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - maxArmor + 20
-    - maxHealth + 10
+    - maxArmor + 30
+    - maxHealth + 20
   - _ID: 7
     _immovable: 0
     _disarm: 0
@@ -72,8 +72,8 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - maxArmor + 50
-    - maxHealth + 30
+    - maxArmor + 60
+    - maxHealth + 40
   - _ID: 8
     _immovable: 0
     _disarm: 0
@@ -81,8 +81,8 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - maxArmor + 80
-    - maxHealth + 50
+    - maxArmor + 120
+    - maxHealth + 80
   - _ID: 9
     _immovable: 0
     _disarm: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - maxMana + 60
+    - maxMana + 50
     - manaRegeneration + 6
   - _ID: 11
     _immovable: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - maxMana + 100
+    - maxMana + 80
     - manaRegeneration + 10
   - _ID: 12
     _immovable: 0
@@ -117,10 +117,10 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - fireDamage + 3
-    - iceDamage + 3
-    - lightingDamage + 3
-    - acidDamage + 3
+    - fireDamage * 0.3
+    - iceDamage * 0.3
+    - lightingDamage * 0.3
+    - acidDamage * 0.3
   - _ID: 13
     _immovable: 0
     _disarm: 0
@@ -128,10 +128,10 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - fireDamage + 8
-    - iceDamage + 8
-    - lightingDamage + 8
-    - acidDamage + 8
+    - fireDamage * 0.5
+    - iceDamage * 0.5
+    - lightingDamage * 0.5
+    - acidDamage * 0.5
   - _ID: 14
     _immovable: 0
     _disarm: 0
@@ -139,10 +139,10 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - fireDamage + 14
-    - iceDamage + 14
-    - lightingDamage + 14
-    - acidDamage + 14
+    - fireDamage * 0.8
+    - iceDamage * 0.8
+    - lightingDamage * 0.8
+    - acidDamage * 0.8
   - _ID: 15
     _immovable: 0
     _disarm: 0
@@ -150,7 +150,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - critChange + 0.1
+    - nonCritChange * -0.1
     - critMultiple + 0.5
   - _ID: 16
     _immovable: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - critChange + 0.15
+    - nonCritChange * -0.15
     - critMultiple + 0.8
   - _ID: 17
     _immovable: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - critChange + 0.2
+    - nonCritChange * -0.2
     - critMultiple + 1
   - _ID: 18
     _immovable: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - dodgeChange + 0.2
+    - hitRate * -0.2
   - _ID: 19
     _immovable: 0
     _disarm: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - dodgeChange + 0.3
+    - hitRate * -0.3
   - _ID: 20
     _immovable: 0
     _disarm: 0
@@ -193,7 +193,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - dodgeChange + 0.4
+    - hitRate * -0.4
   - _ID: 24
     _immovable: 0
     _disarm: 0
@@ -201,8 +201,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - applyDamageMultiple - 0.2
-    - armorRegeneration + 4
+    - physicalDamage + 10
   - _ID: 25
     _immovable: 0
     _disarm: 0
@@ -210,8 +209,7 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - applyDamageMultiple - 0.3
-    - armorRegeneration + 7
+    - physicalDamage + 12
   - _ID: 26
     _immovable: 0
     _disarm: 0
@@ -219,29 +217,95 @@ MonoBehaviour:
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - applyDamageMultiple - 0.4
+    - physicalDamage + 15
+  - _ID: 30
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - applyDamageMultiple * -0.2
+    - armorRegeneration + 4
+  - _ID: 31
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - applyDamageMultiple * -0.3
+    - armorRegeneration + 7
+  - _ID: 32
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - applyDamageMultiple * -0.4
     - armorRegeneration + 10
-  - _ID: 27
+  - _ID: 38
     _immovable: 0
     _disarm: 0
     _silence: 0
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - moveSpeed + 1
-  - _ID: 28
+    - castDelay * -0.3
+  - _ID: 39
     _immovable: 0
     _disarm: 0
     _silence: 0
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - moveSpeed + 2
-  - _ID: 29
+    - castDelay * -0.5
+  - _ID: 42
     _immovable: 0
     _disarm: 0
     _silence: 0
     _invincible: 0
     _invisible: 0
     _valueChanges:
-    - moveSpeed + 3
+    - applyDamageMultiple * -0.2
+  - _ID: 43
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - applyDamageMultiple * -0.4
+  - _ID: 46
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - chargingDelay + 0.1
+  - _ID: 47
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - chargingDelay + 0.2
+  - _ID: 56
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - physicalDamage + 2
+  - _ID: 57
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - physicalDamage + 3

@@ -78,7 +78,7 @@ public class ChampionAttributesController
         moveSpeed = new ChampionAttribute(0, "MoveSpeed");
         addRange = new ChampionAttribute(0, "AddRange");
         electricPower = new ChampionAttribute(0, "ElectricPower");
-        castDelay = new ChampionAttribute(1, "CastDelay");
+        castDelay = new ChampionAttribute(2, "CastDelay");
         chargingDelay = new ChampionAttribute(2, "ChargingDelay");
 
         hitRate = new ChampionAttribute(1, "HitRate");
@@ -136,11 +136,6 @@ public class ChampionAttributesController
         {
             case DamageType.Physical:
                 trueDamage += physicalDamage.GetTrueValue() * correction;
-                if (CritCheck())
-                {
-                    Debug.Log("暴击");
-                    trueDamage *= critMultiple.GetTrueValue();
-                }
                 break;
             case DamageType.Pure:
                 break;

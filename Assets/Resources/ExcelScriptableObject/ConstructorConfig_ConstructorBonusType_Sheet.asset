@@ -20,22 +20,22 @@ MonoBehaviour:
     _c_name: "\u4E09\u96F6\u91CD\u5DE5"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 3
+    - count: 2
       buff_ID: 6
-    - count: 3
+    - count: 2
       buff_ID: 7
-    - count: 3
+    - count: 2
       buff_ID: 8
     _description: 
   - _name: Helix
     _c_name: "\u6D77\u529B\u514B\u65AF"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 3
+    - count: 2
       buff_ID: 9
-    - count: 3
+    - count: 2
       buff_ID: 10
-    - count: 3
+    - count: 2
       buff_ID: 11
     _description: 
   - _name: LaserWizard
@@ -44,7 +44,7 @@ MonoBehaviour:
     _Bonus:
     - count: 2
       buff_ID: 12
-    - count: 3
+    - count: 1
       buff_ID: 13
     - count: 1
       buff_ID: 14
@@ -53,11 +53,11 @@ MonoBehaviour:
     _c_name: "\u519B\u7528\u6B66\u88C5"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 3
+    - count: 2
       buff_ID: 15
-    - count: 3
+    - count: 2
       buff_ID: 16
-    - count: 3
+    - count: 2
       buff_ID: 17
     _description: 
   - _name: MatsunoSociety
@@ -66,86 +66,102 @@ MonoBehaviour:
     _Bonus:
     - count: 2
       buff_ID: 18
-    - count: 2
+    - count: 1
       buff_ID: 19
-    - count: 2
+    - count: 1
       buff_ID: 20
     _description: 
   - _name: NewCentury
     _c_name: "\u65B0\u4E16\u7EAA\u6750\u6599"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 3
-      buff_ID: 21
-    - count: 3
-      buff_ID: 22
-    - count: 3
-      buff_ID: 23
+    - count: 2
+      buff_ID: 27
+    - count: 2
+      buff_ID: 28
+    - count: 2
+      buff_ID: 29
     _description: 
   - _name: AA
     _c_name: "\u5B87\u822A\u534F\u4F1A"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
     - count: 2
-      buff_ID: 27
-    - count: 2
-      buff_ID: 28
+      buff_ID: 33
     - count: 1
-      buff_ID: 29
+      buff_ID: 34
+    - count: 1
+      buff_ID: 35
     _description: 
   - _name: Mechanical
     _c_name: "\u673A\u68B0\u5DE5\u7A0B"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 36
+    - count: 3
+      buff_ID: 37
     _description: 
   - _name: Optics
     _c_name: "\u5149\u5B66"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 40
+    - count: 3
+      buff_ID: 41
     _description: 
   - _name: Electronic
     _c_name: "\u7535\u5B50\u5B66"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 44
+    - count: 3
+      buff_ID: 45
     _description: 
   - _name: AI
     _c_name: "\u4EBA\u5DE5\u667A\u80FD"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 48
+    - count: 3
+      buff_ID: 49
     _description: 
   - _name: Dynamics
     _c_name: "\u52A8\u529B\u5B66"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 50
+    - count: 3
+      buff_ID: 51
     _description: 
   - _name: Materials
     _c_name: "\u6750\u6599\u5B66"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 52
+    - count: 3
+      buff_ID: 53
     _description: 
   - _name: Energy
     _c_name: "\u80FD\u6E90\u5B66"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 54
+    - count: 3
+      buff_ID: 55
     _description: 
   - _name: Firearms
     _c_name: "\u67AA\u68B0"
     _icon: Sprite/TypeIcon/Archer
     _Bonus:
-    - count: 0
-      buff_ID: 0
+    - count: 3
+      buff_ID: 56
+    - count: 3
+      buff_ID: 57
     _description: 

@@ -64,6 +64,9 @@ public class Skill
 {
     public SkillData skillData;
 
+    public float curTime = 0;
+    public float intervalTime = 0;
+
     public SkillTargetType skillTargetType;
     public SkillRangeSelectorType skillRangeSelectorType;
     public SkillTargetSelectorType skillTargetSelectorType;
@@ -306,7 +309,8 @@ public class Skill
         if (effectPrefab != null)
         {
             GameObject effectInstance = GameObject.Instantiate(effectPrefab);
-            effectInstance.transform.position = constructor.skillCastPoints[curCastPointIndex].position;
+            effectInstance.transform.position = GetCastPoint().position;
+            effectInstance.transform.rotation = GetCastPoint().rotation;
             effectScript = effectInstance.GetComponent<SkillEffect>();
             effectScript.Init(this);
         }
@@ -314,6 +318,11 @@ public class Skill
         {
             Effect();
         }
+    }
+
+    public Transform GetCastPoint()
+    {
+        return constructor.skillCastPoints[curCastPointIndex];
     }
 
     public void Effect()
@@ -329,6 +338,8 @@ public class Skill
     public void OnFinish()
     {
         state = SkillState.CD;
+        curTime = 0;
+        intervalTime = 0;
         skillBehaviour.OnFinish();
     }
 
@@ -336,6 +347,8 @@ public class Skill
     public void Reset()
     {
         state = SkillState.CD;
+        curTime = 0;
+        intervalTime = 0;
         targets.Clear();
         countRemain = skillData.count;
     }

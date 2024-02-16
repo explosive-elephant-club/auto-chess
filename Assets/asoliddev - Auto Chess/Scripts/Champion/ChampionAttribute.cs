@@ -65,4 +65,10 @@ public class ChampionAttribute
         }
         return (baseValue + trueLinearValue) * trueMultipleValueValue;
     }
+
+    public float GetTrueValue(float max, float min = 0)
+    {
+        float noLimitValue = GetTrueValue();
+        return Mathf.Min(max, Mathf.Max(min, noLimitValue));
+    }
 }

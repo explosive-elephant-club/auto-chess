@@ -11,18 +11,28 @@ public enum BuffActiveMode
     Always,
     [Tooltip("定时触发")]
     Interval,
-    [Tooltip("攻击前触发")]
-    BeforeAttack,
-    [Tooltip("攻击后触发")]
-    AfterAttack,
     [Tooltip("施法前触发")]
     BeforeCast,
     [Tooltip("施法后触发")]
     AfterCast,
+    [Tooltip("攻击前触发")]
+    BeforeAttack,
+    [Tooltip("攻击后触发")]
+    AfterAttack,
     [Tooltip("受击前触发")]
     BeforeHit,
     [Tooltip("受击后触发")]
     AfterHit,
+    [Tooltip("暴击后触发")]
+    AfterCrit,
+    [Tooltip("闪避后触发")]
+    AfterDodge, 
+    [Tooltip("战斗前触发")]
+    BeforeBattle,
+    [Tooltip("战斗后触发")]
+    AfterBattle,
+
+
 }
 
 public enum BuffConsumeMode

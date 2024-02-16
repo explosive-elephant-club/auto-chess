@@ -353,15 +353,23 @@ public class ChampionController : MonoBehaviour
     {
         if (target == null)
             return;
+        buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
         List<SkillData.damageDataClass> addDamages = new List<SkillData.damageDataClass>();
         for (int i = 0; i < damages.Length; i++)
         {
             float trueDamage = attributesController.GetTrueDamage(damages[i].dmg,
                 (DamageType)Enum.Parse(typeof(DamageType), damages[i].type), damages[i].correction);
             totalDamage += trueDamage;
+            if (attributesController.CritCheck())
+            {
+                Debug.Log("暴击");
+                totalDamage *= attributesController.critMultiple.GetTrueValue();
+                buffController.eventCenter.Broadcast(BuffActiveMode.AfterCrit.ToString());
+            }
             addDamages.Add(new SkillData.damageDataClass() { dmg = (int)trueDamage, type = damages[i].type });
         }
         _target.OnGotHit(addDamages);
+        buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
     }
 
     /// <summary>
@@ -391,7 +399,7 @@ public class ChampionController : MonoBehaviour
         else
         {
             Debug.Log("闪避");
-
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterDodge.ToString());
         }
         return isDead;
     }
@@ -555,6 +563,7 @@ public class ChampionController : MonoBehaviour
         {
             buffController.AddBuff(b, this);
         }
+        buffController.eventCenter.Broadcast(BuffActiveMode.BeforeBattle.ToString());
         skillController.OnEnterCombat();
     }
     public void OnUpdateCombat()
@@ -574,6 +583,7 @@ public class ChampionController : MonoBehaviour
     public void OnLeaveCombat()
     {
         navMeshAgent.enabled = false;
+        buffController.eventCenter.Broadcast(BuffActiveMode.AfterBattle.ToString());
         Reset();
     }
 

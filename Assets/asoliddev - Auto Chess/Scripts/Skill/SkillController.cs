@@ -16,9 +16,9 @@ public class SkillController : MonoBehaviour
     //已激活的技能表
     public List<Skill> activedSkillList = new List<Skill>();
 
-    int curSkillIndex = -1;
-    float curCastDelay = 0;
-    float curChargingDelay = 0;
+    public int curSkillIndex = -1;
+    public float curCastDelay = 0;
+    public float curChargingDelay = 0;
 
     ChampionController championController;
 
@@ -92,8 +92,27 @@ public class SkillController : MonoBehaviour
         return (curSkillIndex + 1) % activedSkillList.Count;
     }
 
+    public bool IsAllNull()
+    {
+        foreach (var s in activedSkillList)
+        {
+            if (s != null)
+                return false;
+        }
+        return true;
+    }
+
     public void TryCastSkill()
     {
+        if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)//等待持续施法
+        {
+
+            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
+            {
+                return;
+            }
+
+        }
         if (activedSkillList[GetNextSkillIndex()] == null)//跳过null技能
         {
             curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
@@ -106,11 +125,7 @@ public class SkillController : MonoBehaviour
             }
             return;
         }
-        if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)//等待持续施法
-        {
-            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
-                return;
-        }
+
 
         if (curCastDelay <= 0)//释放
         {

@@ -97,7 +97,6 @@ public class ConstructorBase : MonoBehaviour
 
     public void _onSkillAnimEffect()
     {
-        UnityEngine.Debug.Log("_onSkillAnimEffect");
         onSkillAnimEffect.Invoke();
     }
 

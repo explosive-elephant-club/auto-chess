@@ -10,7 +10,7 @@ public class OwnChampionManager : ChampionManager
     public override void OnEnterPreparation()
     {
         base.OnEnterPreparation();
-        this.AddChampionToBattle("Enemy/1-4");
+        this.AddChampionToBattle("Enemy/1-5");
         //this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }
 }
