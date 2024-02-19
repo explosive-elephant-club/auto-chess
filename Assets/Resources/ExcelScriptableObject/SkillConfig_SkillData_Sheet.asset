@@ -115,6 +115,9 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
+    - dmg: 6
+      correction: 0
+      type: Physical
     - dmg: 12
       correction: 1
       type: Fire
@@ -143,8 +146,11 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
+    - dmg: 10
+      correction: 0
+      type: Physical
     - dmg: 16
-      correction: 1.5
+      correction: 1.2
       type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -171,8 +177,11 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
+    - dmg: 15
+      correction: 0
+      type: Physical
     - dmg: 20
-      correction: 2
+      correction: 1.5
       type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -199,7 +208,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 15
+    - dmg: 20
       correction: 0.5
       type: Lightning
     _addBuffs: 00000000
@@ -227,7 +236,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 20
+    - dmg: 25
       correction: 1
       type: Lightning
     _addBuffs: 00000000
@@ -255,7 +264,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 25
+    - dmg: 30
       correction: 1.5
       type: Lightning
     _addBuffs: 00000000
@@ -273,7 +282,7 @@ MonoBehaviour:
     _duration: 0
     _interval: 0
     _castDelay: -1.4
-    _chargingDelay: -1
+    _chargingDelay: 0
     _manaCost: 5
     _count: -1
     _description: 
@@ -283,7 +292,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 8
+    - dmg: 7
       correction: 0.5
       type: Physical
     _addBuffs: 00000000
@@ -299,7 +308,7 @@ MonoBehaviour:
   - _ID: 11
     _name: GTW-F Flamethrower
     _duration: 3
-    _interval: 0.3
+    _interval: 0.4
     _castDelay: 1
     _chargingDelay: 1
     _manaCost: 25
@@ -312,7 +321,7 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 3
-      correction: 0.5
+      correction: 0.3
       type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -339,8 +348,8 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 8
-      correction: 1
+    - dmg: 20
+      correction: 0.5
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -367,7 +376,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 2
+    - dmg: 3
       correction: 0.5
       type: Physical
     _addBuffs: 00000000
@@ -395,8 +404,8 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 3
-      correction: 1
+    - dmg: 4
+      correction: 0.5
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -424,7 +433,7 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 5
-      correction: 1.5
+      correction: 1
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -451,8 +460,8 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 1
-      correction: 1
+    - dmg: 2
+      correction: 0.5
       type: Lightning
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -479,14 +488,14 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 6
+    - dmg: 4
       correction: 1
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
-    - constructorType: 
-      trigger: 
+    - constructorType: Gadget
+      trigger: Fire
     _effectPrefab: Prefab/Projectile/Skill/BlueBullet
     _hitFXPrefab: 
     _hexEffectPrefab: 
@@ -507,14 +516,14 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 6
-      correction: 2
+    - dmg: 5
+      correction: 1.2
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
-    - constructorType: 
-      trigger: 
+    - constructorType: Gadget
+      trigger: Fire
     _effectPrefab: Prefab/Projectile/Skill/BlueBullet
     _hitFXPrefab: 
     _hexEffectPrefab: 
@@ -536,13 +545,13 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 6
-      correction: 3
+      correction: 1.5
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
-    - constructorType: 
-      trigger: 
+    - constructorType: Gadget
+      trigger: Fire
     _effectPrefab: Prefab/Projectile/Skill/BlueBullet
     _hitFXPrefab: 
     _hexEffectPrefab: 
@@ -552,7 +561,7 @@ MonoBehaviour:
     _name: Explosive Rocket Lvl.1
     _duration: 0.4
     _interval: 0.1
-    _castDelay: 0
+    _castDelay: 2
     _chargingDelay: 0.5
     _manaCost: 20
     _count: -1
@@ -566,6 +575,9 @@ MonoBehaviour:
     - dmg: 4
       correction: 1
       type: Physical
+    - dmg: 4
+      correction: 1
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -580,7 +592,7 @@ MonoBehaviour:
     _name: Explosive Rocket Lvl.2
     _duration: 0.4
     _interval: 0.1
-    _castDelay: 0
+    _castDelay: 2
     _chargingDelay: 0.5
     _manaCost: 25
     _count: -1
@@ -594,6 +606,9 @@ MonoBehaviour:
     - dmg: 6
       correction: 1.5
       type: Physical
+    - dmg: 4
+      correction: 1.5
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -608,7 +623,7 @@ MonoBehaviour:
     _name: Explosive Rocket Lvl.3
     _duration: 0.4
     _interval: 0.1
-    _castDelay: 0
+    _castDelay: 2
     _chargingDelay: 0.5
     _manaCost: 30
     _count: -1
@@ -622,6 +637,9 @@ MonoBehaviour:
     - dmg: 8
       correction: 2
       type: Physical
+    - dmg: 4
+      correction: 2
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -675,7 +693,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 24
+    - dmg: 30
       correction: 0
       type: Fire
     _addBuffs: 00000000
@@ -703,7 +721,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 30
+    - dmg: 45
       correction: 0
       type: Fire
     _addBuffs: 00000000
@@ -871,7 +889,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 5
+    - dmg: 6
       correction: 0.5
       type: Physical
     _addBuffs: 00000000
@@ -899,7 +917,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 6
+    - dmg: 8
       correction: 1
       type: Physical
     _addBuffs: 00000000
@@ -927,7 +945,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 8
+    - dmg: 10
       correction: 1.5
       type: Physical
     _addBuffs: 00000000
@@ -1039,6 +1057,9 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
+    - dmg: 8
+      correction: 1
+      type: Physical
     - dmg: 10
       correction: 1
       type: Ice
@@ -1067,7 +1088,10 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 12
+    - dmg: 10
+      correction: 1.5
+      type: Physical
+    - dmg: 14
       correction: 1.5
       type: Ice
     _addBuffs: 00000000
@@ -1095,7 +1119,10 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 15
+    - dmg: 12
+      correction: 2
+      type: Physical
+    - dmg: 24
       correction: 2
       type: Ice
     _addBuffs: 00000000
@@ -1126,6 +1153,9 @@ MonoBehaviour:
     - dmg: 12
       correction: 1
       type: Lightning
+    - dmg: 2
+      correction: 1.5
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -1154,6 +1184,9 @@ MonoBehaviour:
     - dmg: 15
       correction: 1.2
       type: Lightning
+    - dmg: 5
+      correction: 1.8
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -1182,6 +1215,9 @@ MonoBehaviour:
     - dmg: 20
       correction: 1.5
       type: Lightning
+    - dmg: 8
+      correction: 2
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -1210,6 +1246,9 @@ MonoBehaviour:
     - dmg: 25
       correction: 1.8
       type: Lightning
+    - dmg: 11
+      correction: 2.2
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -1238,6 +1277,9 @@ MonoBehaviour:
     - dmg: 30
       correction: 2
       type: Lightning
+    - dmg: 18
+      correction: 2.5
+      type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
@@ -1252,8 +1294,8 @@ MonoBehaviour:
     _name: Lightning Wave Lvl.1
     _duration: 0
     _interval: 0
-    _castDelay: 0
-    _chargingDelay: -0.5
+    _castDelay: 0.6
+    _chargingDelay: 0
     _manaCost: 10
     _count: -1
     _description: 
@@ -1264,14 +1306,17 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 8
-      correction: 0.5
+      correction: 1
       type: Lightning
+    - dmg: 12
+      correction: 1
+      type: Acid
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
     - constructorType: 
       trigger: 
-    _effectPrefab: Prefab/Projectile/Skill/BlueWave
+    _effectPrefab: Prefab/Projectile/Skill/GreenWave
     _hitFXPrefab: 
     _hexEffectPrefab: 
     _icon: Sprite/SkillIcon/Icon_Magic1
@@ -1280,8 +1325,8 @@ MonoBehaviour:
     _name: Lightning Wave Lvl.2
     _duration: 0
     _interval: 0
-    _castDelay: 0
-    _chargingDelay: -0.5
+    _castDelay: 0.6
+    _chargingDelay: 0
     _manaCost: 12
     _count: -1
     _description: 
@@ -1292,14 +1337,17 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 10
-      correction: 0.8
+      correction: 1.2
       type: Lightning
+    - dmg: 20
+      correction: 1.2
+      type: Acid
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
     - constructorType: 
       trigger: 
-    _effectPrefab: Prefab/Projectile/Skill/BlueWave
+    _effectPrefab: Prefab/Projectile/Skill/GreenWave
     _hitFXPrefab: 
     _hexEffectPrefab: 
     _icon: Sprite/SkillIcon/Icon_Magic1
@@ -1308,8 +1356,8 @@ MonoBehaviour:
     _name: Lightning Wave Lvl.3
     _duration: 0
     _interval: 0
-    _castDelay: 0
-    _chargingDelay: -0.5
+    _castDelay: 0.6
+    _chargingDelay: 0
     _manaCost: 15
     _count: -1
     _description: 
@@ -1319,15 +1367,18 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 12
-      correction: 1
+    - dmg: 15
+      correction: 1.5
       type: Lightning
+    - dmg: 25
+      correction: 1.5
+      type: Acid
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
     - constructorType: 
       trigger: 
-    _effectPrefab: Prefab/Projectile/Skill/BlueWave
+    _effectPrefab: Prefab/Projectile/Skill/GreenWave
     _hitFXPrefab: 
     _hexEffectPrefab: 
     _icon: Sprite/SkillIcon/Icon_Magic1
@@ -1336,8 +1387,8 @@ MonoBehaviour:
     _name: Lightning Wave Lvl.4
     _duration: 0
     _interval: 0
-    _castDelay: 0
-    _chargingDelay: -0.5
+    _castDelay: 0.6
+    _chargingDelay: 0
     _manaCost: 20
     _count: -1
     _description: 
@@ -1347,15 +1398,18 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 15
-      correction: 1.6
+    - dmg: 20
+      correction: 1.8
       type: Lightning
+    - dmg: 30
+      correction: 1.8
+      type: Acid
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
     - constructorType: 
       trigger: 
-    _effectPrefab: Prefab/Projectile/Skill/BlueWave
+    _effectPrefab: Prefab/Projectile/Skill/GreenWave
     _hitFXPrefab: 
     _hexEffectPrefab: 
     _icon: Sprite/SkillIcon/Icon_Magic1
@@ -1364,8 +1418,8 @@ MonoBehaviour:
     _name: Lightning Wave Lvl.5
     _duration: 0
     _interval: 0
-    _castDelay: 0
-    _chargingDelay: -0.5
+    _castDelay: 0.6
+    _chargingDelay: 0
     _manaCost: 24
     _count: -1
     _description: 
@@ -1375,15 +1429,18 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 18
+    - dmg: 30
       correction: 2
       type: Lightning
+    - dmg: 34
+      correction: 2
+      type: Acid
     _addBuffs: 00000000
     _isBlockOther: 0
     _skillAnimTrigger:
     - constructorType: 
       trigger: 
-    _effectPrefab: Prefab/Projectile/Skill/BlueWave
+    _effectPrefab: Prefab/Projectile/Skill/GreenWave
     _hitFXPrefab: 
     _hexEffectPrefab: 
     _icon: Sprite/SkillIcon/Icon_Magic1
@@ -1403,8 +1460,8 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 6
-      correction: 4
+    - dmg: 8
+      correction: 1.8
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -1431,8 +1488,8 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 6
-      correction: 5
+    - dmg: 10
+      correction: 2
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -1448,8 +1505,8 @@ MonoBehaviour:
     _name: Sniper Shoot Lvl.1
     _duration: 0
     _interval: 0
-    _castDelay: -2
-    _chargingDelay: -2
+    _castDelay: 2
+    _chargingDelay: 3
     _manaCost: 20
     _count: -1
     _description: 
@@ -1459,7 +1516,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 16
+    - dmg: 40
       correction: 1
       type: Physical
     _addBuffs: 00000000
@@ -1476,8 +1533,8 @@ MonoBehaviour:
     _name: Sniper Shoot Lvl.2
     _duration: 0
     _interval: 0
-    _castDelay: -2
-    _chargingDelay: -2
+    _castDelay: 2
+    _chargingDelay: 3
     _manaCost: 30
     _count: -1
     _description: 
@@ -1487,7 +1544,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 24
+    - dmg: 50
       correction: 1.5
       type: Physical
     _addBuffs: 00000000
@@ -1504,8 +1561,8 @@ MonoBehaviour:
     _name: Sniper Shoot Lvl.3
     _duration: 0
     _interval: 0
-    _castDelay: -2
-    _chargingDelay: -2
+    _castDelay: 2
+    _chargingDelay: 3
     _manaCost: 40
     _count: -1
     _description: 
@@ -1515,7 +1572,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 30
+    - dmg: 60
       correction: 2
       type: Physical
     _addBuffs: 00000000
@@ -1532,8 +1589,8 @@ MonoBehaviour:
     _name: Sniper Shoot Lvl.4
     _duration: 0
     _interval: 0
-    _castDelay: -2
-    _chargingDelay: -2
+    _castDelay: 2
+    _chargingDelay: 3
     _manaCost: 50
     _count: -1
     _description: 
@@ -1543,7 +1600,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 40
+    - dmg: 80
       correction: 2.5
       type: Physical
     _addBuffs: 00000000
@@ -1560,8 +1617,8 @@ MonoBehaviour:
     _name: Sniper Shoot Lvl.5
     _duration: 0
     _interval: 0
-    _castDelay: -2
-    _chargingDelay: -2
+    _castDelay: 2
+    _chargingDelay: 3
     _manaCost: 60
     _count: -1
     _description: 
@@ -1571,7 +1628,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 50
+    - dmg: 100
       correction: 3
       type: Physical
     _addBuffs: 00000000
