@@ -19,8 +19,8 @@ namespace ExcelConfig
 	{
 		[EEKeyField]
 		[SerializeField]
-		private string _ID;
-		public string ID { get { return _ID; } }
+		private int _ID;
+		public int ID { get { return _ID; } }
 
 		[Serializable]
 		public class enemiesClass

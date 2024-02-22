@@ -151,6 +151,7 @@ public class ChampionController : MonoBehaviour
         set { _isDragged = value; }
     }
 
+
     /// <summary>
     /// Resets champion after combat is over
     /// </summary>

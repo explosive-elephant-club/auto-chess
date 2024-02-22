@@ -55,7 +55,7 @@ public class UIController : CreateSingleton<UIController>
     {
         levelInfo.UpdateUI();
         championInfoController.UpdateUI();
-        UIController.Instance.constructorAssembleController.UpdateUI();
+        constructorAssembleController.UpdateUI();
     }
 
     public void ShowLossScreen()

@@ -5,9 +5,9 @@ using UnityEngine;
 /// <summary>
 /// Helper class to identify player interaction on the map
 /// </summary>
-public class Index
+public class GridIndex
 {
-    public Index(int _x, int _y)
+    public GridIndex(int _x, int _y)
     {
         x = _x;
         y = _y;
@@ -20,7 +20,7 @@ public class GridInfo : MonoBehaviour
     public GridType gridType = GridType.HexaMap;
     public bool walkable;
     public Vector3 coor;
-    public Index index;
+    public GridIndex index;
     public float g;
     public float h;
     public float f => g + h;
@@ -34,7 +34,7 @@ public class GridInfo : MonoBehaviour
     public ChampionController occupyChampion;
     public ChampionController bookChampion;
 
-    public void Init(Index _index, Vector3 _coor, GridType _gridType)
+    public void Init(GridIndex _index, Vector3 _coor, GridType _gridType)
     {
         gridType = _gridType;
         index = _index;

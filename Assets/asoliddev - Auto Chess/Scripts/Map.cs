@@ -66,6 +66,13 @@ public class Map : CreateSingleton<Map>
 
         m_Plane = new Plane(Vector3.up, Vector3.zero);
 
+        //Invoke("Ready", 1f);
+        GamePlayController.Instance.OnMapReady();
+
+    }
+
+    void Ready()
+    {
         GamePlayController.Instance.OnMapReady();
     }
 
@@ -157,7 +164,7 @@ public class Map : CreateSingleton<Map>
             gridOBJ.transform.parent = ownInventoryContainer.transform;
 
             ownInventoryGridArray[i] = gridOBJ.GetComponent<GridInfo>();
-            ownInventoryGridArray[i].Init(new Index(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
+            ownInventoryGridArray[i].Init(new GridIndex(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
         }
 
 
@@ -169,7 +176,7 @@ public class Map : CreateSingleton<Map>
             gridOBJ.transform.parent = oponentInventoryContainer.transform;
 
             oponentInventoryGridArray[i] = gridOBJ.GetComponent<GridInfo>();
-            oponentInventoryGridArray[i].Init(new Index(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
+            oponentInventoryGridArray[i].Init(new GridIndex(i, -1), new Vector3(i, -1, -1), GridType.Inventory);
         }
 
         //生成地图网格
@@ -192,7 +199,7 @@ public class Map : CreateSingleton<Map>
 
                 int xOffset = z >> 1;
                 mapGridArray[x, z].Init(
-                    new Index(x, z),
+                    new GridIndex(x, z),
                     new Vector3(x - xOffset, z, 0 - (x - xOffset + z)),
                     GridType.HexaMap);
             }
@@ -276,6 +283,15 @@ public class Map : CreateSingleton<Map>
         return grids;
     }
 
+    public GridInfo GetHexaMapSlot(Vector3 _coor)
+    {
+        foreach (var grid in mapGridArray)
+        {
+            if (grid.coor == _coor)
+                return grid;
+        }
+        return null;
+    }
 
     public GridInfo GetEmptySlot(ChampionTeam team, GridType type)
     {

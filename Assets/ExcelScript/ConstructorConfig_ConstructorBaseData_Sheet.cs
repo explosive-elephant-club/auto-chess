@@ -35,8 +35,8 @@ namespace ExcelConfig
 		public string type { get { return _type; } }
 
 		[SerializeField]
-		private int _cost;
-		public int cost { get { return _cost; } }
+		private int _level;
+		public int level { get { return _level; } }
 
 		[SerializeField]
 		private string _property1;
@@ -78,7 +78,7 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _prefab);
 			TryParse(sheet[row][column++], out _type);
-			TryParse(sheet[row][column++], out _cost);
+			TryParse(sheet[row][column++], out _level);
 			TryParse(sheet[row][column++], out _property1);
 			TryParse(sheet[row][column++], out _property2);
 			TryParse(sheet[row][column++], out _property3);

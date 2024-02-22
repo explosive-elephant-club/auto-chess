@@ -12,13 +12,15 @@ public class InventorySlot : ContainerSlot
 {
     RectTransform rect;
     Image icon;
+    Image levelFrame;
     Transform[] slots;
     public ConstructorBaseData constructorData;
 
     // Start is called before the first frame update
     void Awake()
     {
-        icon = transform.Find("Icon").GetComponent<Image>();
+        levelFrame = GetComponent<Image>();
+        icon = transform.Find("BG/Icon").GetComponent<Image>();
         //slots = transform.Find("Panel").GetComponentsInChildren<Transform>();
     }
 
@@ -26,6 +28,9 @@ public class InventorySlot : ContainerSlot
     {
         constructorData = _constructorData;
 
+        Color tempColor;
+        if (ColorUtility.TryParseHtmlString(GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).color, out tempColor))
+            levelFrame.color = tempColor;
         LoadIcon();
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);

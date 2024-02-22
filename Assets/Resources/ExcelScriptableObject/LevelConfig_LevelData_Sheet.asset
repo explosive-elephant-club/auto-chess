@@ -18,8 +18,223 @@ MonoBehaviour:
   elements:
   - _ID: 1
     _enemies:
-    - id: 0
+    - id: 1
+      x: 1
+      y: 5
+      z: -6
+    _rewardEventIDs: 00000000
+  - _ID: 2
+    _enemies:
+    - id: 1
       x: 0
-      y: 0
-      z: 0
+      y: 5
+      z: -5
+    - id: 1
+      x: 2
+      y: 5
+      z: -7
+    _rewardEventIDs: 00000000
+  - _ID: 3
+    _enemies:
+    - id: 1
+      x: 0
+      y: 5
+      z: -5
+    - id: 1
+      x: 2
+      y: 5
+      z: -7
+    - id: 2
+      x: -2
+      y: 5
+      z: -3
+    - id: 2
+      x: 4
+      y: 5
+      z: -9
+    _rewardEventIDs: 00000000
+  - _ID: 4
+    _enemies:
+    - id: 2
+      x: 0
+      y: 5
+      z: -5
+    - id: 2
+      x: 2
+      y: 5
+      z: -7
+    - id: 3
+      x: 1
+      y: 5
+      z: -6
+    _rewardEventIDs: 00000000
+  - _ID: 5
+    _enemies:
+    - id: 1
+      x: -1
+      y: 5
+      z: -4
+    - id: 1
+      x: 0
+      y: 5
+      z: -5
+    - id: 1
+      x: 1
+      y: 5
+      z: -6
+    - id: 1
+      x: 2
+      y: 5
+      z: -7
+    - id: 1
+      x: 3
+      y: 5
+      z: -8
+    _rewardEventIDs: 00000000
+  - _ID: 6
+    _enemies:
+    - id: 1
+      x: -1
+      y: 5
+      z: -4
+    - id: 1
+      x: 0
+      y: 5
+      z: -5
+    - id: 1
+      x: 1
+      y: 5
+      z: -6
+    - id: 1
+      x: 2
+      y: 5
+      z: -7
+    - id: 1
+      x: 3
+      y: 5
+      z: -8
+    - id: 2
+      x: -1
+      y: 6
+      z: -5
+    - id: 2
+      x: 0
+      y: 6
+      z: -6
+    - id: 2
+      x: 1
+      y: 6
+      z: -7
+    _rewardEventIDs: 00000000
+  - _ID: 7
+    _enemies:
+    - id: 1
+      x: -1
+      y: 5
+      z: -4
+    - id: 3
+      x: 0
+      y: 5
+      z: -5
+    - id: 1
+      x: 1
+      y: 5
+      z: -6
+    - id: 3
+      x: 2
+      y: 5
+      z: -7
+    - id: 1
+      x: 3
+      y: 5
+      z: -8
+    - id: 2
+      x: 0
+      y: 6
+      z: -6
+    _rewardEventIDs: 00000000
+  - _ID: 8
+    _enemies:
+    - id: 3
+      x: 0
+      y: 5
+      z: -5
+    - id: 3
+      x: 1
+      y: 5
+      z: -6
+    - id: 3
+      x: 2
+      y: 5
+      z: -7
+    - id: 1
+      x: -1
+      y: 6
+      z: -5
+    - id: 2
+      x: 0
+      y: 6
+      z: -6
+    - id: 1
+      x: 1
+      y: 6
+      z: -7
+    _rewardEventIDs: 00000000
+  - _ID: 9
+    _enemies:
+    - id: 3
+      x: 0
+      y: 5
+      z: -5
+    - id: 3
+      x: 1
+      y: 5
+      z: -6
+    - id: 3
+      x: 2
+      y: 5
+      z: -7
+    - id: 2
+      x: -2
+      y: 7
+      z: -5
+    - id: 2
+      x: -1
+      y: 7
+      z: -6
+    - id: 2
+      x: 0
+      y: 7
+      z: -7
+    _rewardEventIDs: 00000000
+  - _ID: 10
+    _enemies:
+    - id: 3
+      x: 0
+      y: 5
+      z: -5
+    - id: 4
+      x: 1
+      y: 5
+      z: -6
+    - id: 3
+      x: 2
+      y: 5
+      z: -7
+    - id: 2
+      x: -2
+      y: 7
+      z: -5
+    - id: 2
+      x: -1
+      y: 7
+      z: -6
+    - id: 2
+      x: 0
+      y: 7
+      z: -7
+    - id: 4
+      x: 0
+      y: 6
+      z: -6
     _rewardEventIDs: 00000000

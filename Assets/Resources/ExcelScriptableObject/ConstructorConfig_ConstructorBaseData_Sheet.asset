@@ -20,7 +20,7 @@ MonoBehaviour:
     _name: GMC I
     _prefab: Chassis/Chassis_Carrier_Lvl1
     _type: Chassis
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -37,7 +37,7 @@ MonoBehaviour:
     _name: GMC II
     _prefab: Chassis/Chassis_Carrier_Lvl2
     _type: Chassis
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -54,7 +54,7 @@ MonoBehaviour:
     _name: LWC I
     _prefab: Chassis/Chassis_Tank_Lvl1
     _type: Chassis
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -71,7 +71,7 @@ MonoBehaviour:
     _name: LWC II
     _prefab: Chassis/Chassis_Tank_Lvl2
     _type: Chassis
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -88,7 +88,7 @@ MonoBehaviour:
     _name: Python
     _prefab: Chassis/Chassis_Tank_Lvl3
     _type: Chassis
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: Mechanical
     _property3: Electronic
@@ -105,7 +105,7 @@ MonoBehaviour:
     _name: Salticidae
     _prefab: Chassis/Legs_Spider_Lt
     _type: Chassis
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: Mechanical
     _property3: 
@@ -122,7 +122,7 @@ MonoBehaviour:
     _name: Heteropoda
     _prefab: Chassis/Legs_Spider_Med
     _type: Chassis
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Mechanical
     _property3: 
@@ -139,7 +139,7 @@ MonoBehaviour:
     _name: Tarantula
     _prefab: Chassis/Legs_Spider_Hvy
     _type: Chassis
-    _cost: 100
+    _level: 3
     _property1: Helix
     _property2: Mechanical
     _property3: Materials
@@ -156,7 +156,7 @@ MonoBehaviour:
     _name: Porter
     _prefab: Chassis/Legs_Tracks_Lvl0
     _type: Chassis
-    _cost: 10
+    _level: 1
     _property1: AA
     _property2: Mechanical
     _property3: 
@@ -173,7 +173,7 @@ MonoBehaviour:
     _name: Hunter I
     _prefab: Chassis/Legs_Tracks_Lvl1
     _type: Chassis
-    _cost: 30
+    _level: 2
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -190,7 +190,7 @@ MonoBehaviour:
     _name: Hunter II
     _prefab: Chassis/Legs_Tracks_Lvl2
     _type: Chassis
-    _cost: 30
+    _level: 2
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -207,7 +207,7 @@ MonoBehaviour:
     _name: Cerberus
     _prefab: Chassis/Legs_Tracks_Lvl3
     _type: Chassis
-    _cost: 100
+    _level: 3
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -224,7 +224,7 @@ MonoBehaviour:
     _name: Heidelberg
     _prefab: Chassis/Walker_Legs_Lt
     _type: Chassis
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: Mechanical
     _property3: 
@@ -241,7 +241,7 @@ MonoBehaviour:
     _name: Ochre
     _prefab: Chassis/Walker_Legs_Med
     _type: Chassis
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: Mechanical
     _property3: 
@@ -258,7 +258,7 @@ MonoBehaviour:
     _name: Amaterasu
     _prefab: Chassis/Walker_Legs_Hvy
     _type: Chassis
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: Mechanical
     _property3: AI
@@ -275,7 +275,7 @@ MonoBehaviour:
     _name: Thinker
     _prefab: Cockpit/Cockpit_Bot_Round_Lvl1
     _type: Cockpit
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: AI
     _property3: 
@@ -288,7 +288,7 @@ MonoBehaviour:
     _name: Rover
     _prefab: Cockpit/Cockpit_Bot_Round_Lvl2
     _type: Cockpit
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: AI
     _property3: 
@@ -301,7 +301,7 @@ MonoBehaviour:
     _name: Spy
     _prefab: Cockpit/Cockpit_Bot_Spy
     _type: Cockpit
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: AI
     _property3: 
@@ -314,7 +314,7 @@ MonoBehaviour:
     _name: Edge I
     _prefab: Cockpit/Cockpit_Bot_Wedge_Lvl1
     _type: Cockpit
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: AI
     _property3: 
@@ -327,7 +327,7 @@ MonoBehaviour:
     _name: Edge II
     _prefab: Cockpit/Cockpit_Bot_Wedge_Lvl2
     _type: Cockpit
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: AI
     _property3: 
@@ -340,7 +340,7 @@ MonoBehaviour:
     _name: Vanguard
     _prefab: Cockpit/Cockpit_Bulldog
     _type: Cockpit
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: AI
     _property3: 
@@ -353,7 +353,7 @@ MonoBehaviour:
     _name: Specter
     _prefab: Cockpit/Cockpit_Flybot
     _type: Cockpit
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: AI
     _property3: Electronic
@@ -366,7 +366,7 @@ MonoBehaviour:
     _name: Pilot
     _prefab: Cockpit/Cockpit_Flyer
     _type: Cockpit
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: AI
     _property3: Mechanical
@@ -379,7 +379,7 @@ MonoBehaviour:
     _name: Guardian-OSA
     _prefab: Cockpit/Cockpit_Gunbot
     _type: Cockpit
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: AI
     _property3: 
@@ -392,7 +392,7 @@ MonoBehaviour:
     _name: Guardian-OSD
     _prefab: Cockpit/Cockpit_Gunner
     _type: Cockpit
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: AI
     _property3: 
@@ -405,7 +405,7 @@ MonoBehaviour:
     _name: Titan I
     _prefab: Cockpit/Cockpit_Humanoid_Lvl1
     _type: Cockpit
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: AI
     _property3: 
@@ -418,7 +418,7 @@ MonoBehaviour:
     _name: Titan II
     _prefab: Cockpit/Cockpit_Humanoid_Lvl2
     _type: Cockpit
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: AI
     _property3: 
@@ -431,7 +431,7 @@ MonoBehaviour:
     _name: Titan III
     _prefab: Cockpit/Cockpit_Humanoid_Lvl3
     _type: Cockpit
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: AI
     _property3: Materials
@@ -444,7 +444,7 @@ MonoBehaviour:
     _name: Warper
     _prefab: Cockpit/Cockpit_Moto
     _type: Cockpit
-    _cost: 100
+    _level: 3
     _property1: AA
     _property2: AI
     _property3: Dynamics
@@ -457,7 +457,7 @@ MonoBehaviour:
     _name: Runner
     _prefab: Cockpit/Cockpit_Rabbit_No_Interior
     _type: Cockpit
-    _cost: 30
+    _level: 2
     _property1: AA
     _property2: AI
     _property3: 
@@ -470,7 +470,7 @@ MonoBehaviour:
     _name: Behemoth
     _prefab: Cockpit/Cockpit_Rhino_No_Interior
     _type: Cockpit
-    _cost: 100
+    _level: 3
     _property1: Helix
     _property2: AI
     _property3: 
@@ -483,7 +483,7 @@ MonoBehaviour:
     _name: Roadhog
     _prefab: Cockpit/Cockpit_Roadhog_No_Interior
     _type: Cockpit
-    _cost: 10
+    _level: 1
     _property1: AA
     _property2: AI
     _property3: 
@@ -496,7 +496,7 @@ MonoBehaviour:
     _name: Sprinter
     _prefab: Cockpit/Cockpit_Shuttle_No_Interior
     _type: Cockpit
-    _cost: 30
+    _level: 2
     _property1: NewCentury
     _property2: AI
     _property3: 
@@ -509,7 +509,7 @@ MonoBehaviour:
     _name: Sentinel
     _prefab: Cockpit/Cockpit_Trooper
     _type: Cockpit
-    _cost: 100
+    _level: 3
     _property1: NewCentury
     _property2: AI
     _property3: Energy
@@ -522,7 +522,7 @@ MonoBehaviour:
     _name: Blaster
     _prefab: Cockpit/Cockpit_Trucker_No_Interior
     _type: Cockpit
-    _cost: 10
+    _level: 1
     _property1: NewCentury
     _property2: AI
     _property3: 
@@ -535,7 +535,7 @@ MonoBehaviour:
     _name: AmmunitionPack I
     _prefab: Backpack/Backpack_Box_Container
     _type: Backpack
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -548,7 +548,7 @@ MonoBehaviour:
     _name: AmmunitionPack II
     _prefab: Backpack/Backpack_Box_Container_2
     _type: Backpack
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -561,7 +561,7 @@ MonoBehaviour:
     _name: Scanner I
     _prefab: Backpack/Backpack_Dish_Lvl1
     _type: Backpack
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Electronic
     _property3: 
@@ -574,7 +574,7 @@ MonoBehaviour:
     _name: Scanner II
     _prefab: Backpack/Backpack_Dish_Lvl2
     _type: Backpack
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: Electronic
     _property3: 
@@ -587,7 +587,7 @@ MonoBehaviour:
     _name: Scanner III
     _prefab: Backpack/Backpack_Dish_Lvl3
     _type: Backpack
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: Electronic
     _property3: Optics
@@ -600,7 +600,7 @@ MonoBehaviour:
     _name: BackExtensionPlatform
     _prefab: Backpack/Backpack_Gun
     _type: Backpack
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Mechanical
     _property3: Firearms
@@ -613,7 +613,7 @@ MonoBehaviour:
     _name: Hossar I
     _prefab: Backpack/Backpack_Hussar_Lt
     _type: Backpack
-    _cost: 30
+    _level: 2
     _property1: AA
     _property2: Dynamics
     _property3: 
@@ -626,7 +626,7 @@ MonoBehaviour:
     _name: Hossar II
     _prefab: Backpack/Backpack_Hussar_Med
     _type: Backpack
-    _cost: 100
+    _level: 3
     _property1: AA
     _property2: AI
     _property3: Dynamics
@@ -639,7 +639,7 @@ MonoBehaviour:
     _name: PowerDrivePack
     _prefab: Backpack/Backpack_Lt_Motor
     _type: Backpack
-    _cost: 10
+    _level: 1
     _property1: AA
     _property2: Dynamics
     _property3: 
@@ -652,7 +652,7 @@ MonoBehaviour:
     _name: MedicalPack
     _prefab: Backpack/Backpack_Med_Frame
     _type: Backpack
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: Materials
     _property3: 
@@ -665,7 +665,7 @@ MonoBehaviour:
     _name: MedicalProPack
     _prefab: Backpack/Backpack_Med_Safari
     _type: Backpack
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: Materials
     _property3: 
@@ -678,7 +678,7 @@ MonoBehaviour:
     _name: ExplosivePack
     _prefab: Backpack/Backpack_MineLayer
     _type: Backpack
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: Materials
     _property3: Firearms
@@ -691,7 +691,7 @@ MonoBehaviour:
     _name: RackPack
     _prefab: Backpack/Backpack_Rack
     _type: Backpack
-    _cost: 10
+    _level: 1
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -704,7 +704,7 @@ MonoBehaviour:
     _name: Interferencer
     _prefab: Backpack/Backpack_Radar
     _type: Backpack
-    _cost: 100
+    _level: 3
     _property1: NewCentury
     _property2: Electronic
     _property3: Optics
@@ -717,7 +717,7 @@ MonoBehaviour:
     _name: RadioPack
     _prefab: Backpack/Backpack_Radio
     _type: Backpack
-    _cost: 30
+    _level: 2
     _property1: NewCentury
     _property2: Electronic
     _property3: 
@@ -730,7 +730,7 @@ MonoBehaviour:
     _name: PowerPack I
     _prefab: Backpack/Backpack_Tank_Lt
     _type: Backpack
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -743,7 +743,7 @@ MonoBehaviour:
     _name: PowerPack II
     _prefab: Backpack/Backpack_Tank_Med
     _type: Backpack
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -756,7 +756,7 @@ MonoBehaviour:
     _name: PowerPack III
     _prefab: Backpack/Backpack_Tank_Hvy
     _type: Backpack
-    _cost: 100
+    _level: 3
     _property1: Helix
     _property2: Dynamics
     _property3: Energy
@@ -769,7 +769,7 @@ MonoBehaviour:
     _name: SeatPlatform II
     _prefab: WeaponPlatform/Cockpit_Gun
     _type: WeaponPlatform
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: 
     _property3: 
@@ -782,7 +782,7 @@ MonoBehaviour:
     _name: StoolPlatform I
     _prefab: WeaponPlatform/Cockpit_Gun_2x
     _type: WeaponPlatform
-    _cost: 100
+    _level: 3
     _property1: Helix
     _property2: 
     _property3: 
@@ -795,7 +795,7 @@ MonoBehaviour:
     _name: SeatPlatform I
     _prefab: WeaponPlatform/Cockpit_Gun_Flat_Part
     _type: WeaponPlatform
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: 
     _property3: 
@@ -808,7 +808,7 @@ MonoBehaviour:
     _name: StoolPlatform II
     _prefab: WeaponPlatform/Cockpit_Gun_Mount_2x
     _type: WeaponPlatform
-    _cost: 100
+    _level: 3
     _property1: Helix
     _property2: 
     _property3: 
@@ -821,7 +821,7 @@ MonoBehaviour:
     _name: StandardPlatform I
     _prefab: WeaponPlatform/Top_Weapon_Platform
     _type: WeaponPlatform
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: 
     _property3: 
@@ -835,7 +835,7 @@ MonoBehaviour:
     _name: StandardPlatform II
     _prefab: WeaponPlatform/Top_Weapon_Platform_2X
     _type: WeaponPlatform
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: 
     _property3: 
@@ -848,7 +848,7 @@ MonoBehaviour:
     _name: STH I
     _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl1
     _type: Cockpit_Weapon
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -861,7 +861,7 @@ MonoBehaviour:
     _name: STH II
     _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl2
     _type: Cockpit_Weapon
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -874,7 +874,7 @@ MonoBehaviour:
     _name: STH III
     _prefab: Cockpit_Weapon/Cockpit_Weapon_DoubleGun_Lvl3
     _type: Cockpit_Weapon
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -887,7 +887,7 @@ MonoBehaviour:
     _name: MAW Mortar I
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl1
     _type: Cockpit_Weapon
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: Firearms
     _property3: 
@@ -900,7 +900,7 @@ MonoBehaviour:
     _name: MAW Mortar II
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl2
     _type: Cockpit_Weapon
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Firearms
     _property3: 
@@ -913,7 +913,7 @@ MonoBehaviour:
     _name: MAW Mortar III
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Mortar_Lvl3
     _type: Cockpit_Weapon
-    _cost: 100
+    _level: 3
     _property1: Helix
     _property2: Firearms
     _property3: 
@@ -926,7 +926,7 @@ MonoBehaviour:
     _name: Ray Pulse Emitter I
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl1
     _type: Cockpit_Weapon
-    _cost: 10
+    _level: 1
     _property1: LaserWizard
     _property2: Energy
     _property3: Optics
@@ -939,7 +939,7 @@ MonoBehaviour:
     _name: Ray Pulse Emitter II
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl2
     _type: Cockpit_Weapon
-    _cost: 30
+    _level: 2
     _property1: LaserWizard
     _property2: Energy
     _property3: Optics
@@ -952,7 +952,7 @@ MonoBehaviour:
     _name: Ray Pulse Emitter III
     _prefab: Cockpit_Weapon/Cockpit_Weapon_Raygun_Lvl3
     _type: Cockpit_Weapon
-    _cost: 100
+    _level: 3
     _property1: LaserWizard
     _property2: Energy
     _property3: Optics
@@ -965,7 +965,7 @@ MonoBehaviour:
     _name: BatteryPod I
     _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl1
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: LaserWizard
     _property2: Energy
     _property3: 
@@ -978,7 +978,7 @@ MonoBehaviour:
     _name: BatteryPod II
     _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl2
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: LaserWizard
     _property2: Energy
     _property3: 
@@ -991,7 +991,7 @@ MonoBehaviour:
     _name: BatteryPod III
     _prefab: Sidepod/HalfShoulder_Armor_Ammo_Lvl3
     _type: Sidepod
-    _cost: 100
+    _level: 3
     _property1: LaserWizard
     _property2: Energy
     _property3: Optics
@@ -1004,7 +1004,7 @@ MonoBehaviour:
     _name: GMS I
     _prefab: Sidepod/HalfShoulder_Armor_Lvl1
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1017,7 +1017,7 @@ MonoBehaviour:
     _name: GMS II
     _prefab: Sidepod/HalfShoulder_Armor_Lvl2
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1030,7 +1030,7 @@ MonoBehaviour:
     _name: GMS III
     _prefab: Sidepod/HalfShoulder_Armor_Lvl3
     _type: Sidepod
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: Mechanical
@@ -1043,7 +1043,7 @@ MonoBehaviour:
     _name: LTB I
     _prefab: Sidepod/HalfShoulder_Barrier
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -1056,7 +1056,7 @@ MonoBehaviour:
     _name: MDB I
     _prefab: Sidepod/HalfShoulder_Bot
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -1069,7 +1069,7 @@ MonoBehaviour:
     _name: MDB II
     _prefab: Sidepod/HalfShoulder_Cobra
     _type: Sidepod
-    _cost: 100
+    _level: 3
     _property1: NewCentury
     _property2: Mechanical
     _property3: Electronic
@@ -1082,7 +1082,7 @@ MonoBehaviour:
     _name: DiabloPad
     _prefab: Sidepod/HalfShoulder_Diablo
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1096,7 +1096,7 @@ MonoBehaviour:
     _name: LTB II
     _prefab: Sidepod/HalfShoulder_Extender
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -1110,7 +1110,7 @@ MonoBehaviour:
     _name: HogPad
     _prefab: Sidepod/HalfShoulder_Hog
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1124,7 +1124,7 @@ MonoBehaviour:
     _name: OxPad
     _prefab: Sidepod/HalfShoulder_Ox
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1138,7 +1138,7 @@ MonoBehaviour:
     _name: FlounderPad
     _prefab: Sidepod/HalfShoulder_Plates
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1152,7 +1152,7 @@ MonoBehaviour:
     _name: RhinoPad
     _prefab: Sidepod/HalfShoulder_Rhino
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1166,7 +1166,7 @@ MonoBehaviour:
     _name: Judge I
     _prefab: Sidepod/HalfShoulder_Saucer
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: AI
     _property3: 
@@ -1180,7 +1180,7 @@ MonoBehaviour:
     _name: Scapula I
     _prefab: Sidepod/HalfShoulder_Skinny_Up
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: AI
     _property3: 
@@ -1193,7 +1193,7 @@ MonoBehaviour:
     _name: Imam I
     _prefab: Sidepod/HalfShoulder_Tank
     _type: Sidepod
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: AI
     _property3: Materials
@@ -1206,7 +1206,7 @@ MonoBehaviour:
     _name: CSS Cannon I
     _prefab: Sidepod/HalfShoulder_Visor_Lvl1
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1219,7 +1219,7 @@ MonoBehaviour:
     _name: CSS Cannon II
     _prefab: Sidepod/HalfShoulder_Visor_Lvl2
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1232,7 +1232,7 @@ MonoBehaviour:
     _name: CSS Cannon III
     _prefab: Sidepod/HalfShoulder_Visor_Lvl3
     _type: Sidepod
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: Energy
@@ -1245,7 +1245,7 @@ MonoBehaviour:
     _name: LTS Cannon I
     _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl1
     _type: Sidepod
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1258,7 +1258,7 @@ MonoBehaviour:
     _name: LTS Cannon II
     _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl2
     _type: Sidepod
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1271,7 +1271,7 @@ MonoBehaviour:
     _name: LTS Cannon III
     _prefab: Sidepod/HalfShoulder_Visor_Simple_Lvl3
     _type: Sidepod
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: Dynamics
@@ -1284,7 +1284,7 @@ MonoBehaviour:
     _name: BatteryBP I
     _prefab: Base/Shoulders_Armor_Ammo_Lvl1
     _type: Base
-    _cost: 10
+    _level: 1
     _property1: LaserWizard
     _property2: Energy
     _property3: 
@@ -1298,7 +1298,7 @@ MonoBehaviour:
     _name: BatteryBP II
     _prefab: Base/Shoulders_Armor_Ammo_Lvl2
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: LaserWizard
     _property2: Energy
     _property3: 
@@ -1312,7 +1312,7 @@ MonoBehaviour:
     _name: BatteryBP III
     _prefab: Base/Shoulders_Armor_Ammo_Lvl3
     _type: Base
-    _cost: 100
+    _level: 3
     _property1: LaserWizard
     _property2: Energy
     _property3: Optics
@@ -1326,7 +1326,7 @@ MonoBehaviour:
     _name: GMB I
     _prefab: Base/Shoulders_Armor_Lvl1
     _type: Base
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1340,7 +1340,7 @@ MonoBehaviour:
     _name: GMB II
     _prefab: Base/Shoulders_Armor_Lvl2
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -1354,7 +1354,7 @@ MonoBehaviour:
     _name: GMB III
     _prefab: Base/Shoulders_Armor_Lvl3
     _type: Base
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: Mechanical
@@ -1368,7 +1368,7 @@ MonoBehaviour:
     _name: DiabloBP
     _prefab: Base/Shoulders_Diablo
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1382,7 +1382,7 @@ MonoBehaviour:
     _name: HogBP
     _prefab: Base/Shoulders_Hog
     _type: Base
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1396,7 +1396,7 @@ MonoBehaviour:
     _name: MTB I
     _prefab: Base/Shoulders_Med_Bot
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: NewCentury
     _property2: Mechanical
     _property3: 
@@ -1410,7 +1410,7 @@ MonoBehaviour:
     _name: MTB II
     _prefab: Base/Shoulders_Med_Cobra
     _type: Base
-    _cost: 100
+    _level: 3
     _property1: NewCentury
     _property2: Mechanical
     _property3: Electronic
@@ -1424,7 +1424,7 @@ MonoBehaviour:
     _name: Imam II
     _prefab: Base/Shoulders_Med_Tank
     _type: Base
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: AI
     _property3: Materials
@@ -1438,7 +1438,7 @@ MonoBehaviour:
     _name: OxBP
     _prefab: Base/Shoulders_Ox
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1452,7 +1452,7 @@ MonoBehaviour:
     _name: FlounderBP
     _prefab: Base/Shoulders_Plates
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1466,7 +1466,7 @@ MonoBehaviour:
     _name: RhinoBP
     _prefab: Base/Shoulders_Rhino
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Dynamics
     _property3: 
@@ -1480,7 +1480,7 @@ MonoBehaviour:
     _name: Judge II
     _prefab: Base/Shoulders_Saucer
     _type: Base
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: AI
     _property3: 
@@ -1494,7 +1494,7 @@ MonoBehaviour:
     _name: Scapula II
     _prefab: Base/Shoulders_Skinny_Up
     _type: Base
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: AI
     _property3: 
@@ -1508,7 +1508,7 @@ MonoBehaviour:
     _name: MK-LH Arm I
     _prefab: Arm/Arm_Weapon_Lt
     _type: Arm
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Dynamics
     _property3: 
@@ -1522,7 +1522,7 @@ MonoBehaviour:
     _name: MK-LH Arm II
     _prefab: Arm/Arm_Weapon_Med
     _type: Arm
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: Dynamics
     _property3: 
@@ -1536,7 +1536,7 @@ MonoBehaviour:
     _name: MK-LH Arm III
     _prefab: Arm/Arm_Weapon_Hvy
     _type: Arm
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: Dynamics
     _property3: Mechanical
@@ -1550,7 +1550,7 @@ MonoBehaviour:
     _name: MK-G Arm I
     _prefab: Arm/Arms_NoHand_lt_L
     _type: Arm
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: Dynamics
     _property3: 
@@ -1564,7 +1564,7 @@ MonoBehaviour:
     _name: MK-G Arm II
     _prefab: Arm/Arms_NoHand_Med_L
     _type: Arm
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: Dynamics
     _property3: 
@@ -1578,7 +1578,7 @@ MonoBehaviour:
     _name: MK-G Arm III
     _prefab: Arm/Arms_NoHand_Hvy_L
     _type: Arm
-    _cost: 100
+    _level: 3
     _property1: MatsunoSociety
     _property2: Dynamics
     _property3: Materials
@@ -1592,7 +1592,7 @@ MonoBehaviour:
     _name: Gadget_Hand
     _prefab: Gadget/Gadget_Hand
     _type: Gadget
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: Mechanical
     _property3: 
@@ -1605,7 +1605,7 @@ MonoBehaviour:
     _name: GTW-P
     _prefab: Gadget/Gadget_Hand_Gun
     _type: Gadget
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1618,7 +1618,7 @@ MonoBehaviour:
     _name: Hand Saw
     _prefab: Gadget/Gadget_Hand_Saw
     _type: Gadget
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Mechanical
     _property3: 
@@ -1631,7 +1631,7 @@ MonoBehaviour:
     _name: GTW-F
     _prefab: Gadget/Gadget_Weapon_Flamethrower
     _type: Gadget
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1644,7 +1644,7 @@ MonoBehaviour:
     _name: GTW-L
     _prefab: Gadget/Gadget_Weapon_Launcher
     _type: Gadget
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1657,7 +1657,7 @@ MonoBehaviour:
     _name: Gadget Minigun I
     _prefab: Gadget/Gadget_Weapon_Minigun_Lvl1
     _type: Gadget
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1670,7 +1670,7 @@ MonoBehaviour:
     _name: Gadget Minigun II
     _prefab: Gadget/Gadget_Weapon_Minigun_Lvl2
     _type: Gadget
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1683,7 +1683,7 @@ MonoBehaviour:
     _name: Gadget Minigun III
     _prefab: Gadget/Gadget_Weapon_Minigun_Lvl3
     _type: Gadget
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: Dynamics
@@ -1696,7 +1696,7 @@ MonoBehaviour:
     _name: MP Shocker
     _prefab: Gadget/Gadget_Weapon_Shocker
     _type: Gadget
-    _cost: 30
+    _level: 2
     _property1: LaserWizard
     _property2: Electronic
     _property3: 
@@ -1709,7 +1709,7 @@ MonoBehaviour:
     _name: Gadget Shot Rifle I
     _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl1
     _type: Gadget
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1722,7 +1722,7 @@ MonoBehaviour:
     _name: Gadget Shot Rifle II
     _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl2
     _type: Gadget
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1735,7 +1735,7 @@ MonoBehaviour:
     _name: Gadget Shot Rifle III
     _prefab: Gadget/Gadget_Weapon_Shotgun_Lvl3
     _type: Gadget
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: Mechanical
@@ -1748,7 +1748,7 @@ MonoBehaviour:
     _name: Rocket Cannon I
     _prefab: Weapon/Weapon_Bazooka_Lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1761,7 +1761,7 @@ MonoBehaviour:
     _name: Rocket Cannon II
     _prefab: Weapon/Weapon_Bazooka_Lvl2
     _type: Weapon
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1774,7 +1774,7 @@ MonoBehaviour:
     _name: Rocket Cannon III
     _prefab: Weapon/Weapon_Bazooka_Lvl3
     _type: Weapon
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: Energy
@@ -1787,7 +1787,7 @@ MonoBehaviour:
     _name: Combustion Cannon I
     _prefab: Weapon/Weapon_Bazooka_Simple_Lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1800,7 +1800,7 @@ MonoBehaviour:
     _name: Combustion Cannon II
     _prefab: Weapon/Weapon_Bazooka_Simple_Lvl2
     _type: Weapon
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1813,7 +1813,7 @@ MonoBehaviour:
     _name: Combustion Cannon III
     _prefab: Weapon/Weapon_Bazooka_Simple_Lvl3
     _type: Weapon
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: Energy
@@ -1826,7 +1826,7 @@ MonoBehaviour:
     _name: LCM-D Machine Gun I
     _prefab: Weapon/Weapon_DoubleGun_lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1839,7 +1839,7 @@ MonoBehaviour:
     _name: LCM-D Machine Gun II
     _prefab: Weapon/Weapon_DoubleGun_lvl2
     _type: Weapon
-    _cost: 10
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1852,7 +1852,7 @@ MonoBehaviour:
     _name: LCM-D Machine Gun III
     _prefab: Weapon/Weapon_DoubleGun_lvl3
     _type: Weapon
-    _cost: 30
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1865,7 +1865,7 @@ MonoBehaviour:
     _name: LCM-D Machine Gun IV
     _prefab: Weapon/Weapon_DoubleGun_lvl4
     _type: Weapon
-    _cost: 30
+    _level: 4
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1878,7 +1878,7 @@ MonoBehaviour:
     _name: LCM-D Machine Gun V
     _prefab: Weapon/Weapon_DoubleGun_lvl5
     _type: Weapon
-    _cost: 100
+    _level: 5
     _property1: MiliForce
     _property2: Firearms
     _property3: Dynamics
@@ -1891,7 +1891,7 @@ MonoBehaviour:
     _name: SS-G Machine Gun I
     _prefab: Weapon/Weapon_GLauncher_lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1904,7 +1904,7 @@ MonoBehaviour:
     _name: SS-D Machine Gun II
     _prefab: Weapon/Weapon_GLauncher_lvl2
     _type: Weapon
-    _cost: 30
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -1917,7 +1917,7 @@ MonoBehaviour:
     _name: SS-D Machine Gun III
     _prefab: Weapon/Weapon_GLauncher_lvl3
     _type: Weapon
-    _cost: 100
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: Materials
@@ -1930,7 +1930,7 @@ MonoBehaviour:
     _name: Acid Plasma Rifle I
     _prefab: Weapon/Weapon_Plasma_Lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
@@ -1943,7 +1943,7 @@ MonoBehaviour:
     _name: Acid Plasma Rifle II
     _prefab: Weapon/Weapon_Plasma_Lvl2
     _type: Weapon
-    _cost: 30
+    _level: 2
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
@@ -1956,7 +1956,7 @@ MonoBehaviour:
     _name: Acid Plasma Rifle III
     _prefab: Weapon/Weapon_Plasma_Lvl3
     _type: Weapon
-    _cost: 100
+    _level: 3
     _property1: LaserWizard
     _property2: Firearms
     _property3: Electronic
@@ -1969,7 +1969,7 @@ MonoBehaviour:
     _name: HFEW Emitter I
     _prefab: Weapon/Weapon_Radar_Lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
@@ -1982,7 +1982,7 @@ MonoBehaviour:
     _name: HFEW Emitter II
     _prefab: Weapon/Weapon_Radar_Lvl2
     _type: Weapon
-    _cost: 30
+    _level: 2
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
@@ -1995,7 +1995,7 @@ MonoBehaviour:
     _name: HFEW Emitter III
     _prefab: Weapon/Weapon_Radar_Lvl3
     _type: Weapon
-    _cost: 100
+    _level: 3
     _property1: LaserWizard
     _property2: Firearms
     _property3: Energy
@@ -2008,7 +2008,7 @@ MonoBehaviour:
     _name: Shock Rifle I
     _prefab: Weapon/Weapon_Shock_Rifle_lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
@@ -2021,124 +2021,128 @@ MonoBehaviour:
     _name: Shock Rifle II
     _prefab: Weapon/Weapon_Shock_Rifle_lvl2
     _type: Weapon
-    _cost: 10
+    _level: 2
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - lightingDamage + 2
+    - lightingDamage + 1
+    - fireDamage + 1
     _slots: 00000000
     _skillID: 29000000
   - _ID: 155
     _name: Shock Rifle III
     _prefab: Weapon/Weapon_Shock_Rifle_lvl3
     _type: Weapon
-    _cost: 30
-    _property1: LaserWizard
-    _property2: Firearms
-    _property3: 
-    _PaintingType: 2
-    _valueChanges:
-    - lightingDamage + 3
-    _slots: 00000000
-    _skillID: 2a000000
-  - _ID: 156
-    _name: Shock Rifle IV
-    _prefab: Weapon/Weapon_Shock_Rifle_lvl4
-    _type: Weapon
-    _cost: 30
-    _property1: LaserWizard
-    _property2: Firearms
-    _property3: 
-    _PaintingType: 2
-    _valueChanges:
-    - lightingDamage + 5
-    _slots: 00000000
-    _skillID: 2b000000
-  - _ID: 157
-    _name: Shock Rifle V
-    _prefab: Weapon/Weapon_Shock_Rifle_lvl5
-    _type: Weapon
-    _cost: 100
-    _property1: LaserWizard
-    _property2: Firearms
-    _property3: Energy
-    _PaintingType: 2
-    _valueChanges:
-    - lightingDamage + 10
-    _slots: 00000000
-    _skillID: 2c000000
-  - _ID: 158
-    _name: Micro Shocker I
-    _prefab: Weapon/Weapon_Shocker_lvl1
-    _type: Weapon
-    _cost: 10
+    _level: 3
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
     - lightingDamage + 2
+    - fireDamage + 2
     _slots: 00000000
-    _skillID: 2d000000
-  - _ID: 159
-    _name: Micro Shocker II
-    _prefab: Weapon/Weapon_Shocker_lvl2
+    _skillID: 2a000000
+  - _ID: 156
+    _name: Shock Rifle IV
+    _prefab: Weapon/Weapon_Shock_Rifle_lvl4
     _type: Weapon
-    _cost: 10
+    _level: 4
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
     - lightingDamage + 3
+    - fireDamage + 3
+    _slots: 00000000
+    _skillID: 2b000000
+  - _ID: 157
+    _name: Shock Rifle V
+    _prefab: Weapon/Weapon_Shock_Rifle_lvl5
+    _type: Weapon
+    _level: 5
+    _property1: LaserWizard
+    _property2: Firearms
+    _property3: Energy
+    _PaintingType: 2
+    _valueChanges:
+    - lightingDamage + 5
+    - fireDamage + 5
+    _slots: 00000000
+    _skillID: 2c000000
+  - _ID: 158
+    _name: Micro Shocker I
+    _prefab: Weapon/Weapon_Shocker_lvl1
+    _type: Weapon
+    _level: 1
+    _property1: LaserWizard
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - acidDamage + 2
+    _slots: 00000000
+    _skillID: 2d000000
+  - _ID: 159
+    _name: Micro Shocker II
+    _prefab: Weapon/Weapon_Shocker_lvl2
+    _type: Weapon
+    _level: 2
+    _property1: LaserWizard
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - acidDamage + 3
     _slots: 00000000
     _skillID: 2e000000
   - _ID: 160
     _name: Micro Shocker III
     _prefab: Weapon/Weapon_Shocker_lvl3
     _type: Weapon
-    _cost: 30
+    _level: 3
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - lightingDamage + 5
+    - acidDamage + 5
     _slots: 00000000
     _skillID: 2f000000
   - _ID: 161
     _name: Micro Shocker IV
     _prefab: Weapon/Weapon_Shocker_lvl4
     _type: Weapon
-    _cost: 30
+    _level: 4
     _property1: LaserWizard
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - lightingDamage + 8
+    - acidDamage + 8
     _slots: 00000000
     _skillID: 30000000
   - _ID: 162
     _name: Micro Shocker V
     _prefab: Weapon/Weapon_Shocker_lvl5
     _type: Weapon
-    _cost: 100
+    _level: 5
     _property1: LaserWizard
     _property2: Firearms
     _property3: Energy
     _PaintingType: 2
     _valueChanges:
-    - lightingDamage + 12
+    - acidDamage + 12
     _slots: 00000000
     _skillID: 31000000
   - _ID: 163
     _name: Shot Rifle I
     _prefab: Weapon/Weapon_Shotgun_Lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -2151,7 +2155,7 @@ MonoBehaviour:
     _name: Shot Rifle II
     _prefab: Weapon/Weapon_Shotgun_Lvl2
     _type: Weapon
-    _cost: 10
+    _level: 2
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -2164,7 +2168,7 @@ MonoBehaviour:
     _name: Shot Rifle III
     _prefab: Weapon/Weapon_Shotgun_Lvl3
     _type: Weapon
-    _cost: 30
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -2177,7 +2181,7 @@ MonoBehaviour:
     _name: Shot Rifle IV
     _prefab: Weapon/Weapon_Shotgun_Lvl4
     _type: Weapon
-    _cost: 30
+    _level: 4
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -2190,7 +2194,7 @@ MonoBehaviour:
     _name: Shot Rifle V
     _prefab: Weapon/Weapon_Shotgun_Lvl5
     _type: Weapon
-    _cost: 100
+    _level: 5
     _property1: MiliForce
     _property2: Firearms
     _property3: Dynamics
@@ -2203,20 +2207,33 @@ MonoBehaviour:
     _name: Sniper I
     _prefab: Weapon/Weapon_Sniper_lvl1
     _type: Weapon
-    _cost: 10
+    _level: 1
     _property1: MiliForce
     _property2: Firearms
     _property3: 
     _PaintingType: 2
     _valueChanges:
-    - physicalDamage + 5
+    - 
     _slots: 00000000
     _skillID: 34000000
   - _ID: 169
     _name: Sniper II
     _prefab: Weapon/Weapon_Sniper_lvl2
     _type: Weapon
-    _cost: 10
+    _level: 2
+    _property1: MiliForce
+    _property2: Firearms
+    _property3: 
+    _PaintingType: 2
+    _valueChanges:
+    - physicalDamage + 4
+    _slots: 00000000
+    _skillID: 35000000
+  - _ID: 170
+    _name: Sniper III
+    _prefab: Weapon/Weapon_Sniper_lvl3
+    _type: Weapon
+    _level: 3
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -2224,25 +2241,12 @@ MonoBehaviour:
     _valueChanges:
     - physicalDamage + 8
     _slots: 00000000
-    _skillID: 35000000
-  - _ID: 170
-    _name: Sniper III
-    _prefab: Weapon/Weapon_Sniper_lvl3
-    _type: Weapon
-    _cost: 30
-    _property1: MiliForce
-    _property2: Firearms
-    _property3: 
-    _PaintingType: 2
-    _valueChanges:
-    - physicalDamage + 12
-    _slots: 00000000
     _skillID: 36000000
   - _ID: 171
     _name: Sniper IV
     _prefab: Weapon/Weapon_Sniper_lvl4
     _type: Weapon
-    _cost: 30
+    _level: 4
     _property1: MiliForce
     _property2: Firearms
     _property3: 
@@ -2255,7 +2259,7 @@ MonoBehaviour:
     _name: Sniper V
     _prefab: Weapon/Weapon_Sniper_lvl5
     _type: Weapon
-    _cost: 100
+    _level: 5
     _property1: MiliForce
     _property2: Firearms
     _property3: Mechanical
@@ -2268,7 +2272,7 @@ MonoBehaviour:
     _name: Energy Shield I
     _prefab: Shield/Weapon_Energy_Shield_Lvl1
     _type: Shield
-    _cost: 10
+    _level: 1
     _property1: LaserWizard
     _property2: Materials
     _property3: 
@@ -2287,7 +2291,7 @@ MonoBehaviour:
     _name: Energy Shield II
     _prefab: Shield/Weapon_Energy_Shield_Lvl2
     _type: Shield
-    _cost: 30
+    _level: 2
     _property1: LaserWizard
     _property2: Materials
     _property3: 
@@ -2306,7 +2310,7 @@ MonoBehaviour:
     _name: Energy Shield III
     _prefab: Shield/Weapon_Energy_Shield_Lvl3
     _type: Shield
-    _cost: 100
+    _level: 3
     _property1: LaserWizard
     _property2: Materials
     _property3: Energy
@@ -2325,7 +2329,7 @@ MonoBehaviour:
     _name: Shield I
     _prefab: Shield/Weapon_Shield_Lvl1
     _type: Shield
-    _cost: 10
+    _level: 1
     _property1: Helix
     _property2: Materials
     _property3: 
@@ -2339,7 +2343,7 @@ MonoBehaviour:
     _name: Shield II
     _prefab: Shield/Weapon_Shield_Lvl2
     _type: Shield
-    _cost: 30
+    _level: 2
     _property1: Helix
     _property2: Materials
     _property3: 
@@ -2353,7 +2357,7 @@ MonoBehaviour:
     _name: Shield III
     _prefab: Shield/Weapon_Shield_Lvl3
     _type: Shield
-    _cost: 100
+    _level: 3
     _property1: Helix
     _property2: Materials
     _property3: Mechanical
@@ -2367,7 +2371,7 @@ MonoBehaviour:
     _name: Nimbus Shield
     _prefab: Shield/Weapon_Shield_Nimbus
     _type: Shield
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: Materials
     _property3: 
@@ -2381,7 +2385,7 @@ MonoBehaviour:
     _name: Mecha Shield I
     _prefab: Shield/Weapon_TankShield_Lvl1
     _type: Shield
-    _cost: 10
+    _level: 1
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -2394,7 +2398,7 @@ MonoBehaviour:
     _name: Mecha Shield II
     _prefab: Shield/Weapon_TankShield_Lvl2
     _type: Shield
-    _cost: 30
+    _level: 2
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: 
@@ -2407,7 +2411,7 @@ MonoBehaviour:
     _name: Mecha Shield III
     _prefab: Shield/Weapon_TankShield_Lvl3
     _type: Shield
-    _cost: 100
+    _level: 3
     _property1: 3ZeroGroup
     _property2: Materials
     _property3: Dynamics
@@ -2420,7 +2424,7 @@ MonoBehaviour:
     _name: Antenna
     _prefab: Antenna/Antenna
     _type: Antenna
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2433,7 +2437,7 @@ MonoBehaviour:
     _name: Antenna_Long_1
     _prefab: Antenna/Antenna_Long_1
     _type: Antenna
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2446,7 +2450,7 @@ MonoBehaviour:
     _name: Antenna_Long_2
     _prefab: Antenna/Antenna_Long_2
     _type: Antenna
-    _cost: 30
+    _level: 2
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2459,7 +2463,7 @@ MonoBehaviour:
     _name: Antenna_Short_1
     _prefab: Antenna/Antenna_Short_1
     _type: Antenna
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 
@@ -2472,7 +2476,7 @@ MonoBehaviour:
     _name: Antenna_Short_2
     _prefab: Antenna/Antenna_Short_2
     _type: Antenna
-    _cost: 10
+    _level: 1
     _property1: MatsunoSociety
     _property2: Firearms
     _property3: 

@@ -12,6 +12,7 @@ public class ShopConstructBtn : ContainerSlot
     public GameObject disablePanel;
     public GameObject lockImage;
     public Image iconImage;
+    public Image levelFrameImage;
     public GameObject[] typeIconArray;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI typeText;
@@ -20,6 +21,7 @@ public class ShopConstructBtn : ContainerSlot
 
     public ConstructorBaseData constructorData;
 
+    int cost;
 
     // Start is called before the first frame update
     void Awake()
@@ -46,7 +48,7 @@ public class ShopConstructBtn : ContainerSlot
     public void OnClicked()
     {
         if (ablePanel.activeSelf)
-            UIController.Instance.shopController.shopConstructController.BuyConstruct(constructorData, this);
+            BuyConstruct();
         else if (disablePanel.activeSelf)
             UIController.Instance.shopController.shopConstructController.AddShopSlot();
     }
@@ -61,10 +63,27 @@ public class ShopConstructBtn : ContainerSlot
         disablePanel.SetActive(false);
         constructorData = data;
         LoadIcon();
+        cost = Mathf.CeilToInt
+        (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
+         GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
+
         nameText.text = constructorData.name;
         typeText.text = constructorData.type.ToString();
-        buyCostText.text = constructorData.cost.ToString();
+        buyCostText.text = cost.ToString();
+
+        Color tempColor;
+        if (ColorUtility.TryParseHtmlString(GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).color, out tempColor))
+            levelFrameImage.color = tempColor;
         UpdateType();
+    }
+    public void BuyConstruct()
+    {
+        if (GameData.Instance.currentGold >= cost)
+        {
+            UIController.Instance.inventoryController.AddConstructor(constructorData);
+            UIController.Instance.inventoryController.UpdateInventory();
+            BuySuccessHide();
+        }
     }
 
     public void UpdateType()

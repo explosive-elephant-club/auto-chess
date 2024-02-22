@@ -871,3 +871,63 @@ MonoBehaviour:
     - buff_ID: 0
       odds: 0
       targetType: 
+  - _ID: 58
+    _name: "\u6218\u6597\u52A0\u62101"
+    _des: "\u589E\u52A0\u4F24\u5BB3,\u51CF\u5C11\u53D7\u5230\u7684\u4F24\u5BB3"
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 59
+    _name: "\u6218\u6597\u52A0\u62102"
+    _des: "\u589E\u52A0\u4F24\u5BB3,\u51CF\u5C11\u53D7\u5230\u7684\u4F24\u5BB3"
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 60
+    _name: "\u6218\u6597\u52A0\u62103"
+    _des: "\u589E\u52A0\u4F24\u5BB3,\u51CF\u5C11\u53D7\u5230\u7684\u4F24\u5BB3"
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 
+  - _ID: 61
+    _name: "\u6218\u6597\u52A0\u62104"
+    _des: "\u589E\u52A0\u4F24\u5BB3,\u51CF\u5C11\u53D7\u5230\u7684\u4F24\u5BB3"
+    _duration: -1
+    _intervalTime: 0
+    _layer: 1
+    _bNoCaster: 0
+    _activeMode: Always
+    _consumeMode: None
+    _superposeMode: None
+    _buffBehaviourScriptName: 
+    _addBuffs:
+    - buff_ID: 0
+      odds: 0
+      targetType: 

@@ -16,7 +16,7 @@ public class ChampionManager : MonoBehaviour
 
 
     [HideInInspector]
-    public int currentChampionLimit = 3;
+    public int currentChampionLimit = 4;
     [HideInInspector]
     public int currentChampionCount = 0;
 
@@ -101,6 +101,31 @@ public class ChampionManager : MonoBehaviour
         UIController.Instance.UpdateUI();
     }
 
+    public bool AddChampionToBattle(EnemyConfig enemyConfig)
+    {
+        if (enemyConfig.grid == null)
+            return false;
+
+        StoreChampionInArray(enemyConfig.grid, enemyConfig.championController);
+        //setup chapioncontroller
+        enemyConfig.championController.Init(team, this);
+        foreach (var id in enemyConfig.skillIDs)
+        {
+            enemyConfig.championController.skillController.AddActivedSkill(id);
+        }
+
+        //set position and rotation
+        enemyConfig.championController.SetWorldPosition();
+        enemyConfig.championController.SetWorldRotation();
+
+        enemyConfig.championController.CalculateBonuses();
+        currentChampionCount = championsHexaMapArray.Count;
+        //set gold on ui
+        UIController.Instance.UpdateUI();
+
+        return true;
+    }
+
     public bool AddChampionToBattle(string name)
     {
         GridInfo emptyGrid = Map.Instance.GetEmptySlot(team, GridType.HexaMap);
@@ -123,9 +148,10 @@ public class ChampionManager : MonoBehaviour
         championController.SetWorldRotation();
 
         championController.CalculateBonuses();
-
+        currentChampionCount = championsHexaMapArray.Count;
         //set gold on ui
         UIController.Instance.UpdateUI();
+
         return true;
     }
 
@@ -308,7 +334,7 @@ public class ChampionManager : MonoBehaviour
             currentChampionCount = championsHexaMapArray.Count;
 
             //update ui
-            //UIController.Instance.UpdateUI();
+            UIController.Instance.UpdateUI();
             //draggedChampion = null;
         }
     }
@@ -377,7 +403,7 @@ public class ChampionManager : MonoBehaviour
             Destroy(champion.gameObject);
         }
         championsHexaMapArray.Clear();
-        currentChampionLimit = 3;
+        currentChampionLimit = 4;
         currentChampionCount = 0;
     }
 

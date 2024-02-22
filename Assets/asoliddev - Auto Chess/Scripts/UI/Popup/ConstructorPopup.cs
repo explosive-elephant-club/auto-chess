@@ -24,6 +24,8 @@ public class ConstructorPopup : Popup
     public Transform skillContent;
     public List<GameObject> skillInfo;
 
+    int costValue;
+
     void Start()
     {
         foreach (Transform child in typeContent)
@@ -46,9 +48,12 @@ public class ConstructorPopup : Popup
 
     public void Show(ConstructorBaseData constructorData, GameObject targetUI, Vector3 dir)
     {
+        costValue = Mathf.CeilToInt
+            (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
+            GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
         constructorName.text = constructorData.name.ToString();
         typeName.text = constructorData.type.ToString();
-        cost.value.text = constructorData.cost.ToString();
+        cost.value.text = costValue.ToString();
         UpdateTypesInfo(constructorData);
         UpdateAttributeInfo(constructorData);
         UpdateSlotInfo(constructorData);
@@ -58,14 +63,7 @@ public class ConstructorPopup : Popup
 
     public void Show(ConstructorBase constructor, GameObject targetUI, Vector3 dir)
     {
-        constructorName.text = constructor.constructorData.name.ToString();
-        typeName.text = constructor.constructorData.type.ToString();
-        cost.value.text = constructor.constructorData.cost.ToString();
-        UpdateTypesInfo(constructor.constructorData);
-        UpdateAttributeInfo(constructor.constructorData);
-        UpdateSlotInfo(constructor);
-        UpdateSkillInfo(constructor.constructorData);
-        base.Show(targetUI, dir);
+        Show(constructor.constructorData, targetUI, dir);
     }
 
     void UpdateTypesInfo(ConstructorBaseData constructorData)

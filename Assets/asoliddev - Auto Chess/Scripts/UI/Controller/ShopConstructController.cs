@@ -19,6 +19,19 @@ public class ShopConstructController : MonoBehaviour
     public List<ShopConstructBtn> shopConstructBtns = new List<ShopConstructBtn>();
     public ShopConstructBtn pointEnterBtn;
     bool isLocked = false;
+
+    TradeLevelData tradeLevelData
+    {
+        get { return GameConfig.Instance.tradeLevelData[GameData.Instance.tradeLevel - 1]; }
+    }
+
+    List<ConstructorBaseData> normalConstructors;
+    List<ConstructorBaseData> rareConstructors;
+    List<ConstructorBaseData> specialConstructors;
+    List<ConstructorBaseData> epicConstructors;
+    List<ConstructorBaseData> legenConstructors;
+
+
     private void Awake()
     {
         constructsContent = transform.Find("Constructs").gameObject;
@@ -37,6 +50,16 @@ public class ShopConstructController : MonoBehaviour
     {
         UpdateUI();
         refreshCostText.text = GameConfig.Instance.refreshCost.ToString();
+        normalConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 1);
+        rareConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 2);
+        specialConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 3);
+        epicConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 4);
+        legenConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 5);
+    }
+
+    private void OnEnable()
+    {
+        UpdateUI();
     }
 
     public void UpdateUI()
@@ -69,11 +92,42 @@ public class ShopConstructController : MonoBehaviour
 
     public ConstructorBaseData GetRandomChampionInfo()
     {
-        //randomise a number
-        int rand = Random.Range(0, GameExcelConfig.Instance.constructorsArray.Count);
+        int np = tradeLevelData.NP;
+        int rp = np + tradeLevelData.RP;
+        int sp = rp + tradeLevelData.SP;
+        int ep = sp + tradeLevelData.EP;
+        int lp = ep + tradeLevelData.LP;
 
-        //return from array
-        return GameExcelConfig.Instance.constructorsArray[rand];
+        //randomise a number
+        int rand = Random.Range(0, 100);
+        Debug.Log("np " + np);
+        Debug.Log("rp " + rp);
+        Debug.Log("sp " + sp);
+        if (rand < np)
+        {
+            rand = Random.Range(0, normalConstructors.Count);
+            return normalConstructors[rand];
+        }
+        else if (rand < rp)
+        {
+            rand = Random.Range(0, rareConstructors.Count);
+            return rareConstructors[rand];
+        }
+        else if (rand < sp)
+        {
+            rand = Random.Range(0, specialConstructors.Count);
+            return specialConstructors[rand];
+        }
+        else if (rand < ep)
+        {
+            rand = Random.Range(0, epicConstructors.Count);
+            return epicConstructors[rand];
+        }
+        else
+        {
+            rand = Random.Range(0, legenConstructors.Count);
+            return legenConstructors[rand];
+        }
     }
 
     public void RefreshShop(bool isFree)
@@ -90,19 +144,12 @@ public class ShopConstructController : MonoBehaviour
         for (int i = 0; i < shopConstructBtns.Count; i++)
         {
             shopConstructBtns[i].gameObject.SetActive(false);
-            if (i < GameData.Instance.constructsOnSaleLimit)
+            if (i < tradeLevelData.saleCount)
             {
                 shopConstructBtns[i].gameObject.SetActive(true);
                 shopConstructBtns[i].Refresh(GetRandomChampionInfo());
             }
         }
-        if (GameData.Instance.constructsOnSaleLimit < 7)
-        {
-            shopConstructBtns[GameData.Instance.constructsOnSaleLimit].gameObject.SetActive(true);
-            shopConstructBtns[GameData.Instance.constructsOnSaleLimit].ShowAdd();
-        }
-
-
 
         //decrase gold
         if (isFree == false)
@@ -114,37 +161,14 @@ public class ShopConstructController : MonoBehaviour
 
     public void AddShopSlot()
     {
-        //return if we dont have enough gold
-        if (GameData.Instance.currentGold < GameConfig.Instance.addSlotCostList[GameData.Instance.constructsOnSaleLimit - 3])
-            return;
-
-        if (GameData.Instance.constructsOnSaleLimit < 7)
-        {
-            GameData.Instance.currentGold -= GameConfig.Instance.addSlotCostList[GameData.Instance.constructsOnSaleLimit - 3];
-            GameData.Instance.constructsOnSaleLimit++;
-
-            UIController.Instance.UpdateUI();
-            AddSlotSuccess(GetRandomChampionInfo());
-        }
+        AddSlotSuccess(GetRandomChampionInfo());
     }
 
     public void AddSlotSuccess(ConstructorBaseData data)
     {
-        shopConstructBtns[GameData.Instance.constructsOnSaleLimit - 1].Refresh(data);
-        shopConstructBtns[GameData.Instance.constructsOnSaleLimit].gameObject.SetActive(true);
-        shopConstructBtns[GameData.Instance.constructsOnSaleLimit].ShowAdd();
+        shopConstructBtns[tradeLevelData.saleCount - 1].gameObject.SetActive(true);
+        shopConstructBtns[tradeLevelData.saleCount - 1].Refresh(data);
         LayoutRebuilder.ForceRebuildLayoutImmediate(constructsContent.GetComponent<RectTransform>());
-    }
-
-    public void BuyConstruct(ConstructorBaseData data, ShopConstructBtn btn)
-    {
-        if (GameData.Instance.currentGold >= data.cost)
-        {
-            UIController.Instance.inventoryController.AddConstructor(data);
-            UIController.Instance.inventoryController.UpdateInventory();
-            btn.BuySuccessHide();
-
-        }
     }
 
     public void OnPointEnterSlot(ShopConstructBtn btn)

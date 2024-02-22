@@ -13,6 +13,7 @@ public class LevelInfoController : MonoBehaviour
     public TextMeshProUGUI gameStateText;
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI HPText;
+    public TextMeshProUGUI robotLimitText;
     public Button readyBtn;
     public Button shopBtn;
     public RectTransform Panel1;
@@ -36,6 +37,7 @@ public class LevelInfoController : MonoBehaviour
     {
         goldText.text = GameData.Instance.currentGold.ToString();
         HPText.text = GameData.Instance.currentHP.ToString();
+        robotLimitText.text = GamePlayController.Instance.ownChampionManager.currentChampionCount.ToString() + "/" + GamePlayController.Instance.ownChampionManager.currentChampionLimit.ToString();
         LayoutRebuilder.ForceRebuildLayoutImmediate(Panel1);
         LayoutRebuilder.ForceRebuildLayoutImmediate(Panel2);
     }

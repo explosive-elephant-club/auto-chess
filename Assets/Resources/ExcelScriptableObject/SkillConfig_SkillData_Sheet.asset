@@ -106,7 +106,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 1
     _chargingDelay: 0.5
-    _manaCost: 25
+    _manaCost: 24
     _count: -1
     _description: 
     _distance: 3
@@ -137,7 +137,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 1
     _chargingDelay: 0.5
-    _manaCost: 35
+    _manaCost: 32
     _count: -1
     _description: 
     _distance: 3
@@ -168,7 +168,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 1
     _chargingDelay: 0.5
-    _manaCost: 45
+    _manaCost: 40
     _count: -1
     _description: 
     _distance: 3
@@ -199,7 +199,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.5
     _chargingDelay: 0.3
-    _manaCost: 20
+    _manaCost: 8
     _count: -1
     _description: 
     _distance: 4
@@ -227,7 +227,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.5
     _chargingDelay: 0.3
-    _manaCost: 22
+    _manaCost: 12
     _count: -1
     _description: 
     _distance: 4
@@ -255,7 +255,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.5
     _chargingDelay: 0.3
-    _manaCost: 25
+    _manaCost: 18
     _count: -1
     _description: 
     _distance: 4
@@ -283,7 +283,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: -1.4
     _chargingDelay: 0
-    _manaCost: 5
+    _manaCost: 12
     _count: -1
     _description: 
     _distance: 3
@@ -308,7 +308,7 @@ MonoBehaviour:
   - _ID: 11
     _name: GTW-F Flamethrower
     _duration: 3
-    _interval: 0.4
+    _interval: 0.3
     _castDelay: 1
     _chargingDelay: 1
     _manaCost: 25
@@ -321,7 +321,7 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 3
-      correction: 0.3
+      correction: 0.8
       type: Fire
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -349,7 +349,7 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 20
-      correction: 0.5
+      correction: 1
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -377,7 +377,7 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 3
-      correction: 0.5
+      correction: 0.8
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -405,7 +405,7 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 4
-      correction: 0.5
+      correction: 1
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -433,7 +433,7 @@ MonoBehaviour:
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
     - dmg: 5
-      correction: 1
+      correction: 1.2
       type: Physical
     _addBuffs: 00000000
     _isBlockOther: 0
@@ -460,7 +460,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 2
+    - dmg: 3
       correction: 0.5
       type: Lightning
     _addBuffs: 00000000
@@ -566,7 +566,7 @@ MonoBehaviour:
     _manaCost: 20
     _count: -1
     _description: 
-    _distance: 3
+    _distance: 5
     _range: 1
     _skillTargetType: Enemy
     _skillTargetSelectorType: Any
@@ -597,7 +597,7 @@ MonoBehaviour:
     _manaCost: 25
     _count: -1
     _description: 
-    _distance: 3
+    _distance: 5
     _range: 1
     _skillTargetType: Enemy
     _skillTargetSelectorType: Any
@@ -628,7 +628,7 @@ MonoBehaviour:
     _manaCost: 30
     _count: -1
     _description: 
-    _distance: 3
+    _distance: 5
     _range: 1
     _skillTargetType: Enemy
     _skillTargetSelectorType: Any
@@ -665,7 +665,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 18
+    - dmg: 24
       correction: 0
       type: Fire
     _addBuffs: 00000000
@@ -693,7 +693,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 30
+    - dmg: 36
       correction: 0
       type: Fire
     _addBuffs: 00000000
@@ -721,7 +721,7 @@ MonoBehaviour:
     _skillTargetSelectorType: Any
     _skillRangeSelectorType: EnemiesInRange
     _damageData:
-    - dmg: 45
+    - dmg: 60
       correction: 0
       type: Fire
     _addBuffs: 00000000
@@ -908,7 +908,7 @@ MonoBehaviour:
     _interval: 0.3
     _castDelay: -0.4
     _chargingDelay: 0.5
-    _manaCost: 20
+    _manaCost: 18
     _count: -1
     _description: 
     _distance: 3
@@ -936,7 +936,7 @@ MonoBehaviour:
     _interval: 0.3
     _castDelay: -0.4
     _chargingDelay: 0.5
-    _manaCost: 25
+    _manaCost: 22
     _count: -1
     _description: 
     _distance: 3
@@ -962,9 +962,9 @@ MonoBehaviour:
     _name: Acid Plasma Lvl.1
     _duration: 0
     _interval: 0
-    _castDelay: 0
+    _castDelay: -0.2
     _chargingDelay: 1
-    _manaCost: 30
+    _manaCost: 20
     _count: -1
     _description: 
     _distance: 5
@@ -990,9 +990,9 @@ MonoBehaviour:
     _name: Acid Plasma Lvl.2
     _duration: 0
     _interval: 0
-    _castDelay: 0
+    _castDelay: -0.2
     _chargingDelay: 1
-    _manaCost: 40
+    _manaCost: 24
     _count: -1
     _description: 
     _distance: 5
@@ -1018,9 +1018,9 @@ MonoBehaviour:
     _name: Acid Plasma Lvl.3
     _duration: 0
     _interval: 0
-    _castDelay: 0
+    _castDelay: -0.2
     _chargingDelay: 1
-    _manaCost: 50
+    _manaCost: 30
     _count: -1
     _description: 
     _distance: 5
@@ -1046,7 +1046,7 @@ MonoBehaviour:
     _name: HFEW Energy Ring Lvl.1
     _duration: 0
     _interval: 0
-    _castDelay: 0.5
+    _castDelay: 0.3
     _chargingDelay: 0.5
     _manaCost: 20
     _count: -1
@@ -1077,7 +1077,7 @@ MonoBehaviour:
     _name: HFEW Energy Ring Lvl.2
     _duration: 0
     _interval: 0
-    _castDelay: 0.5
+    _castDelay: 0.3
     _chargingDelay: 0.5
     _manaCost: 25
     _count: -1
@@ -1108,7 +1108,7 @@ MonoBehaviour:
     _name: HFEW Energy Ring Lvl.3
     _duration: 0
     _interval: 0
-    _castDelay: 0.5
+    _castDelay: 0.3
     _chargingDelay: 0.5
     _manaCost: 30
     _count: -1
@@ -1296,7 +1296,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.6
     _chargingDelay: 0
-    _manaCost: 10
+    _manaCost: 20
     _count: -1
     _description: 
     _distance: 4
@@ -1327,7 +1327,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.6
     _chargingDelay: 0
-    _manaCost: 12
+    _manaCost: 24
     _count: -1
     _description: 
     _distance: 4
@@ -1358,7 +1358,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.6
     _chargingDelay: 0
-    _manaCost: 15
+    _manaCost: 30
     _count: -1
     _description: 
     _distance: 4
@@ -1389,7 +1389,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.6
     _chargingDelay: 0
-    _manaCost: 20
+    _manaCost: 36
     _count: -1
     _description: 
     _distance: 4
@@ -1420,7 +1420,7 @@ MonoBehaviour:
     _interval: 0
     _castDelay: 0.6
     _chargingDelay: 0
-    _manaCost: 24
+    _manaCost: 45
     _count: -1
     _description: 
     _distance: 4
@@ -1506,7 +1506,7 @@ MonoBehaviour:
     _duration: 0
     _interval: 0
     _castDelay: 2
-    _chargingDelay: 3
+    _chargingDelay: 1
     _manaCost: 20
     _count: -1
     _description: 
@@ -1534,7 +1534,7 @@ MonoBehaviour:
     _duration: 0
     _interval: 0
     _castDelay: 2
-    _chargingDelay: 3
+    _chargingDelay: 1
     _manaCost: 30
     _count: -1
     _description: 
@@ -1562,7 +1562,7 @@ MonoBehaviour:
     _duration: 0
     _interval: 0
     _castDelay: 2
-    _chargingDelay: 3
+    _chargingDelay: 1
     _manaCost: 40
     _count: -1
     _description: 
@@ -1590,7 +1590,7 @@ MonoBehaviour:
     _duration: 0
     _interval: 0
     _castDelay: 2
-    _chargingDelay: 3
+    _chargingDelay: 1
     _manaCost: 50
     _count: -1
     _description: 
@@ -1618,7 +1618,7 @@ MonoBehaviour:
     _duration: 0
     _interval: 0
     _castDelay: 2
-    _chargingDelay: 3
+    _chargingDelay: 1
     _manaCost: 60
     _count: -1
     _description: 

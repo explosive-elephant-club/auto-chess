@@ -57,29 +57,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
             eventCenter.Broadcast("OnUpdate" + currentGameStage.ToString());
     }
 
-
-    /// <summary>
-    /// Adds champion from shop to inventory
-    /// </summary>
-    public bool BuyConstructorFromShop(ConstructorBaseData constructorData)
-    {
-        if (GameData.Instance.currentGold < constructorData.cost)
-            return false;
-
-
-        /* if (ownChampionManager.AddChampionToInventory(constructorData))
-        {
-            GameData.Instance.currentGold -= constructorData.cost;
-            UIController.Instance.UpdateUI();
-            return true;
-        }
-        else
-        {
-            return false;
-        }*/
-        return false;
-    }
-
     /// <summary>
     /// Returns the number of gold we should recieve
     /// </summary>
@@ -95,30 +72,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         income += bank;
 
         return income;
-    }
-
-    /// <summary>
-    /// Incrases the available champion slots by 1
-    /// </summary>
-    public void Buylvl()
-    {
-        //return if we dont have enough gold
-        if (GameData.Instance.currentGold < GameConfig.Instance.levelUpCostList[ownChampionManager.currentChampionLimit - 3])
-            return;
-
-        if (ownChampionManager.currentChampionLimit < 9)
-        {
-            //incrase champion limit
-            ownChampionManager.currentChampionLimit++;
-
-            //decrase gold
-            GameData.Instance.currentGold -= GameConfig.Instance.levelUpCostList[ownChampionManager.currentChampionLimit - 3];
-
-            //update ui
-            UIController.Instance.levelInfo.UpdateUI();
-
-        }
-
     }
 
     /// <summary>
@@ -255,6 +208,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public void OnLeaveCombat()
     {
         timer = 0;
+        GameData.Instance.mapLevel++;
     }
 
     public void OnEnterLoss()

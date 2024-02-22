@@ -9,7 +9,12 @@ public class OponentChampionManager : ChampionManager
     public override void OnEnterPreparation()
     {
         base.OnEnterPreparation();
-        this.AddChampionToBattle("Enemy/1-1-1");
+        currentChampionLimit = 99;
+        foreach (var c in LevelManager.Instance.GetEnemyConfigs())
+        {
+            AddChampionToBattle(c);
+        }
+        //this.AddChampionToBattle("Enemy/1-1-1");
         //this.AddChampionToBattle(GameData.Instance.championsArray.Find(c => c.ID == 1));
         //this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }

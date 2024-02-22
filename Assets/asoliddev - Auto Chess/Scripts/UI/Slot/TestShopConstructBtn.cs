@@ -9,13 +9,14 @@ using UnityEngine.EventSystems;
 public class TestShopConstructBtn : MonoBehaviour
 {
     public Image iconImage;
+    public Image levelFrameImage;
     public GameObject[] typeIconArray;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI typeText;
     public TextMeshProUGUI buyCostText;
 
     public ConstructorBaseData constructorData;
-
+    int cost;
 
     // Start is called before the first frame update
     void Awake()
@@ -47,10 +48,17 @@ public class TestShopConstructBtn : MonoBehaviour
     public void Refresh(ConstructorBaseData data)
     {
         constructorData = data;
+        cost = Mathf.CeilToInt
+        (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
+         GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
         LoadIcon();
         nameText.text = "No" + data.ID + ":" + constructorData.name;
         typeText.text = constructorData.type.ToString();
-        buyCostText.text = constructorData.cost.ToString();
+        buyCostText.text = cost.ToString();
+
+        Color tempColor;
+        if (ColorUtility.TryParseHtmlString(GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).color, out tempColor))
+            levelFrameImage.color = tempColor;
         UpdateType();
     }
 

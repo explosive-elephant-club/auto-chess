@@ -18,6 +18,7 @@ public class GameExcelConfig : CreateSingleton<GameExcelConfig>
     public List<ModifyAttributeBuffData> modifyAttributeBuffsArray;
 
     public List<SkillData> skillDatasArray;
+
     public EEDataManager _eeDataManager;
 
     protected override void InitSingleton()

@@ -309,3 +309,39 @@ MonoBehaviour:
     _invisible: 0
     _valueChanges:
     - physicalDamage + 3
+  - _ID: 58
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - takeDamageMultiple * 0.03
+    - applyDamageMultiple * -0.03
+  - _ID: 59
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - takeDamageMultiple * 0.05
+    - applyDamageMultiple * -0.05
+  - _ID: 60
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - takeDamageMultiple * 0.08
+    - applyDamageMultiple * -0.08
+  - _ID: 61
+    _immovable: 0
+    _disarm: 0
+    _silence: 0
+    _invincible: 0
+    _invisible: 0
+    _valueChanges:
+    - takeDamageMultiple * 0.12
+    - applyDamageMultiple * -0.12
