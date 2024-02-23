@@ -23,19 +23,19 @@ public class ShopUpdateController : MonoBehaviour
 
     public CombatLevelData combatLevelData
     {
-        get { return GameConfig.Instance.combatLevelData[GameData.Instance.combatLevel - 1]; }
+        get { return GameConfig.Instance.GetCurCombatLevelData(); }
     }
     public TradeLevelData tradeLevelData
     {
-        get { return GameConfig.Instance.tradeLevelData[GameData.Instance.tradeLevel - 1]; }
+        get { return GameConfig.Instance.GetCurTradeLevelData(); }
     }
     public CommandLevelData commandLevelData
     {
-        get { return GameConfig.Instance.commandLevelData[GameData.Instance.commandLevel - 1]; }
+        get { return GameConfig.Instance.GetCurCommandLevelData(); }
     }
     public LogisticsLevelData logisticsLevelData
     {
-        get { return GameConfig.Instance.logisticsLevelData[GameData.Instance.logisticsLevel - 1]; }
+        get { return GameConfig.Instance.GetCurLogisticsLevelData(); }
     }
 
 

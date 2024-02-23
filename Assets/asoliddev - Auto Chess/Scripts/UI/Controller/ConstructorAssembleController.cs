@@ -87,7 +87,7 @@ public class ConstructorAssembleController : MonoBehaviour
         ClearAllSub(chassisSlot);
         chassisSlot.Reset();
 
-        if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
+        if (GamePlayController.Instance.pickedChampion != null)
         {
             pitchSlider.value = 0.5f;
             UpdatePitchSlider(0.5f);
@@ -97,7 +97,7 @@ public class ConstructorAssembleController : MonoBehaviour
             camController.UpdateZoom(zoomValues[zoomIndex]);
             zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
             editToggle.isOn = true;
-            ConstructorBase chassisConstructor = GamePlayController.Instance.ownChampionManager.pickedChampion.GetChassisConstructor();
+            ConstructorBase chassisConstructor = GamePlayController.Instance.pickedChampion.GetChassisConstructor();
             chassisSlot.ChassisConstructorInit(this, chassisConstructor);
             SetUIActive(true);
         }

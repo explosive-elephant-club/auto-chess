@@ -31,8 +31,6 @@ public class LevelManager : CreateSingleton<LevelManager>
     {
         List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
         LevelData levelData = GameExcelConfig.Instance._eeDataManager.Get<LevelData>(GameData.Instance.mapLevel);
-
-        Debug.Log(levelData);
         foreach (var e in levelData.enemies)
         {
             EnemyData enemyData = GameExcelConfig.Instance._eeDataManager.Get<EnemyData>(e.id);

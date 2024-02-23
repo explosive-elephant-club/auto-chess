@@ -58,9 +58,9 @@ public class ChampionInfoController : MonoBehaviour
 
     IEnumerator AsyncUpdate()
     {
-        if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
+        if (GamePlayController.Instance.pickedChampion != null)
         {
-            championController = GamePlayController.Instance.ownChampionManager.pickedChampion;
+            championController = GamePlayController.Instance.pickedChampion;
             attributesController = championController.attributesController;
             skillController = championController.skillController;
 
@@ -175,7 +175,7 @@ public class ChampionInfoController : MonoBehaviour
     {
         int i = 0;
         //iterate bonuses
-        foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.ownChampionManager.pickedChampion.constructorTypeCount)
+        foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.pickedChampion.constructorTypeCount)
         {
             typesBar.transform.GetChild(i).gameObject.SetActive(true);
             typesBar.transform.GetChild(i).gameObject.name = m.Key.name;

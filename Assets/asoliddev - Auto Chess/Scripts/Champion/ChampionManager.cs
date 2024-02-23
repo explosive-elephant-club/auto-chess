@@ -19,8 +19,6 @@ public class ChampionManager : MonoBehaviour
     public int currentChampionLimit = 4;
     [HideInInspector]
     public int currentChampionCount = 0;
-
-    public ChampionController pickedChampion = null;
     private GridInfo dragStartGridInfo = null;
 
     public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
@@ -63,7 +61,7 @@ public class ChampionManager : MonoBehaviour
         }
     }
 
-    private void RemoveChampionFromArray(ChampionController champion)
+    public void RemoveChampionFromArray(ChampionController champion)
     {
         GridInfo gridInfo = champion.occupyGridInfo;
         if (gridInfo.gridType == GridType.Inventory)
@@ -222,62 +220,12 @@ public class ChampionManager : MonoBehaviour
         return farthestTarget;
     }
 
-    void SetPickedChampion(ChampionController championCtrl)
-    {
-        if (pickedChampion != null)
-        {
-            foreach (Transform tran in pickedChampion.GetComponentsInChildren<Transform>())
-            {
-                tran.gameObject.layer = 0;
-            }
-        }
-        pickedChampion = championCtrl;
-        if (pickedChampion != null)
-        {
-            foreach (Transform tran in pickedChampion.GetComponentsInChildren<Transform>())
-            {
-                tran.gameObject.layer = 9;
-            }
-            GamePlayController.Instance._GOToUICameraController.ResetCam(pickedChampion.transform);
-        }
-
-    }
-
-    public void PickChampion()
-    {
-        if (InputController.Instance.ui == null)
-        {
-            UIController.Instance.isSlotUIDragged = false;
-            //get trigger info
-            GridInfo gridInfo = InputController.Instance.gridInfo;
-            //if mouse cursor on trigger
-            if (gridInfo != null)
-            {
-                ChampionController championCtrl = gridInfo.occupyChampion;
-                if (championCtrl != null)
-                {
-                    SetPickedChampion(championCtrl);
-                    UIController.Instance.championInfoController.UpdateUI();
-                    UIController.Instance.constructorAssembleController.UpdateUI();
-                    return;
-                }
-            }
-            SetPickedChampion(null);
-            UIController.Instance.championInfoController.UpdateUI();
-            UIController.Instance.constructorAssembleController.UpdateUI();
-        }
-        else
-        {
-            UIController.Instance.isSlotUIDragged = true;
-        }
-    }
-
     public void StartDrag()
     {
-        if (pickedChampion != null && InputController.Instance.ui == null)
+        if (GamePlayController.Instance.pickedChampion != null && InputController.Instance.ui == null)
         {
             dragStartGridInfo = InputController.Instance.gridInfo;
-            pickedChampion.IsDragged = true;
+            GamePlayController.Instance.pickedChampion.IsDragged = true;
         }
     }
 
@@ -286,10 +234,10 @@ public class ChampionManager : MonoBehaviour
         //hide indicators
         //Map.Instance.HideIndicators();
 
-        if (pickedChampion != null && !UIController.Instance.isSlotUIDragged)
+        if (GamePlayController.Instance.pickedChampion != null && !UIController.Instance.isSlotUIDragged)
         {
             //set dragged
-            pickedChampion.IsDragged = false;
+            GamePlayController.Instance.pickedChampion.IsDragged = false;
 
             //get trigger info
             GridInfo gridInfo = InputController.Instance.gridInfo;
@@ -297,7 +245,7 @@ public class ChampionManager : MonoBehaviour
             //if mouse cursor on trigger
             if (gridInfo != null)
             {
-                if (!CheckGridInfoInRange(gridInfo, pickedChampion.team))
+                if (!CheckGridInfoInRange(gridInfo, GamePlayController.Instance.pickedChampion.team))
                     return;
                 //get current champion over mouse cursor
                 ChampionController championCtrl = gridInfo.occupyChampion;
@@ -307,9 +255,9 @@ public class ChampionManager : MonoBehaviour
                 {
                     //交换位置
                     championCtrl.LeaveGrid();
-                    pickedChampion.LeaveGrid();
+                    GamePlayController.Instance.pickedChampion.LeaveGrid();
                     championCtrl.EnterGrid(dragStartGridInfo);
-                    pickedChampion.EnterGrid(gridInfo);
+                    GamePlayController.Instance.pickedChampion.EnterGrid(gridInfo);
 
                 }
                 else//目标点无单位
@@ -319,14 +267,14 @@ public class ChampionManager : MonoBehaviour
                     {
                         if (championsHexaMapArray.Count < currentChampionLimit || dragStartGridInfo.gridType == GridType.HexaMap)
                         {
-                            RemoveChampionFromArray(pickedChampion);
-                            StoreChampionInArray(gridInfo, pickedChampion);
+                            RemoveChampionFromArray(GamePlayController.Instance.pickedChampion);
+                            StoreChampionInArray(gridInfo, GamePlayController.Instance.pickedChampion);
                         }
                     } //目标点是仓库
                     else if (gridInfo.gridType == GridType.Inventory)
                     {
-                        RemoveChampionFromArray(pickedChampion);
-                        StoreChampionInArray(gridInfo, pickedChampion);
+                        RemoveChampionFromArray(GamePlayController.Instance.pickedChampion);
+                        StoreChampionInArray(gridInfo, GamePlayController.Instance.pickedChampion);
                     }
                 }
             }
@@ -389,29 +337,27 @@ public class ChampionManager : MonoBehaviour
         return false;
     }
 
-    public void Reset()
+    public virtual void Reset()
     {
         foreach (var champion in championInventoryArray)
         {
-            champion.OnRemove();
-            Destroy(champion.gameObject);
+            DestroyChampion(champion);
         }
         championInventoryArray.Clear();
         foreach (var champion in championsHexaMapArray)
         {
-            champion.OnRemove();
-            Destroy(champion.gameObject);
+            DestroyChampion(champion);
         }
         championsHexaMapArray.Clear();
         currentChampionLimit = 4;
         currentChampionCount = 0;
     }
 
-    public void OnChampionDeath(ChampionController championController)
+    public virtual void OnChampionDeath(ChampionController championController)
     {
-        if (championController == pickedChampion)
+        if (championController == GamePlayController.Instance.pickedChampion)
         {
-            SetPickedChampion(null);
+            GamePlayController.Instance.SetPickedChampion(null);
             UIController.Instance.championInfoController.UpdateUI();
             UIController.Instance.constructorAssembleController.UpdateUI();
         }
@@ -420,6 +366,22 @@ public class ChampionManager : MonoBehaviour
             GamePlayController.Instance.EndRound();
         }
 
+    }
+
+    public void DestroyChampion(ChampionController championController)
+    {
+        if (championController == GamePlayController.Instance.pickedChampion)
+        {
+            GamePlayController.Instance.SetPickedChampion(null);
+            UIController.Instance.championInfoController.UpdateUI();
+            UIController.Instance.constructorAssembleController.UpdateUI();
+        }
+        if (GamePlayController.Instance._GOToUICameraController.cameraTarget == championController.transform)
+        {
+            GamePlayController.Instance._GOToUICameraController.ResetCam();
+        }
+        championController.OnRemove();
+        Destroy(championController.gameObject);
     }
 
     public virtual void OnEnterPreparation()
@@ -437,9 +399,9 @@ public class ChampionManager : MonoBehaviour
 
     public virtual void OnEnterCombat()
     {
-        if (pickedChampion != null)
+        if (GamePlayController.Instance.pickedChampion != null)
         {
-            pickedChampion.GetComponent<ChampionController>().IsDragged = false;
+            GamePlayController.Instance.pickedChampion.GetComponent<ChampionController>().IsDragged = false;
             //draggedChampion = null;
         }
         if (IsAllChampionDead())

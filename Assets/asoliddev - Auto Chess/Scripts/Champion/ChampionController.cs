@@ -102,7 +102,7 @@ public class ChampionController : MonoBehaviour
         else
             GetChassisConstructor().Init(constructorData, this, true);
 
-        attributesController.Reset();
+        attributesController.RecalculateAfterMaxChange();
         GamePlayController.Instance.StageStateAddListener(gameStageActions);
     }
 
@@ -511,6 +511,22 @@ public class ChampionController : MonoBehaviour
         }
     }
 
+    public int CalculateTotalCost()
+    {
+        int cost = 0;
+        foreach (var c in constructors)
+        {
+            cost += c.cost;
+        }
+        return cost;
+    }
+
+    public void DestroySelf()
+    {
+        championManeger.RemoveChampionFromArray(this);
+        championManeger.DestroyChampion(this);
+    }
+
     #region StageFuncs
     public void OnEnterPreparation()
     {
@@ -564,6 +580,7 @@ public class ChampionController : MonoBehaviour
         {
             buffController.AddBuff(b, this);
         }
+        attributesController.RecalculateAfterMaxChange();
         buffController.eventCenter.Broadcast(BuffActiveMode.BeforeBattle.ToString());
         skillController.OnEnterCombat();
     }
@@ -585,7 +602,7 @@ public class ChampionController : MonoBehaviour
     {
         navMeshAgent.enabled = false;
         buffController.eventCenter.Broadcast(BuffActiveMode.AfterBattle.ToString());
-        Reset();
+        //Reset();
     }
 
     public void OnEnterLoss()

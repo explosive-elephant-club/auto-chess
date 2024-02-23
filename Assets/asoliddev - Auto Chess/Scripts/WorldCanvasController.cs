@@ -9,7 +9,7 @@ public class WorldCanvasController : CreateSingleton<WorldCanvasController>
 {
     public GameObject worldCanvas;
     public GameObject floatingTextPrefab;
-    public GameObject healthBarPrefab;
+    public GameObject stateBarBarPrefab;
 
     protected override void InitSingleton()
     {
@@ -36,9 +36,9 @@ public class WorldCanvasController : CreateSingleton<WorldCanvasController>
     /// <param name="v"></param>
     public void AddHealthBar(GameObject championGO)
     {
-        GameObject go = Instantiate(healthBarPrefab);
+        GameObject go = Instantiate(stateBarBarPrefab);
         go.transform.SetParent(worldCanvas.transform);
 
-        go.GetComponent<HealthBar>().Init(championGO);
+        go.GetComponent<StateBar>().Init(championGO);
     }
 }

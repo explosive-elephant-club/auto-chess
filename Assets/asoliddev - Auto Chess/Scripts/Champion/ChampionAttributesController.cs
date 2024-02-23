@@ -69,6 +69,8 @@ public class ChampionAttributesController
     public float curArmor;
     public float curMana;
 
+    float healthRate = 1f;
+
     public ChampionAttributesController()
     {
         maxArmor = new ChampionAttribute(0, "MaxArmor");
@@ -86,7 +88,7 @@ public class ChampionAttributesController
         critMultiple = new ChampionAttribute(1.5f, "CritMultiple");
 
         armorRegeneration = new ChampionAttribute(1, "ArmorRegeneration");
-        manaRegeneration = new ChampionAttribute(1, "ManaRegeneration");
+        manaRegeneration = new ChampionAttribute(4, "ManaRegeneration");
         takeDamageMultiple = new ChampionAttribute(1, "TakeDamageMultiple");
         applyDamageMultiple = new ChampionAttribute(1, "ApplyDamageMultiple");
 
@@ -101,6 +103,8 @@ public class ChampionAttributesController
         iceDamageApplyRate = new ChampionAttribute(1, "IceDamageApplyRate");
         lightingDamageApplyRate = new ChampionAttribute(1, "LightingDamageApplyRate");
         acidDamageApplyRate = new ChampionAttribute(1, "AcidDamageApplyRate");
+        
+        healthRate = 1f;
     }
 
     public bool HitCheck()
@@ -209,7 +213,15 @@ public class ChampionAttributesController
 
     public void Reset()
     {
-        curHealth = maxHealth.GetTrueValue();
+        healthRate = curHealth / maxHealth.GetTrueValue();
+        curArmor = maxArmor.GetTrueValue();
+        curMana = maxMana.GetTrueValue();
+    }
+
+    //重新计算最大值增加后的数值
+    public void RecalculateAfterMaxChange()
+    {
+        curHealth = Mathf.FloorToInt(healthRate * maxHealth.GetTrueValue());
         curArmor = maxArmor.GetTrueValue();
         curMana = maxMana.GetTrueValue();
     }

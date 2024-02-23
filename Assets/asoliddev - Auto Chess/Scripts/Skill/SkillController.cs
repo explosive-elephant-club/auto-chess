@@ -224,12 +224,12 @@ public class SkillController : MonoBehaviour
         }
         foreach (var s in skillList)
         {
-            if (s.skillData.ID == skillID)
-                skillIndex = activedSkillList.IndexOf(s);
+            if (s.skillData.ID == skillID && s.state == SkillState.Disable)
+                skillIndex = skillList.IndexOf(s);
         }
         if (activedIndex == -1 || skillIndex == -1)
             return;
-        AddActivedSkill(skillIndex, activedIndex);
+        AddActivedSkill(activedIndex, skillIndex);
     }
 
     public void RemoveActivedSkill(int index)

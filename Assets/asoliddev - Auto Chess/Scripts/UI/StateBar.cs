@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// Displays champion health over champion
-/// </summary>
-public class HealthBar : MonoBehaviour
+public class StateBar : MonoBehaviour
 {
     private GameObject championGO;
     private ChampionController championController;
-    public Image fillImage;
+    public Image armorFillImage;
+    public Image hpFillImage;
+    public Image manaFillImage;
 
     private CanvasGroup canvasGroup;
 
@@ -23,11 +22,20 @@ public class HealthBar : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
+        GetComponent<Transform>().eulerAngles =
+            new Vector3(Camera.main.transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, 0);
+
         if (championGO != null)
         {
             this.transform.position = championGO.transform.position + new Vector3(0, 1.5f + 1.5f * championGO.transform.localScale.x, 0);
-            fillImage.fillAmount = championController.attributesController.curHealth
+            armorFillImage.fillAmount = championController.attributesController.curArmor
+            / championController.attributesController.maxArmor.GetTrueValue();
+
+            hpFillImage.fillAmount = championController.attributesController.curHealth
             / championController.attributesController.maxHealth.GetTrueValue();
+
+            manaFillImage.fillAmount = championController.attributesController.curMana
+            / championController.attributesController.maxMana.GetTrueValue();
 
             if (championController.attributesController.curHealth <= 0)
                 canvasGroup.alpha = 0;

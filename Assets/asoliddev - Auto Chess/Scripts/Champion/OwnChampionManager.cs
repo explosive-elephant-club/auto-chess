@@ -9,16 +9,24 @@ public class OwnChampionManager : ChampionManager
 {
     public CommandLevelData commandLevelData
     {
-        get { return GameConfig.Instance.commandLevelData[GameData.Instance.commandLevel - 1]; }
+        get { return GameConfig.Instance.GetCurCommandLevelData(); }
     }
     public override void OnEnterPreparation()
     {
         base.OnEnterPreparation();
         currentChampionLimit = commandLevelData.limitMax;
         UIController.Instance.levelInfo.UpdateUI();
-        this.AddChampionToBattle("Enemy/1-5");
+        //this.AddChampionToBattle("Enemy/1-4");
         //this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }
 
+    public override void OnLeaveCombat()
+    {
+        base.OnLeaveCombat();
+        foreach (var champion in championsHexaMapArray)
+        {
+            champion.Reset();
+        }
+    }
 
 }

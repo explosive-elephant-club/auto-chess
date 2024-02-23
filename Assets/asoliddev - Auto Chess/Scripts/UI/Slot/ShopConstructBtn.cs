@@ -80,6 +80,8 @@ public class ShopConstructBtn : ContainerSlot
     {
         if (GameData.Instance.currentGold >= cost)
         {
+            GameData.Instance.currentGold -= cost;
+            UIController.Instance.levelInfo.UpdateUI();
             UIController.Instance.inventoryController.AddConstructor(constructorData);
             UIController.Instance.inventoryController.UpdateInventory();
             BuySuccessHide();

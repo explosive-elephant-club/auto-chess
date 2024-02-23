@@ -22,7 +22,7 @@ public class ShopConstructController : MonoBehaviour
 
     TradeLevelData tradeLevelData
     {
-        get { return GameConfig.Instance.tradeLevelData[GameData.Instance.tradeLevel - 1]; }
+        get { return GameConfig.Instance.GetCurTradeLevelData(); }
     }
 
     List<ConstructorBaseData> normalConstructors;
@@ -100,9 +100,6 @@ public class ShopConstructController : MonoBehaviour
 
         //randomise a number
         int rand = Random.Range(0, 100);
-        Debug.Log("np " + np);
-        Debug.Log("rp " + rp);
-        Debug.Log("sp " + sp);
         if (rand < np)
         {
             rand = Random.Range(0, normalConstructors.Count);

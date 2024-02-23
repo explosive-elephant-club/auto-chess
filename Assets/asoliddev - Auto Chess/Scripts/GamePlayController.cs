@@ -23,6 +23,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public ChampionManager oponentChampionManager;
     public MainCameraController mainCameraController;
     public GOToUICameraController _GOToUICameraController;
+    public ChampionController pickedChampion = null;
 
 
     Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
@@ -149,6 +150,56 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         eventCenter.Broadcast("OnEnter" + currentGameStage.ToString());
     }
 
+    public void SetPickedChampion(ChampionController championCtrl)
+    {
+        if (pickedChampion != null)
+        {
+            foreach (Transform tran in pickedChampion.GetComponentsInChildren<Transform>())
+            {
+                tran.gameObject.layer = 0;
+            }
+        }
+        pickedChampion = championCtrl;
+        if (pickedChampion != null)
+        {
+            foreach (Transform tran in pickedChampion.GetComponentsInChildren<Transform>())
+            {
+                tran.gameObject.layer = 9;
+            }
+            _GOToUICameraController.ResetCam(pickedChampion.transform);
+        }
+
+    }
+
+    public void PickChampion()
+    {
+        if (InputController.Instance.ui == null)
+        {
+            UIController.Instance.isSlotUIDragged = false;
+            //get trigger info
+            GridInfo gridInfo = InputController.Instance.gridInfo;
+            //if mouse cursor on trigger
+            if (gridInfo != null)
+            {
+                ChampionController championCtrl = gridInfo.occupyChampion;
+                if (championCtrl != null)
+                {
+                    SetPickedChampion(championCtrl);
+                    UIController.Instance.championInfoController.UpdateUI();
+                    UIController.Instance.constructorAssembleController.UpdateUI();
+                    return;
+                }
+            }
+            SetPickedChampion(null);
+            UIController.Instance.championInfoController.UpdateUI();
+            UIController.Instance.constructorAssembleController.UpdateUI();
+        }
+        else
+        {
+            UIController.Instance.isSlotUIDragged = true;
+        }
+    }
+
     #region StageFuncs
     public void OnEnterPreparation()
     {
@@ -167,7 +218,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GamePlayController.Instance.ownChampionManager.PickChampion();
+            PickChampion();
             GamePlayController.Instance.ownChampionManager.StartDrag();
         }
         if (Input.GetMouseButtonUp(0))
@@ -201,7 +252,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
 
         if (Input.GetMouseButtonDown(0))
         {
-            GamePlayController.Instance.ownChampionManager.PickChampion();
+            PickChampion();
         }
 
     }

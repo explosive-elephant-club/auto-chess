@@ -39,10 +39,10 @@ public class TypePopup : Popup
 
     void UpdateConstructorInfo(ConstructorBonusType _constructorBonusType)
     {
-        if (GamePlayController.Instance.ownChampionManager.pickedChampion != null)
+        if (GamePlayController.Instance.pickedChampion != null)
         {
             constructorContent.gameObject.SetActive(true);
-            List<ConstructorBase> constructors = GamePlayController.Instance.ownChampionManager.pickedChampion.constructors.FindAll
+            List<ConstructorBase> constructors = GamePlayController.Instance.pickedChampion.constructors.FindAll
                 (c => c.constructorData.property1 == _constructorBonusType.name ||
                     c.constructorData.property2 == _constructorBonusType.name ||
                         c.constructorData.property3 == _constructorBonusType.name);

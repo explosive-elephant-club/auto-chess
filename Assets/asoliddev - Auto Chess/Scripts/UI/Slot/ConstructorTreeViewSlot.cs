@@ -153,9 +153,10 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         constructorTreeViewInfo.Init(this);
         constructorTreeViewInfo.onPointerEnterEvent.AddListener(constructorTreeViewInfo.OnPointerEnterEvent);
         constructorTreeViewInfo.onPointerExitEvent.AddListener(constructorTreeViewInfo.OnPointerExitEvent);
-        //onPointerDownEvent.AddListener(OnPointerDownEvent);
-        //onPointerUpEvent.AddListener(OnPointerUpEvent);
-        //onDragEvent.AddListener(OnDragEvent);
+
+        constructorTreeViewInfo.onPointerDownEvent.AddListener(constructorTreeViewInfo.OnPointerDownEvent);
+        constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
+        constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
 
         LoadIcon();
         if (constructor.slots.Count > 0)
@@ -231,12 +232,24 @@ public class ConstructorTreeViewSlot : MonoBehaviour
 
     public void RemoveConstructor()
     {
-        List<ConstructorBaseData> removedData = parent.constructor.removeConstructor(constructorSlot);
-        ClearSubSlot();
-        constructor = null;
-        icon.gameObject.SetActive(false);
-        constructorTreeViewInfo.ClearAllListener();
-        Init(controller, parent, constructorSlot);
+        List<ConstructorBaseData> removedData = new List<ConstructorBaseData>();
+        if (constructor.type == ConstructorType.Chassis)
+        {
+            ChampionController championController = constructor.championController;
+            removedData = constructor.removeAllConstructor();
+            championController.DestroySelf();
+        }
+
+        else
+        {
+            removedData = parent.constructor.removeConstructor(constructorSlot);
+            ClearSubSlot();
+            constructor = null;
+            icon.gameObject.SetActive(false);
+            constructorTreeViewInfo.ClearAllListener();
+            Init(controller, parent, constructorSlot);
+        }
+
         UIController.Instance.inventoryController.AddConstructors(removedData);
     }
 

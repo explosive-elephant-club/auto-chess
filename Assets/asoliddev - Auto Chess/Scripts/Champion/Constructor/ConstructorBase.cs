@@ -82,6 +82,8 @@ public class ConstructorBase : MonoBehaviour
     public UnityAction onSkillAnimFinish = new UnityAction(() => { });
     public Renderer[] renderers;
 
+    public int cost;
+
     private void OnEnable()
     {
         if (GetComponent<Animator>())
@@ -105,6 +107,9 @@ public class ConstructorBase : MonoBehaviour
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
+        cost = Mathf.CeilToInt
+               (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
+               GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
 
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 
@@ -112,7 +117,7 @@ public class ConstructorBase : MonoBehaviour
         {
             s.Init();
         }
-        if (GamePlayController.Instance.ownChampionManager.pickedChampion == championController)
+        if (GamePlayController.Instance.pickedChampion == championController)
         {
             foreach (Transform tran in transform.GetComponentsInChildren<Transform>())
             {
@@ -184,6 +189,7 @@ public class ConstructorBase : MonoBehaviour
         constructor.gameObject.transform.SetParent(slot.slotTrans);
         constructor.gameObject.transform.localPosition = Vector3.zero;
         constructor.gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        constructor.gameObject.transform.localScale = Vector3.one;
         slot.constructorInstance = constructor;
         constructor.parentConstructor = this;
 
@@ -259,6 +265,20 @@ public class ConstructorBase : MonoBehaviour
         DestroyImmediate(slot.constructorInstance.gameObject);
         slot.constructorInstance = null;
         championController.skillController.UpdateSkillCapacity();
+        return data;
+    }
+
+    //移除所有组件
+    public virtual List<ConstructorBaseData> removeAllConstructor()
+    {
+        List<ConstructorBaseData> data = new List<ConstructorBaseData>();
+        foreach (var c in GetAllChildrenConstructors(true))
+        {
+            data.Add(c.constructorData);
+            c.OnRemove();
+        }
+        championController.skillController.UpdateSkillCapacity();
+        DestroyImmediate(this.gameObject);
         return data;
     }
 

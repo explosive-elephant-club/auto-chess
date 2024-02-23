@@ -102,9 +102,9 @@ public class GOToUICameraController : MonoBehaviour
     public void ResetCam(Transform _cameraTarget = null)
     {
         cameraTarget = _cameraTarget;
+        transform.SetParent(cameraTarget);
         if (cameraTarget != null)
         {
-            transform.SetParent(cameraTarget);
             transform.localPosition = new Vector3(0, 0, cameraDist) + cameraTargetOffset;
             transform.localEulerAngles = Vector3.zero;
 
@@ -117,4 +117,5 @@ public class GOToUICameraController : MonoBehaviour
             curCameraYaw = cameraYaw;
         }
     }
+
 }
