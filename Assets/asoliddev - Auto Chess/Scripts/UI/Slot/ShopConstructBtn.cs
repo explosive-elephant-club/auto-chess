@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 public class ShopConstructBtn : ContainerSlot
 {
     public GameObject ablePanel;
-    public GameObject disablePanel;
     public GameObject lockImage;
     public Image iconImage;
     public Image levelFrameImage;
@@ -19,6 +18,7 @@ public class ShopConstructBtn : ContainerSlot
     public TextMeshProUGUI buyCostText;
     public TextMeshProUGUI addCostText;
 
+    public Sprite[] levelFrames;
     public ConstructorBaseData constructorData;
 
     int cost;
@@ -26,7 +26,7 @@ public class ShopConstructBtn : ContainerSlot
     // Start is called before the first frame update
     void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(OnClicked);
+        GetComponent<Button>().onClick.AddListener(BuyConstruct);
     }
 
     public void LoadIcon()
@@ -45,14 +45,6 @@ public class ShopConstructBtn : ContainerSlot
         onPointerExitEvent.AddListener(OnPointerExitEvent);
     }
 
-    public void OnClicked()
-    {
-        if (ablePanel.activeSelf)
-            BuyConstruct();
-        else if (disablePanel.activeSelf)
-            UIController.Instance.shopController.shopConstructController.AddShopSlot();
-    }
-
     public void Onlocked(bool isLocked)
     {
         lockImage.SetActive(isLocked);
@@ -60,7 +52,6 @@ public class ShopConstructBtn : ContainerSlot
     public void Refresh(ConstructorBaseData data)
     {
         ablePanel.SetActive(true);
-        disablePanel.SetActive(false);
         constructorData = data;
         LoadIcon();
         cost = Mathf.CeilToInt
@@ -71,9 +62,7 @@ public class ShopConstructBtn : ContainerSlot
         typeText.text = constructorData.type.ToString();
         buyCostText.text = cost.ToString();
 
-        Color tempColor;
-        if (ColorUtility.TryParseHtmlString(GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).color, out tempColor))
-            levelFrameImage.color = tempColor;
+        levelFrameImage.sprite = levelFrames[constructorData.level - 1];
         UpdateType();
     }
     public void BuyConstruct()
@@ -105,14 +94,12 @@ public class ShopConstructBtn : ContainerSlot
     public void ShowAdd()
     {
         ablePanel.SetActive(false);
-        disablePanel.SetActive(true);
         addCostText.text = GameConfig.Instance.addSlotCostList
             [GameData.Instance.constructsOnSaleLimit - 3].ToString();
     }
     public void BuySuccessHide()
     {
         ablePanel.SetActive(false);
-        disablePanel.SetActive(false);
     }
     public void OnPointerEnterEvent(PointerEventData eventData)
     {

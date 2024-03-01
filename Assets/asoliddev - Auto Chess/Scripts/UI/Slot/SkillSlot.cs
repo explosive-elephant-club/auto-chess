@@ -9,16 +9,15 @@ using UnityEngine.EventSystems;
 
 public class SkillSlot : ContainerSlot
 {
-    Image icon;
+    public Sprite[] levelFrames;
+    public Image icon;
+    public Image BG;
     public Skill skill;
     public bool isActivated;
     public SkillState skillState;
 
     private void Awake()
     {
-        icon = transform.Find("Image_Item").GetComponent<Image>();
-        icon.gameObject.SetActive(false);
-
     }
 
     private void Update()
@@ -38,13 +37,24 @@ public class SkillSlot : ContainerSlot
         if (_skill != null)
         {
             if (!isActivated && skill.state != SkillState.Disable)
+            {
+                BG.gameObject.SetActive(false);
                 return;
+            }
+
 
             onPointerDownEvent.AddListener(OnPointerDownEvent);
             onPointerUpEvent.AddListener(OnPointerUpEvent);
             onDragEvent.AddListener(OnDragEvent);
             icon.gameObject.SetActive(true);
             icon.sprite = Resources.Load<Sprite>(skill.skillData.icon);
+
+            BG.sprite = levelFrames[skill.constructor.constructorData.level - 1];
+            BG.gameObject.SetActive(true);
+        }
+        else
+        {
+            BG.gameObject.SetActive(false);
         }
 
     }
@@ -59,6 +69,7 @@ public class SkillSlot : ContainerSlot
     public void OnPointerDownEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(false);
+        BG.gameObject.SetActive(false);
         draggedUI.Init(icon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
@@ -67,6 +78,7 @@ public class SkillSlot : ContainerSlot
     public void OnPointerUpEvent(PointerEventData eventData)
     {
         icon.gameObject.SetActive(true);
+        BG.gameObject.SetActive(true);
         draggedUI.OnPointerUp(eventData);
         UIController.Instance.championInfoController.OnSkillSlotDragEnd(this);
     }

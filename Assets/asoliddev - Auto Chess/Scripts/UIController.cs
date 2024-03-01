@@ -106,6 +106,7 @@ public class UIController : CreateSingleton<UIController>
     public void OnEnterPreparation()
     {
         OnEnterBattleViewMode();
+        levelInfo.OnEnterPreparation();
         championInfoController.OnEnterPreparation();
         shopController.OnEnterPreparation();
         UpdateUI();
@@ -126,7 +127,9 @@ public class UIController : CreateSingleton<UIController>
     public void OnEnterCombat()
     {
         OnEnterBattleViewMode();
+        levelInfo.OnEnterCombat();
         championInfoController.OnEnterCombat();
+
     }
     public void OnUpdateCombat()
     {

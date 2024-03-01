@@ -290,6 +290,8 @@ public class ConstructorBase : MonoBehaviour
             if (s.slotTrans.childCount > 0)
             {
                 ConstructorBase constructor = s.slotTrans.GetComponentInChildren<ConstructorBase>();
+                if (constructor == null)
+                    return;
                 constructor.Init(championController, false);
                 if (CanAttach(constructor, s))
                 {
@@ -306,6 +308,7 @@ public class ConstructorBase : MonoBehaviour
 
             }
         }
+        return;
     }
 
     //向上获取所有父组件

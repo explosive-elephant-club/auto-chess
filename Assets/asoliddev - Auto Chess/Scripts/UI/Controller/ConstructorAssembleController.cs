@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ConstructorAssembleController : MonoBehaviour
+public class ConstructorAssembleController : BaseControllerUI
 {
     public GameObject constructorSlotPrefab;
     public ConstructorTreeViewSlot chassisSlot;
@@ -16,7 +16,7 @@ public class ConstructorAssembleController : MonoBehaviour
     public Button zoomInBtn;
     public Button zoomOutBtn;
     public Toggle editToggle;
-    float[] zoomValues = { 2, 2.5f, 3, 3.5f, 4 };
+    float[] zoomValues = { 6.5f, 7f, 8, 9f, 10 };
     int zoomIndex = 2;
     public TextMeshProUGUI zoomValueText;
     GOToUICameraController camController;
@@ -24,22 +24,22 @@ public class ConstructorAssembleController : MonoBehaviour
     public Transform DisableSlotsParent;
     [HideInInspector]
     public Transform lineLayer;
-    CanvasGroup canvasGroup;
 
     public ConstructorTreeViewSlot pickedSlot;
 
     // Start is called before the first frame update
     void Awake()
     {
+        Init();
         DisableSlotsParent = constructorPanel.transform.Find("DisableSlots");
         lineLayer = constructorPanel.transform.Find("LineLayer");
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
 
     private void Start()
     {
         camController = GamePlayController.Instance._GOToUICameraController;
         AddAllListener();
+        SetUIActive(false);
     }
 
     void AddAllListener()
@@ -82,7 +82,7 @@ public class ConstructorAssembleController : MonoBehaviour
         constructorPanel.SetActive(value);
     }
 
-    public void UpdateUI()
+    public override void UpdateUI()
     {
         ClearAllSub(chassisSlot);
         chassisSlot.Reset();
@@ -107,21 +107,6 @@ public class ConstructorAssembleController : MonoBehaviour
         }
     }
 
-    public void SetUIActive(bool isActive)
-    {
-        if (isActive)
-        {
-            canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-        }
-        else
-        {
-            canvasGroup.alpha = 0;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-        }
-    }
     public void ClearAllSub(ConstructorTreeViewSlot slot)
     {
         foreach (var c in slot.children)

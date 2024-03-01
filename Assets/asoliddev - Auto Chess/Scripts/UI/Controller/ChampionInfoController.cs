@@ -7,7 +7,7 @@ using ExcelConfig;
 using General;
 using System.Diagnostics;
 
-public class ChampionInfoController : MonoBehaviour
+public class ChampionInfoController : BaseControllerUI
 {
     //State1
     public GameObject armorBar;
@@ -21,7 +21,8 @@ public class ChampionInfoController : MonoBehaviour
     //State2
     public GameObject state2;
 
-
+    //State2
+    public Button editeBtn;
 
     //Skill
     public List<SkillSlot> activatedSkillSlots = new List<SkillSlot>();
@@ -29,7 +30,6 @@ public class ChampionInfoController : MonoBehaviour
 
     public SkillSlot pointEnterSlot;
 
-    CanvasGroup canvasGroup;
     RebuildAllLayout rebuildAllLayout;
 
     ChampionController championController;
@@ -38,6 +38,7 @@ public class ChampionInfoController : MonoBehaviour
 
     void Awake()
     {
+        Init();
         foreach (Transform child in transform.Find("Panel/ActivatedSkill/SkillSlot"))
         {
             activatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
@@ -46,12 +47,17 @@ public class ChampionInfoController : MonoBehaviour
         {
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
         rebuildAllLayout = gameObject.GetComponent<RebuildAllLayout>();
+        editeBtn.onClick.AddListener(OpenConstructorAssemble);
+    }
+
+    void OpenConstructorAssemble()
+    {
+        UIController.Instance.constructorAssembleController.UpdateUI();
     }
 
     // Update is called once per frame
-    public void UpdateUI()
+    public override void UpdateUI()
     {
         StartCoroutine(AsyncUpdate());
     }
@@ -79,23 +85,6 @@ public class ChampionInfoController : MonoBehaviour
             StopAllCoroutines();
             SetUIActive(false);
         }
-    }
-
-    public void SetUIActive(bool isActive)
-    {
-        if (isActive)
-        {
-            canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-        }
-        else
-        {
-            canvasGroup.alpha = 0;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-        }
-
     }
 
     public void OnPointEnterSlot(SkillSlot skillSlot)

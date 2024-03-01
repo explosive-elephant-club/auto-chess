@@ -1,25 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26ddd4c70f1b00247901fec539b2385b, type: 3}
-  m_Name: EasyExcelSettings
-  m_EditorClassIdentifier: 
-  nameRowIndex: 1
-  typeRowIndex: 2
-  dataStartIndex: 3
-  generatedAssetPath: Assets/Resources/ExcelScriptableObject/
-  generatedScriptPath: Assets/ExcelScript/
-  sheetDataPostfix: _Sheet
-  rowDataPostfix: 
-  nameSpace: ExcelConfig
-  useFileNameAsNameSpace: 0
-  nameSpacePrefix: EasyExcel_
-  lang: 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:a2329968a3ca19e4e4bb8cb079aef0981d4ced2e6b99267e86b0d39109e0b413
+size 706

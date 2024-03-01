@@ -51,8 +51,13 @@ public class TypePopup : Popup
                 constructorInfo[i].SetActive(false);
                 if (i < constructors.Count)
                 {
+                    string iconPath = constructors[i].constructorData.prefab.Substring(0, constructors[i].constructorData.prefab.IndexOf(constructors[i].constructorData.type));
+                    iconPath = "Prefab/Constructor/" + iconPath + constructors[i].constructorData.type + "/Icon/";
+                    string namePath = constructors[i].constructorData.prefab.Substring(constructors[i].constructorData.prefab.IndexOf(constructors[i].constructorData.type) + constructors[i].constructorData.type.Length + 1);
+
+                    Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);
                     //Texture2D tex = AssetPreview.GetAssetPreview(constructors[i].gameObject);
-                    //constructorInfo[i].GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
+                    constructorInfo[i].GetComponent<Image>().sprite = _icon;
                     constructorInfo[i].SetActive(true);
                 }
             }

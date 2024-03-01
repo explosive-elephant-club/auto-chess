@@ -11,21 +11,18 @@ using System;
 
 public class ConstructorTreeViewSlot : MonoBehaviour
 {
-    [HideInInspector]
     public Image icon;
-    public Transform subTab;
+    public Image levelFrame;
     public Image pickedFrame;
-    RectTransform subTabRect;
     Camera cam;
     RectTransform screenCanvasRectTransform;
     [HideInInspector]
     public Image lineImage;
     public GameObject linePrefab;
+    public Sprite[] levelFrames;
 
     [HideInInspector]
     public ConstructorAssembleController controller;
-
-    public Sprite constructorIcon;
 
     public ConstructorSlot constructorSlot;
     public ConstructorBase constructor;
@@ -37,8 +34,6 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        icon = transform.Find("ConstructorInfo/FrameMask/Icon").GetComponent<Image>();
-        pickedFrame = transform.Find("PickedFrame").GetComponent<Image>();
         cam = GameObject.Find("3DToUICamera").GetComponent<Camera>();
         screenCanvasRectTransform = GameObject.Find("ScreenCanvas").GetComponent<RectTransform>();
         constructorTreeViewInfo = transform.Find("ConstructorInfo").GetComponent<ConstructorTreeViewInfo>();
@@ -121,6 +116,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
             constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
 
+            levelFrame.gameObject.SetActive(true);
+            levelFrame.sprite = levelFrames[constructor.constructorData.level - 1];
             LoadIcon();
             if (constructor.slots.Count > 0)
             {
@@ -129,6 +126,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         }
         else
         {
+            levelFrame.gameObject.SetActive(false);
             icon.gameObject.SetActive(false);
         }
 
@@ -158,6 +156,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
         constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
 
+        levelFrame.gameObject.SetActive(true);
+        levelFrame.sprite = levelFrames[constructor.constructorData.level - 1];
         LoadIcon();
         if (constructor.slots.Count > 0)
         {

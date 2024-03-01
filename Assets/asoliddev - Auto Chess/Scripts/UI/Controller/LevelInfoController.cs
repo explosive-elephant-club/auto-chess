@@ -7,24 +7,19 @@ using ExcelConfig;
 
 public class LevelInfoController : MonoBehaviour
 {
-    public TextMeshProUGUI mapNameText;
-    public TextMeshProUGUI levelText;
-    public TextMeshProUGUI difficultyText;
-    public TextMeshProUGUI gameStateText;
+    public TextMeshProUGUI midTitleText;
+    public TextMeshProUGUI midValueText;
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI HPText;
     public TextMeshProUGUI robotLimitText;
     public Button readyBtn;
     public Button shopBtn;
-    public RectTransform Panel1;
-    public RectTransform Panel2;
 
     // Start is called before the first frame update
     void Start()
     {
         readyBtn.onClick.AddListener(OnReadyBtnClicked);
         shopBtn.onClick.AddListener(OnShopBtnClicked);
-        ResetReadyBtn();
     }
 
     // Update is called once per frame
@@ -38,29 +33,40 @@ public class LevelInfoController : MonoBehaviour
         goldText.text = GameData.Instance.currentGold.ToString();
         HPText.text = GameData.Instance.currentHP.ToString();
         robotLimitText.text = GamePlayController.Instance.ownChampionManager.currentChampionCount.ToString() + "/" + GamePlayController.Instance.ownChampionManager.currentChampionLimit.ToString();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(Panel1);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(Panel2);
+
     }
 
     public void OnShopBtnClicked()
     {
-        UIController.Instance.shopController.SetUIActive
-            (!UIController.Instance.shopController.canvasGroup.interactable);
+        if (UIController.Instance.shopController.canvasGroup.interactable)
+        {
+            UIController.Instance.shopController.SetUIActive(false);
+
+        }
+        else
+        {
+            UIController.Instance.shopController.SetUIActive(true);
+        }
     }
     public void OnReadyBtnClicked()
     {
         GamePlayController.Instance.StageChange(GameStage.Combat);
-        readyBtn.interactable = false;
     }
 
     public void UpdateCombatTimer(int time)
     {
-        readyBtn.GetComponentInChildren<TextMeshProUGUI>().text = time.ToString();
+        midValueText.text = time.ToString();
     }
 
-    public void ResetReadyBtn()
+    public void OnEnterPreparation()
     {
-        readyBtn.interactable = true;
-        readyBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
+        midTitleText.text = string.Format("第{0:G}关", GameData.Instance.mapLevel);
+        readyBtn.gameObject.SetActive(true);
+    }
+
+    public void OnEnterCombat()
+    {
+        midTitleText.text = "时间";
+        readyBtn.gameObject.SetActive(false);
     }
 }

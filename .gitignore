@@ -59,5 +59,3 @@ sysinfo.txt
 crashlytics-build.properties
 
 .vscode
-Packages/manifest.json
-Packages/packages-lock.json

@@ -1,33 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e9abfb1a38516f4ab31fc6016a979dc, type: 3}
-  m_Name: ConstructorConfig_ConstructorLevel_Sheet
-  m_EditorClassIdentifier: 
-  ExcelFileName: ConstructorConfig.xlsx
-  ExcelSheetName: ConstructorLevel
-  KeyFieldName: _id
-  elements:
-  - _id: 1
-    _cost: 10
-    _color: '#7D7D7D'
-  - _id: 2
-    _cost: 30
-    _color: '#33CC33'
-  - _id: 3
-    _cost: 50
-    _color: '#0099FF'
-  - _id: 4
-    _cost: 80
-    _color: '#C909AE'
-  - _id: 5
-    _cost: 120
-    _color: '#FF6600'
+version https://git-lfs.github.com/spec/v1
+oid sha256:4b3fcc7518c77fd9d6d3a67320271fccb643fa2855309e021aa5f0d2be33e5cb
+size 772

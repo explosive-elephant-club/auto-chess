@@ -27,7 +27,7 @@ public class TypeCountCube
 
 public class TypeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    Image icon;
+    public Image icon;
     public TypeCountCube typeCountCube;
 
     public ConstructorBonusType constructorBonusType;
@@ -38,7 +38,6 @@ public class TypeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     // Start is called before the first frame update
     void Start()
     {
-        icon = transform.Find("Icon").GetComponent<Image>();
         typeCountCube = new TypeCountCube(transform.Find("Lvl"));
     }
 
@@ -70,11 +69,11 @@ public class TypeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                         cubeCount++;
                         if (cubeCount > curCount)
                         {
-                            typeCountCube.cubes[i, j].transform.GetChild(0).gameObject.SetActive(true);
+                            typeCountCube.cubes[i, j].transform.GetChild(0).gameObject.SetActive(false);
                         }
                         else
                         {
-                            typeCountCube.cubes[i, j].transform.GetChild(0).gameObject.SetActive(false);
+                            typeCountCube.cubes[i, j].transform.GetChild(0).gameObject.SetActive(true);
                         }
                     }
                 }

@@ -203,7 +203,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     #region StageFuncs
     public void OnEnterPreparation()
     {
-        UIController.Instance.levelInfo.ResetReadyBtn();
         GameData.Instance.currentGold += CalculateIncome();
         //ChampionShop.Instance.RefreshShop(true);
 
@@ -241,10 +240,8 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     public void OnUpdateCombat()
     {
         timer += Time.deltaTime;
-        if (timer > GameConfig.Instance.combatStageDuration - 10)
-        {
-            UIController.Instance.levelInfo.UpdateCombatTimer((int)(GameConfig.Instance.combatStageDuration - timer));
-        }
+        UIController.Instance.levelInfo.UpdateCombatTimer((int)(GameConfig.Instance.combatStageDuration - timer));
+
         if (timer > GameConfig.Instance.combatStageDuration)
         {
             StageChange(GameStage.Preparation);

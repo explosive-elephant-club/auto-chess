@@ -26,12 +26,12 @@ public class MainCameraController : MonoBehaviour
 
     public void OnEnterBattleViewMode()
     {
-        CameraHorizontalMove(new Vector2(0, -15f));
+        CameraHorizontalMove(new Vector2(0, -11f));
     }
 
     public void OnEnterLogisticsViewMode()
     {
-        CameraHorizontalMove(new Vector2(0, 15f));
+        CameraHorizontalMove(new Vector2(0, 11f));
     }
 
 }

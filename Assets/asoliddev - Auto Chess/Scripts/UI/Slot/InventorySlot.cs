@@ -10,27 +10,23 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : ContainerSlot
 {
+    public Sprite[] levelFrames;
     RectTransform rect;
     Image icon;
-    Image levelFrame;
     Transform[] slots;
     public ConstructorBaseData constructorData;
 
     // Start is called before the first frame update
     void Awake()
     {
-        levelFrame = GetComponent<Image>();
-        icon = transform.Find("BG/Icon").GetComponent<Image>();
+        icon = transform.Find("Icon").GetComponent<Image>();
         //slots = transform.Find("Panel").GetComponentsInChildren<Transform>();
     }
 
     public void Init(ConstructorBaseData _constructorData)
     {
         constructorData = _constructorData;
-
-        Color tempColor;
-        if (ColorUtility.TryParseHtmlString(GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).color, out tempColor))
-            levelFrame.color = tempColor;
+        GetComponent<Image>().sprite = levelFrames[_constructorData.level - 1];
         LoadIcon();
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);

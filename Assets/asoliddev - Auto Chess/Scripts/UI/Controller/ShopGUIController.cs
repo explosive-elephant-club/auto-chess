@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
 
-public class ShopGUIController : MonoBehaviour
+public class ShopGUIController : BaseControllerUI
 {
     public Button hideBtn;
     public Toggle constructToggle;
@@ -15,8 +15,6 @@ public class ShopGUIController : MonoBehaviour
     public Toggle composeToggle;
     public Toggle lottoToggle;
 
-    [HideInInspector]
-    public CanvasGroup canvasGroup;
     Toggle lastActivedToggle;
 
     public ShopConstructController shopConstructController;
@@ -39,22 +37,6 @@ public class ShopGUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-    }
-    public void SetUIActive(bool isActive)
-    {
-        if (isActive)
-        {
-            canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-        }
-        else
-        {
-            canvasGroup.alpha = 0;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-        }
 
     }
 

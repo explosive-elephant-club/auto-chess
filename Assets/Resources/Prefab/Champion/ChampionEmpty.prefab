@@ -156,6 +156,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: States
       objectReference: {fileID: 0}
+    - target: {fileID: 548510405648465259, guid: 9616d756c88a8ec4e9f164395cd3369e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4923030249355857312, guid: 9616d756c88a8ec4e9f164395cd3369e,
         type: 3}
       propertyPath: m_RootOrder
