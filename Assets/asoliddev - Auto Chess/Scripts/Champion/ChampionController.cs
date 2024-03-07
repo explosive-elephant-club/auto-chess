@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.AI;
 using System;
 using System.Reflection;
-using General;
+using UnityEngine.InputSystem;
 using ExcelConfig;
 
 public enum FindTargetMode { AnyInRange, Nearest, Farthest }
@@ -536,7 +536,7 @@ public class ChampionController : MonoBehaviour
     {
         if (_isDragged)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             float enter = 100.0f;
             if (Map.Instance.m_Plane.Raycast(ray, out enter))
             {

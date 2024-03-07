@@ -167,10 +167,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     public void LoadIcon()
     {
         icon.gameObject.SetActive(true);
-        string iconPath = constructor.constructorData.prefab.Substring(0, constructor.constructorData.prefab.IndexOf(constructor.constructorData.type));
-        iconPath = "Prefab/Constructor/" + iconPath + constructor.constructorData.type + "/Icon/";
-        string namePath = constructor.constructorData.prefab.Substring(constructor.constructorData.prefab.IndexOf(constructor.constructorData.type) + constructor.constructorData.type.Length + 1);
-        Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);
+        Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructor.constructorData));
         icon.sprite = _icon;
     }
 

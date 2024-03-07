@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BaseControllerUI : MonoBehaviour
 {
+    public bool isExpand;
     [HideInInspector]
     public CanvasGroup canvasGroup;
     // Start is called before the first frame update

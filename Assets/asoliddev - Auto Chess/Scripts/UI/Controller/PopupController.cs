@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PopupController : MonoBehaviour
 {
@@ -21,20 +22,23 @@ public class PopupController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(InputController.Instance.popupNailKey))
-        {
-            if (curPickedPopup != null)
-                curPickedPopup.Nail();
-        }
-        if (Input.GetKeyUp(InputController.Instance.popupReleaseKey))
-        {
+    }
+
+    public void PopupNail(InputAction.CallbackContext context)
+    {
+        if (context.started || curPickedPopup != null)
+            curPickedPopup.Nail();
+    }
+
+    public void PopupUnnail(InputAction.CallbackContext context)
+    {
+        if (context.started)
             if (nailedPopups.Count > 0)
             {
                 nailedPopups[nailedPopups.Count - 1].Release();
             }
-
-        }
     }
+
     public void UpdateNailedPopupsInteract()
     {
         if (nailedPopups.Count > 0)

@@ -7,6 +7,8 @@ using TMPro;
 
 public class ConstructorAssembleController : BaseControllerUI
 {
+    public bool isEditable = true;
+
     public GameObject constructorSlotPrefab;
     public ConstructorTreeViewSlot chassisSlot;
     public ConstructorTreeViewSlot pointEnterTreeViewSlot;
@@ -19,6 +21,11 @@ public class ConstructorAssembleController : BaseControllerUI
     float[] zoomValues = { 6.5f, 7f, 8, 9f, 10 };
     int zoomIndex = 2;
     public TextMeshProUGUI zoomValueText;
+
+    public GameObject expandPanel;
+    public Button expandBtn;
+    public Button closeBtn;
+
     GOToUICameraController camController;
     [HideInInspector]
     public Transform DisableSlotsParent;
@@ -49,6 +56,8 @@ public class ConstructorAssembleController : BaseControllerUI
         zoomInBtn.onClick.AddListener(ZoomInBtnClick);
         zoomOutBtn.onClick.AddListener(ZoomOutBtnClick);
         editToggle.onValueChanged.AddListener(editToggleClick);
+        expandBtn.onClick.AddListener(Expand);
+        closeBtn.onClick.AddListener(Close);
     }
 
     void UpdatePitchSlider(float value)
@@ -79,7 +88,20 @@ public class ConstructorAssembleController : BaseControllerUI
     }
     void editToggleClick(bool value)
     {
-        constructorPanel.SetActive(value);
+        isEditable = value;
+        UpdateConstructorPanel();
+    }
+
+    void Expand()
+    {
+        isExpand = true;
+        UpdateUI();
+    }
+
+    void Close()
+    {
+        isExpand = false;
+        UpdateUI();
     }
 
     public override void UpdateUI()
@@ -89,21 +111,41 @@ public class ConstructorAssembleController : BaseControllerUI
 
         if (GamePlayController.Instance.pickedChampion != null)
         {
-            pitchSlider.value = 0.5f;
-            UpdatePitchSlider(0.5f);
-            yawSlider.value = 0.5f;
-            UpdateYawSlider(0.5f);
-            zoomIndex = 2;
-            camController.UpdateZoom(zoomValues[zoomIndex]);
-            zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
-            editToggle.isOn = true;
-            ConstructorBase chassisConstructor = GamePlayController.Instance.pickedChampion.GetChassisConstructor();
-            chassisSlot.ChassisConstructorInit(this, chassisConstructor);
+            if (isExpand)
+            {
+                expandPanel.SetActive(true);
+                expandBtn.gameObject.SetActive(false);
+
+                pitchSlider.value = 0.5f;
+                UpdatePitchSlider(0.5f);
+                yawSlider.value = 0.5f;
+                UpdateYawSlider(0.5f);
+                zoomIndex = 2;
+                camController.UpdateZoom(zoomValues[zoomIndex]);
+                zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
+                editToggle.isOn = isEditable;
+                UpdateConstructorPanel();
+            }
+            else
+            {
+                expandPanel.SetActive(false);
+                expandBtn.gameObject.SetActive(true);
+            }
             SetUIActive(true);
         }
         else
         {
             SetUIActive(false);
+        }
+    }
+
+    void UpdateConstructorPanel()
+    {
+        constructorPanel.SetActive(isEditable);
+        if (isEditable)
+        {
+            ConstructorBase chassisConstructor = GamePlayController.Instance.pickedChampion.GetChassisConstructor();
+            chassisSlot.ChassisConstructorInit(this, chassisConstructor);
         }
     }
 

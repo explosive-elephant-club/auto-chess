@@ -5,15 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using ExcelConfig;
 
-public enum ViewMode
-{
-    Battle,
-    Logistics
-}
 
 public class UIController : CreateSingleton<UIController>
 {
-    public ViewMode viewMode;
     public bool isSlotUIDragged = false;
 
     public GameObject mask;
@@ -30,7 +24,6 @@ public class UIController : CreateSingleton<UIController>
     protected override void InitSingleton()
     {
         InitStageDic();
-        viewMode = ViewMode.Battle;
     }
 
     public void InitStageDic()
@@ -70,42 +63,9 @@ public class UIController : CreateSingleton<UIController>
         restartButton.SetActive(false);
     }
 
-    public void ChangeViewMode()
-    {
-        if (viewMode == ViewMode.Battle)
-        {
-            OnEnterLogisticsViewMode();
-        }
-        else
-        {
-            OnEnterBattleViewMode();
-        }
-    }
-
-    public void OnEnterBattleViewMode()
-    {
-        inventoryController.SetUIActive(false);
-        if (viewMode != ViewMode.Battle)
-        {
-            viewMode = ViewMode.Battle;
-            GamePlayController.Instance.mainCameraController.OnEnterBattleViewMode();
-        }
-    }
-
-    public void OnEnterLogisticsViewMode()
-    {
-        inventoryController.SetUIActive(true);
-        if (viewMode != ViewMode.Logistics)
-        {
-            viewMode = ViewMode.Logistics;
-            GamePlayController.Instance.mainCameraController.OnEnterLogisticsViewMode();
-        }
-    }
-
 
     public void OnEnterPreparation()
     {
-        OnEnterBattleViewMode();
         levelInfo.OnEnterPreparation();
         championInfoController.OnEnterPreparation();
         shopController.OnEnterPreparation();
@@ -114,10 +74,7 @@ public class UIController : CreateSingleton<UIController>
 
     public void OnUpdatePreparation()
     {
-        if (Input.GetKeyUp(InputController.Instance.viewModeSwitchKey))
-        {
-            ChangeViewMode();
-        }
+       
     }
     public void OnLeavePreparation()
     {
@@ -126,7 +83,6 @@ public class UIController : CreateSingleton<UIController>
 
     public void OnEnterCombat()
     {
-        OnEnterBattleViewMode();
         levelInfo.OnEnterCombat();
         championInfoController.OnEnterCombat();
 

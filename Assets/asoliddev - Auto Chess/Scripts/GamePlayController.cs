@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System;
 using System.Reflection;
 using General;
@@ -168,7 +169,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>
             }
             _GOToUICameraController.ResetCam(pickedChampion.transform);
         }
-
     }
 
     public void PickChampion()
@@ -200,6 +200,14 @@ public class GamePlayController : CreateSingleton<GamePlayController>
         }
     }
 
+    public string GetConstructorIconPath(ConstructorBaseData constructorBaseData)
+    {
+        string iconPath = constructorBaseData.prefab.Substring(0, constructorBaseData.prefab.IndexOf(constructorBaseData.type));
+        iconPath = "Prefab/Constructor/" + iconPath + constructorBaseData.type + "/Icon/";
+        string namePath = constructorBaseData.prefab.Substring(constructorBaseData.prefab.IndexOf(constructorBaseData.type) + constructorBaseData.type.Length + 1);
+        return iconPath + namePath;
+    }
+
     #region StageFuncs
     public void OnEnterPreparation()
     {
@@ -215,12 +223,12 @@ public class GamePlayController : CreateSingleton<GamePlayController>
     }
     public void OnUpdatePreparation()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             PickChampion();
             GamePlayController.Instance.ownChampionManager.StartDrag();
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
             GamePlayController.Instance.ownChampionManager.StopDrag();
         }
@@ -247,7 +255,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>
             StageChange(GameStage.Preparation);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             PickChampion();
         }

@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
@@ -19,10 +21,6 @@ public class InputController : CreateSingleton<InputController>
     //convert mouse screen position to ray
     Ray ray;
     public List<RaycastResult> uiRaycastResults;
-
-    public KeyCode viewModeSwitchKey;
-    public KeyCode popupNailKey;
-    public KeyCode popupReleaseKey;
 
     protected override void InitSingleton()
     {
@@ -49,14 +47,14 @@ public class InputController : CreateSingleton<InputController>
         ui = null;
 
         PointerEventData eventData = new PointerEventData(EventSystem.current);
-        eventData.position = Input.mousePosition;
+        eventData.position = Mouse.current.position.ReadValue();
         uiRaycastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, uiRaycastResults);
         if (uiRaycastResults.Count > 0)
             ui = uiRaycastResults[0].gameObject;
 
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         //if ray hits something
         if (Physics.Raycast(ray, out hit, 100f, triggerLayer, QueryTriggerInteraction.Collide))
         {
@@ -83,6 +81,6 @@ public class InputController : CreateSingleton<InputController>
         }
 
         //store mouse position
-        mousePosition = Input.mousePosition;
+        mousePosition = Mouse.current.position.ReadValue();
     }
 }

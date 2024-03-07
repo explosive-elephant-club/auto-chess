@@ -11,22 +11,15 @@ using UnityEngine.EventSystems;
 public class InventorySlot : ContainerSlot
 {
     public Sprite[] levelFrames;
-    RectTransform rect;
-    Image icon;
-    Transform[] slots;
-    public ConstructorBaseData constructorData;
+    public Image icon;
+    public GameObject pointTip;
+    public InventoryConstructor inventoryConstructor;
 
-    // Start is called before the first frame update
-    void Awake()
+    public void Init(InventoryConstructor _inventoryConstructor)
     {
-        icon = transform.Find("Icon").GetComponent<Image>();
-        //slots = transform.Find("Panel").GetComponentsInChildren<Transform>();
-    }
-
-    public void Init(ConstructorBaseData _constructorData)
-    {
-        constructorData = _constructorData;
-        GetComponent<Image>().sprite = levelFrames[_constructorData.level - 1];
+        inventoryConstructor = _inventoryConstructor;
+        GetComponent<Image>().sprite = levelFrames[inventoryConstructor.constructorBaseData.level - 1];
+        pointTip.SetActive(inventoryConstructor.isNew);
         LoadIcon();
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
@@ -38,19 +31,15 @@ public class InventorySlot : ContainerSlot
 
     public void LoadIcon()
     {
-        string iconPath = constructorData.prefab.Substring(0, constructorData.prefab.IndexOf(constructorData.type));
-        iconPath = "Prefab/Constructor/" + iconPath + constructorData.type + "/Icon/";
-        string namePath = constructorData.prefab.Substring(constructorData.prefab.IndexOf(constructorData.type) + constructorData.type.Length + 1);
-
-        Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);
+        Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(inventoryConstructor.constructorBaseData));
         icon.sprite = _icon;
     }
 
     public void AttachConstructor(ConstructorTreeViewSlot constructorTreeViewSlot)
     {
-        if (constructorTreeViewSlot.AttachConstructor(constructorData))
+        if (constructorTreeViewSlot.AttachConstructor(inventoryConstructor.constructorBaseData))
         {
-            UIController.Instance.inventoryController.RemoveConstructor(constructorData);
+            UIController.Instance.inventoryController.RemoveConstructor(inventoryConstructor);
         }
     }
 
@@ -58,8 +47,8 @@ public class InventorySlot : ContainerSlot
     {
         if (grid.gridType == GridType.Inventory && grid.occupyChampion == null)
         {
-            GamePlayController.Instance.ownChampionManager.AddChampionToInventory(constructorData, grid);
-            UIController.Instance.inventoryController.RemoveConstructor(constructorData);
+            GamePlayController.Instance.ownChampionManager.AddChampionToInventory(inventoryConstructor.constructorBaseData, grid);
+            UIController.Instance.inventoryController.RemoveConstructor(inventoryConstructor);
         }
     }
 
@@ -79,7 +68,7 @@ public class InventorySlot : ContainerSlot
         {
             AttachConstructor(UIController.Instance.constructorAssembleController.pointEnterTreeViewSlot);
         }
-        else if (InputController.Instance.gridInfo != null && constructorData.type == ConstructorType.Chassis.ToString())
+        else if (InputController.Instance.gridInfo != null && inventoryConstructor.constructorBaseData.type == ConstructorType.Chassis.ToString())
         {
             AddConstructor(InputController.Instance.gridInfo);
         }
@@ -92,6 +81,13 @@ public class InventorySlot : ContainerSlot
 
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
+        if (inventoryConstructor.isNew)
+        {
+            inventoryConstructor.isNew = false;
+            pointTip.SetActive(inventoryConstructor.isNew);
+            UIController.Instance.inventoryController.UpdateNewCount();
+        }
+
         UIController.Instance.inventoryController.OnPointEnterSlot(this);
     }
 

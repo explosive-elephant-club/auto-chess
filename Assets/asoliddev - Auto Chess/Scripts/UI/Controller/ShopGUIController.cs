@@ -35,16 +35,17 @@ public class ShopGUIController : BaseControllerUI
     }
 
     // Update is called once per frame
-    void Update()
+    public override void UpdateUI()
     {
-
+        UIController.Instance.shopController.SetUIActive(UIController.Instance.shopController.isExpand);
     }
 
     void AddAllListener()
     {
         hideBtn.onClick.AddListener(() =>
             {
-                SetUIActive(false);
+                isExpand = false;
+                UpdateUI();
             });
         constructToggle.onValueChanged.AddListener((bool b) =>
             {
@@ -113,11 +114,13 @@ public class ShopGUIController : BaseControllerUI
 
     public void OnEnterPreparation()
     {
-        SetUIActive(true);
+        isExpand = true;
+        UpdateUI();
         shopConstructController.RefreshShop(false);
     }
     public void OnLeavePreparation()
     {
-        SetUIActive(false);
+        isExpand = false;
+        UpdateUI();
     }
 }

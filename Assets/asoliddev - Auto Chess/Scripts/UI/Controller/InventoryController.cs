@@ -10,13 +10,9 @@ using System.Linq;
 
 
 
-public class InventoryController : MonoBehaviour
+public class InventoryController : BaseControllerUI
 {
-
-    CanvasGroup canvasGroup;
-
-
-    public List<ConstructorBaseData> pickedConstructors = new List<ConstructorBaseData>();
+    public List<InventoryConstructor> pickedConstructors = new List<InventoryConstructor>();
 
     public InventorySlot pointEnterInventorySlot;
     public List<InventorySlot> inventorySlots;
@@ -25,6 +21,10 @@ public class InventoryController : MonoBehaviour
     public Button cancelAllBtn;
 
     public GameObject viewport;
+
+    public Button closeBtn;
+
+    public int newCount;
 
     [Serializable]
     public class typeToggle
@@ -50,7 +50,7 @@ public class InventoryController : MonoBehaviour
     void Start()
     {
         AddAllListener();
-        UpdateInventory();
+        UpdateUI();
     }
 
     // Update is called once per frame
@@ -67,7 +67,7 @@ public class InventoryController : MonoBehaviour
             {
                 t.toggle.isOn = true;
             }
-            UpdateInventory();
+            UpdateUI();
         });
         cancelAllBtn.onClick.AddListener(() =>
         {
@@ -75,40 +75,28 @@ public class InventoryController : MonoBehaviour
             {
                 t.toggle.isOn = false;
             }
-            UpdateInventory();
+            UpdateUI();
         });
         foreach (var t in typeToggles)
         {
             t.toggle.onValueChanged.AddListener((bool b) =>
             {
-                UpdateInventory();
+                UpdateUI();
             });
         }
-    }
-
-    public void SetUIActive(bool isActive)
-    {
-        if (isActive)
+        closeBtn.onClick.AddListener(() =>
         {
-            canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-        }
-        else
-        {
-            canvasGroup.alpha = 0;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-        }
-
+            isExpand = false;
+            UpdateUI();
+        });
     }
 
     public void OnPointEnterSlot(InventorySlot inventorySlot)
     {
         pointEnterInventorySlot = inventorySlot;
-        if (pointEnterInventorySlot.constructorData != null)
+        if (pointEnterInventorySlot.inventoryConstructor != null)
             UIController.Instance.popupController.constructorPopup.Show
-                (pointEnterInventorySlot.constructorData, pointEnterInventorySlot.gameObject, Vector3.up);
+                (pointEnterInventorySlot.inventoryConstructor.constructorBaseData, pointEnterInventorySlot.gameObject, Vector3.up);
     }
 
     public void OnPointLeaveSlot()
@@ -117,9 +105,18 @@ public class InventoryController : MonoBehaviour
         UIController.Instance.popupController.constructorPopup.Clear();
     }
 
-    public void UpdateInventory()
+    public override void UpdateUI()
     {
+        if (isExpand)
+        {
+            SetUIActive(true);
+        }
+        else
+        {
+            SetUIActive(false);
+        }
         GetPickedConstructors();
+        UpdateNewCount();
         for (int i = 0; i < inventorySlots.Count; i++)
         {
             inventorySlots[i].gameObject.SetActive(false);
@@ -131,29 +128,41 @@ public class InventoryController : MonoBehaviour
         }
     }
 
+    public void UpdateNewCount()
+    {
+        newCount = GameData.Instance.allInventoryConstructors.FindAll(c => c.isNew).Count;
+        UIController.Instance.levelInfo.UpdateInventoryPointTip(newCount);
+    }
+
     public void AddConstructors(List<ConstructorBaseData> constructorBaseDatas)
     {
         foreach (var data in constructorBaseDatas)
         {
-            AddConstructor(data);
-            UpdateInventory();
+            AddConstructor(data, false);
+            UpdateUI();
         }
     }
 
-    public void AddConstructor(ConstructorBaseData constructorBaseData)
+    public void AddConstructor(InventoryConstructor inventoryConstructor)
     {
-        GameData.Instance.allInventoryConstructors.Add(constructorBaseData);
+        GameData.Instance.allInventoryConstructors.Add(inventoryConstructor);
+    }
+
+    public void AddConstructor(ConstructorBaseData constructorBaseData, bool isNew)
+    {
+        GameData.Instance.allInventoryConstructors.Add(new InventoryConstructor(constructorBaseData, isNew));
+        UpdateNewCount();
     }
 
     public void AddConstructor(int id)
     {
-        AddConstructor(GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == id));
+        AddConstructor(GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == id), true);
     }
 
-    public void RemoveConstructor(ConstructorBaseData constructorBaseData)
+    public void RemoveConstructor(InventoryConstructor inventoryConstructor)
     {
-        GameData.Instance.allInventoryConstructors.Remove(constructorBaseData);
-        UpdateInventory();
+        GameData.Instance.allInventoryConstructors.Remove(inventoryConstructor);
+        UpdateUI();
     }
 
     void GetPickedConstructors()
@@ -166,7 +175,7 @@ public class InventoryController : MonoBehaviour
                 types.Add(t.type);
             }
         }
-        pickedConstructors = GameData.Instance.allInventoryConstructors.FindAll(c => IsTypeEqual(c, types));
+        pickedConstructors = GameData.Instance.allInventoryConstructors.FindAll(c => IsTypeEqual(c.constructorBaseData, types));
     }
 
     bool IsTypeEqual(ConstructorBaseData constructorBaseData, List<ConstructorType> types)

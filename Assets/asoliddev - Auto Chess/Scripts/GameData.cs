@@ -2,12 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ExcelConfig;
+using System;
+[Serializable]
+public class InventoryConstructor
+{
+    public ConstructorBaseData constructorBaseData;
+    public bool isNew;
+    public InventoryConstructor(ConstructorBaseData _constructorBaseData, bool _isNew)
+    {
+        constructorBaseData = _constructorBaseData;
+        isNew = _isNew;
+    }
+}
 
 public class GameData : CreateSingleton<GameData>
 {
     public int currentHP = 100;
     public int currentGold = 0;
-    public List<ConstructorBaseData> allInventoryConstructors;
+    public List<InventoryConstructor> allInventoryConstructors;
     public int constructsOnSaleLimit = 3;
 
     [Header("战斗等级")]
@@ -26,4 +38,11 @@ public class GameData : CreateSingleton<GameData>
     public List<ConstructorBaseData> constructsOnSale;
     protected override void InitSingleton()
     { }
+    public void RemoveInventoryConstructor(ConstructorBaseData constructorBaseData)
+    {
+        InventoryConstructor i = allInventoryConstructors.Find(c => c.constructorBaseData == constructorBaseData);
+        allInventoryConstructors.Remove(i);
+    }
 }
+
+

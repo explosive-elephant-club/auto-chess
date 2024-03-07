@@ -21,9 +21,6 @@ public class ChampionInfoController : BaseControllerUI
     //State2
     public GameObject state2;
 
-    //State2
-    public Button editeBtn;
-
     //Skill
     public List<SkillSlot> activatedSkillSlots = new List<SkillSlot>();
     public List<SkillSlot> deactivatedSkillSlots = new List<SkillSlot>();
@@ -48,12 +45,6 @@ public class ChampionInfoController : BaseControllerUI
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
         rebuildAllLayout = gameObject.GetComponent<RebuildAllLayout>();
-        editeBtn.onClick.AddListener(OpenConstructorAssemble);
-    }
-
-    void OpenConstructorAssemble()
-    {
-        UIController.Instance.constructorAssembleController.UpdateUI();
     }
 
     // Update is called once per frame

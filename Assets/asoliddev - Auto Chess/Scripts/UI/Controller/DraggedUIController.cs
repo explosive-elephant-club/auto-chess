@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using TMPro;
 using ExcelConfig;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class DraggedUIController : MonoBehaviour
 {
@@ -58,12 +59,14 @@ public class DraggedUIController : MonoBehaviour
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        offset = Input.mousePosition - transform.position;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        offset = new Vector3(mousePos.x, mousePos.y, 0) - transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition - offset;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        transform.position = new Vector3(mousePos.x, mousePos.y, 0) - offset;
     }
 
     public void OnPointerUp(PointerEventData eventData)

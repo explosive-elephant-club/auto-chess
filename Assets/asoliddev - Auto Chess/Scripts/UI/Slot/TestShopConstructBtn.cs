@@ -26,11 +26,7 @@ public class TestShopConstructBtn : MonoBehaviour
 
     public void LoadIcon()
     {
-        string iconPath = constructorData.prefab.Substring(0, constructorData.prefab.IndexOf(constructorData.type));
-        iconPath = "Prefab/Constructor/" + iconPath + constructorData.type + "/Icon/";
-        string namePath = constructorData.prefab.Substring(constructorData.prefab.IndexOf(constructorData.type) + constructorData.type.Length + 1);
-
-        Sprite _icon = Resources.Load<Sprite>(iconPath + namePath);
+        Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructorData));
         iconImage.sprite = _icon;
     }
 
@@ -40,8 +36,8 @@ public class TestShopConstructBtn : MonoBehaviour
 
     public void OnClicked()
     {
-        UIController.Instance.inventoryController.AddConstructor(constructorData);
-        UIController.Instance.inventoryController.UpdateInventory();
+        UIController.Instance.inventoryController.AddConstructor(constructorData, true);
+        UIController.Instance.inventoryController.UpdateUI();
     }
 
 

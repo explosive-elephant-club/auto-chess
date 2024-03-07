@@ -14,18 +14,21 @@ public class LevelInfoController : MonoBehaviour
     public TextMeshProUGUI robotLimitText;
     public Button readyBtn;
     public Button shopBtn;
+    public Button inventoryBtn;
+    public GameObject inventoryPointTip;
 
     // Start is called before the first frame update
     void Start()
     {
         readyBtn.onClick.AddListener(OnReadyBtnClicked);
         shopBtn.onClick.AddListener(OnShopBtnClicked);
+        inventoryBtn.onClick.AddListener(OnInventoryBtnClicked);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+       
     }
 
     public void UpdateUI()
@@ -36,18 +39,31 @@ public class LevelInfoController : MonoBehaviour
 
     }
 
-    public void OnShopBtnClicked()
+    public void UpdateInventoryPointTip(int count)
     {
-        if (UIController.Instance.shopController.canvasGroup.interactable)
+        if (count > 0)
         {
-            UIController.Instance.shopController.SetUIActive(false);
-
+            inventoryPointTip.SetActive(true);
+            inventoryPointTip.GetComponentInChildren<TextMeshProUGUI>().text = count.ToString();
         }
         else
         {
-            UIController.Instance.shopController.SetUIActive(true);
+            inventoryPointTip.SetActive(false);
         }
     }
+
+    public void OnShopBtnClicked()
+    {
+        UIController.Instance.shopController.isExpand = !UIController.Instance.shopController.isExpand;
+        UIController.Instance.shopController.UpdateUI();
+    }
+
+    public void OnInventoryBtnClicked()
+    {
+        UIController.Instance.inventoryController.isExpand = !UIController.Instance.inventoryController.isExpand;
+        UIController.Instance.inventoryController.UpdateUI();
+    }
+
     public void OnReadyBtnClicked()
     {
         GamePlayController.Instance.StageChange(GameStage.Combat);
