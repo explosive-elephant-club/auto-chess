@@ -54,12 +54,12 @@ public class ConstructorTreeViewInfo : ContainerSlot
         if (treeViewSlot.constructor != null)
         {
             UIController.Instance.popupController.constructorPopup.Show
-                (treeViewSlot.constructor, treeViewSlot.controller.gameObject, Vector3.up);
+                (treeViewSlot.constructor, treeViewSlot.controller.gameObject, Vector3.left);
         }
         else
         {
             UIController.Instance.popupController.constructorSlotPopup.Show
-                           (treeViewSlot.constructorSlot.slotType, treeViewSlot.controller.gameObject, Vector3.up);
+                           (treeViewSlot.constructorSlot.slotType, treeViewSlot.controller.gameObject, Vector3.left);
         }
 
     }

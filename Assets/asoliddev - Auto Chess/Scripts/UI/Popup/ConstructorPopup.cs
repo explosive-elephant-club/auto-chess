@@ -11,6 +11,7 @@ using UnityEngine.EventSystems;
 
 public class ConstructorPopup : Popup
 {
+    public Image img;
     public TextMeshProUGUI constructorName;
     public TextMeshProUGUI typeName;
     public TextPair cost;
@@ -48,6 +49,8 @@ public class ConstructorPopup : Popup
 
     public void Show(ConstructorBaseData constructorData, GameObject targetUI, Vector3 dir)
     {
+        Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructorData));
+        img.sprite = _icon;
         costValue = Mathf.CeilToInt
             (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
             GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
@@ -90,7 +93,11 @@ public class ConstructorPopup : Popup
             attributeInfo[i].SetActive(false);
             if (i < constructorData.valueChanges.Length && !string.IsNullOrEmpty(constructorData.valueChanges[0]))
             {
-                attributeInfo[i].GetComponent<TextMeshProUGUI>().text = constructorData.valueChanges[i].Replace(" ", "");
+                string[] element = constructorData.valueChanges[i].Split(' ');
+                attributeInfo[i].transform.Find("Name").GetComponent<TextMeshProUGUI>().text
+                    = element[0] + ":";
+                attributeInfo[i].transform.Find("Value").GetComponent<TextMeshProUGUI>().text
+                   = element[1] + element[2];
                 attributeInfo[i].SetActive(true);
             }
         }

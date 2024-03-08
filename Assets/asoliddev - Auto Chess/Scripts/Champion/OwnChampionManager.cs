@@ -16,7 +16,7 @@ public class OwnChampionManager : ChampionManager
         base.OnEnterPreparation();
         currentChampionLimit = commandLevelData.limitMax;
         UIController.Instance.levelInfo.UpdateUI();
-        //this.AddChampionToBattle("Enemy/1-4");
+        this.AddChampionToBattle("Enemy/1-4");
         //this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }
 

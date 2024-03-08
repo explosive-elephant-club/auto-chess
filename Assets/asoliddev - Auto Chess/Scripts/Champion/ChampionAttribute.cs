@@ -51,9 +51,9 @@ public class ChampionAttribute
         multipleValue.Remove(value);
     }
 
-    public float GetTrueValue()
+    public float GetTrueValue(float externalValue = 0)
     {
-        float trueLinearValue = 0;
+        float trueLinearValue = externalValue;
         float trueMultipleValueValue = 1;
         foreach (float value in linearValue)
         {

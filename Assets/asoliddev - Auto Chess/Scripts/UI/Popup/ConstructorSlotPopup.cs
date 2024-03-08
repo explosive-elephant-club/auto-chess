@@ -45,66 +45,90 @@ public class ConstructorSlotPopup : Popup
     }
     void UpdateAdaptTypes(ConstructorSlotType slotType)
     {
-        for (int i = 0; i < adaptTypes.Count; i++)
+        if (!string.IsNullOrEmpty(slotType.adaptTypes[0]))
         {
-            adaptTypes[i].gameObject.SetActive(false);
-            if (i < slotType.adaptTypes.Length && !string.IsNullOrEmpty(slotType.adaptTypes[0]))
+            adaptTypesContent.parent.gameObject.SetActive(true);
+            for (int i = 0; i < adaptTypes.Count; i++)
             {
-                adaptTypes[i].text = slotType.adaptTypes[i];
-                adaptTypes[i].gameObject.SetActive(true);
+                adaptTypes[i].gameObject.SetActive(false);
+                if (i < slotType.adaptTypes.Length && !string.IsNullOrEmpty(slotType.adaptTypes[0]))
+                {
+                    adaptTypes[i].text = slotType.adaptTypes[i];
+                    adaptTypes[i].gameObject.SetActive(true);
+                }
             }
+        }
+        else
+        {
+            adaptTypesContent.parent.gameObject.SetActive(false);
         }
     }
 
     void UpdateForbiddenChildrenTypes(ConstructorSlotType slotType)
     {
-        for (int i = 0; i < forbiddenChildrenTypes.Count; i++)
+        if (slotType.forbiddenChildrenSlotTypes[0] != 0)
         {
-            forbiddenChildrenTypes[i].gameObject.SetActive(false);
-            if (slotType.isForbiddenAllChildrenSlots)
+            forbiddenChildrenTypesContent.parent.gameObject.SetActive(true);
+            for (int i = 0; i < forbiddenChildrenTypes.Count; i++)
             {
-                if (i == 0)
+                forbiddenChildrenTypes[i].gameObject.SetActive(false);
+                if (slotType.isForbiddenAllChildrenSlots)
                 {
-                    forbiddenChildrenTypes[i].text = "All";
-                    forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                    if (i == 0)
+                    {
+                        forbiddenChildrenTypes[i].text = "All";
+                        forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                    }
+                    return;
                 }
-                return;
-            }
-            else
-            {
-                if (i < slotType.forbiddenChildrenSlotTypes.Length && slotType.forbiddenChildrenSlotTypes[0] != 0)
+                else
                 {
-                    ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenChildrenSlotTypes[i]);
-                    forbiddenChildrenTypes[i].text = forbiddenSlotType.name.ToString();
-                    forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                    if (i < slotType.forbiddenChildrenSlotTypes.Length && slotType.forbiddenChildrenSlotTypes[0] != 0)
+                    {
+                        ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenChildrenSlotTypes[i]);
+                        forbiddenChildrenTypes[i].text = forbiddenSlotType.name.ToString();
+                        forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                    }
                 }
             }
         }
+        else
+        {
+            forbiddenChildrenTypesContent.parent.gameObject.SetActive(false);
+        }
+
     }
     void UpdateForbiddenParentsTypes(ConstructorSlotType slotType)
     {
-        for (int i = 0; i < forbiddenParentsTypes.Count; i++)
+        if (slotType.forbiddenParentsSlotTypes[0] != 0)
         {
-            forbiddenParentsTypes[i].gameObject.SetActive(false);
-            if (slotType.isForbiddenAllParentsSlots)
+            forbiddenParentsTypesContent.parent.gameObject.SetActive(true);
+            for (int i = 0; i < forbiddenParentsTypes.Count; i++)
             {
-                if (i == 0)
+                forbiddenParentsTypes[i].gameObject.SetActive(false);
+                if (slotType.isForbiddenAllParentsSlots)
                 {
-                    forbiddenParentsTypes[i].text = "All";
-                    forbiddenParentsTypes[i].gameObject.SetActive(true);
+                    if (i == 0)
+                    {
+                        forbiddenParentsTypes[i].text = "All";
+                        forbiddenParentsTypes[i].gameObject.SetActive(true);
+                    }
+                    return;
                 }
-                return;
-            }
-            else
-            {
-                if (i < slotType.forbiddenParentsSlotTypes.Length && slotType.forbiddenParentsSlotTypes[0] != 0)
+                else
                 {
-                    ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenParentsSlotTypes[i]);
-                    forbiddenParentsTypes[i].text = forbiddenSlotType.name.ToString();
-                    forbiddenParentsTypes[i].gameObject.SetActive(true);
+                    if (i < slotType.forbiddenParentsSlotTypes.Length && slotType.forbiddenParentsSlotTypes[0] != 0)
+                    {
+                        ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenParentsSlotTypes[i]);
+                        forbiddenParentsTypes[i].text = forbiddenSlotType.name.ToString();
+                        forbiddenParentsTypes[i].gameObject.SetActive(true);
+                    }
                 }
             }
-
+        }
+        else
+        {
+            forbiddenParentsTypesContent.parent.gameObject.SetActive(false);
         }
     }
 }

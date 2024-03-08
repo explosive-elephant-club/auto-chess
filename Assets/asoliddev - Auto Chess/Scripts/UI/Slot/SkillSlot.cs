@@ -12,6 +12,8 @@ public class SkillSlot : ContainerSlot
     public Sprite[] levelFrames;
     public Image icon;
     public Image BG;
+    public Image cdMask;
+    public Image pickTip;
     public Skill skill;
     public bool isActivated;
     public SkillState skillState;
@@ -23,7 +25,10 @@ public class SkillSlot : ContainerSlot
     private void Update()
     {
         if (skill != null)
+        {
             skillState = skill.state;
+        }
+        UpdateCDMask();
     }
 
     public void Init(Skill _skill, bool _isActivated)
@@ -57,6 +62,43 @@ public class SkillSlot : ContainerSlot
             BG.gameObject.SetActive(false);
         }
 
+    }
+
+    public void UpdateCDMask()
+    {
+        if (skill == null)
+        {
+            pickTip.gameObject.SetActive(false);
+            cdMask.fillAmount = 0;
+            return;
+        }
+        if (GamePlayController.Instance.currentGameStage == GameStage.Combat)
+        {
+            if (skill.skillController.GetNextSkill() == null)
+            {
+                pickTip.gameObject.SetActive(false);
+                cdMask.fillAmount = 1;
+            }
+            else
+            {
+                if (skill.skillController.GetNextSkill() == skill)
+                {
+                    pickTip.gameObject.SetActive(true);
+                    cdMask.fillAmount = skill.skillController.cdTimer / skill.skillController.curCastDelay;
+                }
+                else
+                {
+                    pickTip.gameObject.SetActive(false);
+                    cdMask.fillAmount = 1;
+                }
+            }
+
+        }
+        else
+        {
+            pickTip.gameObject.SetActive(false);
+            cdMask.fillAmount = 0;
+        }
     }
 
     public void Clear()
