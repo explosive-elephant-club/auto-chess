@@ -25,7 +25,7 @@ public class ContinuousCastBehaviour : SkillBehaviour
         if (skill.skillData.duration <= 0)
             skill.OnFinish();
         else
-            skill.InstanceEffect();
+            skill.TryInstanceEffect();
     }
 
     public override void OnCastingUpdate()
@@ -36,7 +36,7 @@ public class ContinuousCastBehaviour : SkillBehaviour
         if (skill.intervalTime >= skill.skillData.interval)
         {
             skill.intervalTime = 0;
-            skill.InstanceEffect();
+            skill.TryInstanceEffect();
         }
 
         if (skill.curTime >= skill.skillData.duration)

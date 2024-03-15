@@ -36,7 +36,6 @@ public class MainCameraController : MonoBehaviour
         }
         else if (Mathf.Abs(inputZoom) > 0)
         {
-            Debug.Log("Zoom");
             target = mainCamera.transform.position;
             target += new Vector3(0, Mathf.Sign(inputZoom) * 4, 0);
         }
@@ -65,7 +64,6 @@ public class MainCameraController : MonoBehaviour
     public void CameraZoom(InputAction.CallbackContext context)
     {
         inputZoom = context.ReadValue<float>();
-        Debug.Log(inputZoom);
     }
 
 

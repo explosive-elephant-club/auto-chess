@@ -110,6 +110,7 @@ public class SkillController : MonoBehaviour
 
             if (activedSkillList[curSkillIndex].state == SkillState.Casting)
             {
+                cdTimer -= Time.deltaTime;
                 return;
             }
 

@@ -29,7 +29,7 @@ public class SkillBehaviour
 
     public virtual void OnCast(Transform[] castPoints, int pointIndex)
     {
-        skill.InstanceEffect();
+
 
         //绑定动画结束时间
         if (!string.IsNullOrEmpty(skill.skillData.skillAnimTrigger[0].constructorType))
@@ -56,11 +56,13 @@ public class SkillBehaviour
                 }
             }
         }
+        skill.TryInstanceEffect(true);
+        /*
         if (skill.skillData.duration <= 0)
             skill.OnFinish();
         else
             skill.Effect();
-
+*/
     }
 
     public virtual void OnEffect()

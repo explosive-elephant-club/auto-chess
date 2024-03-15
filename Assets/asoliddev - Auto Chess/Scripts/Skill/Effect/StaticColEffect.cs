@@ -20,7 +20,7 @@ public class StaticColEffect : SkillEffect
         collidedTargets = new List<ChampionController>();
 
         InstantiateProjectileEffect();
-        PointedAtTarget();
+        //PointedAtTarget();
     }
 
     protected void InstantiateProjectileEffect()
@@ -62,6 +62,8 @@ public class StaticColEffect : SkillEffect
     void OnTriggerEnter(Collider hit)
     {
         ChampionController c = hit.gameObject.GetComponent<ChampionController>();
+        if (c == null)
+            return;
         if (!collidedTargets.Contains(c))
         {
             if (skill.skillTargetType == SkillTargetType.Teammate)

@@ -303,14 +303,15 @@ public class Skill
     }
 
 
-    public void InstanceEffect()
+    public void TryInstanceEffect(bool isDebug = false)
     {
         //生成技能特效弹道
         if (effectPrefab != null)
         {
             GameObject effectInstance = GameObject.Instantiate(effectPrefab);
-            effectInstance.transform.position = GetCastPoint().position;
-            effectInstance.transform.rotation = GetCastPoint().rotation;
+            effectInstance.transform.parent = GetCastPoint();
+            effectInstance.transform.localPosition = Vector3.zero; //GetCastPoint().position;
+            effectInstance.transform.localRotation = Quaternion.Euler(Vector3.zero); //GetCastPoint().rotation;
             effectScript = effectInstance.GetComponent<SkillEffect>();
             effectScript.Init(this);
         }
