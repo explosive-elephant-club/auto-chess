@@ -104,6 +104,10 @@ namespace ExcelConfig
 		public skillAnimTriggerClass[] skillAnimTrigger { get { return _skillAnimTrigger; } }
 
 		[SerializeField]
+		private string _emitFXPrefab;
+		public string emitFXPrefab { get { return _emitFXPrefab; } }
+
+		[SerializeField]
 		private string _effectPrefab;
 		public string effectPrefab { get { return _effectPrefab; } }
 
@@ -187,6 +191,7 @@ namespace ExcelConfig
 						TryParse(strValue, out _skillAnimTriggerone.trigger);
 				}
 			}
+			TryParse(sheet[row][column++], out _emitFXPrefab);
 			TryParse(sheet[row][column++], out _effectPrefab);
 			TryParse(sheet[row][column++], out _hitFXPrefab);
 			TryParse(sheet[row][column++], out _hexEffectPrefab);

@@ -7,6 +7,7 @@ public class RandomProjectileEffect : TrackProjectileEffect
     float XRotateSpeed;
     float YRotateSpeed;
     float ZRotateSpeed;
+    public Vector3 offset;
     public float rotateSpeed = 5f;
     public float randomIntervel = .5f;
     float randomTime;
@@ -32,9 +33,9 @@ public class RandomProjectileEffect : TrackProjectileEffect
             a = Mathf.Pow(-1, Random.Range(0, 2));
             ZRotateSpeed *= a;
         }
-        time = trackDuration + 5;
+        duration = trackDuration + 5;
 
-        InstantiateEffect();
+        InstantiateEmitEffect();
         PointedAtOffset();
     }
 
@@ -51,17 +52,12 @@ public class RandomProjectileEffect : TrackProjectileEffect
             YRotateSpeed *= a;
             a = Mathf.Pow(-1, Random.Range(0, 2));
             ZRotateSpeed *= a;
-
-
-            Debug.Log("a " + a);
-            Debug.Log("ZRotateSpeed " + ZRotateSpeed);
-
         }
     }
 
     protected void PointedAtOffset()
     {
-        Vector3 relativePos = target.position + new Vector3(0, 15f, 0) - transform.position;
+        Vector3 relativePos = target.position + offset - transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
         this.transform.rotation = rotation;
     }

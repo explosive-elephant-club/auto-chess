@@ -14,19 +14,10 @@ public class TrackProjectileEffect : SkillEffect
     public float g;
     ///开始追踪目标的时长
     public float trackDuration = 1;
-
-    public GameObject impactParticle;
-    public GameObject projectileParticle;
-    public GameObject muzzleParticle;
-
-    public GameObject impactParticleInstance;
-    public GameObject projectileParticleInstance;
-    public GameObject muzzleParticleInstance;
     protected Transform target;
     protected bool isMoving = false;
 
-    //代表从起点出发到目标点经过的时长
-    protected float time = 0;
+
     //初始速度向量
     protected Vector3 dir;
     //重力向量
@@ -47,43 +38,24 @@ public class TrackProjectileEffect : SkillEffect
 
         isMoving = true;
 
-        time = Vector3.Distance(oringinTarget, transform.position) / speed;
+        duration = Vector3.Distance(oringinTarget, transform.position) / speed;
         dir = new Vector3(
-           (oringinTarget.x - transform.position.x) / time,
-           (oringinTarget.y - transform.position.y) / time - 0.5f * g * time,
-            (oringinTarget.z - transform.position.z) / time);
+           (oringinTarget.x - transform.position.x) / duration,
+           (oringinTarget.y - transform.position.y) / duration - 0.5f * g * duration,
+            (oringinTarget.z - transform.position.z) / duration);
         Gravity = Vector3.zero;
 
 
         isTrack = false;
 
-        InstantiateEffect();
-        PointedAtTarget();
-    }
-
-    protected void InstantiateEffect()
-    {
-        projectileParticleInstance = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
-        projectileParticleInstance.transform.parent = transform;
-        if (muzzleParticle)
-        {
-            muzzleParticleInstance = Instantiate(muzzleParticle, transform.position, transform.rotation) as GameObject;
-            muzzleParticleInstance.transform.rotation = transform.rotation;
-            Destroy(muzzleParticleInstance, 1.5f); // Lifetime of muzzle effect.
-        }
+        InstantiateEmitEffect();
+        PointedAtTarget(target.position + new Vector3(0, 1.5f, 0));
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
         OnMovingUpdate();
-    }
-
-    protected virtual void PointedAtTarget()
-    {
-        Vector3 relativePos = target.position + new Vector3(0, 1.5f, 0) - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-        this.transform.rotation = rotation;
     }
 
     protected void PointedAtVelocityDir()
@@ -109,7 +81,7 @@ public class TrackProjectileEffect : SkillEffect
 
     protected void TrackMoving()
     {
-        PointedAtTarget();
+        PointedAtTarget(target.position + new Vector3(0, 1.5f, 0));
         transform.position = Vector3.MoveTowards(this.transform.position, target.position + new Vector3(0, 1.5f, 0), speed * Time.deltaTime);
     }
 
@@ -138,7 +110,7 @@ public class TrackProjectileEffect : SkillEffect
                 isMoving = false;
                 OnReached();
             }
-            else if (curTime > time + 2)
+            else if (curTime > duration + 2)
             {
                 isMoving = false;
                 Destroy(this.gameObject);
@@ -149,22 +121,8 @@ public class TrackProjectileEffect : SkillEffect
     protected virtual void OnReached()
     {
         skill.Effect();
-        if (impactParticle != null)
-            impactParticleInstance = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.zero)) as GameObject;
-        Destroy(projectileParticleInstance, 3f);
-        if (impactParticleInstance != null)
-            Destroy(impactParticleInstance, 5f);
+        InstantiateHitEffect(transform.position);
         DestroySelf();
     }
 
-    public override void DestroySelf()
-    {
-        Destroy(projectileParticleInstance);
-        if (impactParticleInstance != null)
-            Destroy(impactParticleInstance);
-        if (muzzleParticleInstance != null)
-            Destroy(muzzleParticleInstance);
-        base.DestroySelf();
-
-    }
 }

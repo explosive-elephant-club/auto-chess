@@ -75,6 +75,7 @@ public class Skill
     public ConstructorBase constructor;//技能的载体
     public float countRemain;
 
+    public GameObject emitPrefab;
     public GameObject effectPrefab;
     public GameObject hitFXPrefab;
     public Sprite icon;
@@ -105,14 +106,15 @@ public class Skill
         countRemain = skillData.count;
         curCastPointIndex = 0;
 
+        if (!string.IsNullOrEmpty(skillData.emitFXPrefab))
+            emitPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Emit/" + skillData.emitFXPrefab);
         if (!string.IsNullOrEmpty(skillData.effectPrefab))
         {
-            effectPrefab = Resources.Load<GameObject>(skillData.effectPrefab);
+            effectPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Effect/" + skillData.effectPrefab);
         }
-
-
         if (!string.IsNullOrEmpty(skillData.hitFXPrefab))
-            hitFXPrefab = Resources.Load<GameObject>(skillData.hitFXPrefab);
+            hitFXPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Hit/" + skillData.hitFXPrefab);
+
         icon = Resources.Load<Sprite>(skillData.icon);
 
         if (!string.IsNullOrEmpty(skillData.skillBehaviourScriptName))

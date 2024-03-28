@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class LineEffect : SkillEffect
 {
-    public GameObject lineRendererPrefab;
-    public GameObject startPrefab;
-    public GameObject endPrefab;
-
-    public GameObject lineRendererInstance;
-    public GameObject startInstance;
-    public GameObject endInstance;
-
+    LineRenderer lineRenderer;
     public float textureScrollSpeed = 8f; //How fast the texture scrolls along the beam
     public float textureLengthScale = 3; //Length of the beam texture
 
@@ -20,36 +13,34 @@ public class LineEffect : SkillEffect
     {
         base.Init(_skill);
         target = skill.targets[0].transform;
-        InstantiateProjectileEffect();
+        lineRenderer = GetComponent<LineRenderer>();
+        InstantiateEmitEffect();
     }
 
-    protected void InstantiateProjectileEffect()
+    protected override void InstantiateEmitEffect()
     {
-        lineRendererInstance = Instantiate(lineRendererPrefab, transform.position, transform.rotation) as GameObject;
-        lineRendererInstance.transform.parent = transform;
-        startInstance = Instantiate(startPrefab, transform.position, transform.rotation) as GameObject;
-        startInstance.transform.parent = transform;
-        endInstance = Instantiate(endPrefab, target.position, Quaternion.FromToRotation(Vector3.up, Vector3.zero)) as GameObject;
-        endInstance.transform.parent = transform;
+        emitParticleInstance = Instantiate(skill.emitPrefab, transform.position, transform.rotation) as GameObject;
+        emitParticleInstance.transform.parent = transform;
+        hitParticleInstance = Instantiate(skill.hitFXPrefab, target.position, Quaternion.FromToRotation(Vector3.up, Vector3.zero)) as GameObject;
+        hitParticleInstance.transform.parent = transform;
     }
 
     void ShootLineInDir()
     {
-        LineRenderer line = lineRendererInstance.GetComponent<LineRenderer>();
-        line.positionCount = 2;
+        lineRenderer.positionCount = 2;
 
-        line.SetPosition(0, skill.GetCastPoint().position);
-        startInstance.transform.position = skill.GetCastPoint().position;
+        lineRenderer.SetPosition(0, skill.GetCastPoint().position);
+        emitParticleInstance.transform.position = skill.GetCastPoint().position;
 
-        endInstance.transform.position = target.position;
-        line.SetPosition(1, target.position);
+        hitParticleInstance.transform.position = target.position;
+        lineRenderer.SetPosition(1, target.position);
 
-        startInstance.transform.LookAt(endInstance.transform.position);
-        endInstance.transform.LookAt(startInstance.transform.position);
+        emitParticleInstance.transform.LookAt(hitParticleInstance.transform.position);
+        hitParticleInstance.transform.LookAt(emitParticleInstance.transform.position);
 
         float distance = Vector3.Distance(skill.GetCastPoint().position, target.position);
-        line.sharedMaterial.mainTextureScale = new Vector2(distance / textureLengthScale, 1);
-        line.sharedMaterial.mainTextureOffset -= new Vector2(Time.deltaTime * textureScrollSpeed, 0);
+        lineRenderer.sharedMaterial.mainTextureScale = new Vector2(distance / textureLengthScale, 1);
+        lineRenderer.sharedMaterial.mainTextureOffset -= new Vector2(Time.deltaTime * textureScrollSpeed, 0);
     }
     // Update is called once per frame
     void Update()
@@ -62,17 +53,6 @@ public class LineEffect : SkillEffect
         {
             ShootLineInDir();
         }
-
     }
-
-    public override void DestroySelf()
-    {
-        Destroy(lineRendererInstance);
-        if (startInstance != null)
-            Destroy(startInstance);
-        if (endInstance != null)
-            Destroy(endInstance);
-        base.DestroySelf();
-
-    }
+    
 }
