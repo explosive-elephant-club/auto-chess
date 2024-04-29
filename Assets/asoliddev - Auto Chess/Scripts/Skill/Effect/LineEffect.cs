@@ -8,10 +8,9 @@ public class LineEffect : SkillEffect
     public float textureScrollSpeed = 8f; //How fast the texture scrolls along the beam
     public float textureLengthScale = 3; //Length of the beam texture
 
-    protected Transform target;
-    public override void Init(Skill _skill)
+    public override void Init(Skill _skill, Transform _target)
     {
-        base.Init(_skill);
+        base.Init(_skill, _target);
         target = skill.targets[0].transform;
         lineRenderer = GetComponent<LineRenderer>();
         InstantiateEmitEffect();
@@ -54,5 +53,5 @@ public class LineEffect : SkillEffect
             ShootLineInDir();
         }
     }
-    
+
 }

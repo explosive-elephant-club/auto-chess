@@ -124,8 +124,8 @@ namespace ExcelConfig
 		public string icon { get { return _icon; } }
 
 		[SerializeField]
-		private string _skillBehaviourScriptName;
-		public string skillBehaviourScriptName { get { return _skillBehaviourScriptName; } }
+		private string[] _skillDecorators;
+		public string[] skillDecorators { get { return _skillDecorators; } }
 
 
 		public SkillData()
@@ -196,7 +196,11 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _hitFXPrefab);
 			TryParse(sheet[row][column++], out _hexEffectPrefab);
 			TryParse(sheet[row][column++], out _icon);
-			TryParse(sheet[row][column++], out _skillBehaviourScriptName);
+			string[] _skillDecoratorsArray = sheet[row][column++].Split(',');
+			int _skillDecoratorsCount = _skillDecoratorsArray.Length;
+			_skillDecorators = new string[_skillDecoratorsCount];
+			for(int i = 0; i < _skillDecoratorsCount; i++)
+				TryParse(_skillDecoratorsArray[i], out _skillDecorators[i]);
 		}
 #endif
 		public override void OnAfterSerialized()

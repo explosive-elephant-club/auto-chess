@@ -96,7 +96,6 @@ public class ChampionController : MonoBehaviour
 
         AIActionFsm = new Fsm();
         InitFsm();
-
         if (constructorData == null)
             GetChassisConstructor().Init(this, true);
         else

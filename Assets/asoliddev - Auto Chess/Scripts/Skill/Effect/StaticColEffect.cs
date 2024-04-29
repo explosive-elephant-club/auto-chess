@@ -6,9 +6,9 @@ public class StaticColEffect : SkillEffect
 {
     protected List<ChampionController> collidedTargets;
 
-    public override void Init(Skill _skill)
+    public override void Init(Skill _skill, Transform _target)
     {
-        base.Init(_skill);
+        base.Init(_skill, _target);
         collidedTargets = new List<ChampionController>();
 
         InstantiateEmitEffect();
@@ -29,7 +29,6 @@ public class StaticColEffect : SkillEffect
     {
         collidedTargets.Add(c);
         skill.targets = collidedTargets;
-        InstantiateHitEffect(c.transform.position);
     }
 
     protected override void OnCollideChampionEnd(ChampionController c)

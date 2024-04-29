@@ -85,15 +85,15 @@ public class Skill
 
     public SkillState state;
 
-    public SkillEffect effectScript;
+    public List<SkillEffect> effectInstances = new List<SkillEffect>();
     public SkillController skillController;
-    public SkillBehaviour skillBehaviour;
+    public List<SkillDecorator> skillDecorators = new List<SkillDecorator>();
 
     public ChampionManager manager;
 
-    int curCastPointIndex;
+    public int curCastPointIndex;
 
-    public Skill(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
+    public virtual void Init(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
     {
         skillData = _skillData;
 
@@ -106,6 +106,10 @@ public class Skill
         countRemain = skillData.count;
         curCastPointIndex = 0;
 
+        targets = new List<ChampionController>();
+        mapGrids = new List<GridInfo>();
+
+
         if (!string.IsNullOrEmpty(skillData.emitFXPrefab))
             emitPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Emit/" + skillData.emitFXPrefab);
         if (!string.IsNullOrEmpty(skillData.effectPrefab))
@@ -117,46 +121,20 @@ public class Skill
 
         icon = Resources.Load<Sprite>(skillData.icon);
 
-        if (!string.IsNullOrEmpty(skillData.skillBehaviourScriptName))
-        {
-            try
-            {
-                Type type = Type.GetType(skillData.skillBehaviourScriptName);
-                skillBehaviour = (SkillBehaviour)Activator.CreateInstance(type);
-                skillBehaviour.Init(this);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Create BuffBehaviour instance failed: " + ex.Message);
-                skillBehaviour = new SkillBehaviour();
-                skillBehaviour.Init(this);
-            }
-        }
-        else
-        {
-            skillBehaviour = new SkillBehaviour();
-            skillBehaviour.Init(this);
-        }
-
         state = SkillState.Disable;
-
         skillController = owner.skillController;
     }
 
     public bool IsPrepared()
     {
-        if (skillBehaviour.IsPrepared())
-            if (countRemain > 0 || countRemain == -1)
-                if (owner.attributesController.curMana >= skillData.manaCost)
-                    return IsFindTarget();
+        if (countRemain > 0 || countRemain == -1)
+            if (owner.attributesController.curMana >= skillData.manaCost)
+                return IsFindTarget();
         return false;
     }
 
-    public bool IsFindTarget()
+    public virtual bool IsFindTarget()
     {
-        targets = new List<ChampionController>();
-        mapGrids = new List<GridInfo>();
-
         FindTargetsByType();
         if (skillTargetType != SkillTargetType.Self)
         {
@@ -174,7 +152,7 @@ public class Skill
         return true;
     }
 
-    public void FindTargetsByType()
+    public virtual void FindTargetsByType()
     {
         switch (skillTargetType)
         {
@@ -204,7 +182,7 @@ public class Skill
         }
     }
 
-    public ChampionController FindTargetBySelectorType()
+    public virtual ChampionController FindTargetBySelectorType()
     {
         ChampionController c = null;
         List<ChampionController> targetList = manager.championsHexaMapArray.FindAll(t => t.isDead == false);
@@ -212,9 +190,6 @@ public class Skill
         float maxValue = 0;
         switch (skillTargetSelectorType)
         {
-            case SkillTargetSelectorType.Custom:
-                c = skillBehaviour.FindTargetBySelectorType();
-                break;
             case SkillTargetSelectorType.Any:
                 c = manager.FindAnyTargetInRange(owner, (int)owner.attributesController.addRange.GetTrueValue() + skillData.distance);
                 break;
@@ -252,15 +227,12 @@ public class Skill
         return c;
     }
 
-    public void FindTargetByRange()
+    public virtual void FindTargetByRange()
     {
 
         ChampionController c = targets[0];
         switch (skillRangeSelectorType)
         {
-            case SkillRangeSelectorType.Custom:
-                skillBehaviour.FindTargetByRange();
-                break;
             case SkillRangeSelectorType.TeammatesInRange:
                 if (owner.team == ChampionTeam.Player)
                 {
@@ -289,7 +261,7 @@ public class Skill
         }
     }
 
-    public void Cast()
+    public virtual void Cast()
     {
         state = SkillState.Casting;
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
@@ -298,24 +270,30 @@ public class Skill
         if (countRemain != -1)
             countRemain -= 1;
 
-        skillBehaviour.OnCast(constructor.skillCastPoints, curCastPointIndex);
+        PlayCastAnim();
+        TryInstanceEffect();
+
         curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
 
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterCast.ToString());
     }
 
 
-    public void TryInstanceEffect(bool isDebug = false)
+    public virtual void TryInstanceEffect()
     {
+        Debug.Log("TryInstanceEffect " + skillData.name);
         //生成技能特效弹道
         if (effectPrefab != null)
         {
-            GameObject effectInstance = GameObject.Instantiate(effectPrefab);
-            effectInstance.transform.parent = GetCastPoint();
-            effectInstance.transform.localPosition = Vector3.zero; //GetCastPoint().position;
-            effectInstance.transform.localRotation = Quaternion.Euler(Vector3.zero); //GetCastPoint().rotation;
-            effectScript = effectInstance.GetComponent<SkillEffect>();
-            effectScript.Init(this);
+            GameObject obj = GameObject.Instantiate(effectPrefab);
+            //obj.transform.parent = GetCastPoint();
+            obj.transform.localPosition = GetCastPoint().position;
+            obj.transform.localRotation = GetCastPoint().rotation;
+
+            SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
+            skillEffect.Init(this, targets[0].transform);
+            effectInstances.Add(skillEffect);
+
         }
         else  //无特效弹道
         {
@@ -328,32 +306,161 @@ public class Skill
         return constructor.skillCastPoints[curCastPointIndex];
     }
 
-    public void Effect()
+    public virtual void Effect()
     {
-        skillBehaviour.OnEffect();
+        foreach (ChampionController C in targets)
+        {
+            if (!C.isDead)
+            {
+                AddBuffToTarget(C);
+                AddDMGToTarget(C);
+            }
+        }
+        foreach (GridInfo G in mapGrids)
+        {
+            G.ApplyEffect(skillData.hexEffectPrefab);
+        }
     }
 
-    public void OnCastingUpdate()
+    public virtual void AddBuffToTarget(ChampionController target)
     {
-        skillBehaviour.OnCastingUpdate();
+        foreach (int buff_ID in skillData.addBuffs)
+        {
+            if (buff_ID != 0)
+                target.buffController.AddBuff(buff_ID, owner);
+        }
     }
 
-    public void OnFinish()
+    public virtual void AddDMGToTarget(ChampionController target)
+    {
+        if (!string.IsNullOrEmpty(skillData.damageData[0].type))
+        {
+            owner.TakeDamage(target, skillData.damageData);
+        }
+    }
+
+    public virtual void OnCastingUpdate()
+    {
+        curTime += Time.deltaTime;
+        intervalTime += Time.deltaTime;
+
+        if (targets.Count == 0)
+            return;
+
+        if (intervalTime >= skillData.interval)
+        {
+            intervalTime = 0;
+            Effect();
+        }
+
+        if (isFinish())
+        {
+            OnFinish();
+        }
+    }
+
+    public virtual bool isFinish()
+    {
+        return (curTime >= skillData.duration) || (targets[0] == null ? targets[0].isDead : false);
+    }
+
+    public virtual void DestroyEffect()
+    {
+        if (effectInstances.Count > 0)
+        {
+            foreach (var e in effectInstances)
+            {
+                if (e != null)
+                    e.DestroySelf();
+            }
+            effectInstances.Clear();
+        }
+    }
+
+    public virtual void OnFinish()
     {
         state = SkillState.CD;
         curTime = 0;
         intervalTime = 0;
-        skillBehaviour.OnFinish();
+        PlayEndAnim();
     }
 
 
-    public void Reset()
+    public virtual void Reset()
     {
         state = SkillState.CD;
         curTime = 0;
         intervalTime = 0;
         targets.Clear();
         countRemain = skillData.count;
+    }
+
+    public virtual void PlayCastAnim()
+    {
+
+        if (!string.IsNullOrEmpty(skillData.skillAnimTrigger[0].constructorType))
+        {
+            //触发动画
+            foreach (var animTrigger in skillData.skillAnimTrigger)
+            {
+                foreach (var c in constructor.GetAllParentConstructors(true))
+                {
+                    if (c.type.ToString() == animTrigger.constructorType && c.animator != null)
+                    {
+                        c.enablePlayNewSkillAnim = false;
+                        c.animator.SetTrigger(animTrigger.trigger);
+                    }
+                }
+            }
+        }
+    }
+
+    public virtual void PlayEndAnim()
+    {
+        //绑定动画结束时间
+        if (!string.IsNullOrEmpty(skillData.skillAnimTrigger[0].constructorType))
+        {
+            //触发动画
+            foreach (var animTrigger in skillData.skillAnimTrigger)
+            {
+                foreach (var c in constructor.GetAllParentConstructors(true))
+                {
+                    if (c.type.ToString() == animTrigger.constructorType && c.animator != null)
+                    {
+                        if (HasParameter(c.animator, "EndCasting"))
+                            c.animator.SetTrigger("EndCasting");
+                    }
+                }
+            }
+        }
+    }
+
+    bool HasParameter(Animator animator, string parameterName)
+    {
+        foreach (var param in animator.parameters)
+        {
+            if (param.name == parameterName)
+                return true;
+        }
+
+        return false;
+    }
+
+    public void GetDecorator(string decoratorName)
+    {
+        Type type = Type.GetType(decoratorName);
+        skillDecorators.Add((SkillDecorator)Activator.CreateInstance(type));
+    }
+
+    public void AddDecorators(SkillData _skillData)
+    {
+        if (!string.IsNullOrEmpty(_skillData.skillDecorators[0]))
+        {
+            foreach (var name in _skillData.skillDecorators)
+            {
+                GetDecorator(name);
+            }
+        }
     }
 }
 

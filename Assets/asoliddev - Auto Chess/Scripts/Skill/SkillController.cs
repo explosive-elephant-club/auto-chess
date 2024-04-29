@@ -134,6 +134,13 @@ public class SkillController : MonoBehaviour
         {
             if (activedSkillList[GetNextSkillIndex()].IsPrepared())
             {
+                foreach (var d in activedSkillList[GetNextSkillIndex()].skillDecorators)
+                {
+                    if (!d.hasDecorated)
+                    {
+                        activedSkillList[GetNextSkillIndex()] = d.Decorate(activedSkillList[GetNextSkillIndex()]);
+                    }
+                }
                 activedSkillList[GetNextSkillIndex()].Cast();
                 curCastDelay = GetSkillCastDelay(activedSkillList[GetNextSkillIndex()]);
                 cdTimer = curCastDelay;
@@ -152,6 +159,17 @@ public class SkillController : MonoBehaviour
         {
             //Debug.Log("curCastDelay " + curCastDelay);
             cdTimer -= Time.deltaTime;
+        }
+    }
+
+    public void ApplySkillDecorator(Skill skill)
+    {
+        foreach (var d in skill.skillDecorators)
+        {
+            if (!d.hasDecorated)
+            {
+                skill = d.Decorate(skill);
+            }
         }
     }
 
@@ -177,7 +195,17 @@ public class SkillController : MonoBehaviour
 
     public void AddSkill(SkillData skillData, ConstructorBase _constructor)
     {
-        Skill skill = new Skill(skillData, championController, _constructor);
+        Skill skill = new Skill();
+        skill.AddDecorators(skillData);
+        skill.Init(skillData, championController, _constructor);
+        /*foreach (var d in skill.skillDecorators)
+        {
+            if (!d.hasDecorated)
+            {
+                skill = d.Decorate(skill);
+            }
+        }*/
+
         skillList.Add(skill);
     }
 

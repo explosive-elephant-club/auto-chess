@@ -11,11 +11,11 @@ public class RandomProjectileEffect : TrackProjectileEffect
     public float rotateSpeed = 5f;
     public float randomIntervel = .5f;
     float randomTime;
-    public override void Init(Skill _skill)
+    public override void Init(Skill _skill, Transform _target)
     {
         skill = _skill;
+        target = _target;
         curTime = 0;
-        target = skill.targets[Random.Range(0, skill.targets.Count)].transform;
         oringinTarget = target.position + new Vector3(0, 1.5f, 0);
 
         isMoving = true;

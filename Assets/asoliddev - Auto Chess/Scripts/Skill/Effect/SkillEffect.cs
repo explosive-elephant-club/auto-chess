@@ -11,11 +11,14 @@ public class SkillEffect : MonoBehaviour
     //已存在时间
     protected float curTime;
 
+    protected Transform target;
+
     public GameObject hitParticleInstance;
     public GameObject emitParticleInstance;
-    public virtual void Init(Skill _skill)
+    public virtual void Init(Skill _skill, Transform _target)
     {
         skill = _skill;
+        target = _target;
         curTime = 0;
         duration = skill.skillData.duration;
     }
@@ -72,6 +75,7 @@ public class SkillEffect : MonoBehaviour
             if (c.team == skill.owner.team)
             {
                 OnCollideChampionBegin(c);
+                InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
             }
         }
         else if (skill.skillTargetType == SkillTargetType.Enemy)
@@ -79,6 +83,7 @@ public class SkillEffect : MonoBehaviour
             if (c.team != skill.owner.team)
             {
                 OnCollideChampionBegin(c);
+                InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
             }
         }
     }
@@ -107,7 +112,6 @@ public class SkillEffect : MonoBehaviour
 
     protected virtual void OnCollideChampionBegin(ChampionController c)
     {
-        InstantiateHitEffect(c.transform.position);
     }
 
     protected virtual void OnCollideChampionEnd(ChampionController c)

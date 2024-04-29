@@ -9,7 +9,7 @@ public class ColProjectileEffect : TrackProjectileEffect
         if (isMoving)
         {
             ParabolaMoving();
-            if (curTime > duration)
+            if (curTime > duration + 5)
             {
                 isMoving = false;
                 Destroy(this.gameObject);
@@ -19,7 +19,6 @@ public class ColProjectileEffect : TrackProjectileEffect
 
     protected override void OnCollideChampionBegin(ChampionController c)
     {
-        InstantiateHitEffect(c.transform.position);
         OnEffect(c);
     }
 

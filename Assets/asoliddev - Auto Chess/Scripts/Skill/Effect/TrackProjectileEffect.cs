@@ -14,7 +14,7 @@ public class TrackProjectileEffect : SkillEffect
     public float g;
     ///开始追踪目标的时长
     public float trackDuration = 1;
-    protected Transform target;
+
     protected bool isMoving = false;
 
 
@@ -30,10 +30,9 @@ public class TrackProjectileEffect : SkillEffect
     protected bool isTrack;
 
 
-    public override void Init(Skill _skill)
+    public override void Init(Skill _skill, Transform _target)
     {
-        base.Init(_skill);
-        target = skill.targets[0].transform;
+        base.Init(_skill, _target);
         oringinTarget = target.position + new Vector3(0, 1.5f, 0);
 
         isMoving = true;
@@ -110,7 +109,7 @@ public class TrackProjectileEffect : SkillEffect
                 isMoving = false;
                 OnReached();
             }
-            else if (curTime > duration + 2)
+            else if (curTime > duration + 5)
             {
                 isMoving = false;
                 Destroy(this.gameObject);
@@ -122,7 +121,7 @@ public class TrackProjectileEffect : SkillEffect
     {
         skill.Effect();
         InstantiateHitEffect(transform.position);
-        DestroySelf();
+        Destroy(this.gameObject);
     }
 
 }
