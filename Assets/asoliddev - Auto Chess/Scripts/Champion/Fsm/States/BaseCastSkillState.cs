@@ -12,11 +12,11 @@ public class BaseCastSkillState : State
         {
             fsm.SwitchState("Idle");
         }
-        StartCoroutine(championController.TurnToTarget());
     }
     public override void OnUpdate()
     {
-        championController.skillController.TryCastSkill();
+        if (!championController.TurnToTarget())
+            championController.skillController.TryCastSkill();
         if (championController.CheckState("disarm") || !championController.IsTargetInAttackRange())
         {
             fsm.SwitchState("Idle");

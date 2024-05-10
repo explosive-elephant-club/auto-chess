@@ -12,6 +12,8 @@ public class SkillEffect : MonoBehaviour
     protected float curTime;
 
     protected Transform target;
+    protected List<ChampionController> hits;
+
 
     public GameObject hitParticleInstance;
     public GameObject emitParticleInstance;
@@ -21,6 +23,7 @@ public class SkillEffect : MonoBehaviour
         target = _target;
         curTime = 0;
         duration = skill.skillData.duration;
+        hits=new List<ChampionController>();
     }
 
     protected virtual void FixedUpdate()
@@ -112,10 +115,19 @@ public class SkillEffect : MonoBehaviour
 
     protected virtual void OnCollideChampionBegin(ChampionController c)
     {
+        hits.Add(c);
     }
 
     protected virtual void OnCollideChampionEnd(ChampionController c)
     {
+        if (hits.Contains(c))
+        {
+            hits.Remove(c);
+        }
+    }
 
+    protected virtual List<ChampionController> GetTargetsInRange(ChampionController c)
+    {
+        return skill.targetsSelector.FindTargetByRange(c, skill.skillRangeSelectorType, skill.skillData.range, skill.owner.team).targets;
     }
 }

@@ -4,24 +4,28 @@ using UnityEngine;
 
 public class RandomTargetDecorator : SkillDecorator
 {
+    public override void Init()
+    {
+        skill.TryInstanceEffectFunc = TryInstanceEffect;
+    }
 
     public override void TryInstanceEffect()
     {
         //生成技能特效弹道
-        if (effectPrefab != null)
+        if (skill.effectPrefab != null)
         {
-            GameObject obj = GameObject.Instantiate(effectPrefab);
-            obj.transform.localPosition = GetCastPoint().position;
-            obj.transform.localRotation = GetCastPoint().rotation;
+            GameObject obj = GameObject.Instantiate(skill.effectPrefab);
+            obj.transform.localPosition = skill.GetCastPoint().position;
+            obj.transform.localRotation = skill.GetCastPoint().rotation;
 
             SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
-            skillEffect.Init(this, targets[Random.Range(0, targets.Count)].transform);
-            effectInstances.Add(skillEffect);
+            skillEffect.Init(skill, skill.selectorResult.targets[Random.Range(0, skill.selectorResult.targets.Count)].transform);
+            skill.effectInstances.Add(skillEffect);
 
         }
         else  //无特效弹道
         {
-            Effect();
+            skill.EffectFunc();
         }
     }
 }

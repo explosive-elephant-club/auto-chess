@@ -6,71 +6,22 @@ using UnityEngine.Events;
 /// <summary>
 /// Controls Arrows, Spells movement from point A to B
 /// </summary>
-public class TrackProjectileEffect : SkillEffect
+public class TrackProjectileEffect : ColProjectileEffect
 {
-    ///初速度
-    public float speed;
-    //重力加速度
-    public float g;
-    ///开始追踪目标的时长
     public float trackDuration = 1;
-
-    protected bool isMoving = false;
-
-
-    //初始速度向量
-    protected Vector3 dir;
-    //重力向量
-    protected Vector3 Gravity;
-
-
-    //初始目标点
-    protected Vector3 oringinTarget;
-
     protected bool isTrack;
 
 
     public override void Init(Skill _skill, Transform _target)
     {
         base.Init(_skill, _target);
-        oringinTarget = target.position + new Vector3(0, 1.5f, 0);
-
-        isMoving = true;
-
-        duration = Vector3.Distance(oringinTarget, transform.position) / speed;
-        dir = new Vector3(
-           (oringinTarget.x - transform.position.x) / duration,
-           (oringinTarget.y - transform.position.y) / duration - 0.5f * g * duration,
-            (oringinTarget.z - transform.position.z) / duration);
-        Gravity = Vector3.zero;
-
-
         isTrack = false;
-
-        InstantiateEmitEffect();
-        PointedAtTarget(target.position + new Vector3(0, 1.5f, 0));
     }
 
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-        OnMovingUpdate();
-    }
 
-    protected void PointedAtVelocityDir()
+    protected override void ParabolaMoving()
     {
-        Vector3 arrowDir = dir + Gravity;
-        Quaternion rotation = Quaternion.LookRotation(arrowDir, Vector3.up);
-        this.transform.rotation = rotation;
-    }
-
-    protected virtual void ParabolaMoving()
-    {
-        PointedAtVelocityDir();
-        Gravity.y = g * curTime;//v=at
-        //模拟位移
-        transform.Translate(dir * Time.fixedDeltaTime, Space.World);
-        transform.Translate(Gravity * Time.fixedDeltaTime, Space.World);
+        base.ParabolaMoving();
 
         if (Vector3.Distance(oringinTarget, target.position) <= 3f || curTime > trackDuration)
         {
@@ -78,13 +29,19 @@ public class TrackProjectileEffect : SkillEffect
         }
     }
 
-    protected void TrackMoving()
+    protected virtual void TrackMoving()
     {
-        PointedAtTarget(target.position + new Vector3(0, 1.5f, 0));
-        transform.position = Vector3.MoveTowards(this.transform.position, target.position + new Vector3(0, 1.5f, 0), speed * Time.deltaTime);
+        Vector3 dir = oringinTarget - transform.position;
+        Vector3 lerpedDir = Vector3.Lerp(transform.forward, dir, 0.8f * Time.deltaTime);
+        Quaternion rotation = Quaternion.LookRotation(lerpedDir, Vector3.up);
+        this.transform.rotation = rotation;
+
+        transform.Translate(transform.forward * speed * Time.fixedDeltaTime, Space.World);
+        //PointedAtTarget(target.position + new Vector3(0, 1.5f, 0));
+        //transform.position = Vector3.MoveTowards(this.transform.position, target.position + new Vector3(0, 1.5f, 0), speed * Time.deltaTime);
     }
 
-    protected virtual void OnMovingUpdate()
+    protected override void OnMovingUpdate()
     {
         if (isMoving)
         {
@@ -119,9 +76,10 @@ public class TrackProjectileEffect : SkillEffect
 
     protected virtual void OnReached()
     {
-        skill.Effect();
+        isMoving = false;
+        OnHitEffect(target.GetComponent<ChampionController>());
         InstantiateHitEffect(transform.position);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
 }

@@ -221,16 +221,12 @@ public class ChampionController : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(rotation);
     }
 
-    public IEnumerator TurnToTarget()
+    public bool TurnToTarget()
     {
         Vector3 dir = target.transform.position - transform.position;
-        while (Vector3.Angle(dir, transform.forward) > 2f)
-        {
-            dir = target.transform.position - transform.position;
-            Quaternion q = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, q, 8 * Time.deltaTime);
-            yield return null;
-        }
+        Quaternion q = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, 8 * Time.deltaTime);
+        return Vector3.Angle(dir, transform.forward) > 2f;
     }
 
     public ChampionController FindTarget(int bestDistance, FindTargetMode mode)
@@ -349,7 +345,7 @@ public class ChampionController : MonoBehaviour
         return occupyGridInfo.GetDistance(_target.occupyGridInfo);
     }
 
-    public void TakeDamage(ChampionController _target, SkillData.damageDataClass[] damages)
+    public void TakeDamage(ChampionController _target, SkillData.damageDataClass[] damages, float fix = 1)
     {
         if (target == null)
             return;
@@ -359,13 +355,15 @@ public class ChampionController : MonoBehaviour
         {
             float trueDamage = attributesController.GetTrueDamage(damages[i].dmg,
                 (DamageType)Enum.Parse(typeof(DamageType), damages[i].type), damages[i].correction);
-            totalDamage += trueDamage;
+            trueDamage *= fix;
             if (attributesController.CritCheck())
             {
                 Debug.Log("暴击");
-                totalDamage *= attributesController.critMultiple.GetTrueValue();
+                trueDamage *= attributesController.critMultiple.GetTrueValue();
                 buffController.eventCenter.Broadcast(BuffActiveMode.AfterCrit.ToString());
             }
+
+            totalDamage += trueDamage;
             addDamages.Add(new SkillData.damageDataClass() { dmg = (int)trueDamage, type = damages[i].type });
         }
         _target.OnGotHit(addDamages);

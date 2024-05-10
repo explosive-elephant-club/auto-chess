@@ -11,7 +11,6 @@ public class LineEffect : SkillEffect
     public override void Init(Skill _skill, Transform _target)
     {
         base.Init(_skill, _target);
-        target = skill.targets[0].transform;
         lineRenderer = GetComponent<LineRenderer>();
         InstantiateEmitEffect();
     }

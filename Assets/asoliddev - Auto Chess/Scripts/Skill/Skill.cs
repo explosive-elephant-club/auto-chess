@@ -80,8 +80,8 @@ public class Skill
     public GameObject hitFXPrefab;
     public Sprite icon;
 
-    public List<ChampionController> targets = new List<ChampionController>();
-    public List<GridInfo> mapGrids = new List<GridInfo>();
+    public SkillTargetsSelector targetsSelector;
+    public SelectorResult selectorResult;
 
     public SkillState state;
 
@@ -91,9 +91,25 @@ public class Skill
 
     public ChampionManager manager;
 
+
     public int curCastPointIndex;
 
-    public virtual void Init(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
+
+    public Func<bool> IsFindTargetFunc;
+    public Action CastFunc;
+    public Action EffectFunc;
+    public Action<ChampionController> AddBuffToTargetFunc;
+    public Action<ChampionController> AddDMGToTargetFunc;
+    public Action TryInstanceEffectFunc;
+    public Action OnCastingUpdateFunc;
+    public Func<bool> IsFinishFunc;
+    public Action DestroyEffectFunc;
+    public Action OnFinishFunc;
+    public Action ResetFunc;
+    public Action PlayCastAnimFunc;
+    public Action PlayEndAnimFunc;
+
+    public void Init(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
     {
         skillData = _skillData;
 
@@ -106,9 +122,8 @@ public class Skill
         countRemain = skillData.count;
         curCastPointIndex = 0;
 
-        targets = new List<ChampionController>();
-        mapGrids = new List<GridInfo>();
-
+        selectorResult = new SelectorResult();
+        targetsSelector = new SkillTargetsSelector();
 
         if (!string.IsNullOrEmpty(skillData.emitFXPrefab))
             emitPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Emit/" + skillData.emitFXPrefab);
@@ -123,141 +138,59 @@ public class Skill
 
         state = SkillState.Disable;
         skillController = owner.skillController;
+
+        if (!string.IsNullOrEmpty(skillData.skillDecorators[0].decorator))
+        {
+            foreach (var d in skillData.skillDecorators)
+            {
+                GetDecorator(d.decorator, d.values);
+            }
+        }
+
+        BindFunc();
+    }
+
+    public void BindFunc()
+    {
+        IsFindTargetFunc = IsFindTarget;
+
+        CastFunc = Cast;
+        TryInstanceEffectFunc = TryInstanceEffect;
+        EffectFunc = Effect;
+        AddBuffToTargetFunc = AddBuffToTarget;
+        AddDMGToTargetFunc = AddDMGToTarget;
+        OnCastingUpdateFunc = OnCastingUpdate;
+        IsFinishFunc = IsFinish;
+        DestroyEffectFunc = DestroyEffect;
+        OnFinishFunc = OnFinish;
+        ResetFunc = Reset;
+        PlayCastAnimFunc = PlayCastAnim;
+        PlayEndAnimFunc = PlayEndAnim;
     }
 
     public bool IsPrepared()
     {
         if (countRemain > 0 || countRemain == -1)
             if (owner.attributesController.curMana >= skillData.manaCost)
-                return IsFindTarget();
+                return IsFindTargetFunc();
         return false;
     }
 
     public virtual bool IsFindTarget()
     {
-        FindTargetsByType();
         if (skillTargetType != SkillTargetType.Self)
         {
-            targets.Add(FindTargetBySelectorType());
-            if (targets.Count == 0 || targets[0] == null)
-            {
+            ChampionManager manager = targetsSelector.FindTargetsManagerByType(skillTargetType, owner.team);
+            ChampionController c = targetsSelector.FindTargetBySelectorType(skillTargetSelectorType, manager, owner, skillData.distance);
+            if (c == null)
                 return false;
-            }
+            selectorResult = targetsSelector.FindTargetByRange(c, skillRangeSelectorType, skillData.range, owner.team);
+            return true;
         }
-        FindTargetByRange();
-        if (targets.Count == 0 && mapGrids.Count == 0)
+        else
         {
-            return false;
-        }
-        return true;
-    }
-
-    public virtual void FindTargetsByType()
-    {
-        switch (skillTargetType)
-        {
-            case SkillTargetType.Self:
-                targets.Add(owner);
-                break;
-            case SkillTargetType.Teammate:
-                if (owner.team == ChampionTeam.Player)
-                {
-                    manager = GamePlayController.Instance.ownChampionManager;
-                }
-                else
-                {
-                    manager = GamePlayController.Instance.oponentChampionManager;
-                }
-                break;
-            case SkillTargetType.Enemy:
-                if (owner.team == ChampionTeam.Player)
-                {
-                    manager = GamePlayController.Instance.oponentChampionManager;
-                }
-                else
-                {
-                    manager = GamePlayController.Instance.ownChampionManager;
-                }
-                break;
-        }
-    }
-
-    public virtual ChampionController FindTargetBySelectorType()
-    {
-        ChampionController c = null;
-        List<ChampionController> targetList = manager.championsHexaMapArray.FindAll(t => t.isDead == false);
-        targetList = targetList.FindAll(t => t.GetDistance(owner) <= (int)owner.attributesController.addRange.GetTrueValue() + skillData.distance);
-        float maxValue = 0;
-        switch (skillTargetSelectorType)
-        {
-            case SkillTargetSelectorType.Any:
-                c = manager.FindAnyTargetInRange(owner, (int)owner.attributesController.addRange.GetTrueValue() + skillData.distance);
-                break;
-            case SkillTargetSelectorType.Nearest:
-                c = manager.FindNearestTarget(owner, (int)owner.attributesController.addRange.GetTrueValue() + skillData.distance);
-                break;
-            case SkillTargetSelectorType.Farthest:
-                c = manager.FindFarthestTarget(owner, (int)owner.attributesController.addRange.GetTrueValue() + skillData.distance);
-                break;
-            case SkillTargetSelectorType.HighestDPS:
-                maxValue = targetList.Max(t => t.totalDamage);
-                c = targetList.Where(x => x.totalDamage == maxValue).FirstOrDefault();
-                break;
-            case SkillTargetSelectorType.HighestLevel:
-                //maxValue = targetList.Max(t => t.lvl);
-                //c = targetList.Where(x => x.lvl == maxValue).FirstOrDefault();
-                break;
-            case SkillTargetSelectorType.MostHP:
-                maxValue = targetList.Max(t => t.attributesController.curHealth);
-                c = targetList.Where(x => x.attributesController.curHealth == maxValue).FirstOrDefault();
-                break;
-            case SkillTargetSelectorType.LeastHP:
-                maxValue = targetList.Min(t => t.attributesController.curHealth);
-                c = targetList.Where(x => x.attributesController.curHealth == maxValue).FirstOrDefault();
-                break;
-            case SkillTargetSelectorType.MostTeammatesSurrounded:
-                maxValue = targetList.Max(t => t.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team == owner.team).Count);
-                c = targetList.Where(x => x.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team == owner.team).Count == maxValue).FirstOrDefault();
-                break;
-            case SkillTargetSelectorType.MostEnemiesSurrounded:
-                maxValue = targetList.Max(t => t.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team != owner.team).Count);
-                c = targetList.Where(x => x.occupyGridInfo.neighbors.FindAll(g => g.occupyChampion.team != owner.team).Count == maxValue).FirstOrDefault();
-                break;
-        }
-        return c;
-    }
-
-    public virtual void FindTargetByRange()
-    {
-
-        ChampionController c = targets[0];
-        switch (skillRangeSelectorType)
-        {
-            case SkillRangeSelectorType.TeammatesInRange:
-                if (owner.team == ChampionTeam.Player)
-                {
-                    manager = GamePlayController.Instance.ownChampionManager;
-                }
-                else
-                {
-                    manager = GamePlayController.Instance.oponentChampionManager;
-                }
-                targets = manager.championsHexaMapArray.FindAll(t => t.isDead == false && t.GetDistance(c) <= skillData.range);
-                break;
-            case SkillRangeSelectorType.EnemiesInRange:
-                if (owner.team == ChampionTeam.Player)
-                {
-                    manager = GamePlayController.Instance.oponentChampionManager;
-                }
-                else
-                {
-                    manager = GamePlayController.Instance.ownChampionManager;
-                }
-                targets = manager.championsHexaMapArray.FindAll(t => t.isDead == false && t.GetDistance(c) <= skillData.range);
-                break;
-            case SkillRangeSelectorType.MapHexInRange:
-                mapGrids = Map.Instance.GetGridArea(c.occupyGridInfo, skillData.range);
-                break;
+            selectorResult = new SelectorResult(new List<ChampionController>() { owner }, null);
+            return true;
         }
     }
 
@@ -270,8 +203,8 @@ public class Skill
         if (countRemain != -1)
             countRemain -= 1;
 
-        PlayCastAnim();
-        TryInstanceEffect();
+        PlayCastAnimFunc();
+        TryInstanceEffectFunc();
 
         curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
 
@@ -281,23 +214,22 @@ public class Skill
 
     public virtual void TryInstanceEffect()
     {
-        Debug.Log("TryInstanceEffect " + skillData.name);
         //生成技能特效弹道
         if (effectPrefab != null)
         {
             GameObject obj = GameObject.Instantiate(effectPrefab);
             //obj.transform.parent = GetCastPoint();
-            obj.transform.localPosition = GetCastPoint().position;
-            obj.transform.localRotation = GetCastPoint().rotation;
+            obj.transform.position = GetCastPoint().position;
+            obj.transform.rotation = GetCastPoint().rotation;
 
             SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
-            skillEffect.Init(this, targets[0].transform);
+            skillEffect.Init(this, selectorResult.targets[0].transform);
             effectInstances.Add(skillEffect);
 
         }
         else  //无特效弹道
         {
-            Effect();
+            EffectFunc();
         }
     }
 
@@ -308,15 +240,15 @@ public class Skill
 
     public virtual void Effect()
     {
-        foreach (ChampionController C in targets)
+        foreach (ChampionController C in selectorResult.targets)
         {
             if (!C.isDead)
             {
-                AddBuffToTarget(C);
-                AddDMGToTarget(C);
+                AddBuffToTargetFunc(C);
+                AddDMGToTargetFunc(C);
             }
         }
-        foreach (GridInfo G in mapGrids)
+        foreach (GridInfo G in selectorResult.mapGrids)
         {
             G.ApplyEffect(skillData.hexEffectPrefab);
         }
@@ -344,24 +276,24 @@ public class Skill
         curTime += Time.deltaTime;
         intervalTime += Time.deltaTime;
 
-        if (targets.Count == 0)
+        if (selectorResult.targets.Count == 0)
             return;
+
+        if (IsFinishFunc())
+        {
+            OnFinishFunc();
+        }
 
         if (intervalTime >= skillData.interval)
         {
             intervalTime = 0;
-            Effect();
-        }
-
-        if (isFinish())
-        {
-            OnFinish();
+            EffectFunc();
         }
     }
 
-    public virtual bool isFinish()
+    public virtual bool IsFinish()
     {
-        return (curTime >= skillData.duration) || (targets[0] == null ? targets[0].isDead : false);
+        return (curTime >= skillData.duration) || (selectorResult.targets[0] == null ? selectorResult.targets[0].isDead : false);
     }
 
     public virtual void DestroyEffect()
@@ -382,7 +314,7 @@ public class Skill
         state = SkillState.CD;
         curTime = 0;
         intervalTime = 0;
-        PlayEndAnim();
+        PlayEndAnimFunc();
     }
 
 
@@ -391,7 +323,7 @@ public class Skill
         state = SkillState.CD;
         curTime = 0;
         intervalTime = 0;
-        targets.Clear();
+        selectorResult.Clear();
         countRemain = skillData.count;
     }
 
@@ -435,7 +367,7 @@ public class Skill
         }
     }
 
-    bool HasParameter(Animator animator, string parameterName)
+    protected bool HasParameter(Animator animator, string parameterName)
     {
         foreach (var param in animator.parameters)
         {
@@ -446,21 +378,12 @@ public class Skill
         return false;
     }
 
-    public void GetDecorator(string decoratorName)
+    public void GetDecorator(string decoratorName, string paramsStr)
     {
         Type type = Type.GetType(decoratorName);
-        skillDecorators.Add((SkillDecorator)Activator.CreateInstance(type));
-    }
-
-    public void AddDecorators(SkillData _skillData)
-    {
-        if (!string.IsNullOrEmpty(_skillData.skillDecorators[0]))
-        {
-            foreach (var name in _skillData.skillDecorators)
-            {
-                GetDecorator(name);
-            }
-        }
+        SkillDecorator skillDecorator = (SkillDecorator)Activator.CreateInstance(type);
+        skillDecorator.GetParams(paramsStr);
+        skillDecorators.Add(skillDecorator);
     }
 }
 

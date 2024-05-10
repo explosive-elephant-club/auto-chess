@@ -2,9 +2,70 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColProjectileEffect : TrackProjectileEffect
+public class ColProjectileEffect : SkillEffect
 {
-    protected override void OnMovingUpdate()
+    ///初速度
+    public float speed;
+    //重力加速度
+    public float g;
+    protected bool isMoving = false;
+
+    //初始速度向量
+    protected Vector3 initialVelocity;
+    //重力向量
+    protected Vector3 Gravity;
+
+    //初始目标点
+    protected Vector3 oringinTarget;
+
+
+    public override void Init(Skill _skill, Transform _target)
+    {
+        base.Init(_skill, _target);
+        oringinTarget = target.position + new Vector3(0, 1.5f, 0);
+
+        isMoving = true;
+
+        CaculateInitialVelocity();
+
+        InstantiateEmitEffect();
+        PointedAtTarget(oringinTarget);
+    }
+
+    public virtual void CaculateInitialVelocity()
+    {
+        duration = Vector3.Distance(oringinTarget, transform.position) / speed;
+        initialVelocity = new Vector3(
+           (oringinTarget.x - transform.position.x) / duration,
+           (oringinTarget.y - transform.position.y) / duration - 0.5f * g * duration,
+            (oringinTarget.z - transform.position.z) / duration);
+        Gravity = Vector3.zero;
+    }
+
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        OnMovingUpdate();
+    }
+
+    protected void PointedAtVelocityDir()
+    {
+        Vector3 arrowDir = initialVelocity + Gravity;
+        Quaternion rotation = Quaternion.LookRotation(arrowDir, Vector3.up);
+        this.transform.rotation = rotation;
+    }
+
+    protected virtual void ParabolaMoving()
+    {
+        PointedAtVelocityDir();
+        Gravity.y = g * curTime;//v=at
+        //模拟位移
+        transform.Translate(initialVelocity * Time.fixedDeltaTime, Space.World);
+        transform.Translate(Gravity * Time.fixedDeltaTime, Space.World);
+    }
+
+    protected virtual void OnMovingUpdate()
     {
         if (isMoving)
         {
@@ -19,25 +80,15 @@ public class ColProjectileEffect : TrackProjectileEffect
 
     protected override void OnCollideChampionBegin(ChampionController c)
     {
-        OnEffect(c);
+        isMoving = false;
+        OnHitEffect(c);
+        InstantiateHitEffect(transform.position);
+        Destroy(gameObject);
     }
 
-    public virtual void OnEffect(ChampionController target)
+    protected virtual void OnHitEffect(ChampionController c)
     {
-        if (!target.isDead)
-        {
-            //buff
-            foreach (int buff_ID in skill.skillData.addBuffs)
-            {
-                if (buff_ID != 0)
-                    target.buffController.AddBuff(buff_ID, skill.owner);
-            }
-            //伤害
-            if (!string.IsNullOrEmpty(skill.skillData.damageData[0].type))
-            {
-                skill.owner.TakeDamage(target, skill.skillData.damageData);
-            }
-        }
-        Destroy(gameObject);
+        skill.selectorResult.targets = GetTargetsInRange(c);
+        skill.EffectFunc();
     }
 }

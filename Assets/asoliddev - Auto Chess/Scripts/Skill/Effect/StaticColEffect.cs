@@ -9,6 +9,7 @@ public class StaticColEffect : SkillEffect
     public override void Init(Skill _skill, Transform _target)
     {
         base.Init(_skill, _target);
+        transform.parent = skill.owner.transform;
         collidedTargets = new List<ChampionController>();
 
         InstantiateEmitEffect();
@@ -23,21 +24,16 @@ public class StaticColEffect : SkillEffect
             DestroySelf();
         }
     }
-
-
     protected override void OnCollideChampionBegin(ChampionController c)
     {
-        collidedTargets.Add(c);
-        skill.targets = collidedTargets;
+        base.OnCollideChampionBegin(c);
+        skill.selectorResult.targets = hits;
     }
 
     protected override void OnCollideChampionEnd(ChampionController c)
     {
-        if (collidedTargets.Contains(c))
-        {
-            collidedTargets.Remove(c);
-            skill.targets = collidedTargets;
-        }
+        base.OnCollideChampionEnd(c);
+        skill.selectorResult.targets = hits;
     }
 
 }

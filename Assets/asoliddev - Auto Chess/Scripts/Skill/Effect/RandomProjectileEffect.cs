@@ -57,7 +57,7 @@ public class RandomProjectileEffect : TrackProjectileEffect
 
     protected void PointedAtOffset()
     {
-        Vector3 relativePos = target.position + offset - transform.position;
+        Vector3 relativePos = oringinTarget + offset - transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
         this.transform.rotation = rotation;
     }
@@ -68,7 +68,7 @@ public class RandomProjectileEffect : TrackProjectileEffect
         transform.Rotate(new Vector3(XRotateSpeed, YRotateSpeed, ZRotateSpeed));
         transform.Translate(transform.forward * speed * Time.fixedDeltaTime, Space.World);
 
-        if (Vector3.Distance(oringinTarget, target.position) <= 1f || curTime > trackDuration)
+        if (Vector3.Distance(oringinTarget, this.transform.position) <= 1f || curTime > trackDuration)
         {
             isTrack = true;
         }

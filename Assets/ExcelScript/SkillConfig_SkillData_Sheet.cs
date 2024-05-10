@@ -123,9 +123,15 @@ namespace ExcelConfig
 		private string _icon;
 		public string icon { get { return _icon; } }
 
+		[Serializable]
+		public class skillDecoratorsClass
+		{
+			public string decorator;
+			public string values;
+		}
 		[SerializeField]
-		private string[] _skillDecorators;
-		public string[] skillDecorators { get { return _skillDecorators; } }
+		private skillDecoratorsClass[] _skillDecorators;
+		public skillDecoratorsClass[] skillDecorators { get { return _skillDecorators; } }
 
 
 		public SkillData()
@@ -196,11 +202,23 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _hitFXPrefab);
 			TryParse(sheet[row][column++], out _hexEffectPrefab);
 			TryParse(sheet[row][column++], out _icon);
-			string[] _skillDecoratorsArray = sheet[row][column++].Split(',');
-			int _skillDecoratorsCount = _skillDecoratorsArray.Length;
-			_skillDecorators = new string[_skillDecoratorsCount];
-			for(int i = 0; i < _skillDecoratorsCount; i++)
-				TryParse(_skillDecoratorsArray[i], out _skillDecorators[i]);
+			string rawskillDecorators = sheet[row][column++];
+			string[] subsskillDecorators_0 = rawskillDecorators.Split(';');
+			_skillDecorators = new skillDecoratorsClass[subsskillDecorators_0.Length];
+			for (int j = 0; j < subsskillDecorators_0.Length; ++j)
+			{
+				var _skillDecoratorsone = new skillDecoratorsClass();
+				_skillDecorators[j] = _skillDecoratorsone;
+				string[] subsskillDecorators_1 = subsskillDecorators_0[j].Split(',');
+				for (int i = 0; i < subsskillDecorators_1.Length; ++i)
+				{
+					var strValue = subsskillDecorators_1[i];
+					if (i == 0)
+						TryParse(strValue, out _skillDecoratorsone.decorator);
+					else if (i == 1)
+						TryParse(strValue, out _skillDecoratorsone.values);
+				}
+			}
 		}
 #endif
 		public override void OnAfterSerialized()

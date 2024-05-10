@@ -57,10 +57,14 @@ public class SkillController : MonoBehaviour
 
     public void OnUpdateCombat()
     {
+        if (cdTimer > 0)
+        {
+            cdTimer -= Time.deltaTime;
+        }
         if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)
             if (activedSkillList[curSkillIndex].state == SkillState.Casting)
             {
-                activedSkillList[curSkillIndex].OnCastingUpdate();
+                activedSkillList[curSkillIndex].OnCastingUpdateFunc();
             }
     }
 
@@ -68,9 +72,9 @@ public class SkillController : MonoBehaviour
     {
         float cd = championController.attributesController.castDelay.GetTrueValue(skill.skillData.castDelay);
         if (cd > 0)
-            return cd;
+            return cd + skill.skillData.duration;
         else
-            return 0;
+            return skill.skillData.duration;
     }
 
     float GetSkillChargingDelay()
@@ -107,13 +111,10 @@ public class SkillController : MonoBehaviour
     {
         if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)//等待持续施法
         {
-
             if (activedSkillList[curSkillIndex].state == SkillState.Casting)
             {
-                cdTimer -= Time.deltaTime;
                 return;
             }
-
         }
         if (activedSkillList[GetNextSkillIndex()] == null)//跳过null技能
         {
@@ -132,34 +133,50 @@ public class SkillController : MonoBehaviour
 
         if (cdTimer <= 0)//释放
         {
-            if (activedSkillList[GetNextSkillIndex()].IsPrepared())
+            if (HasNextPreparedSkill())//如果其他技能都未就绪,就等待
             {
-                foreach (var d in activedSkillList[GetNextSkillIndex()].skillDecorators)
+                if (activedSkillList[GetNextSkillIndex()].IsPrepared())
                 {
-                    if (!d.hasDecorated)
+                    foreach (var d in activedSkillList[GetNextSkillIndex()].skillDecorators)
                     {
-                        activedSkillList[GetNextSkillIndex()] = d.Decorate(activedSkillList[GetNextSkillIndex()]);
+                        if (!d.hasDecorated)
+                        {
+                            d.Decorate(activedSkillList[GetNextSkillIndex()]);
+                        }
+                    }
+                    activedSkillList[GetNextSkillIndex()].CastFunc();
+                    curCastDelay = GetSkillCastDelay(activedSkillList[GetNextSkillIndex()]);
+                    cdTimer = curCastDelay;
+                }
+                curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
+                if (GetNextSkillIndex() == 0)//一轮释放完毕
+                {
+                    if (curCastDelay < curChargingDelay)
+                    {
+                        curCastDelay = curChargingDelay;
+                        cdTimer = curChargingDelay;
                     }
                 }
-                activedSkillList[GetNextSkillIndex()].Cast();
-                curCastDelay = GetSkillCastDelay(activedSkillList[GetNextSkillIndex()]);
-                cdTimer = curCastDelay;
             }
-            curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
-            if (GetNextSkillIndex() == 0)//一轮释放完毕
+
+        }
+    }
+
+    bool HasNextPreparedSkill()
+    {
+        int index = curSkillIndex;
+        for (int i = 1; i < activedSkillList.Count; i++)
+        {
+            index = (index + i) % activedSkillList.Count;
+            if (activedSkillList[index] != null)
             {
-                if (curCastDelay < curChargingDelay)
+                if (activedSkillList[index].IsPrepared())
                 {
-                    curCastDelay = curChargingDelay;
-                    cdTimer = curChargingDelay;
+                    return true;
                 }
             }
         }
-        else
-        {
-            //Debug.Log("curCastDelay " + curCastDelay);
-            cdTimer -= Time.deltaTime;
-        }
+        return false;
     }
 
     public void ApplySkillDecorator(Skill skill)
@@ -196,7 +213,6 @@ public class SkillController : MonoBehaviour
     public void AddSkill(SkillData skillData, ConstructorBase _constructor)
     {
         Skill skill = new Skill();
-        skill.AddDecorators(skillData);
         skill.Init(skillData, championController, _constructor);
         /*foreach (var d in skill.skillDecorators)
         {
@@ -281,7 +297,7 @@ public class SkillController : MonoBehaviour
         foreach (var s in activedSkillList)
         {
             if (s != null)
-                s.Reset();
+                s.ResetFunc();
         }
     }
 }

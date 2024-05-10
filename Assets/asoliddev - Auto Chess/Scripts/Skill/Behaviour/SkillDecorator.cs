@@ -2,58 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ExcelConfig;
+using System;
 
 public class SkillDecorator : Skill
 {
     protected Skill skill;
+    protected string[] _params;
     public bool hasDecorated = false;
     public Skill Decorate(Skill _skill)
     {
         skill = _skill;
-        Inherit();
+        Init();
         hasDecorated = true;
         return this;
     }
 
-    public void Inherit()
+    public virtual void Init() { }
+
+    public virtual void GetParams(string str)
     {
-        skillData = skill.skillData;
-        curTime = skill.curTime;
-        intervalTime = skill.intervalTime;
-        skillTargetType = skill.skillTargetType;
-        skillRangeSelectorType = skill.skillRangeSelectorType;
-        skillTargetSelectorType = skill.skillTargetSelectorType;
-        owner = skill.owner;
-        constructor = skill.constructor;
-        countRemain = skill.countRemain;
-        emitPrefab = skill.emitPrefab;
-        effectPrefab = skill.effectPrefab;
-        hitFXPrefab = skill.hitFXPrefab;
-        icon = skill.icon;
-        targets = skill.targets;
-        mapGrids = skill.mapGrids;
-        state = skill.state;
-        effectInstances = skill.effectInstances;
-        skillController = skill.skillController;
-        skillDecorators = skill.skillDecorators;
-        manager = skill.manager;
-        curCastPointIndex = skill.curCastPointIndex;
+        if (!string.IsNullOrEmpty(str))
+            _params = str.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
     }
-
-
-    public override void TryInstanceEffect()
-    {
-        skill.TryInstanceEffect();
-    }
-
-
-
-
     /*
     public override void Init(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
     {
         skill.Init(_skillData, _owner, _constructor);
     }
+
+       public override void TryInstanceEffect()
+    {
+        skill.TryInstanceEffect();
+    }
+
 
 
      public override void OnCastingUpdate()

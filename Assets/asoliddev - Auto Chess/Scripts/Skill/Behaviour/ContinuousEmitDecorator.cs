@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class ContinuousEmitDecorator : SkillDecorator
 {
+    public override void Init()
+    {
+        skill.OnCastingUpdateFunc = OnCastingUpdate;
+    }
+
     public override void OnCastingUpdate()
     {
-        curTime += Time.deltaTime;
-        intervalTime += Time.deltaTime;
+        skill.curTime += Time.deltaTime;
+        skill.intervalTime += Time.deltaTime;
 
-        if (intervalTime >= skillData.interval)
+        if (skill.IsFinishFunc())
         {
-            intervalTime = 0;
-            TryInstanceEffect();
+            skill.OnFinishFunc();
         }
 
-        if (isFinish())
+        if (skill.intervalTime >= skill.skillData.interval)
         {
-            OnFinish();
+            skill.intervalTime = 0;
+            skill.TryInstanceEffectFunc();
         }
     }
 }
