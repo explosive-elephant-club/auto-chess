@@ -8,8 +8,8 @@ public class SalovEmitBDecorator : SkillDecorator
     public float spacing;
     public override void Init()
     {
-        effectCount = int.Parse(_params[0]);
-        spacing = float.Parse(_params[1]);
+        effectCount = int.Parse(GetParam("effectCount"));
+        spacing = float.Parse(GetParam("spacing"));
         skill.TryInstanceEffectFunc = TryInstanceEffect;
     }
 

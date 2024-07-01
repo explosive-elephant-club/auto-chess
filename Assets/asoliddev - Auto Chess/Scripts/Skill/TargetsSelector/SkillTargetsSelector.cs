@@ -22,8 +22,10 @@ public class SelectorResult
 
     public void Clear()
     {
-        targets.Clear();
-        mapGrids.Clear();
+        if (targets != null)
+            targets.Clear();
+        if (mapGrids != null)
+            mapGrids.Clear();
     }
 }
 

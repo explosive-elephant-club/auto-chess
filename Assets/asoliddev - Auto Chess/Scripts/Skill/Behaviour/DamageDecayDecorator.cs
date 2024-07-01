@@ -7,7 +7,7 @@ public class DamageDecayDecorator : SkillDecorator
     public float damageDecay;
     public override void Init()
     {
-        damageDecay = float.Parse(_params[0]);
+        damageDecay = float.Parse(GetParam("damageDecay"));
         skill.AddDMGToTargetFunc = AddDMGToTarget;
     }
 

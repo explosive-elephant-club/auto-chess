@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System;
 using UnityEngine.PlayerLoop;
 
+
 public class SkillPopup : Popup
 {
     public TextMeshProUGUI skillName;
@@ -39,25 +40,43 @@ public class SkillPopup : Popup
         CastDelay.value.text = skillData.castDelay.ToString();
         ChargingDelay.value.text = skillData.chargingDelay.ToString();
         ManaCost.value.text = skillData.manaCost.ToString();
-        Count.value.text = skillData.count.ToString();
+        if (skillData.count != -1)
+        {
+            Count.value.transform.parent.gameObject.SetActive(true);
+            Count.value.text = skillData.count.ToString();
+        }
+        else
+        {
+            Count.value.transform.parent.gameObject.SetActive(false);
+        }
+
         Distance.value.text = skillData.distance.ToString();
         Range.value.text = skillData.range.ToString();
-        base.Show(targetUI, dir);
-
         UpdateDamageInfo(skillData);
+        base.Show(targetUI, dir);
     }
 
     void UpdateDamageInfo(SkillData skillData)
     {
-        for (int i = 0; i < damageInfo.Count; i++)
+        if (skillData.damageData[0].dmg != 0)
         {
-            damageInfo[i].SetActive(false);
-            if (i < skillData.damageData.Length)
+            damageContent.parent.gameObject.SetActive(true);
+            for (int i = 0; i < damageInfo.Count; i++)
             {
-                damageInfo[i].transform.Find("DamageValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].dmg.ToString();
-                damageInfo[i].transform.Find("CorrectionValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].correction.ToString();
-                damageInfo[i].SetActive(true);
+                damageInfo[i].SetActive(false);
+                if (i < skillData.damageData.Length)
+                {
+                    //damageInfo[i].transform.Find("DamageType").GetComponent<TextMeshProUGUI>().text = string.Format("<sprite=\"AtributeIcon\" name=\"{0}\">", skillData.damageData[i].type);
+                    damageInfo[i].transform.Find("DamageValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].dmg.ToString();
+                    damageInfo[i].transform.Find("CorrectionValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].correction.ToString();
+                    damageInfo[i].SetActive(true);
+                }
             }
         }
+        else
+        {
+            damageContent.parent.gameObject.SetActive(false);
+        }
+
     }
 }

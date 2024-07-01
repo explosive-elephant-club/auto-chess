@@ -53,4 +53,8 @@ public class LineEffect : SkillEffect
         }
     }
 
+    protected override void OnCollideShieldBegin(Collider hit)
+    {
+        InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
+    }
 }

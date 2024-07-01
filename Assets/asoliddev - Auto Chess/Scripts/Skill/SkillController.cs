@@ -72,9 +72,9 @@ public class SkillController : MonoBehaviour
     {
         float cd = championController.attributesController.castDelay.GetTrueValue(skill.skillData.castDelay);
         if (cd > 0)
-            return cd + skill.skillData.duration;
+            return cd;
         else
-            return skill.skillData.duration;
+            return 0;
     }
 
     float GetSkillChargingDelay()
@@ -133,31 +133,30 @@ public class SkillController : MonoBehaviour
 
         if (cdTimer <= 0)//释放
         {
-            if (HasNextPreparedSkill())//如果其他技能都未就绪,就等待
+
+            if (activedSkillList[GetNextSkillIndex()].IsPrepared())
             {
-                if (activedSkillList[GetNextSkillIndex()].IsPrepared())
+                foreach (var d in activedSkillList[GetNextSkillIndex()].skillDecorators)
                 {
-                    foreach (var d in activedSkillList[GetNextSkillIndex()].skillDecorators)
+                    if (!d.hasDecorated)
                     {
-                        if (!d.hasDecorated)
-                        {
-                            d.Decorate(activedSkillList[GetNextSkillIndex()]);
-                        }
+                        d.Decorate(activedSkillList[GetNextSkillIndex()]);
                     }
-                    activedSkillList[GetNextSkillIndex()].CastFunc();
-                    curCastDelay = GetSkillCastDelay(activedSkillList[GetNextSkillIndex()]);
-                    cdTimer = curCastDelay;
                 }
-                curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
-                if (GetNextSkillIndex() == 0)//一轮释放完毕
+                activedSkillList[GetNextSkillIndex()].CastFunc();
+                curCastDelay = GetSkillCastDelay(activedSkillList[GetNextSkillIndex()]);
+                cdTimer = curCastDelay;
+            }
+            curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
+            if (GetNextSkillIndex() == 0)//一轮释放完毕
+            {
+                if (curCastDelay < curChargingDelay)
                 {
-                    if (curCastDelay < curChargingDelay)
-                    {
-                        curCastDelay = curChargingDelay;
-                        cdTimer = curChargingDelay;
-                    }
+                    curCastDelay = curChargingDelay;
+                    cdTimer = curChargingDelay;
                 }
             }
+
 
         }
     }
@@ -170,7 +169,7 @@ public class SkillController : MonoBehaviour
             index = (index + i) % activedSkillList.Count;
             if (activedSkillList[index] != null)
             {
-                if (activedSkillList[index].IsPrepared())
+                if (activedSkillList[index].IsAvailable())
                 {
                     return true;
                 }

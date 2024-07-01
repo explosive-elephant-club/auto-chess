@@ -24,6 +24,18 @@ public class SkillDecorator : Skill
         if (!string.IsNullOrEmpty(str))
             _params = str.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
     }
+
+    public string GetParam(string name)
+    {
+        foreach (var p in skill.skillData.paramValues)
+        {
+            if (p.name == name)
+            {
+                return p.value;
+            }
+        }
+        return null;
+    }
     /*
     public override void Init(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
     {

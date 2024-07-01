@@ -1,0 +1,33 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:dc598732aa06cb92e6e6b4c717fae09f:a68320b8d9c73976f67fab1851660594:b061f8f43dafa9aef56fc02d553f3aab$
+#
+:format=40300
+:texture=aa.png
+:size=2048x256
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+Icon_Again;0;128;128;128; 0.5;0.5; 0;0;0;0
+ICON_Attack;128;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Bottle;256;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Bullet;384;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Bullseye-arrow;512;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Fire;640;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Gun;768;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Jump;896;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Jump1;1024;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Life;1152;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Lightning;1280;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Money4;1408;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Next2;1536;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Run2;1664;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Shield;1792;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Target;1920;128;128;128; 0.5;0.5; 0;0;0;0
+Icon_Terror;0;0;128;128; 0.5;0.5; 0;0;0;0
+Icon_Water;128;0;128;128; 0.5;0.5; 0;0;0;0

@@ -344,7 +344,7 @@ MonoBehaviour:
     _name: 
     _prefab: 
     _type: 
-    _cost: 0
+    _level: 0
     _property1: 
     _property2: 
     _property3: 
@@ -362,3 +362,4 @@ MonoBehaviour:
   - {fileID: 400004}
   renderers:
   - {fileID: 13700000}
+  cost: 0

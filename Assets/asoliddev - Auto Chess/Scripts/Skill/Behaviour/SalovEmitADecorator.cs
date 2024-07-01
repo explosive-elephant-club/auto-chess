@@ -8,8 +8,8 @@ public class SalovEmitADecorator : SkillDecorator
     public int salovRange;
     public override void Init()
     {
-        effectCount = int.Parse(_params[0]);
-        salovRange = int.Parse(_params[1]);
+        effectCount = int.Parse(GetParam("effectCount"));
+        salovRange = int.Parse(GetParam("salovRange"));
         skill.TryInstanceEffectFunc = TryInstanceEffect;
     }
 

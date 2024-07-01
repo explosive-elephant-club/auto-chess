@@ -144,6 +144,7 @@ public class ConstructorBase : MonoBehaviour
         {
             foreach (var id in constructorData.skillID)
             {
+                UnityEngine.Debug.Log("AddSkill " + id);
                 championController.skillController.AddSkill(id, this);
             }
         }
@@ -168,7 +169,7 @@ public class ConstructorBase : MonoBehaviour
             operation.reset.Invoke();
         }
         championController.skillController.RemoveSkill(this);
-        UIController.Instance.championInfoController.UpdateSkillSlot();
+        UIController.Instance.championInfoController.UpdateUI();
     }
 
     //更换涂装
@@ -249,7 +250,7 @@ public class ConstructorBase : MonoBehaviour
         GameObject obj = Instantiate(Resources.Load<GameObject>("Prefab/Constructor/" + constructorData.prefab));
         ConstructorBase _constructorBase = obj.GetComponent<ConstructorBase>();
         _constructorBase.Init(constructorData, championController, false);
-        UIController.Instance.championInfoController.UpdateSkillSlot();
+        UIController.Instance.championInfoController.UpdateUI();
         AttachConstructor(_constructorBase, slot);
     }
 

@@ -12,8 +12,9 @@ public class Map : CreateSingleton<Map>
 {
     public static int hexMapSizeX = 7;
     public static int hexMapSizeZ = 8;
-    public static int inventorySize = 36;
+    public static int inventorySize = 28;
 
+    public static float hexEdgeLength = 2.4f;
 
     //地图格子坐标
     [HideInInspector]
@@ -98,8 +99,8 @@ public class Map : CreateSingleton<Map>
         for (int i = 0; i < inventorySize; i++)
         {
             //calculate position x offset for this slot
-            float offsetX = (i % 9) * -2.5f;
-            float offsetY = Mathf.Floor(i / 9) * 2.5f;
+            float offsetX = (i % 7) * -4f;
+            float offsetY = Mathf.Floor(i / 7) * 4f;
             //calculate and store the position
             //Vector3 position = GetMapHitPoint(ownInventoryStartPosition.position + new Vector3(offsetX, 0, offsetY));
 
@@ -111,8 +112,8 @@ public class Map : CreateSingleton<Map>
         for (int i = 0; i < inventorySize; i++)
         {
             //calculate position x offset for this slot
-            float offsetX = (i % 9) * -2.5f;
-            float offsetY = Mathf.Floor(i / 9) * -2.5f;
+            float offsetX = (i % 7) * -4f;
+            float offsetY = Mathf.Floor(i / 7) * -4f;
 
             //calculate and store the position
             //Vector3 position = GetMapHitPoint(oponentInventoryStartPosition.position + new Vector3(offsetX, 0, offsetY));
@@ -129,9 +130,11 @@ public class Map : CreateSingleton<Map>
                 //calculate even or add row
                 int rowOffset = z % 2;
 
+                float weightX = hexEdgeLength * Mathf.Sqrt(3);
+                float heightZ = hexEdgeLength * 1.5f;
                 //calculate position x and z
-                float offsetX = x * -3f + rowOffset * -1.5f;
-                float offsetZ = z * -2.5f;
+                float offsetX = x * -weightX + rowOffset * -weightX / 2;
+                float offsetZ = z * -heightZ;
 
                 //calculate and store the position
                 Vector3 position = GetMapHitPoint(mapStartPosition.position + new Vector3(offsetX, 0, offsetZ));

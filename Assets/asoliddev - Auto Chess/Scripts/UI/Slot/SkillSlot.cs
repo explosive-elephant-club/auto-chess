@@ -14,6 +14,7 @@ public class SkillSlot : ContainerSlot
     public Image BG;
     public Image cdMask;
     public Image pickTip;
+    public TextMeshProUGUI countText;
     public Skill skill;
     public bool isActivated;
     public SkillState skillState;
@@ -29,6 +30,7 @@ public class SkillSlot : ContainerSlot
             skillState = skill.state;
         }
         UpdateCDMask();
+        UpdateCount();
     }
 
     public void Init(Skill _skill, bool _isActivated)
@@ -81,7 +83,7 @@ public class SkillSlot : ContainerSlot
             }
             else
             {
-                if (skill.skillController.GetNextSkill() == skill)
+                if (skill.skillController.GetNextSkill() == skill && skill.IsAvailable())
                 {
                     pickTip.gameObject.SetActive(true);
                     cdMask.fillAmount = skill.skillController.cdTimer / skill.skillController.curCastDelay;
@@ -99,6 +101,36 @@ public class SkillSlot : ContainerSlot
             pickTip.gameObject.SetActive(false);
             cdMask.fillAmount = 0;
         }
+    }
+
+    public void UpdateCount()
+    {
+        if (skill == null || skill.skillData.count == -1)
+        {
+            countText.gameObject.SetActive(false);
+            return;
+        }
+
+        if (isActivated)
+        {
+            countText.gameObject.SetActive(true);
+            countText.text = skill.countRemain.ToString();
+
+        }
+        else
+        {
+            if (skill.state != SkillState.Disable)
+            {
+                countText.gameObject.SetActive(false);
+            }
+            else
+            {
+                countText.gameObject.SetActive(true);
+                countText.text = skill.countRemain.ToString();
+            }
+
+        }
+
     }
 
     public void Clear()

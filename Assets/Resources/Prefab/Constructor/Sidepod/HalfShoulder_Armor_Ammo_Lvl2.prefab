@@ -162,7 +162,7 @@ MonoBehaviour:
     _name: 
     _prefab: 
     _type: 
-    _cost: 0
+    _level: 0
     _property1: 
     _property2: 
     _property3: 
@@ -181,6 +181,7 @@ MonoBehaviour:
   renderers:
   - {fileID: 2300000}
   - {fileID: 787325675671038473}
+  cost: 0
 --- !u!1 &787325675668780233
 GameObject:
   m_ObjectHideFlags: 0

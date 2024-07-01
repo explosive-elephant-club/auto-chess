@@ -23,7 +23,7 @@ public class SkillEffect : MonoBehaviour
         target = _target;
         curTime = 0;
         duration = skill.skillData.duration;
-        hits=new List<ChampionController>();
+        hits = new List<ChampionController>();
     }
 
     protected virtual void FixedUpdate()
@@ -69,6 +69,15 @@ public class SkillEffect : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider hit)
     {
+        if (hit.tag == "Shield")
+        {
+            ShieldEffect shieldEffect = hit.GetComponent<ShieldEffect>();
+            if (shieldEffect.skill.owner.team != skill.owner.team)
+            {
+                OnCollideShieldBegin(hit);
+                return;
+            }
+        }
         ChampionController c = hit.gameObject.GetComponent<ChampionController>();
         if (c == null)
             return;
@@ -113,6 +122,14 @@ public class SkillEffect : MonoBehaviour
         }
     }
 
+    protected virtual void OnCollideShieldBegin(Collider hit)
+    {
+        InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
+        ShieldEffect shieldEffect = hit.GetComponent<ShieldEffect>();
+        shieldEffect.OnGotHit(skill.owner, skill.skillData.damageData);
+        Destroy(gameObject);
+    }
+
     protected virtual void OnCollideChampionBegin(ChampionController c)
     {
         hits.Add(c);
@@ -129,5 +146,17 @@ public class SkillEffect : MonoBehaviour
     protected virtual List<ChampionController> GetTargetsInRange(ChampionController c)
     {
         return skill.targetsSelector.FindTargetByRange(c, skill.skillRangeSelectorType, skill.skillData.range, skill.owner.team).targets;
+    }
+
+    public string GetParam(string name)
+    {
+        foreach (var p in skill.skillData.paramValues)
+        {
+            if (p.name == name)
+            {
+                return p.value;
+            }
+        }
+        return null;
     }
 }

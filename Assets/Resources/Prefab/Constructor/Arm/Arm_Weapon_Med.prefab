@@ -70,7 +70,7 @@ MonoBehaviour:
     _name: 
     _prefab: 
     _type: 
-    _cost: 0
+    _level: 0
     _property1: 
     _property2: 
     _property3: 
@@ -101,6 +101,7 @@ MonoBehaviour:
   skillCastPoints: []
   renderers:
   - {fileID: 2300002}
+  cost: 0
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

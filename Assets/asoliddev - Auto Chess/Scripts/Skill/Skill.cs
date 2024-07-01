@@ -73,7 +73,7 @@ public class Skill
 
     public ChampionController owner;//技能的拥有者
     public ConstructorBase constructor;//技能的载体
-    public float countRemain;
+    public int countRemain;
 
     public GameObject emitPrefab;
     public GameObject effectPrefab;
@@ -139,11 +139,11 @@ public class Skill
         state = SkillState.Disable;
         skillController = owner.skillController;
 
-        if (!string.IsNullOrEmpty(skillData.skillDecorators[0].decorator))
+        if (!string.IsNullOrEmpty(skillData.skillDecorators[0]))
         {
             foreach (var d in skillData.skillDecorators)
             {
-                GetDecorator(d.decorator, d.values);
+                GetDecorator(d);
             }
         }
 
@@ -168,11 +168,20 @@ public class Skill
         PlayEndAnimFunc = PlayEndAnim;
     }
 
-    public bool IsPrepared()
+    public bool IsAvailable()
     {
         if (countRemain > 0 || countRemain == -1)
             if (owner.attributesController.curMana >= skillData.manaCost)
-                return IsFindTargetFunc();
+            {
+                return true;
+            }
+        return false;
+    }
+
+    public bool IsPrepared()
+    {
+        if (IsAvailable())
+            return IsFindTargetFunc();
         return false;
     }
 
@@ -240,18 +249,20 @@ public class Skill
 
     public virtual void Effect()
     {
-        foreach (ChampionController C in selectorResult.targets)
-        {
-            if (!C.isDead)
+        if (selectorResult.targets != null)
+            foreach (ChampionController C in selectorResult.targets)
             {
-                AddBuffToTargetFunc(C);
-                AddDMGToTargetFunc(C);
+                if (!C.isDead)
+                {
+                    AddBuffToTargetFunc(C);
+                    AddDMGToTargetFunc(C);
+                }
             }
-        }
-        foreach (GridInfo G in selectorResult.mapGrids)
-        {
-            G.ApplyEffect(skillData.hexEffectPrefab);
-        }
+        if (selectorResult.mapGrids != null)
+            foreach (GridInfo G in selectorResult.mapGrids)
+            {
+                G.ApplyEffect(skillData.hexEffectPrefab);
+            }
     }
 
     public virtual void AddBuffToTarget(ChampionController target)
@@ -378,11 +389,10 @@ public class Skill
         return false;
     }
 
-    public void GetDecorator(string decoratorName, string paramsStr)
+    public void GetDecorator(string decoratorName)
     {
         Type type = Type.GetType(decoratorName);
         SkillDecorator skillDecorator = (SkillDecorator)Activator.CreateInstance(type);
-        skillDecorator.GetParams(paramsStr);
         skillDecorators.Add(skillDecorator);
     }
 }

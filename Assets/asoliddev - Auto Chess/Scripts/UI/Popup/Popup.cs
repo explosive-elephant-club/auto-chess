@@ -19,12 +19,14 @@ public class TextPair
 public class Popup : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
+    public RectTransform rectTransform;
     RebuildAllLayout rebuildAllLayout;
     public bool isNailed = false;
     void Awake()
     {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
-        rebuildAllLayout = gameObject.GetComponent<RebuildAllLayout>();
+        canvasGroup = GetComponent<CanvasGroup>();
+        rebuildAllLayout = GetComponent<RebuildAllLayout>();
+        rectTransform = GetComponent<RectTransform>();
         SetUIActive(false);
     }
 
@@ -34,14 +36,14 @@ public class Popup : MonoBehaviour
 
     public virtual void Show(GameObject targetUI, Vector2 dir, float length = 5f)
     {
-        UpdatePosition(targetUI, dir, length);
         UIController.Instance.popupController.curPickedPopup = this;
-        StartCoroutine(AsyncUpdate());
+        StartCoroutine(AsyncUpdate(targetUI, dir, length));
     }
 
-    IEnumerator AsyncUpdate()
+    IEnumerator AsyncUpdate(GameObject targetUI, Vector2 dir, float length = 5f)
     {
         yield return StartCoroutine(rebuildAllLayout.RebuildAllSizeFitterRects());
+        UpdatePosition(targetUI, dir, length);
         SetUIActive(true);
     }
 
@@ -77,17 +79,18 @@ public class Popup : MonoBehaviour
         float targetLength = 0;
         if (dir.x != 0)
         {
-            selfLength = GetComponent<RectTransform>().rect.width;
+            selfLength = rectTransform.rect.width;
             targetLength = targetUI.GetComponent<RectTransform>().rect.width;
         }
         else
         {
-            selfLength = GetComponent<RectTransform>().rect.height;
+            selfLength = rectTransform.rect.height;
             targetLength = targetUI.GetComponent<RectTransform>().rect.height;
         }
         float offset = (targetLength + selfLength) / 2 + length;
         transform.position = targetUI.transform.position;
-        GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + dir.normalized * offset;
+        rectTransform.anchoredPosition = rectTransform.anchoredPosition + dir.normalized * offset;
+        LockOnScreen();
     }
 
     public void Nail()
@@ -108,6 +111,36 @@ public class Popup : MonoBehaviour
             isNailed = false;
             SetUIActive(false);
             UIController.Instance.popupController.UpdateNailedPopupsInteract();
+        }
+    }
+
+    public void LockOnScreen()
+    {
+        float topDis = Mathf.Abs(rectTransform.anchoredPosition.y) - rectTransform.rect.height / 2;
+        float bottomDis = transform.parent.GetComponent<RectTransform>().rect.height -
+                            Mathf.Abs(rectTransform.anchoredPosition.y) -
+                                rectTransform.rect.height / 2;
+        float leftDis = Mathf.Abs(rectTransform.anchoredPosition.x) - rectTransform.rect.width / 2;
+        float rightDis = transform.parent.GetComponent<RectTransform>().rect.width -
+                            Mathf.Abs(rectTransform.anchoredPosition.x) -
+                                rectTransform.rect.width / 2;
+
+        if (topDis < 0)
+        {
+            rectTransform.anchoredPosition = rectTransform.anchoredPosition + new Vector2(0, topDis);
+        }
+        else if (bottomDis < 0)
+        {
+            rectTransform.anchoredPosition = rectTransform.anchoredPosition + new Vector2(0, -bottomDis);
+        }
+
+        if (leftDis < 0)
+        {
+            rectTransform.anchoredPosition = rectTransform.anchoredPosition + new Vector2(-leftDis, 0);
+        }
+        else if (rightDis < 0)
+        {
+            rectTransform.anchoredPosition = rectTransform.anchoredPosition + new Vector2(rightDis, 0);
         }
     }
 }

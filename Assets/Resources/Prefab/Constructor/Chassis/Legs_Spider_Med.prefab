@@ -71,7 +71,7 @@ MonoBehaviour:
     _name: 
     _prefab: 
     _type: 
-    _cost: 0
+    _level: 0
     _property1: 
     _property2: 
     _property3: 
@@ -131,6 +131,7 @@ MonoBehaviour:
   - {fileID: 2300052}
   - {fileID: 2300054}
   - {fileID: 2300056}
+  cost: 0
 --- !u!114 &-4892201860356085042
 MonoBehaviour:
   m_ObjectHideFlags: 0

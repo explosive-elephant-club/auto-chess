@@ -9327,6 +9327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
+  isAttach: 1
 --- !u!136 &8504843298493850988
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -361,7 +361,7 @@ MonoBehaviour:
     _name: 
     _prefab: 
     _type: 
-    _cost: 0
+    _level: 0
     _property1: 
     _property2: 
     _property3: 
@@ -389,8 +389,9 @@ MonoBehaviour:
   enablePlayNewSkillAnim: 1
   championController: {fileID: 0}
   animator: {fileID: 0}
-  skillCastPoint: {fileID: 400014}
+  skillCastPoints: []
   renderers: []
+  cost: 0
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

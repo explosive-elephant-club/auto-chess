@@ -350,18 +350,20 @@ public class ChampionController : MonoBehaviour
         if (target == null)
             return;
         buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
+        float crit = 1;
+        if (attributesController.CritCheck())
+        {
+            Debug.Log("暴击");
+            crit = attributesController.critMultiple.GetTrueValue();
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterCrit.ToString());
+        }
         List<SkillData.damageDataClass> addDamages = new List<SkillData.damageDataClass>();
         for (int i = 0; i < damages.Length; i++)
         {
             float trueDamage = attributesController.GetTrueDamage(damages[i].dmg,
                 (DamageType)Enum.Parse(typeof(DamageType), damages[i].type), damages[i].correction);
             trueDamage *= fix;
-            if (attributesController.CritCheck())
-            {
-                Debug.Log("暴击");
-                trueDamage *= attributesController.critMultiple.GetTrueValue();
-                buffController.eventCenter.Broadcast(BuffActiveMode.AfterCrit.ToString());
-            }
+            trueDamage *= crit;
 
             totalDamage += trueDamage;
             addDamages.Add(new SkillData.damageDataClass() { dmg = (int)trueDamage, type = damages[i].type });
@@ -370,10 +372,28 @@ public class ChampionController : MonoBehaviour
         buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
     }
 
-    /// <summary>
-    /// Called when this champion takes damage
-    /// </summary>
-    /// <param name="damage"></param>
+    public void TakeDamage(ChampionController _target, float dmg, DamageType damageType, float correction = 0, float fix = 1)
+    {
+        if (target == null)
+            return;
+        buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
+        float crit = 1;
+        if (attributesController.CritCheck())
+        {
+            Debug.Log("暴击");
+            crit = attributesController.critMultiple.GetTrueValue();
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterCrit.ToString());
+        }
+        float trueDamage = attributesController.GetTrueDamage(dmg, damageType, correction);
+        trueDamage *= fix;
+        trueDamage *= crit;
+        OnGotHit(trueDamage, damageType);
+        
+        totalDamage += trueDamage;
+
+        buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+    }
+
     public bool OnGotHit(List<SkillData.damageDataClass> addDamages)
     {
         if (attributesController.HitCheck())
@@ -392,6 +412,30 @@ public class ChampionController : MonoBehaviour
                 }
             }
 
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterHit.ToString());
+        }
+        else
+        {
+            Debug.Log("闪避");
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterDodge.ToString());
+        }
+        return isDead;
+    }
+
+    public bool OnGotHit(float dmg, DamageType damageType)
+    {
+        if (attributesController.HitCheck())
+        {
+            buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
+
+            float trueDMG = attributesController.ApplyDamage(dmg, damageType);
+            //add floating text
+            WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
+            //death
+            if (attributesController.curHealth <= 0)
+            {
+                Dead();
+            }
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterHit.ToString());
         }
         else
