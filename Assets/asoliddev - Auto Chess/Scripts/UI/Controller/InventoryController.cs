@@ -40,7 +40,7 @@ public class InventoryController : BaseControllerUI
     // Start is called before the first frame update
     void Awake()
     {
-        foreach (Transform child in transform.Find("Panel/InventorySlots/Viewport/Content"))
+        foreach (Transform child in viewport.transform.Find("Content"))
         {
             inventorySlots.Add(child.gameObject.GetComponent<InventorySlot>());
         }

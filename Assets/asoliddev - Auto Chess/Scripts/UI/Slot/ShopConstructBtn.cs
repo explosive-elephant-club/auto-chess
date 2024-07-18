@@ -11,17 +11,20 @@ public class ShopConstructBtn : ContainerSlot
     public GameObject ablePanel;
     public GameObject lockImage;
     public Image iconImage;
-    public Image levelFrameImage;
+    public Image frameImage;
+
     public GameObject[] typeIconArray;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI typeText;
     public TextMeshProUGUI buyCostText;
     public TextMeshProUGUI addCostText;
 
-    public Sprite[] levelFrames;
+    public Sprite[] frames;
+
     public ConstructorBaseData constructorData;
 
     int cost;
+    GameObject[] connectors;
 
     // Start is called before the first frame update
     void Awake()
@@ -48,7 +51,10 @@ public class ShopConstructBtn : ContainerSlot
     }
     public void Refresh(ConstructorBaseData data)
     {
+        GetComponent<Button>().interactable = true;
+        frameImage.sprite = frames[Random.Range(0, frames.Length)];
         ablePanel.SetActive(true);
+
         constructorData = data;
         LoadIcon();
         cost = Mathf.CeilToInt
@@ -56,10 +62,10 @@ public class ShopConstructBtn : ContainerSlot
          GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
 
         nameText.text = constructorData.name;
+        Color color = GameConfig.Instance.levelColors[constructorData.level - 1];
+        ablePanel.GetComponent<Image>().color = new Color(color.r, color.g, color.b, ablePanel.GetComponent<Image>().color.a);
         typeText.text = constructorData.type.ToString();
         buyCostText.text = cost.ToString();
-
-        levelFrameImage.sprite = levelFrames[constructorData.level - 1];
         UpdateType();
     }
     public void BuyConstruct()
@@ -88,15 +94,10 @@ public class ShopConstructBtn : ContainerSlot
             }
         }
     }
-    public void ShowAdd()
-    {
-        ablePanel.SetActive(false);
-        addCostText.text = GameConfig.Instance.addSlotCostList
-            [GameData.Instance.constructsOnSaleLimit - 3].ToString();
-    }
     public void BuySuccessHide()
     {
-        ablePanel.SetActive(false);
+        //ablePanel.SetActive(false);
+        GetComponent<Button>().interactable = false;
     }
     public void OnPointerEnterEvent(PointerEventData eventData)
     {

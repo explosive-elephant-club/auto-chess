@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : ContainerSlot
 {
-    public Sprite[] levelFrames;
+    public Sprite[] frames;
     public Image icon;
     public GameObject pointTip;
     public InventoryConstructor inventoryConstructor;
@@ -18,7 +18,8 @@ public class InventorySlot : ContainerSlot
     public void Init(InventoryConstructor _inventoryConstructor)
     {
         inventoryConstructor = _inventoryConstructor;
-        GetComponent<Image>().sprite = levelFrames[inventoryConstructor.constructorBaseData.level - 1];
+        GetComponent<Image>().sprite = frames[Random.Range(0, frames.Length)];
+        GetComponent<Image>().color = GameConfig.Instance.levelColors[inventoryConstructor.constructorBaseData.level - 1];
         pointTip.SetActive(inventoryConstructor.isNew);
         LoadIcon();
         ClearAllListener();

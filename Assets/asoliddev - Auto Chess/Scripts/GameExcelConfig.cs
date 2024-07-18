@@ -27,6 +27,7 @@ public class GameExcelConfig : CreateSingleton<GameExcelConfig>
         _eeDataManager.Load();
 
         constructorsArray = _eeDataManager.GetList<ConstructorBaseData>();
+        Debug.Log("constructorsArray Start");
         constructorSlotTypesArray = _eeDataManager.GetList<ConstructorSlotType>();
 
         baseBuffsArray = _eeDataManager.GetList<BaseBuffData>();

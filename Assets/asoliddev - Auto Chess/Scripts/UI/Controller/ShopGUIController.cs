@@ -1,9 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ExcelConfig;
+using UnityEngine.Events;
 
 public class ShopGUIController : BaseControllerUI
 {
@@ -11,9 +12,9 @@ public class ShopGUIController : BaseControllerUI
     public Toggle constructToggle;
     public Toggle updateToggle;
     public Toggle relicToggle;
-    public Toggle refiningToggle;
     public Toggle composeToggle;
     public Toggle lottoToggle;
+    Animator contentAnimmator;
 
     Toggle lastActivedToggle;
 
@@ -21,10 +22,12 @@ public class ShopGUIController : BaseControllerUI
     public ShopUpdateController shopUpdateController;
 
     GameObject lastActivedSubPanel;
+    public UnityEvent contentSwitchEvent;
 
     void Awake()
     {
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        contentAnimmator = GetComponent<Animator>();
     }
     void Start()
     {
@@ -51,16 +54,25 @@ public class ShopGUIController : BaseControllerUI
             {
                 if (b)
                 {
+                    contentAnimmator.SetTrigger("Switch");
                     OnToggleActive(constructToggle);
-                    ActiveConstructPanel();
+                    contentSwitchEvent.AddListener(() =>
+                    {
+                        ActiveConstructPanel();
+                    });
                 }
             });
         updateToggle.onValueChanged.AddListener((bool b) =>
         {
             if (b)
             {
-                ActiveUpdatePanel();
+                contentAnimmator.SetTrigger("Switch");
                 OnToggleActive(updateToggle);
+                contentSwitchEvent.AddListener(() =>
+                {
+                    ActiveUpdatePanel();
+                });
+
             }
         });
         relicToggle.onValueChanged.AddListener((bool b) =>
@@ -68,13 +80,6 @@ public class ShopGUIController : BaseControllerUI
             if (b)
             {
                 OnToggleActive(relicToggle);
-            }
-        });
-        refiningToggle.onValueChanged.AddListener((bool b) =>
-        {
-            if (b)
-            {
-                OnToggleActive(refiningToggle);
             }
         });
         composeToggle.onValueChanged.AddListener((bool b) =>
@@ -91,6 +96,12 @@ public class ShopGUIController : BaseControllerUI
                 OnToggleActive(lottoToggle);
             }
         });
+    }
+
+    public void OnContentSwitchEvent()
+    {
+        contentSwitchEvent.Invoke();
+        contentSwitchEvent.RemoveAllListeners();
     }
 
     void OnToggleActive(Toggle toggle)

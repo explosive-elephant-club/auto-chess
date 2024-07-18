@@ -46,13 +46,13 @@ public class GameConfig : CreateSingleton<GameConfig>
     public int baseGoldIncome = 5;
     public int refreshCost;
 
-    public int[] addSlotCostList;
-
     [Header("装甲材质")]
     public Material[] mechMaterial1;
     public Material[] mechMaterial2;
     public Material[] mechMaterial3;
 
+    [Header("升级")]
+    [SerializeField]
     public CombatLevelData[] combatLevelData;
     public TradeLevelData[] tradeLevelData;
     public CommandLevelData[] commandLevelData;
@@ -60,6 +60,9 @@ public class GameConfig : CreateSingleton<GameConfig>
 
     [Header("总价转换伤害")]
     public int[] enemyPunish;
+
+    [Header("等级颜色")]
+    public Color[] levelColors;
 
 
     protected override void InitSingleton()
@@ -91,16 +94,16 @@ public class GameConfig : CreateSingleton<GameConfig>
 
     public TradeLevelData GetCurTradeLevelData()
     {
-        return tradeLevelData[GameData.Instance.combatLevel - 1];
+        return tradeLevelData[GameData.Instance.tradeLevel - 1];
     }
 
     public CommandLevelData GetCurCommandLevelData()
     {
-        return commandLevelData[GameData.Instance.combatLevel - 1];
+        return commandLevelData[GameData.Instance.commandLevel - 1];
     }
 
     public LogisticsLevelData GetCurLogisticsLevelData()
     {
-        return logisticsLevelData[GameData.Instance.combatLevel - 1];
+        return logisticsLevelData[GameData.Instance.logisticsLevel - 1];
     }
 }

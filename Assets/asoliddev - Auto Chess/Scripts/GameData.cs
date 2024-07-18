@@ -17,6 +17,8 @@ public class InventoryConstructor
 
 public class GameData : CreateSingleton<GameData>
 {
+    
+    public int[] testList;
     public int currentHP = 100;
     public int currentGold = 0;
     public List<InventoryConstructor> allInventoryConstructors;
