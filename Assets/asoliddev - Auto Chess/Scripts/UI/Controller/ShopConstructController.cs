@@ -97,7 +97,6 @@ public class ShopConstructController : MonoBehaviour
         int sp = rp + tradeLevelData.SP;
         int ep = sp + tradeLevelData.EP;
         int lp = ep + tradeLevelData.LP;
-
         //randomise a number
         int rand = Random.Range(0, 100);
         if (rand < np)

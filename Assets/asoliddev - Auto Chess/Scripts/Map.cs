@@ -67,8 +67,8 @@ public class Map : CreateSingleton<Map>
 
         m_Plane = new Plane(Vector3.up, Vector3.zero);
 
-        //Invoke("Ready", 1f);
-        GamePlayController.Instance.OnMapReady();
+        Invoke("Ready", 1f);
+        //GamePlayController.Instance.OnMapReady();
 
     }
 
