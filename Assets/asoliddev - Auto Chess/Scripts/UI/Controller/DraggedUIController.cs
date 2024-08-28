@@ -59,8 +59,9 @@ public class DraggedUIController : MonoBehaviour
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-        offset = new Vector3(mousePos.x, mousePos.y, 0) - transform.position;
+        offset = new Vector3(5, 5, 0);
+        //Vector2 mousePos = Mouse.current.position.ReadValue();
+        //offset = new Vector3(mousePos.x, mousePos.y, 0) - transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)

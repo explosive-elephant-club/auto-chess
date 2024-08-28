@@ -10,18 +10,33 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : ContainerSlot
 {
-    public Sprite[] frames;
+    int cost;
+    public Image[] images;
     public Image icon;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI typeText;
+    public TextMeshProUGUI buyCostText;
+    public GameObject[] typeIconArray;
+
     public GameObject pointTip;
     public InventoryConstructor inventoryConstructor;
 
     public void Init(InventoryConstructor _inventoryConstructor)
     {
         inventoryConstructor = _inventoryConstructor;
-        GetComponent<Image>().sprite = frames[Random.Range(0, frames.Length)];
-        GetComponent<Image>().color = GameConfig.Instance.levelColors[inventoryConstructor.constructorBaseData.level - 1];
+
+        cost = Mathf.CeilToInt
+     (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(inventoryConstructor.constructorBaseData.type).cost *
+      GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(inventoryConstructor.constructorBaseData.level).cost);
+        foreach (var img in images)
+        {
+            img.color = GameConfig.Instance.levelColors[inventoryConstructor.constructorBaseData.level - 1];
+        }
         pointTip.SetActive(inventoryConstructor.isNew);
         LoadIcon();
+        nameText.text = inventoryConstructor.constructorBaseData.name;
+        typeText.text = inventoryConstructor.constructorBaseData.type.ToString();
+        buyCostText.text = cost.ToString();
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
@@ -53,9 +68,24 @@ public class InventorySlot : ContainerSlot
         }
     }
 
+    public void UpdateType()
+    {
+        List<ConstructorBonusType> types = GamePlayController.Instance.GetAllChampionTypes(inventoryConstructor.constructorBaseData);
+
+        for (int i = 0; i < typeIconArray.Length; i++)
+        {
+            typeIconArray[i].SetActive(false);
+            if (i < types.Count && types[i] != null)
+            {
+                typeIconArray[i].SetActive(true);
+                typeIconArray[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
+            }
+        }
+    }
+
     public void OnPointerDownEvent(PointerEventData eventData)
     {
-        icon.gameObject.SetActive(false);
+        //icon.gameObject.SetActive(false);
         draggedUI.Init(icon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
@@ -63,7 +93,7 @@ public class InventorySlot : ContainerSlot
 
     public void OnPointerUpEvent(PointerEventData eventData)
     {
-        icon.gameObject.SetActive(true);
+        //icon.gameObject.SetActive(true);
         draggedUI.OnPointerUp(eventData);
         if (UIController.Instance.constructorAssembleController.pointEnterTreeViewSlot != null)
         {
