@@ -67,8 +67,7 @@ public class SkillPopup : Popup
                 if (i < skillData.damageData.Length)
                 {
                     //damageInfo[i].transform.Find("DamageType").GetComponent<TextMeshProUGUI>().text = string.Format("<sprite=\"AtributeIcon\" name=\"{0}\">", skillData.damageData[i].type);
-                    damageInfo[i].transform.Find("DamageValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].dmg.ToString();
-                    damageInfo[i].transform.Find("CorrectionValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].correction.ToString();
+                    damageInfo[i].transform.Find("DamageType/DamageValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].dmg.ToString() + "(+" + skillData.damageData[i].correction.ToString() + ")";
                     damageInfo[i].SetActive(true);
                 }
             }
