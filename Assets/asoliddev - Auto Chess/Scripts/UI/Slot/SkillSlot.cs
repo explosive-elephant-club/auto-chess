@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 
 public class SkillSlot : ContainerSlot
 {
-    public Sprite[] levelFrames;
     public Image icon;
     public Image BG;
     public Image cdMask;
@@ -56,7 +55,7 @@ public class SkillSlot : ContainerSlot
             icon.gameObject.SetActive(true);
             icon.sprite = Resources.Load<Sprite>(skill.skillData.icon);
 
-            BG.sprite = levelFrames[skill.constructor.constructorData.level - 1];
+            BG.color = GameConfig.Instance.levelColors[skill.constructor.constructorData.level - 1];
             BG.gameObject.SetActive(true);
         }
         else
@@ -64,6 +63,16 @@ public class SkillSlot : ContainerSlot
             BG.gameObject.SetActive(false);
         }
 
+    }
+
+    public void ConstructorPopupInit(SkillData _skillData, ConstructorBaseData constructorBaseData)
+    {
+        Clear();
+        ClearAllListener();
+        icon.gameObject.SetActive(true);
+        icon.sprite = Resources.Load<Sprite>(_skillData.icon);
+        BG.color = GameConfig.Instance.levelColors[constructorBaseData.level - 1];
+        BG.gameObject.SetActive(true);
     }
 
     public void UpdateCDMask()

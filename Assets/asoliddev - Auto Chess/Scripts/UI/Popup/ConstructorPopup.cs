@@ -11,7 +11,8 @@ using UnityEngine.EventSystems;
 
 public class ConstructorPopup : Popup
 {
-    public Image img;
+    public Image iconImg;
+    public Image nameAndTypeImg;
     public TextMeshProUGUI constructorName;
     public TextMeshProUGUI typeName;
     public TextPair cost;
@@ -50,12 +51,17 @@ public class ConstructorPopup : Popup
     public void Show(ConstructorBaseData constructorData, GameObject targetUI, Vector3 dir)
     {
         Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructorData));
-        img.sprite = _icon;
+        iconImg.sprite = _icon;
+        Color tempColor1 = GameConfig.Instance.levelColors[constructorData.level - 1];
+        nameAndTypeImg.color = tempColor1;
+        Color tempColor2 = Color.Lerp(tempColor1, Color.white, .5f); //new Color(tempColor1.r, tempColor1.g, tempColor1.b, tempColor1.a);
         costValue = Mathf.CeilToInt
             (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
             GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
         constructorName.text = constructorData.name.ToString();
+        constructorName.color = tempColor2;
         typeName.text = constructorData.type.ToString();
+        typeName.color = tempColor2;
         cost.value.text = costValue.ToString();
         UpdateTypesInfo(constructorData);
         UpdateAttributeInfo(constructorData);
@@ -101,6 +107,7 @@ public class ConstructorPopup : Popup
                 attributeInfo[i].SetActive(true);
             }
         }
+        attributeContent.gameObject.SetActive(attributeInfo.Count > 0);
     }
 
     void UpdateSlotInfo(ConstructorBaseData constructorData)
@@ -114,20 +121,8 @@ public class ConstructorPopup : Popup
                 slotInfo[i].SetActive(true);
             }
         }
+        slotContent.gameObject.SetActive(slotInfo.Count > 0);
     }
-    void UpdateSlotInfo(ConstructorBase constructor)
-    {
-        for (int i = 0; i < slotInfo.Count; i++)
-        {
-            slotInfo[i].SetActive(false);
-            if (i < constructor.slots.Count)
-            {
-                slotInfo[i].GetComponent<ConstructorSlotSlot>().Init(constructor.slots[i]);
-                slotInfo[i].SetActive(true);
-            }
-        }
-    }
-
 
     void UpdateSkillInfo(ConstructorBaseData constructorData)
     {
@@ -139,7 +134,7 @@ public class ConstructorPopup : Popup
                 SkillData data = GameExcelConfig.Instance.skillDatasArray.Find(d => d.ID == constructorData.skillID[i]);
                 skillInfo[i].SetActive(true);
                 SkillSlot slot = skillInfo[i].GetComponent<SkillSlot>();
-                slot.PopupShow(data);
+                slot.ConstructorPopupInit(data, constructorData);
                 slot.onPointerEnterEvent.AddListener((PointerEventData eventData) =>
                 {
                     UIController.Instance.popupController.skillPopup.Show
@@ -151,5 +146,6 @@ public class ConstructorPopup : Popup
                 });
             }
         }
+        skillContent.gameObject.SetActive(skillInfo.Count > 0);
     }
 }
