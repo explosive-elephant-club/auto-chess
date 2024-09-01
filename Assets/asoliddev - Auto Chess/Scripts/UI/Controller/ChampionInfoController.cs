@@ -21,6 +21,9 @@ public class ChampionInfoController : BaseControllerUI
     //State2
     public GameObject state2;
 
+    public GameObject activatedSkillSlotContent;
+    public GameObject deactivatedSkillSlotContent;
+
     //Skill
     public List<SkillSlot> activatedSkillSlots = new List<SkillSlot>();
     public List<SkillSlot> deactivatedSkillSlots = new List<SkillSlot>();
@@ -36,11 +39,11 @@ public class ChampionInfoController : BaseControllerUI
     void Awake()
     {
         Init();
-        foreach (Transform child in transform.Find("Panel/ActivatedSkill/SkillSlot"))
+        foreach (Transform child in activatedSkillSlotContent.transform)
         {
             activatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
-        foreach (Transform child in transform.Find("Panel/DeactivatedSkill/SkillSlot"))
+        foreach (Transform child in deactivatedSkillSlotContent.transform)
         {
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
@@ -99,8 +102,8 @@ public class ChampionInfoController : BaseControllerUI
 
     public void OnEnterCombat()
     {
-        transform.Find("Panel/ActivatedSkill").GetComponent<CanvasGroup>().blocksRaycasts = false;
-        transform.Find("Panel/DeactivatedSkill").gameObject.SetActive(false);
+        activatedSkillSlotContent.GetComponentInParent<CanvasGroup>().blocksRaycasts = false;
+        deactivatedSkillSlotContent.gameObject.SetActive(false);
     }
 
     public void OnUpdateCombat()
@@ -116,14 +119,14 @@ public class ChampionInfoController : BaseControllerUI
 
     public void OnEnterPreparation()
     {
-        transform.Find("Panel/ActivatedSkill").GetComponent<CanvasGroup>().blocksRaycasts = true;
-        transform.Find("Panel/DeactivatedSkill").gameObject.SetActive(true);
+        activatedSkillSlotContent.GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
+        deactivatedSkillSlotContent.gameObject.SetActive(true);
     }
 
     public void UpdateArmorBar()
     {
 
-        armorBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
+        armorBar.transform.Find("Slider/ValueText").GetComponent<TextMeshProUGUI>().text =
             Mathf.Floor(attributesController.curArmor) + "/" +
                 Mathf.Floor(attributesController.maxArmor.GetTrueValue());
 
@@ -133,7 +136,7 @@ public class ChampionInfoController : BaseControllerUI
 
     public void UpdateMechBar()
     {
-        mechBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
+        mechBar.transform.Find("Slider/ValueText").GetComponent<TextMeshProUGUI>().text =
             Mathf.Floor(attributesController.curHealth) + "/" +
                 Mathf.Floor(attributesController.maxHealth.GetTrueValue());
 
@@ -143,7 +146,7 @@ public class ChampionInfoController : BaseControllerUI
 
     public void UpdateManaBar()
     {
-        manaBar.transform.Find("Slider/Text").GetComponent<TextMeshProUGUI>().text =
+        manaBar.transform.Find("Slider/ValueText").GetComponent<TextMeshProUGUI>().text =
             Mathf.Floor(attributesController.curMana) + "/" +
                 Mathf.Floor(attributesController.maxMana.GetTrueValue());
 
