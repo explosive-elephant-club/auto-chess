@@ -14,7 +14,6 @@ public class ShopGUIController : BaseControllerUI
     public Toggle relicToggle;
     public Toggle composeToggle;
     public Toggle lottoToggle;
-    Animator contentAnimmator;
 
     Toggle lastActivedToggle;
 
@@ -27,7 +26,6 @@ public class ShopGUIController : BaseControllerUI
     void Awake()
     {
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
-        contentAnimmator = GetComponent<Animator>();
     }
     void Start()
     {
@@ -54,7 +52,6 @@ public class ShopGUIController : BaseControllerUI
             {
                 if (b)
                 {
-                    contentAnimmator.SetTrigger("Switch");
                     OnToggleActive(constructToggle);
                     contentSwitchEvent.AddListener(() =>
                     {
@@ -66,7 +63,6 @@ public class ShopGUIController : BaseControllerUI
         {
             if (b)
             {
-                contentAnimmator.SetTrigger("Switch");
                 OnToggleActive(updateToggle);
                 contentSwitchEvent.AddListener(() =>
                 {

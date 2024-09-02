@@ -10,7 +10,7 @@ public class BaseControllerUI : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Init()
     {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame

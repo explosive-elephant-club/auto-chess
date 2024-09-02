@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class RebuildAllLayout : MonoBehaviour
+public class RebuildAllLayout : BaseControllerUI
 {
     public List<RectTransform> allSizeFitterRects = new List<RectTransform>();
 
     private void Awake()
     {
+
+        Init();
         Register(transform);
+
     }
 
     void Register(Transform root)
@@ -33,6 +36,7 @@ public class RebuildAllLayout : MonoBehaviour
 
     public IEnumerator RebuildAllSizeFitterRects()
     {
+        SetUIActive(false);
         for (int i = allSizeFitterRects.Count - 1; i >= 0; i--)
         {
             if (allSizeFitterRects[i].gameObject.activeSelf)
@@ -41,6 +45,7 @@ public class RebuildAllLayout : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
+        SetUIActive(true);
     }
 
     public void RebuildAll()

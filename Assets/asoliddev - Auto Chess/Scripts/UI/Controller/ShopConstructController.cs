@@ -14,7 +14,7 @@ public class ShopConstructController : MonoBehaviour
     public GameObject unlockPanel;
     public GameObject lockPanel;
 
-    GameObject constructsContent;
+    public GameObject constructsContent;
 
     public List<ShopConstructBtn> shopConstructBtns = new List<ShopConstructBtn>();
     public ShopConstructBtn pointEnterBtn;
@@ -34,7 +34,6 @@ public class ShopConstructController : MonoBehaviour
 
     private void Awake()
     {
-        constructsContent = transform.Find("Constructs").gameObject;
         foreach (Transform child in constructsContent.transform)
         {
             shopConstructBtns.Add(child.GetComponent<ShopConstructBtn>());
@@ -153,6 +152,7 @@ public class ShopConstructController : MonoBehaviour
 
         //update ui
         UpdateUI();
+        constructsContent.SendMessage("RebuildAll");
     }
 
     public void AddShopSlot()

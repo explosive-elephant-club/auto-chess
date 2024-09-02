@@ -8,23 +8,21 @@ using UnityEngine.EventSystems;
 
 public class ShopConstructBtn : ContainerSlot
 {
-    public GameObject ablePanel;
     public GameObject lockImage;
     public Image iconImage;
-    public Image frameImage;
 
     public GameObject[] typeIconArray;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI typeText;
     public TextMeshProUGUI buyCostText;
-    public TextMeshProUGUI addCostText;
 
-    public Sprite[] frames;
+    public Transform slotContent;
+    public List<GameObject> slotInfo;
+    public Image[] bgImages;
 
     public ConstructorBaseData constructorData;
 
     int cost;
-    GameObject[] connectors;
 
     // Start is called before the first frame update
     void Awake()
@@ -43,6 +41,10 @@ public class ShopConstructBtn : ContainerSlot
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
+        foreach (Transform child in slotContent)
+        {
+            slotInfo.Add(child.gameObject);
+        }
     }
 
     public void Onlocked(bool isLocked)
@@ -52,8 +54,10 @@ public class ShopConstructBtn : ContainerSlot
     public void Refresh(ConstructorBaseData data)
     {
         GetComponent<Button>().interactable = true;
-        frameImage.sprite = frames[Random.Range(0, frames.Length)];
-        ablePanel.SetActive(true);
+        foreach (var img in bgImages)
+        {
+            img.color = GameConfig.Instance.levelColors[data.level - 1];
+        }
 
         constructorData = data;
         LoadIcon();
@@ -63,10 +67,11 @@ public class ShopConstructBtn : ContainerSlot
 
         nameText.text = constructorData.name;
         Color color = GameConfig.Instance.levelColors[constructorData.level - 1];
-        ablePanel.GetComponent<Image>().color = new Color(color.r, color.g, color.b, ablePanel.GetComponent<Image>().color.a);
+        //ablePanel.GetComponent<Image>().color = new Color(color.r, color.g, color.b, ablePanel.GetComponent<Image>().color.a);
         typeText.text = constructorData.type.ToString();
         buyCostText.text = cost.ToString();
         UpdateType();
+        UpdateSlotInfo(constructorData);
     }
     public void BuyConstruct()
     {
@@ -94,6 +99,20 @@ public class ShopConstructBtn : ContainerSlot
             }
         }
     }
+
+    void UpdateSlotInfo(ConstructorBaseData constructorData)
+    {
+        for (int i = 0; i < slotInfo.Count; i++)
+        {
+            slotInfo[i].SetActive(false);
+            if (i < constructorData.slots.Length && constructorData.slots[0] != 0)
+            {
+                slotInfo[i].GetComponent<ConstructorSlotSlot>().Init(constructorData.slots[i]);
+                slotInfo[i].SetActive(true);
+            }
+        }
+        slotContent.gameObject.SetActive(slotInfo.Count > 0);
+    }
     public void BuySuccessHide()
     {
         //ablePanel.SetActive(false);
@@ -101,8 +120,7 @@ public class ShopConstructBtn : ContainerSlot
     }
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
-        if (ablePanel.activeSelf)
-            UIController.Instance.shopController.shopConstructController.OnPointEnterSlot(this);
+        UIController.Instance.shopController.shopConstructController.OnPointEnterSlot(this);
     }
 
     public void OnPointerExitEvent(PointerEventData eventData)

@@ -23,15 +23,15 @@ public class ConstructorSlotPopup : Popup
     {
         foreach (Transform child in adaptTypesContent)
         {
-            adaptTypes.Add(child.GetComponent<TextMeshProUGUI>());
+            adaptTypes.Add(child.GetComponentInChildren<TextMeshProUGUI>());
         }
         foreach (Transform child in forbiddenChildrenTypesContent)
         {
-            forbiddenChildrenTypes.Add(child.GetComponent<TextMeshProUGUI>());
+            forbiddenChildrenTypes.Add(child.GetComponentInChildren<TextMeshProUGUI>());
         }
         foreach (Transform child in forbiddenParentsTypesContent)
         {
-            forbiddenParentsTypes.Add(child.GetComponent<TextMeshProUGUI>());
+            forbiddenParentsTypes.Add(child.GetComponentInChildren<TextMeshProUGUI>());
         }
     }
 
@@ -50,11 +50,11 @@ public class ConstructorSlotPopup : Popup
             adaptTypesContent.parent.gameObject.SetActive(true);
             for (int i = 0; i < adaptTypes.Count; i++)
             {
-                adaptTypes[i].gameObject.SetActive(false);
+                adaptTypes[i].transform.parent.gameObject.SetActive(false);
                 if (i < slotType.adaptTypes.Length && !string.IsNullOrEmpty(slotType.adaptTypes[0]))
                 {
                     adaptTypes[i].text = slotType.adaptTypes[i];
-                    adaptTypes[i].gameObject.SetActive(true);
+                    adaptTypes[i].transform.parent.gameObject.SetActive(true);
                 }
             }
         }
@@ -71,13 +71,13 @@ public class ConstructorSlotPopup : Popup
             forbiddenChildrenTypesContent.parent.gameObject.SetActive(true);
             for (int i = 0; i < forbiddenChildrenTypes.Count; i++)
             {
-                forbiddenChildrenTypes[i].gameObject.SetActive(false);
+                forbiddenChildrenTypes[i].transform.parent.gameObject.SetActive(false);
                 if (slotType.isForbiddenAllChildrenSlots)
                 {
                     if (i == 0)
                     {
                         forbiddenChildrenTypes[i].text = "All";
-                        forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                        forbiddenChildrenTypes[i].transform.parent.gameObject.SetActive(true);
                     }
                     return;
                 }
@@ -87,7 +87,7 @@ public class ConstructorSlotPopup : Popup
                     {
                         ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenChildrenSlotTypes[i]);
                         forbiddenChildrenTypes[i].text = forbiddenSlotType.name.ToString();
-                        forbiddenChildrenTypes[i].gameObject.SetActive(true);
+                        forbiddenChildrenTypes[i].transform.parent.gameObject.SetActive(true);
                     }
                 }
             }
@@ -105,13 +105,13 @@ public class ConstructorSlotPopup : Popup
             forbiddenParentsTypesContent.parent.gameObject.SetActive(true);
             for (int i = 0; i < forbiddenParentsTypes.Count; i++)
             {
-                forbiddenParentsTypes[i].gameObject.SetActive(false);
+                forbiddenParentsTypes[i].transform.parent.gameObject.SetActive(false);
                 if (slotType.isForbiddenAllParentsSlots)
                 {
                     if (i == 0)
                     {
                         forbiddenParentsTypes[i].text = "All";
-                        forbiddenParentsTypes[i].gameObject.SetActive(true);
+                        forbiddenParentsTypes[i].transform.parent.gameObject.SetActive(true);
                     }
                     return;
                 }
@@ -121,7 +121,7 @@ public class ConstructorSlotPopup : Popup
                     {
                         ConstructorSlotType forbiddenSlotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotType.forbiddenParentsSlotTypes[i]);
                         forbiddenParentsTypes[i].text = forbiddenSlotType.name.ToString();
-                        forbiddenParentsTypes[i].gameObject.SetActive(true);
+                        forbiddenParentsTypes[i].transform.parent.gameObject.SetActive(true);
                     }
                 }
             }

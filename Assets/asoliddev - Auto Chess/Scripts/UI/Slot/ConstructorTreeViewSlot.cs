@@ -12,14 +12,13 @@ using System;
 public class ConstructorTreeViewSlot : MonoBehaviour
 {
     public Image icon;
-    public Image levelFrame;
+    public Image bgIMG;
     public Image pickedFrame;
     Camera cam;
     RectTransform screenCanvasRectTransform;
     [HideInInspector]
     public Image lineImage;
     public GameObject linePrefab;
-    public Sprite[] levelFrames;
 
     [HideInInspector]
     public ConstructorAssembleController controller;
@@ -116,8 +115,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
             constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
 
-            levelFrame.gameObject.SetActive(true);
-            levelFrame.sprite = levelFrames[constructor.constructorData.level - 1];
+            bgIMG.gameObject.SetActive(true);
+            bgIMG.color = GameConfig.Instance.levelColors[constructor.constructorData.level - 1];
             LoadIcon();
             if (constructor.slots.Count > 0)
             {
@@ -126,7 +125,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         }
         else
         {
-            levelFrame.gameObject.SetActive(false);
+            bgIMG.gameObject.SetActive(false);
             icon.gameObject.SetActive(false);
         }
 
@@ -156,8 +155,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
         constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
 
-        levelFrame.gameObject.SetActive(true);
-        levelFrame.sprite = levelFrames[constructor.constructorData.level - 1];
+        bgIMG.gameObject.SetActive(true);
+        bgIMG.color = GameConfig.Instance.levelColors[constructor.constructorData.level - 1];
         LoadIcon();
         if (constructor.slots.Count > 0)
         {
