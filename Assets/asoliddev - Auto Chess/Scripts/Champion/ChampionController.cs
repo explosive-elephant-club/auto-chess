@@ -199,7 +199,7 @@ public class ChampionController : MonoBehaviour
     public void SetWorldPosition()
     {
         Vector3 worldPosition = occupyGridInfo.gameObject.transform.position;
-        worldPosition.z = this.transform.position.z;
+        worldPosition.y = this.transform.position.y;
         this.transform.position = worldPosition;
     }
 
