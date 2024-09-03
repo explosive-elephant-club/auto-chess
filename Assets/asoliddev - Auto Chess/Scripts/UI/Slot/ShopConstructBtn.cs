@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 public class ShopConstructBtn : ContainerSlot
 {
+    public GameObject mainPanel;
     public GameObject lockImage;
     public Image iconImage;
 
@@ -67,7 +68,7 @@ public class ShopConstructBtn : ContainerSlot
 
         nameText.text = constructorData.name;
         Color color = GameConfig.Instance.levelColors[constructorData.level - 1];
-        //ablePanel.GetComponent<Image>().color = new Color(color.r, color.g, color.b, ablePanel.GetComponent<Image>().color.a);
+        mainPanel.SetActive(true);
         typeText.text = constructorData.type.ToString();
         buyCostText.text = cost.ToString();
         UpdateType();
@@ -115,7 +116,7 @@ public class ShopConstructBtn : ContainerSlot
     }
     public void BuySuccessHide()
     {
-        //ablePanel.SetActive(false);
+        mainPanel.SetActive(false);
         GetComponent<Button>().interactable = false;
     }
     public void OnPointerEnterEvent(PointerEventData eventData)

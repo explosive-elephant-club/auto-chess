@@ -1,11 +1,11 @@
 version: 2
 tpsheetFileNames:
+- Assets/asoliddev - Auto Chess/Sprites/Icons/aa.tpsheet
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
-- Assets/SCI-FI UI Pack Pro/Common/White Icons/Textures/aa.tpsheet
 textureFileNames:
+- Assets/asoliddev - Auto Chess/Sprites/Icons/aa.png
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
-- Assets/SCI-FI UI Pack Pro/Common/White Icons/Textures/aa.png
 normalmapFileNames:
-- Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
 - 
+- Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
 enableDebugOutput: 0

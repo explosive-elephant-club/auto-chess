@@ -11,7 +11,8 @@ using System;
 
 public class ConstructorTreeViewSlot : MonoBehaviour
 {
-    public Image icon;
+    public Image constructorIcon;
+    public Image slotIcon;
     public Image bgIMG;
     public Image pickedFrame;
     Camera cam;
@@ -118,6 +119,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             bgIMG.gameObject.SetActive(true);
             bgIMG.color = GameConfig.Instance.levelColors[constructor.constructorData.level - 1];
             LoadIcon();
+            slotIcon.gameObject.SetActive(false);
             if (constructor.slots.Count > 0)
             {
                 ExpandSubSlot();
@@ -126,7 +128,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         else
         {
             bgIMG.gameObject.SetActive(false);
-            icon.gameObject.SetActive(false);
+            constructorIcon.gameObject.SetActive(false);
+            slotIcon.gameObject.SetActive(true);
         }
 
         if (_parent != null)
@@ -165,9 +168,9 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     }
     public void LoadIcon()
     {
-        icon.gameObject.SetActive(true);
+        constructorIcon.gameObject.SetActive(true);
         Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructor.constructorData));
-        icon.sprite = _icon;
+        constructorIcon.sprite = _icon;
     }
 
     public void ExpandSubSlot()
@@ -203,7 +206,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         constructorSlot = null;
         constructor = null;
         parent = null;
-        icon.gameObject.SetActive(false);
+        constructorIcon.gameObject.SetActive(false);
+        slotIcon.gameObject.SetActive(false);
         constructorTreeViewInfo.ClearAllListener();
     }
     public void Recycling()
@@ -241,7 +245,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             removedData = parent.constructor.removeConstructor(constructorSlot);
             ClearSubSlot();
             constructor = null;
-            icon.gameObject.SetActive(false);
+            constructorIcon.gameObject.SetActive(false);
+            slotIcon.gameObject.SetActive(false);
             constructorTreeViewInfo.ClearAllListener();
             Init(controller, parent, constructorSlot);
         }

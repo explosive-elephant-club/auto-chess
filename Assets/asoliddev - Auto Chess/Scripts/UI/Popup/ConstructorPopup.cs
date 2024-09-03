@@ -54,7 +54,7 @@ public class ConstructorPopup : Popup
         iconImg.sprite = _icon;
         Color tempColor1 = GameConfig.Instance.levelColors[constructorData.level - 1];
         nameAndTypeImg.color = tempColor1;
-        Color tempColor2 = Color.Lerp(tempColor1, Color.white, .5f); //new Color(tempColor1.r, tempColor1.g, tempColor1.b, tempColor1.a);
+        Color tempColor2 = Color.Lerp(tempColor1, Color.white, .7f); //new Color(tempColor1.r, tempColor1.g, tempColor1.b, tempColor1.a);
         costValue = Mathf.CeilToInt
             (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
             GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);

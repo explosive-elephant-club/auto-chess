@@ -20,7 +20,7 @@ public class ConstructorTreeViewInfo : ContainerSlot
 
     public void OnPointerUpEvent(PointerEventData eventData)
     {
-        treeViewSlot.icon.gameObject.SetActive(true);
+        treeViewSlot.constructorIcon.gameObject.SetActive(true);
         draggedUI.OnPointerUp(eventData);
         if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
         {
@@ -35,8 +35,8 @@ public class ConstructorTreeViewInfo : ContainerSlot
     }
     public void OnPointerDownEvent(PointerEventData eventData)
     {
-        treeViewSlot.icon.gameObject.SetActive(false);
-        draggedUI.Init(treeViewSlot.icon.sprite, gameObject);
+        treeViewSlot.constructorIcon.gameObject.SetActive(false);
+        draggedUI.Init(treeViewSlot.constructorIcon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
     }

@@ -18,8 +18,19 @@ public class InventorySlot : ContainerSlot
     public TextMeshProUGUI buyCostText;
     public GameObject[] typeIconArray;
 
+    public Transform slotContent;
+    public List<GameObject> slotInfo;
+
     public GameObject pointTip;
     public InventoryConstructor inventoryConstructor;
+
+    private void Awake()
+    {
+        foreach (Transform child in slotContent)
+        {
+            slotInfo.Add(child.gameObject);
+        }
+    }
 
     public void Init(InventoryConstructor _inventoryConstructor)
     {
@@ -37,6 +48,8 @@ public class InventorySlot : ContainerSlot
         nameText.text = inventoryConstructor.constructorBaseData.name;
         typeText.text = inventoryConstructor.constructorBaseData.type.ToString();
         buyCostText.text = cost.ToString();
+        UpdateType();
+        UpdateSlotInfo(inventoryConstructor.constructorBaseData);
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
@@ -81,6 +94,20 @@ public class InventorySlot : ContainerSlot
                 typeIconArray[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
             }
         }
+    }
+
+    void UpdateSlotInfo(ConstructorBaseData constructorData)
+    {
+        for (int i = 0; i < slotInfo.Count; i++)
+        {
+            slotInfo[i].SetActive(false);
+            if (i < constructorData.slots.Length && constructorData.slots[0] != 0)
+            {
+                slotInfo[i].GetComponent<ConstructorSlotSlot>().Init(constructorData.slots[i]);
+                slotInfo[i].SetActive(true);
+            }
+        }
+        slotContent.gameObject.SetActive(slotInfo.Count > 0);
     }
 
     public void OnPointerDownEvent(PointerEventData eventData)
