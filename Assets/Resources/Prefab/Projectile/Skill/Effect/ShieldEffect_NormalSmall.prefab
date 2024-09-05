@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2674219902880586046}
-  - component: {fileID: 7738005255563648321}
   - component: {fileID: 3660246561892659003}
+  - component: {fileID: 6431278105079731187}
   m_Layer: 0
-  m_Name: ShieldEffect_FogShieldBlueSmall
+  m_Name: ShieldEffect_NormalSmall
   m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,28 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7738005255563648321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1114141441352731161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b141f63fdf5ee0b419c2c6836ffd8691, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitParticleInstance: {fileID: 0}
-  emitParticleInstance: {fileID: 0}
-  isAttach: 1
-  isOriginPos: 1
-  physicalCorrection: 1
-  fireCorrection: 1
-  iceCorrection: 1
-  lightningCorrection: 2
-  acidCorrection: 1
-  maxMech: 120
 --- !u!135 &3660246561892659003
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -68,6 +46,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &6431278105079731187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114141441352731161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32539ce3e2f1215488ea2b045a425c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitParticleInstance: {fileID: 0}
+  emitParticleInstance: {fileID: 0}
+  isAttach: 1
+  isOriginPos: 1
 --- !u!1 &4888860150675590855
 GameObject:
   m_ObjectHideFlags: 0

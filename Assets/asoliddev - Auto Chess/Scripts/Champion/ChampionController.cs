@@ -350,6 +350,14 @@ public class ChampionController : MonoBehaviour
         if (target == null)
             return;
         buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
+
+        if (_target.skillController.curVoidShieldEffect != null)
+        {
+            _target.skillController.curVoidShieldEffect.OnGotHit(this, damages);
+            buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+            return;
+        }
+
         float crit = 1;
         if (attributesController.CritCheck())
         {
@@ -388,7 +396,7 @@ public class ChampionController : MonoBehaviour
         trueDamage *= fix;
         trueDamage *= crit;
         OnGotHit(trueDamage, damageType);
-        
+
         totalDamage += trueDamage;
 
         buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());

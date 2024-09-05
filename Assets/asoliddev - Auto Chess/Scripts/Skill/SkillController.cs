@@ -21,6 +21,8 @@ public class SkillController : MonoBehaviour
     public float curChargingDelay = 0;
     public float cdTimer = 0;
 
+    public VoidShieldEffect curVoidShieldEffect;
+
     ChampionController championController;
 
     void Awake()

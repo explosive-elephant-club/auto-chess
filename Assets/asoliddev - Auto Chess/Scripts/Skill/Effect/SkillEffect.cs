@@ -71,7 +71,7 @@ public class SkillEffect : MonoBehaviour
     {
         if (hit.tag == "Shield")
         {
-            ShieldEffect shieldEffect = hit.GetComponent<ShieldEffect>();
+            InterceptShieldEffect shieldEffect = hit.GetComponent<InterceptShieldEffect>();
             if (shieldEffect.skill.owner.team != skill.owner.team)
             {
                 OnCollideShieldBegin(hit);
@@ -125,7 +125,7 @@ public class SkillEffect : MonoBehaviour
     protected virtual void OnCollideShieldBegin(Collider hit)
     {
         InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
-        ShieldEffect shieldEffect = hit.GetComponent<ShieldEffect>();
+        InterceptShieldEffect shieldEffect = hit.GetComponent<InterceptShieldEffect>();
         shieldEffect.OnGotHit(skill.owner, skill.skillData.damageData);
         Destroy(gameObject);
     }
