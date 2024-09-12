@@ -10,10 +10,10 @@ public class SalovEmitADecorator : SkillDecorator
     {
         effectCount = int.Parse(GetParam("effectCount"));
         salovRange = int.Parse(GetParam("salovRange"));
-        skill.TryInstanceEffectFunc = TryInstanceEffect;
+        skill.InstanceEffectFunc = InstanceEffect;
     }
 
-    public override void TryInstanceEffect()
+    public override void InstanceEffect()
     {
         SelectorResult t = skill.targetsSelector.FindTargetByRange
             (skill.selectorResult.targets[0], skill.skillRangeSelectorType, salovRange, skill.owner.team);
@@ -36,7 +36,7 @@ public class SalovEmitADecorator : SkillDecorator
         else  //无特效弹道
         {
             skill.selectorResult = t;
-            skill.EffectFunc();
+            skill.DirectEffectFunc();
         }
     }
 }

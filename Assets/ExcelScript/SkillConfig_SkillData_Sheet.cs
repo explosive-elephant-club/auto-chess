@@ -31,8 +31,8 @@ namespace ExcelConfig
 		public float duration { get { return _duration; } }
 
 		[SerializeField]
-		private float _interval;
-		public float interval { get { return _interval; } }
+		private int _effectiveTimes;
+		public int effectiveTimes { get { return _effectiveTimes; } }
 
 		[SerializeField]
 		private float _castDelay;
@@ -47,8 +47,8 @@ namespace ExcelConfig
 		public int manaCost { get { return _manaCost; } }
 
 		[SerializeField]
-		private int _count;
-		public int count { get { return _count; } }
+		private int _usableCount;
+		public int usableCount { get { return _usableCount; } }
 
 		[SerializeField]
 		private string _description;
@@ -148,11 +148,11 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _duration);
-			TryParse(sheet[row][column++], out _interval);
+			TryParse(sheet[row][column++], out _effectiveTimes);
 			TryParse(sheet[row][column++], out _castDelay);
 			TryParse(sheet[row][column++], out _chargingDelay);
 			TryParse(sheet[row][column++], out _manaCost);
-			TryParse(sheet[row][column++], out _count);
+			TryParse(sheet[row][column++], out _usableCount);
 			TryParse(sheet[row][column++], out _description);
 			TryParse(sheet[row][column++], out _distance);
 			TryParse(sheet[row][column++], out _range);

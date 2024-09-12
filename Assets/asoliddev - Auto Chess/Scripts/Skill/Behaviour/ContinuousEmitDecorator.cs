@@ -19,10 +19,6 @@ public class ContinuousEmitDecorator : SkillDecorator
             skill.OnFinishFunc();
         }
 
-        if (skill.intervalTime >= skill.skillData.interval)
-        {
-            skill.intervalTime = 0;
-            skill.TryInstanceEffectFunc();
-        }
+       
     }
 }

@@ -89,6 +89,6 @@ public class ColProjectileEffect : SkillEffect
     protected virtual void OnHitEffect(ChampionController c)
     {
         skill.selectorResult.targets = GetTargetsInRange(c);
-        skill.EffectFunc();
+        skill.DirectEffectFunc();
     }
 }

@@ -114,7 +114,7 @@ public class SkillSlot : ContainerSlot
 
     public void UpdateCount()
     {
-        if (skill == null || skill.skillData.count == -1)
+        if (skill == null || skill.skillData.usableCount == -1)
         {
             countText.gameObject.SetActive(false);
             return;

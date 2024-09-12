@@ -6,10 +6,10 @@ public class RandomTargetDecorator : SkillDecorator
 {
     public override void Init()
     {
-        skill.TryInstanceEffectFunc = TryInstanceEffect;
+        skill.InstanceEffectFunc = InstanceEffect;
     }
 
-    public override void TryInstanceEffect()
+    public override void InstanceEffect()
     {
         //生成技能特效弹道
         if (skill.effectPrefab != null)
@@ -25,7 +25,7 @@ public class RandomTargetDecorator : SkillDecorator
         }
         else  //无特效弹道
         {
-            skill.EffectFunc();
+            skill.DirectEffectFunc();
         }
     }
 }

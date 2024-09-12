@@ -40,10 +40,10 @@ public class SkillPopup : Popup
         CastDelay.value.text = skillData.castDelay.ToString();
         ChargingDelay.value.text = skillData.chargingDelay.ToString();
         ManaCost.value.text = skillData.manaCost.ToString();
-        if (skillData.count != -1)
+        if (skillData.usableCount != -1)
         {
             Count.value.transform.parent.gameObject.SetActive(true);
-            Count.value.text = skillData.count.ToString();
+            Count.value.text = skillData.usableCount.ToString();
         }
         else
         {

@@ -10,10 +10,10 @@ public class SalovEmitBDecorator : SkillDecorator
     {
         effectCount = int.Parse(GetParam("effectCount"));
         spacing = float.Parse(GetParam("spacing"));
-        skill.TryInstanceEffectFunc = TryInstanceEffect;
+        skill.InstanceEffectFunc = InstanceEffect;
     }
 
-    public override void TryInstanceEffect()
+    public override void InstanceEffect()
     {
         float offset = (effectCount - 1) * spacing / 2;
         if (skill.effectPrefab != null)
@@ -36,7 +36,7 @@ public class SalovEmitBDecorator : SkillDecorator
         }
         else  //无特效弹道
         {
-            skill.EffectFunc();
+            skill.DirectEffectFunc();
         }
     }
 }
