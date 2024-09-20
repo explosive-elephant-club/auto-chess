@@ -67,6 +67,7 @@ public class Skill
     public float curTime = 0;
     public float intervalTime = 0;
     public float curIntervalTime = 0;
+    public float curEffectCount = 0;
 
     public SkillTargetType skillTargetType;
     public SkillRangeSelectorType skillRangeSelectorType;
@@ -98,11 +99,11 @@ public class Skill
 
     public Func<bool> IsFindTargetFunc;
     public Action CastFunc;
+    public Action EffectFunc;
     public Action DirectEffectFunc;
     public Action InstanceEffectFunc;
     public Action<ChampionController> AddBuffToTargetFunc;
     public Action<ChampionController> AddDMGToTargetFunc;
-    public Action EffectFunc;
     public Action OnCastingUpdateFunc;
     public Func<bool> IsFinishFunc;
     public Action DestroyEffectFunc;
@@ -123,6 +124,7 @@ public class Skill
         constructor = _constructor;
         intervalTime = skillData.duration / skillData.effectiveTimes;
         countRemain = skillData.usableCount;
+        curEffectCount = 0;
         curCastPointIndex = 0;
 
         selectorResult = new SelectorResult();
@@ -211,6 +213,10 @@ public class Skill
     {
         state = SkillState.Casting;
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
+
+        curTime = 0;
+        curIntervalTime = 0;
+        curEffectCount = 0;
 
         owner.attributesController.curMana -= skillData.manaCost;
 
@@ -302,9 +308,10 @@ public class Skill
             OnFinishFunc();
         }
 
-        if (curIntervalTime <= 0)
+        if (curIntervalTime <= 0 && curEffectCount < skillData.effectiveTimes)
         {
             curIntervalTime = intervalTime;
+            curEffectCount++;
             EffectFunc();
         }
     }
@@ -330,8 +337,6 @@ public class Skill
     public virtual void OnFinish()
     {
         state = SkillState.CD;
-        curTime = 0;
-        curIntervalTime = 0;
         PlayEndAnimFunc();
     }
 
@@ -341,6 +346,7 @@ public class Skill
         state = SkillState.CD;
         curTime = 0;
         curIntervalTime = 0;
+        curEffectCount = 0;
         selectorResult.Clear();
         countRemain = skillData.usableCount;
     }
