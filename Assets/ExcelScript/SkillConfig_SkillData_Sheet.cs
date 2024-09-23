@@ -35,6 +35,10 @@ namespace ExcelConfig
 		public int effectiveTimes { get { return _effectiveTimes; } }
 
 		[SerializeField]
+		private bool _isDirectEffect;
+		public bool isDirectEffect { get { return _isDirectEffect; } }
+
+		[SerializeField]
 		private float _castDelay;
 		public float castDelay { get { return _castDelay; } }
 
@@ -149,6 +153,7 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _duration);
 			TryParse(sheet[row][column++], out _effectiveTimes);
+			TryParse(sheet[row][column++], out _isDirectEffect);
 			TryParse(sheet[row][column++], out _castDelay);
 			TryParse(sheet[row][column++], out _chargingDelay);
 			TryParse(sheet[row][column++], out _manaCost);

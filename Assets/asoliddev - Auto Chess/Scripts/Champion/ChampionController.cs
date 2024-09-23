@@ -425,6 +425,7 @@ public class ChampionController : MonoBehaviour
         else
         {
             Debug.Log("闪避");
+            WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), 0);
             buffController.eventCenter.Broadcast(BuffActiveMode.AfterDodge.ToString());
         }
         return isDead;

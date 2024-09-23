@@ -250,14 +250,14 @@ public class Skill
 
     public virtual void Effect()
     {
-        //生成技能特效弹道
-        if (effectPrefab != null)
-        {
-            InstanceEffectFunc();
-        }
-        else  //无特效弹道
+        //直接生效
+        if (skillData.isDirectEffect)
         {
             DirectEffectFunc();
+        }
+        else  //生成技能特效弹道
+        {
+            InstanceEffectFunc();
         }
     }
 
