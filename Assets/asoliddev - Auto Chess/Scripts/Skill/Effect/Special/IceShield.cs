@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecoverShield : VoidShieldEffect
+public class IceShield : VoidShieldEffect
 {
     float t = 0;
-    float intervel = 1;
+    float intervel = 0.9f;
 
     public override void Init(Skill _skill, Transform _target)
     {
@@ -22,23 +22,18 @@ public class RecoverShield : VoidShieldEffect
         else
         {
             t = 0;
-            ShieldRecover();
+            AddDebuff();
         }
     }
 
-    void ShieldRecover()
+    void AddDebuff()
     {
-        int recoverValue = (int)(maxMech * .1f);
-        if (curMech < maxMech)
+        List<ChampionController> targets =
+               skill.targetsSelector.FindTargetByRange(skill.owner, skill.skillRangeSelectorType, skill.skillData.range, skill.owner.team).targets;
+        foreach (var target in targets)
         {
-            if (curMech + recoverValue > maxMech)
-            {
-                curMech = maxMech;
-            }
-            else
-            {
-                curMech = curMech + recoverValue;
-            }
+            skill.AddBuffToTarget(target);
         }
     }
+
 }

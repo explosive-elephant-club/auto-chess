@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageShieldEffect : VoidShieldEffect
+public class FireShieldEffect : VoidShieldEffect
 {
     float t = 0;
     float intervel = 1;
@@ -10,6 +10,7 @@ public class DamageShieldEffect : VoidShieldEffect
     public override void Init(Skill _skill, Transform _target)
     {
         base.Init(_skill, _target);
+
     }
 
     // Update is called once per frame
@@ -22,12 +23,17 @@ public class DamageShieldEffect : VoidShieldEffect
         else
         {
             t = 0;
-            List<ChampionController> targets =
-                skill.targetsSelector.FindTargetByRange(skill.owner, skill.skillRangeSelectorType, skill.skillData.range, skill.owner.team).targets;
-            foreach (var target in targets)
-            {
-                skill.AddDMGToTarget(target);
-            }
+            AddFireDmg();
+        }
+    }
+
+    void AddFireDmg()
+    {
+        List<ChampionController> targets =
+                        skill.targetsSelector.FindTargetByRange(skill.owner, skill.skillRangeSelectorType, skill.skillData.range, skill.owner.team).targets;
+        foreach (var target in targets)
+        {
+            skill.AddDMGToTarget(target);
         }
     }
 
