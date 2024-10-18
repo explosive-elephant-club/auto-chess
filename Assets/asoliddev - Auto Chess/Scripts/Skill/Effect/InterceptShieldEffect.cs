@@ -98,6 +98,7 @@ public class InterceptShieldEffect : SkillEffect
             if (curMech - trueDMG <= 0)
             {
                 BrokenDestroy();
+                return;
             }
             else
             {

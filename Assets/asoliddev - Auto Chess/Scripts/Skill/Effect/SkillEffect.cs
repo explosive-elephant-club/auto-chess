@@ -12,7 +12,7 @@ public class SkillEffect : MonoBehaviour
     protected float curTime;
 
     protected Transform target;
-    protected List<ChampionController> hits;
+    public List<ChampionController> hits;
 
 
     public GameObject hitParticleInstance;

@@ -24,7 +24,7 @@ public class StaticColEffect : SkillEffect
     }
 
 
-    void Update()
+    public virtual void Update()
     {
         if (t < intervel)
         {
