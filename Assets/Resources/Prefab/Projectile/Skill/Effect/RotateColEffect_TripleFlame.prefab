@@ -55910,5 +55910,6 @@ MonoBehaviour:
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1
+  overrideDuration: 8
   isOriginPos: 1
   rotateSpeed: 100

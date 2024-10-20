@@ -6,6 +6,7 @@ public class StaticColEffect : SkillEffect
 {
     public bool isAttach;
     protected List<ChampionController> collidedTargets;
+    public float overrideDuration = -1f;
 
     float t = 0;
     float intervel = 0;
@@ -18,6 +19,7 @@ public class StaticColEffect : SkillEffect
             transform.parent = skill.owner.transform;
         collidedTargets = new List<ChampionController>();
         effectEffectiveTimes = int.Parse(GetParam("effectEffectiveTimes"));
+        duration = overrideDuration > 0 ? overrideDuration : duration;
         intervel = duration / effectEffectiveTimes;
         InstantiateEmitEffect();
         //PointedAtTarget();
