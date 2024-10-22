@@ -5,6 +5,7 @@ using UnityEngine;
 public class StaticColEffect : SkillEffect
 {
     public bool isAttach;
+    public bool isSpawnOnTarget = false;
     protected List<ChampionController> collidedTargets;
     public float overrideDuration = -1f;
 
@@ -15,8 +16,18 @@ public class StaticColEffect : SkillEffect
     public override void Init(Skill _skill, Transform _target)
     {
         base.Init(_skill, _target);
-        if (isAttach)
-            transform.parent = skill.owner.transform;
+        if (isSpawnOnTarget)
+        {
+            transform.position = target.position;
+            if (isAttach)
+                transform.parent = target;
+        }
+        else
+        {
+            if (isAttach)
+                transform.parent = skill.owner.transform;
+        }
+
         collidedTargets = new List<ChampionController>();
         effectEffectiveTimes = int.Parse(GetParam("effectEffectiveTimes"));
         duration = overrideDuration > 0 ? overrideDuration : duration;

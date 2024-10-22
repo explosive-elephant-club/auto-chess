@@ -8,6 +8,7 @@ public class ColProjectileEffect : SkillEffect
     public float speed;
     //重力加速度
     public float g;
+    public int hitConsume = 1;
     protected bool isMoving = false;
 
     //初始速度向量
@@ -18,6 +19,8 @@ public class ColProjectileEffect : SkillEffect
     //初始目标点
     protected Vector3 oringinTarget;
 
+    protected int curHit = 0;
+
 
     public override void Init(Skill _skill, Transform _target)
     {
@@ -25,7 +28,7 @@ public class ColProjectileEffect : SkillEffect
         oringinTarget = target.position + new Vector3(0, 1.5f, 0);
 
         isMoving = true;
-
+        curHit = hitConsume;
         CaculateInitialVelocity();
 
         InstantiateEmitEffect();
@@ -80,10 +83,14 @@ public class ColProjectileEffect : SkillEffect
 
     protected override void OnCollideChampionBegin(ChampionController c)
     {
-        isMoving = false;
         OnHitEffect(c);
         InstantiateHitEffect(transform.position);
-        Destroy(gameObject);
+        curHit--;
+        if (curHit <= 0)
+        {
+            isMoving = false;
+            Destroy(gameObject);
+        }
     }
 
     protected virtual void OnHitEffect(ChampionController c)

@@ -14271,6 +14271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d158b5d4f505942a89010a6f2adf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   speed: 40
