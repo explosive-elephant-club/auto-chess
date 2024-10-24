@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2535894443022469014}
   m_Layer: 0
   m_Name: ShieldEffect_FogShieldYellow
-  m_TagString: Shield
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,16 +58,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b141f63fdf5ee0b419c2c6836ffd8691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1
   isOriginPos: 1
-  physicalCorrection: 1
-  fireCorrection: 1
-  iceCorrection: 1
-  lightningCorrection: 1
-  acidCorrection: 1
-  maxMech: 300
 --- !u!1 &8682037850844723144
 GameObject:
   m_ObjectHideFlags: 0

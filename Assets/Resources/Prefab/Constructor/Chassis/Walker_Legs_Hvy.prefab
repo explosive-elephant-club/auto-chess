@@ -128,6 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 13700000}
+  - component: {fileID: 1085468279183016722}
   m_Layer: 0
   m_Name: Mech_Walker_Full_Hvy_Geom
   m_TagString: Untagged
@@ -219,6 +220,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000000059604645, y: 1.3843756, z: 0.323373}
     m_Extent: {x: 1.4915972, y: 1.4246123, z: 0.92555296}
   m_DirtyAABB: 0
+--- !u!65 &1085468279183016722
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.9831944, y: 2.5173702, z: 1.8511059}
+  m_Center: {x: 0, y: 1.2599304, z: 0.32337296}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

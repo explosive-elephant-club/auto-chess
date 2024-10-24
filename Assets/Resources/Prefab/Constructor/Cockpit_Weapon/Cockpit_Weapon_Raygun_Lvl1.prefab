@@ -145,6 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 13700000}
+  - component: {fileID: 8631412660654524167}
   m_Layer: 0
   m_Name: Cockpit_Weapon_Raygun_Lvl1_Geom
   m_TagString: Untagged
@@ -219,6 +220,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.557614, z: 0.8720962}
     m_Extent: {x: 0.83329225, y: 0.8391294, z: 1.8029739}
   m_DirtyAABB: 0
+--- !u!65 &8631412660654524167
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3237014, y: 1.1837157, z: 3.2103133}
+  m_Center: {x: 0.006593913, y: 0.61366194, z: 1.0699134}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

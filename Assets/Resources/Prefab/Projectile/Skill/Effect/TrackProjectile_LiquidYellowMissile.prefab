@@ -9452,7 +9452,7 @@ GameObject:
   - component: {fileID: 8646913094393738683}
   m_Layer: 0
   m_Name: TrackProjectile_LiquidYellowMissile
-  m_TagString: SkillProjectileEffect
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14276,6 +14276,7 @@ MonoBehaviour:
   emitParticleInstance: {fileID: 0}
   speed: 40
   g: 0
+  hitConsume: 1
   trackDuration: 1
 --- !u!135 &8646913094393738683
 SphereCollider:

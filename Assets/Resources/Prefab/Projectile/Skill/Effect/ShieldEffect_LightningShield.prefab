@@ -18782,7 +18782,7 @@ GameObject:
   - component: {fileID: 8428447050847272118}
   m_Layer: 0
   m_Name: ShieldEffect_LightningShield
-  m_TagString: Untagged
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18832,6 +18832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e619de072ab494db6eb66aa8665134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1

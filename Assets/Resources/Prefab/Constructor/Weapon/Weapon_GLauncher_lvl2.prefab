@@ -137,6 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400004}
   - component: {fileID: 13700000}
+  - component: {fileID: 3277593864073015243}
   m_Layer: 0
   m_Name: Grenade_Launcher_lvl2_Geom
   m_TagString: Untagged
@@ -216,6 +217,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.4983545, y: 0.0065556467, z: -0.48113638}
     m_Extent: {x: 1.161232, y: 0.79791534, z: 0.8050372}
   m_DirtyAABB: 0
+--- !u!65 &3277593864073015243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.87637997, y: 1.3012395, z: 2.2145889}
+  m_Center: {x: -1.3521538, y: 3.2486446, z: 0.22304285}
 --- !u!1 &100006
 GameObject:
   m_ObjectHideFlags: 0

@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400010}
   - component: {fileID: 13700000}
+  - component: {fileID: 7134682191951073342}
   m_Layer: 0
   m_Name: DoubleGun_Body
   m_TagString: Untagged
@@ -240,6 +241,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.3681973, y: 0.0019423962, z: 0.52502227}
     m_Extent: {x: 0.4238374, y: 0.6974945, z: 1.47948}
   m_DirtyAABB: 0
+--- !u!65 &7134682191951073342
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6099839, y: 0.9609451, z: 2.886619}
+  m_Center: {x: -1.2574306, y: 3.159368, z: 0.37761497}
 --- !u!1 &100012
 GameObject:
   m_ObjectHideFlags: 0

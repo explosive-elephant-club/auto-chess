@@ -128,6 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 13700000}
+  - component: {fileID: 8828327262201051846}
   m_Layer: 0
   m_Name: Legs_Spider_Hvy_Geom
   m_TagString: Untagged
@@ -226,6 +227,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000013589859, y: 1.2440755, z: -0.5280844}
     m_Extent: {x: 2.6360505, y: 1.3667591, z: 2.9501762}
   m_DirtyAABB: 0
+--- !u!65 &8828327262201051846
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.900809, y: 2.2469764, z: 5.132329}
+  m_Center: {x: 0.0063741207, y: 1.141609, z: -0.5536852}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

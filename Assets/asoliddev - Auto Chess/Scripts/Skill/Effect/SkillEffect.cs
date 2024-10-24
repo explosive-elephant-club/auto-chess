@@ -69,16 +69,18 @@ public class SkillEffect : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider hit)
     {
+        if (hit.tag == "SkillEffectCol")
+            return;
         if (hit.tag == "Shield")
         {
-            InterceptShieldEffect shieldEffect = hit.GetComponent<InterceptShieldEffect>();
+            InterceptShieldEffect shieldEffect = hit.GetComponentInParent<InterceptShieldEffect>();
             if (shieldEffect.skill.owner.team != skill.owner.team)
             {
                 OnCollideShieldBegin(hit);
                 return;
             }
         }
-        ChampionController c = hit.gameObject.GetComponent<ChampionController>();
+        ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
         if (c == null)
             return;
 
@@ -102,7 +104,7 @@ public class SkillEffect : MonoBehaviour
 
     protected virtual void OnTriggerExit(Collider hit)
     {
-        ChampionController c = hit.gameObject.GetComponent<ChampionController>();
+        ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
         if (c == null)
             return;
 

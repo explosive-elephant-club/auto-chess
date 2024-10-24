@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400006}
   - component: {fileID: 13700000}
+  - component: {fileID: 2391160398278475496}
   m_Layer: 0
   m_Name: Backpack_Shield_Lvl1_Skinned_Geom
   m_TagString: Untagged
@@ -177,6 +178,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.09192781, y: -0.005760908, z: 0.0013408661}
     m_Extent: {x: 0.49857932, y: 1.4255948, z: 1.0619061}
   m_DirtyAABB: 0
+--- !u!65 &2391160398278475496
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.1238124, y: 2.8511896, z: 0.4983133}
+  m_Center: {x: 0.4006635, y: 3.7241893, z: -1.4918439}
 --- !u!1 &100008
 GameObject:
   m_ObjectHideFlags: 0

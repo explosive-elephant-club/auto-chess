@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400006}
   - component: {fileID: 13700000}
+  - component: {fileID: 2796596846855899495}
   m_Layer: 0
   m_Name: Weapon_Shield_Lvl3_Skinned_Geom
   m_TagString: Untagged
@@ -178,6 +179,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.43082732, y: -0.008637428, z: 0.25519964}
     m_Extent: {x: 0.46804482, y: 1.4973509, z: 1.2121973}
   m_DirtyAABB: 0
+--- !u!65 &2796596846855899495
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.504668, y: 3.0088243, z: 2.1238117}
+  m_Center: {x: -2.5195627, y: 2.0782971, z: 0.6905322}
 --- !u!1 &100008
 GameObject:
   m_ObjectHideFlags: 0

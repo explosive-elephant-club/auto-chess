@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 400008}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
+  - component: {fileID: 147893886968842206}
   m_Layer: 0
   m_Name: Cockpit_Trooper_Geom
   m_TagString: Untagged
@@ -199,6 +200,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &147893886968842206
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100008}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 37c1ad1f1efa4f44086d0477aa6ccc8e, type: 3}
 --- !u!1 &100010
 GameObject:
   m_ObjectHideFlags: 0

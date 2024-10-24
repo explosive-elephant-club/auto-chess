@@ -145,6 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 13700000}
+  - component: {fileID: 607750705573716706}
   m_Layer: 0
   m_Name: Cockpit_Weapon_Mortar_Lvl3_Geom
   m_TagString: Untagged
@@ -220,6 +221,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.6465629, z: 0.47718394}
     m_Extent: {x: 0.83253235, y: 0.80167454, z: 1.4581468}
   m_DirtyAABB: 0
+--- !u!65 &607750705573716706
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4255304, y: 1.250336, z: 2.3430984}
+  m_Center: {x: 0.0026783645, y: 0.578271, z: 0.5411147}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

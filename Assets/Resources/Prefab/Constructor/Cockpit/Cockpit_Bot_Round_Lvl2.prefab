@@ -161,6 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400010}
   - component: {fileID: 13700000}
+  - component: {fileID: 66502561398075550}
   m_Layer: 0
   m_Name: Cockpit_Bot_Round_Lvl2_Geom
   m_TagString: Untagged
@@ -235,6 +236,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.6824424, z: 0.2749881}
     m_Extent: {x: 0.81881833, y: 0.84090054, z: 1.0624499}
   m_DirtyAABB: 0
+--- !u!65 &66502561398075550
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2793694, y: 1.5898135, z: 1.6746452}
+  m_Center: {x: -0.004841447, y: 0.6364486, z: 0.20478714}
 --- !u!1 &100012
 GameObject:
   m_ObjectHideFlags: 0

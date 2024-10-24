@@ -4689,7 +4689,7 @@ GameObject:
   - component: {fileID: 4140273391682200919}
   m_Layer: 0
   m_Name: ColProjectile_BulletBlue
-  m_TagString: SkillProjectileEffect
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9479,11 +9479,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1aabf8c2fd0ee4d9b86257e947f772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   speed: 30
   g: 0
-  trackDuration: 1
+  hitConsume: 1
 --- !u!136 &4140273391682200919
 CapsuleCollider:
   m_ObjectHideFlags: 0

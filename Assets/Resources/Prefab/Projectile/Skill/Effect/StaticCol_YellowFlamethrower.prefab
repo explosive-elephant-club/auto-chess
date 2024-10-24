@@ -4669,7 +4669,7 @@ GameObject:
   - component: {fileID: 8504843298493850988}
   m_Layer: 0
   m_Name: StaticCol_YellowFlamethrower
-  m_TagString: SkillProjectileEffect
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9324,9 +9324,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe93dd6e3c6e4b4c9ceec2a24ec355e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1
+  isSpawnOnTarget: 0
+  overrideDuration: -1
 --- !u!136 &8504843298493850988
 CapsuleCollider:
   m_ObjectHideFlags: 0

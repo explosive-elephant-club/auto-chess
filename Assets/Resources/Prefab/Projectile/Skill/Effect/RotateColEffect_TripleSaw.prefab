@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 1443458590236402258}
   m_Layer: 0
   m_Name: RotateColEffect_TripleSaw
-  m_TagString: Untagged
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -191,6 +191,7 @@ MonoBehaviour:
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1
+  isSpawnOnTarget: 0
   overrideDuration: 5
   isOriginPos: 1
   rotateSpeed: 300

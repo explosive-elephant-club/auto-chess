@@ -13943,7 +13943,7 @@ GameObject:
   - component: {fileID: 5775153916031806853}
   m_Layer: 0
   m_Name: TrackProjectile_GreenFireMissile
-  m_TagString: SkillProjectileEffect
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18701,10 +18701,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d158b5d4f505942a89010a6f2adf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   speed: 15
   g: 5
+  hitConsume: 1
   trackDuration: 1
 --- !u!135 &5775153916031806853
 SphereCollider:

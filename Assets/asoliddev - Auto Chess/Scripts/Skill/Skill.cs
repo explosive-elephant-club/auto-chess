@@ -122,7 +122,7 @@ public class Skill
 
         owner = _owner;
         constructor = _constructor;
-        intervalTime = skillData.duration / skillData.effectiveTimes;
+        intervalTime = skillData.duration / skillData.effectCounts;
         countRemain = skillData.usableCount;
         curEffectCount = 0;
         curCastPointIndex = 0;
@@ -228,21 +228,6 @@ public class Skill
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterCast.ToString());
     }
 
-
-    public virtual void InstanceEffect()
-    {
-        curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
-
-        GameObject obj = GameObject.Instantiate(effectPrefab);
-        //obj.transform.parent = GetCastPoint();
-        obj.transform.position = GetCastPoint().position;
-        obj.transform.rotation = GetCastPoint().rotation;
-
-        SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
-        skillEffect.Init(this, selectorResult.targets[0].transform);
-        effectInstances.Add(skillEffect);
-    }
-
     public Transform GetCastPoint()
     {
         return constructor.skillCastPoints[curCastPointIndex];
@@ -281,6 +266,21 @@ public class Skill
             }
     }
 
+    public virtual void InstanceEffect()
+    {
+        curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
+
+        GameObject obj = GameObject.Instantiate(effectPrefab);
+        //obj.transform.parent = GetCastPoint();
+        obj.transform.position = GetCastPoint().position;
+        obj.transform.rotation = GetCastPoint().rotation;
+
+        SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
+        skillEffect.Init(this, selectorResult.targets[0].transform);
+        effectInstances.Add(skillEffect);
+    }
+
+
     public virtual void AddBuffToTarget(ChampionController target)
     {
         foreach (int buff_ID in skillData.addBuffs)
@@ -308,7 +308,7 @@ public class Skill
             OnFinishFunc();
         }
 
-        if (curIntervalTime <= 0 && curEffectCount < skillData.effectiveTimes)
+        if (curIntervalTime <= 0 && curEffectCount < skillData.effectCounts)
         {
             curIntervalTime = intervalTime;
             curEffectCount++;
@@ -318,7 +318,7 @@ public class Skill
 
     public virtual bool IsFinish()
     {
-        return (curTime >= skillData.duration) || (selectorResult.targets[0] == null ? selectorResult.targets[0].isDead : false);
+        return (curTime >= skillData.duration) || (selectorResult.targets[0] != null ? selectorResult.targets[0].isDead : false);
     }
 
     public virtual void DestroyEffect()

@@ -146,6 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 13700000}
+  - component: {fileID: 2877050806476495968}
   m_Layer: 0
   m_Name: Cockpit_Weapon_DoubleGun_Lvl3_Geom
   m_TagString: Untagged
@@ -223,6 +224,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.5975568, z: 0.8259522}
     m_Extent: {x: 0.83327633, y: 0.8402469, z: 1.8859302}
   m_DirtyAABB: 0
+--- !u!65 &2877050806476495968
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4122341, y: 0.8616798, z: 3.7388506}
+  m_Center: {x: 0.0066934824, y: 0.71697223, z: 0.8195672}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

@@ -138,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400004}
   - component: {fileID: 13700000}
+  - component: {fileID: 4816838310302540647}
   m_Layer: 0
   m_Name: Weapon_Bazooka_Lvl1_Geom
   m_TagString: Untagged
@@ -215,6 +216,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.43495238, y: 0.09161353, z: 0.068375796}
     m_Extent: {x: 0.49967653, y: 1.065671, z: 0.9893054}
   m_DirtyAABB: 0
+--- !u!65 &4816838310302540647
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.92412126, y: 1.3414087, z: 1.9786108}
+  m_Center: {x: -0.39733648, y: 0.06810355, z: 0.068375826}
 --- !u!1 &100006
 GameObject:
   m_ObjectHideFlags: 0

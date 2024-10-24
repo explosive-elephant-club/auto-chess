@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400010}
   - component: {fileID: 13700000}
+  - component: {fileID: 226975459743218245}
   m_Layer: 0
   m_Name: Backpack_Radar_Geom
   m_TagString: Untagged
@@ -242,6 +243,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.6819612, z: -0.69040006}
     m_Extent: {x: 1.2536906, y: 1.501624, z: 0.6893932}
   m_DirtyAABB: 0
+--- !u!65 &226975459743218245
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5073812, y: 2.5955229, z: 1.3787863}
+  m_Center: {x: 0, y: 4.208049, z: -1.0498289}
 --- !u!1 &100012
 GameObject:
   m_ObjectHideFlags: 0

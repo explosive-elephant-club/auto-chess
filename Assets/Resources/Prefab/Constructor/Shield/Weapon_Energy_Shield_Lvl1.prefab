@@ -262,6 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400010}
   - component: {fileID: 13700000}
+  - component: {fileID: 6224487072059281152}
   m_Layer: 0
   m_Name: Weapon_Energy_Shield_Lvl1_Skinned_Geom
   m_TagString: Untagged
@@ -338,6 +339,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.46840143, y: 0.0046646, z: 0.26066604}
     m_Extent: {x: 0.50414896, y: 1.2949948, z: 1.1601425}
   m_DirtyAABB: 0
+--- !u!65 &6224487072059281152
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4211452, y: 2.5899897, z: 2.320285}
+  m_Center: {x: -2.6265597, y: 2.0887225, z: 0.6826943}
 --- !u!1 &100012
 GameObject:
   m_ObjectHideFlags: 0

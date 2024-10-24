@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 8045086532377575878}
   m_Layer: 0
   m_Name: RandomProjectile_YellowRocketMissile
-  m_TagString: SkillProjectileEffect
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5036,10 +5036,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2599ae8c37600146a50453e0b5bee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   speed: 10
   g: 0
+  hitConsume: 1
   trackDuration: 2
   offset: {x: 0, y: 15, z: 0}
   rotateSpeed: 40

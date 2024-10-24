@@ -411,6 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5701690549542927053}
   - component: {fileID: 5701690549537483747}
+  - component: {fileID: 6729999376667827480}
   m_Layer: 0
   m_Name: Mech_Humanoid_Hand_L_Geom
   m_TagString: Untagged
@@ -492,3 +493,16 @@ SkinnedMeshRenderer:
     m_Center: {x: -1.6435895, y: -0.0059209615, z: 0.74221504}
     m_Extent: {x: 0.7012796, y: 0.2616411, z: 0.64929926}
   m_DirtyAABB: 0
+--- !u!65 &6729999376667827480
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701690549542758125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5232852, y: 0.72623277, z: 1.3278904}
+  m_Center: {x: 0.005917996, y: 0.043601394, z: 0.590853}

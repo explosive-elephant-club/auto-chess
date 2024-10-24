@@ -9347,7 +9347,7 @@ GameObject:
   - component: {fileID: 3513309771777635993}
   m_Layer: 0
   m_Name: StaticCol_RedAreaExplosion
-  m_TagString: Untagged
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

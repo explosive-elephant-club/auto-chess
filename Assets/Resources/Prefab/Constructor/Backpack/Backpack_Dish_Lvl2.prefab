@@ -318,6 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400020}
   - component: {fileID: 13700000}
+  - component: {fileID: 460230261213264246}
   m_Layer: 0
   m_Name: Backpack_Dish_Lvl2_Geom
   m_TagString: Untagged
@@ -401,6 +402,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.501517, y: 0.6085, z: -0.19261566}
     m_Extent: {x: 1.3715224, y: 1.595079, z: 1.1400629}
   m_DirtyAABB: 0
+--- !u!65 &460230261213264246
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100020}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5305784, y: 2.888565, z: 2.2801259}
+  m_Center: {x: 0.4172164, y: 4.1876554, z: -0.5520445}
 --- !u!1 &100022
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 795990050444972379}
   m_Layer: 0
   m_Name: ShieldEffect_AcidShield
-  m_TagString: Shield
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a61fe9ccb3f729f4eb8695cbe7c46013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3269038637187730094}
   m_Layer: 0
   m_Name: ShieldEffect_ForcefieldBlue
-  m_TagString: Shield
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b141f63fdf5ee0b419c2c6836ffd8691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1

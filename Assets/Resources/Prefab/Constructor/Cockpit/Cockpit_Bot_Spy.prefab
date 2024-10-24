@@ -161,6 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400010}
   - component: {fileID: 13700000}
+  - component: {fileID: 927329379191634349}
   m_Layer: 0
   m_Name: Cockpit_Bot_Spy_Geom
   m_TagString: Untagged
@@ -235,6 +236,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.66935873, z: -0.028371453}
     m_Extent: {x: 0.83329225, y: 0.8795177, z: 0.9699347}
   m_DirtyAABB: 0
+--- !u!65 &927329379191634349
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4007988, y: 1.5881729, z: 1.6313682}
+  m_Center: {x: 0, y: 0.5839275, z: 0.0024787188}
 --- !u!1 &100012
 GameObject:
   m_ObjectHideFlags: 0

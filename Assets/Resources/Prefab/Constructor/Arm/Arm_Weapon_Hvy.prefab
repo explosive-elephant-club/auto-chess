@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 400008}
   - component: {fileID: 3300002}
   - component: {fileID: 2300002}
+  - component: {fileID: 3345301610715268921}
   m_Layer: 0
   m_Name: Arm_Weapon_Hvy_Geom
   m_TagString: Untagged
@@ -354,3 +355,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3345301610715268921
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 9699d6ab037b9a84ba8ed119b0e40403, type: 3}

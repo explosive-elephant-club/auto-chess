@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 400004}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
+  - component: {fileID: 7201361186560705263}
   m_Layer: 0
   m_Name: Gadget_Shotgun_Base_Geom
   m_TagString: Untagged
@@ -79,6 +80,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &7201361186560705263
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300002, guid: 216db32372cb8e748bc9694f2150de45, type: 3}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +105,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300002}
   - component: {fileID: 2300002}
+  - component: {fileID: 3784757417779799327}
   m_Layer: 0
   m_Name: Gadget_Shotgun_Barrel_Geom
   m_TagString: Untagged
@@ -158,6 +174,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3784757417779799327
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 216db32372cb8e748bc9694f2150de45, type: 3}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

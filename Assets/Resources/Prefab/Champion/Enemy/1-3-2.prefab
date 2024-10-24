@@ -88,8 +88,8 @@ GameObject:
   - component: {fileID: 8435400087467839614}
   - component: {fileID: 8435400087467839615}
   - component: {fileID: 8435400087467839600}
-  - component: {fileID: -4118014953670898378}
   - component: {fileID: -6636062036411493429}
+  - component: {fileID: -3461202867260113701}
   m_Layer: 0
   m_Name: 1-3-2
   m_TagString: Untagged
@@ -188,6 +188,7 @@ MonoBehaviour:
   curCastDelay: 0
   curChargingDelay: 0
   cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!195 &8435400087467839600
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -210,19 +211,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!65 &-4118014953670898378
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8435400087467839601}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &-6636062036411493429
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -239,6 +227,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &-3461202867260113701
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435400087467839601}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &8435400086461244089
 PrefabInstance:
   m_ObjectHideFlags: 0

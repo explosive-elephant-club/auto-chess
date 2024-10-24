@@ -9331,7 +9331,7 @@ GameObject:
   - component: {fileID: 5926037697627782562}
   m_Layer: 0
   m_Name: ShieldEffect_IceShield
-  m_TagString: Untagged
+  m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9376,6 +9376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a75ed527340a06b449b69b6bed196f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   isAttach: 1
