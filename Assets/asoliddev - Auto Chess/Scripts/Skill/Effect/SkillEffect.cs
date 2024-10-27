@@ -88,16 +88,14 @@ public class SkillEffect : MonoBehaviour
         {
             if (c.team == skill.owner.team)
             {
-                OnCollideChampionBegin(c);
-                InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
+                OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
             }
         }
         else if (skill.skillTargetType == SkillTargetType.Enemy)
         {
             if (c.team != skill.owner.team)
             {
-                OnCollideChampionBegin(c);
-                InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
+                OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
             }
         }
     }
@@ -112,14 +110,14 @@ public class SkillEffect : MonoBehaviour
         {
             if (c.team == skill.owner.team)
             {
-                OnCollideChampionEnd(c);
+                OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
             }
         }
         else if (skill.skillTargetType == SkillTargetType.Enemy)
         {
             if (c.team != skill.owner.team)
             {
-                OnCollideChampionEnd(c);
+                OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
             }
         }
     }
@@ -132,12 +130,17 @@ public class SkillEffect : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected virtual void OnCollideChampionBegin(ChampionController c)
+    protected virtual void OnCollideChampionBegin(ChampionController c, Vector3 colPos)
     {
-        hits.Add(c);
+        if (!hits.Contains(c))
+        {
+            hits.Add(c);
+            InstantiateHitEffect(colPos);
+        }
+
     }
 
-    protected virtual void OnCollideChampionEnd(ChampionController c)
+    protected virtual void OnCollideChampionEnd(ChampionController c, Vector3 colPos)
     {
         if (hits.Contains(c))
         {

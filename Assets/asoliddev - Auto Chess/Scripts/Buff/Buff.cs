@@ -26,7 +26,7 @@ public enum BuffActiveMode
     [Tooltip("暴击后触发")]
     AfterCrit,
     [Tooltip("闪避后触发")]
-    AfterDodge, 
+    AfterDodge,
     [Tooltip("战斗前触发")]
     BeforeBattle,
     [Tooltip("战斗后触发")]
@@ -151,11 +151,13 @@ public class Buff
     //叠加合并
     public virtual void Superpose(Buff buff)
     {
+        SuperposeTimer(buff);
         switch (superposeMode)
         {
             case BuffSuperposeMode.None:
                 break;
             case BuffSuperposeMode.Cover:
+                curTime = buff.curTime;
                 break;
             case BuffSuperposeMode.Time:
                 curTime += buff.curTime;
@@ -181,14 +183,21 @@ public class Buff
 
         if (activeMode == BuffActiveMode.Interval)
         {
-            intervalTimer += Time.deltaTime;
             if (intervalTimer >= buffData.intervalTime)
             {
                 intervalTimer = 0;
                 buffBehaviour.BuffInterval();
                 //触发Buff
+                BuffActive();
             }
+            intervalTimer += Time.deltaTime;
         }
+    }
+
+    //计时器叠加
+    public void SuperposeTimer(Buff buff)
+    {
+        intervalTimer = buff.intervalTimer;
     }
 
     public virtual void BuffAwake()

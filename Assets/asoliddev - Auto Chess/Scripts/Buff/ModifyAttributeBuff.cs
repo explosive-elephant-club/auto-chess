@@ -61,7 +61,7 @@ public class ModifyAttributeBuff : Buff
 {
     public ModifyAttributeBuffData modifyAttributeData;
     public BuffStateContainer buffStateContainer;
-    public ValueOperation[] valueOperations = new ValueOperation[0];
+    public List<ValueOperation> valueOperations = new List<ValueOperation>();
 
     public ModifyAttributeBuff(BaseBuffData _buffData, ModifyAttributeBuffData _modifyAttributeData, ChampionController _owner, ChampionController _caster = null) :
     base(_buffData, _owner, _caster)
@@ -76,11 +76,11 @@ public class ModifyAttributeBuff : Buff
             );
         if (!string.IsNullOrEmpty(modifyAttributeData.valueChanges[0]))
         {
-            valueOperations = new ValueOperation[modifyAttributeData.valueChanges.Length];
-            for (int i = 0; i < valueOperations.Length; i++)
+            //valueOperations = new ValueOperation[modifyAttributeData.valueChanges.Length];
+            for (int i = 0; i < valueOperations.Count; i++)
             {
-                valueOperations[i] = new ValueOperation(modifyAttributeData.valueChanges[i],
-                buffController.gameObject.GetComponent<ChampionController>().attributesController);
+                valueOperations.Add(new ValueOperation(modifyAttributeData.valueChanges[i],
+                    _owner.attributesController));
             }
         }
     }
@@ -88,9 +88,9 @@ public class ModifyAttributeBuff : Buff
     public override void BuffActive()
     {
         buffController.AddBuffState(this);
+
         foreach (ValueOperation operation in valueOperations)
         {
-
             operation.operate.Invoke();
         }
         base.BuffActive();

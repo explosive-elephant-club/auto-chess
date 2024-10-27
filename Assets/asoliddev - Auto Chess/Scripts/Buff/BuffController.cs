@@ -67,7 +67,7 @@ public class BuffController : MonoBehaviour
     [SerializeField]
     public BuffStateContainer buffStateContainer = new BuffStateContainer();
 
-    ChampionController championController;
+    public ChampionController championController;
 
     private void Start()
     {

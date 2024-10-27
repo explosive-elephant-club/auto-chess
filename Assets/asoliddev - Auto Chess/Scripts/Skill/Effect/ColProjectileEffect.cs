@@ -81,15 +81,19 @@ public class ColProjectileEffect : SkillEffect
         }
     }
 
-    protected override void OnCollideChampionBegin(ChampionController c)
+    protected override void OnCollideChampionBegin(ChampionController c, Vector3 colPos)
     {
-        OnHitEffect(c);
-        InstantiateHitEffect(transform.position);
-        curHit--;
-        if (curHit <= 0)
+        if (!hits.Contains(c))
         {
-            isMoving = false;
-            Destroy(gameObject);
+            OnHitEffect(c);
+            InstantiateHitEffect(colPos);
+            curHit--;
+            if (curHit <= 0)
+            {
+                isMoving = false;
+                Destroy(gameObject);
+            }
+
         }
     }
 

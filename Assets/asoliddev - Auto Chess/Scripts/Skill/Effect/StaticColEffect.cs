@@ -8,7 +8,7 @@ public class StaticColEffect : SkillEffect
     public bool isSpawnOnTarget = false;
     protected List<ChampionController> collidedTargets;
     public float overrideDuration = -1f;
-
+    public float overrideDelay = 0f;
     float t = 0;
     float intervel = 0;
     int effectEffectiveTimes;
@@ -31,7 +31,7 @@ public class StaticColEffect : SkillEffect
         collidedTargets = new List<ChampionController>();
         effectEffectiveTimes = int.Parse(GetParam("effectEffectiveTimes"));
         duration = overrideDuration > 0 ? overrideDuration : duration;
-        intervel = duration / effectEffectiveTimes;
+        intervel = (duration - overrideDelay) / effectEffectiveTimes;
         InstantiateEmitEffect();
         //PointedAtTarget();
     }
@@ -39,15 +39,16 @@ public class StaticColEffect : SkillEffect
 
     public virtual void Update()
     {
-        if (t < intervel)
-        {
-            t += Time.deltaTime;
-        }
-        else
-        {
-            t = 0;
-            skill.DirectEffectFunc();
-        }
+        if (curTime >= overrideDelay)
+            if (t <= 0)
+            {
+                skill.DirectEffectFunc();
+                t = intervel;
+            }
+            else
+            {
+                t -= Time.deltaTime;
+            }
         if (curTime >= duration)
         {
             Destroy(gameObject);
@@ -59,16 +60,23 @@ public class StaticColEffect : SkillEffect
         InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
     }
 
-    protected override void OnCollideChampionBegin(ChampionController c)
+    protected override void OnCollideChampionBegin(ChampionController c, Vector3 colPos)
     {
-        base.OnCollideChampionBegin(c);
-        skill.selectorResult.targets = hits;
+        if (!hits.Contains(c))
+        {
+            hits.Add(c);
+            InstantiateHitEffect(colPos);
+            skill.selectorResult.targets = hits;
+        }
     }
 
-    protected override void OnCollideChampionEnd(ChampionController c)
+    protected override void OnCollideChampionEnd(ChampionController c, Vector3 colPos)
     {
-        base.OnCollideChampionEnd(c);
-        skill.selectorResult.targets = hits;
+        if (hits.Contains(c))
+        {
+            hits.Remove(c);
+            skill.selectorResult.targets = hits;
+        }
     }
 
 }
