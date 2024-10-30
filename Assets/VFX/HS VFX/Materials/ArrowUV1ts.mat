@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ArrowUV1ts
+  m_Shader: {fileID: 4800000, guid: 56bedbcbfe68e1345a5e87fe73790dab, type: 3}
+  m_ShaderKeywords: _USECUSTOMDATA_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: c5265954a4a794b4692612c5cc6ac851, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: e199ee8112362864f831425463b09fda, type: 3}
+        m_Scale: {x: 0.5, y: 0.3}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BackFresnel: -2
+    - _BackFresnelEmission: 1
+    - _Cutoff: 0.5
+    - _Emission: 5
+    - _Fresnel: 3
+    - _FresnelEmission: 1
+    - _SeparateEmission: 2
+    - _SeparateFresnel: 0
+    - _Sideopacity: 0
+    - _UseBackFresnel: 0
+    - _UseCustomData: 1
+    - _UseFresnel: 0
+    - _Usesmoothcorners: 0
+    - __dirty: 1
+    m_Colors:
+    - _BackFacesColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BackFresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FrontFacesColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpeedMainTexUVNoiseZW: {r: 0, g: 0, b: 0, a: -0.1}
+  m_BuildTextureStacks: []

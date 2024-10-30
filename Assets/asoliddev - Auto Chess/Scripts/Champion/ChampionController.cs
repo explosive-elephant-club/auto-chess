@@ -668,8 +668,8 @@ public class ChampionController : MonoBehaviour
             buffController.OnUpdateCombat();
             skillController.OnUpdateCombat();
 
-            DebugPrint("fireResistance layer:" + attributesController.fireResistance.curLayer);
-            DebugPrint("fireResistance Value:" + attributesController.fireResistance.curValue);
+            //DebugPrint("fireResistance layer:" + attributesController.fireResistance.curLayer);
+            //DebugPrint("fireResistance Value:" + attributesController.fireResistance.curValue);
         }
 
     }

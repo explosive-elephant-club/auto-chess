@@ -85,6 +85,7 @@ public class ColProjectileEffect : SkillEffect
     {
         if (!hits.Contains(c))
         {
+            hits.Add(c);
             OnHitEffect(c);
             InstantiateHitEffect(colPos);
             curHit--;
