@@ -27,4 +27,8 @@ public class BurnBuffBehaviour : BuffBehaviour
         Debug.Log("BurnBuffBehaviour BuffActive " + dmg);
         buff.owner.OnGotHit(dmg, DamageType.Pure);
     }
+    public override void BuffDestroy()
+    {
+        buff.owner.attributesController.fireResistance.curValue = 5;
+    }
 }

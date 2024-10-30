@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum DamageType
 {
@@ -10,6 +11,78 @@ public enum DamageType
     Ice,
     Lightning,
     Acid
+}
+
+public class Resistance
+{
+    public int layerMax;
+    public float baseValue;
+    public float superposeValue;
+    public UnityAction callAction;
+
+    public int curLayer;
+    public float curValue;
+
+    float recoverIntervel = 3;
+    public Resistance(int _layerMax, float _baseValue, float _superposeValue)
+    {
+        layerMax = _layerMax;
+        baseValue = _baseValue;
+        superposeValue = _superposeValue;
+
+        curLayer = 0;
+        curValue = 0;
+    }
+
+    public void OnGetHit(float dmg)
+    {
+        recoverIntervel = 3;
+        if (curValue + dmg < baseValue + superposeValue * curLayer)
+        {
+            curValue += dmg;
+        }
+        else
+        {
+            curLayer = curLayer < layerMax ? curLayer + 1 : layerMax;
+            callAction.Invoke();
+            curValue = 0;
+        }
+    }
+
+    public void Recover()
+    {
+        if (recoverIntervel > 0)
+        {
+            recoverIntervel -= Time.deltaTime;
+        }
+        else
+        {
+            recoverIntervel = 0;
+            if (curValue > 0)
+            {
+                curValue -= Time.deltaTime * 20f;
+            }
+            else
+            {
+                if (curLayer > 0)
+                {
+                    curLayer--;
+                    curValue = baseValue + superposeValue * curLayer;
+                }
+                else
+                {
+                    curValue = 0;
+                }
+            }
+        }
+    }
+
+    public void Reset()
+    {
+        curLayer = 0;
+        curValue = 0;
+        recoverIntervel = 0;
+    }
 }
 
 public class ChampionAttribute

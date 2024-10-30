@@ -65,6 +65,15 @@ public class ChampionAttributesController
     //酸蚀属性伤害承受率
     public ChampionAttribute acidDamageApplyRate;
 
+    //火焰抗性
+    public Resistance fireResistance;
+    //冰冻抗性
+    public Resistance iceResistance;
+    //电击抗性
+    public Resistance lightningResistance;
+    //酸蚀抗性
+    public Resistance acidResistance;
+
     public float curHealth;
     public float curArmor;
     public float curMana;
@@ -103,7 +112,13 @@ public class ChampionAttributesController
         iceDamageApplyRate = new ChampionAttribute(1, "IceDamageApplyRate");
         lightingDamageApplyRate = new ChampionAttribute(1, "LightingDamageApplyRate");
         acidDamageApplyRate = new ChampionAttribute(1, "AcidDamageApplyRate");
-        
+
+        fireResistance = new Resistance(10, 50, 10);
+        iceResistance = new Resistance(10, 50, 10);
+        lightningResistance = new Resistance(10, 50, 10);
+        acidResistance = new Resistance(10, 50, 10);
+
+
         healthRate = 1f;
     }
 
@@ -130,6 +145,13 @@ public class ChampionAttributesController
             curMana += manaRegeneration.GetTrueValue() * Time.deltaTime;
         else
             curMana = maxMana.GetTrueValue();
+
+
+        fireResistance.Recover();
+        iceResistance.Recover();
+        lightningResistance.Recover();
+        acidResistance.Recover();
+
     }
 
     public float GetTrueDamage(float dmg, DamageType type, float correction = 1)
@@ -177,15 +199,19 @@ public class ChampionAttributesController
                 break;
             case DamageType.Fire:
                 trueDamage *= fireDamageApplyRate.GetTrueValue();
+                fireResistance.OnGetHit(trueDamage);
                 break;
             case DamageType.Ice:
                 trueDamage *= iceDamageApplyRate.GetTrueValue();
+                iceResistance.OnGetHit(trueDamage);
                 break;
             case DamageType.Lightning:
                 trueDamage *= lightingDamageApplyRate.GetTrueValue();
+                lightningResistance.OnGetHit(trueDamage);
                 break;
             case DamageType.Acid:
                 trueDamage *= acidDamageApplyRate.GetTrueValue();
+                acidResistance.OnGetHit(trueDamage);
                 break;
         }
         trueDamage = Mathf.Floor(trueDamage);
@@ -216,6 +242,11 @@ public class ChampionAttributesController
         healthRate = curHealth / maxHealth.GetTrueValue();
         curArmor = maxArmor.GetTrueValue();
         curMana = maxMana.GetTrueValue();
+
+        fireResistance.Reset();
+        iceResistance.Reset();
+        lightningResistance.Reset();
+        acidResistance.Reset();
     }
 
     //重新计算最大值增加后的数值

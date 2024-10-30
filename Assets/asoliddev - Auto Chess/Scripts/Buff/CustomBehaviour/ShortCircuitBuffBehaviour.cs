@@ -16,4 +16,9 @@ public class ShortCircuitBuffBehaviour : BuffBehaviour
             modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges, buff.owner.attributesController));
         }
     }
+
+    public override void BuffDestroy()
+    {
+        buff.owner.attributesController.lightningResistance.curValue = 5;
+    }
 }

@@ -89,6 +89,10 @@ public class ChampionController : MonoBehaviour
 
         //set stats
         attributesController = new ChampionAttributesController();
+        attributesController.fireResistance.callAction = () => { buffController.AddBuff(301); };
+        attributesController.iceResistance.callAction = () => { buffController.AddBuff(302); };
+        attributesController.lightningResistance.callAction = () => { buffController.AddBuff(303); };
+        attributesController.acidResistance.callAction = () => { buffController.AddBuff(304); };
 
         WorldCanvasController.Instance.AddHealthBar(this.gameObject);
 
@@ -317,7 +321,7 @@ public class ChampionController : MonoBehaviour
 
     void DebugPrint(string str)
     {
-        if (team == ChampionTeam.Player)
+        if (team == ChampionTeam.Oponent)
             Debug.Log(gameObject.name + ":  " + str);
     }
 
@@ -411,6 +415,7 @@ public class ChampionController : MonoBehaviour
             foreach (var d in addDamages)
             {
                 float trueDMG = attributesController.ApplyDamage(d.dmg, (DamageType)Enum.Parse(typeof(DamageType), d.type));
+                
                 //add floating text
                 WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
                 //death
@@ -440,6 +445,23 @@ public class ChampionController : MonoBehaviour
             float trueDMG = attributesController.ApplyDamage(dmg, damageType);
             //add floating text
             WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
+            switch (damageType)
+            {
+                case DamageType.Fire:
+                    attributesController.fireResistance.OnGetHit(trueDMG);
+                    break;
+                case DamageType.Ice:
+                    attributesController.iceResistance.OnGetHit(trueDMG);
+                    break;
+                case DamageType.Lightning:
+                    attributesController.lightningResistance.OnGetHit(trueDMG);
+                    break;
+                case DamageType.Acid:
+                    attributesController.acidResistance.OnGetHit(trueDMG);
+                    break;
+                default:
+                    break;
+            }
             //death
             if (attributesController.curHealth <= 0)
             {
@@ -645,6 +667,9 @@ public class ChampionController : MonoBehaviour
                 AIActionFsm.curState.OnUpdate();
             buffController.OnUpdateCombat();
             skillController.OnUpdateCombat();
+
+            DebugPrint("fireResistance layer:" + attributesController.fireResistance.curLayer);
+            DebugPrint("fireResistance Value:" + attributesController.fireResistance.curValue);
         }
 
     }

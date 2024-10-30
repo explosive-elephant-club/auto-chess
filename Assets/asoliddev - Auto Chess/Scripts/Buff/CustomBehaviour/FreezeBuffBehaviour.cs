@@ -17,4 +17,9 @@ public class FreezeBuffBehaviour : BuffBehaviour
             modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges2, buff.owner.attributesController));
         }
     }
+
+    public override void BuffDestroy()
+    {
+        buff.owner.attributesController.iceResistance.curValue = 5;
+    }
 }

@@ -173,7 +173,7 @@ public class BuffController : MonoBehaviour
                 {
                     buff.Superpose(b);
                     buff.BuffRefresh();
-                    RemoveBuff(b);
+                    buffList.Remove(b);
                     return;
                 }
             }

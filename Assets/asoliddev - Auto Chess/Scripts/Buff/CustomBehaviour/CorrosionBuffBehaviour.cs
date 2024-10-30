@@ -16,4 +16,9 @@ public class CorrosionBuffBehaviour : BuffBehaviour
             modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges, buff.owner.attributesController));
         }
     }
+
+    public override void BuffDestroy()
+    {
+        buff.owner.attributesController.acidResistance.curValue = 5;
+    }
 }
