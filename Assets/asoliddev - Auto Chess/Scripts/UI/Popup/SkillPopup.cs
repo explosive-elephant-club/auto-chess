@@ -35,7 +35,7 @@ public class SkillPopup : Popup
 
     public void Show(SkillData skillData, GameObject targetUI, Vector3 dir)
     {
-        skillName.text = skillData.name;
+        skillName.text = skillData.name + " Lvl." + skillData.Level;
         description.text = skillData.description;
         CastDelay.value.text = skillData.castDelay.ToString();
         ChargingDelay.value.text = skillData.chargingDelay.ToString();

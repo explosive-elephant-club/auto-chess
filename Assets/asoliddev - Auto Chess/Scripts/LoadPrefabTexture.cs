@@ -32,6 +32,13 @@ public class LoadPrefabTexture : MonoBehaviour
 
     void Start()
     {
+        /*for (int i = 1; i < 100; i++)
+        {
+            Directory.CreateDirectory(Application.dataPath + "/../Assets/Resources/Prefab/Projectile/Skill/" + i + "/");
+        }
+        */
+
+        
         if (!Directory.Exists("Assets/Resources/" + _prefabPath))//判断文件夹是否存在
         {
             Debug.Log("不存在");
@@ -41,6 +48,7 @@ public class LoadPrefabTexture : MonoBehaviour
 
         Directory.CreateDirectory(GetTotalPath(_targetFolder));
         Directory.CreateDirectory(GetTotalPath(_bgFolder));
+       
 
         // 提取缩略图
         LoadTexture();

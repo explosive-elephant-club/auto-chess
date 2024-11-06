@@ -27,6 +27,14 @@ namespace ExcelConfig
 		public string name { get { return _name; } }
 
 		[SerializeField]
+		private int _index;
+		public int index { get { return _index; } }
+
+		[SerializeField]
+		private int _Level;
+		public int Level { get { return _Level; } }
+
+		[SerializeField]
 		private float _duration;
 		public float duration { get { return _duration; } }
 
@@ -122,16 +130,16 @@ namespace ExcelConfig
 		public skillAnimTriggerClass[] skillAnimTrigger { get { return _skillAnimTrigger; } }
 
 		[SerializeField]
-		private string _emitFXPrefab;
-		public string emitFXPrefab { get { return _emitFXPrefab; } }
+		private bool _emitFXPrefab;
+		public bool emitFXPrefab { get { return _emitFXPrefab; } }
 
 		[SerializeField]
-		private string _effectPrefab;
-		public string effectPrefab { get { return _effectPrefab; } }
+		private bool _effectPrefab;
+		public bool effectPrefab { get { return _effectPrefab; } }
 
 		[SerializeField]
-		private string _hitFXPrefab;
-		public string hitFXPrefab { get { return _hitFXPrefab; } }
+		private bool _hitFXPrefab;
+		public bool hitFXPrefab { get { return _hitFXPrefab; } }
 
 		[SerializeField]
 		private string _hexEffectPrefab;
@@ -151,6 +159,8 @@ namespace ExcelConfig
 		{
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
+			TryParse(sheet[row][column++], out _index);
+			TryParse(sheet[row][column++], out _Level);
 			TryParse(sheet[row][column++], out _duration);
 			TryParse(sheet[row][column++], out _effectCounts);
 			TryParse(sheet[row][column++], out _isDirectEffect);

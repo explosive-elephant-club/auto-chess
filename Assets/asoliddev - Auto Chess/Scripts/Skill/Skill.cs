@@ -77,6 +77,7 @@ public class Skill
     public ConstructorBase constructor;//技能的载体
     public int countRemain;
 
+    public string VFXPath;
     public GameObject emitPrefab;
     public GameObject effectPrefab;
     public GameObject hitFXPrefab;
@@ -116,6 +117,7 @@ public class Skill
     {
         skillData = _skillData;
 
+
         skillTargetType = (SkillTargetType)Enum.Parse(typeof(SkillTargetType), skillData.skillTargetType);
         skillRangeSelectorType = (SkillRangeSelectorType)Enum.Parse(typeof(SkillRangeSelectorType), skillData.skillRangeSelectorType);
         skillTargetSelectorType = (SkillTargetSelectorType)Enum.Parse(typeof(SkillTargetSelectorType), skillData.skillTargetSelectorType);
@@ -130,14 +132,15 @@ public class Skill
         selectorResult = new SelectorResult();
         targetsSelector = new SkillTargetsSelector();
 
-        if (!string.IsNullOrEmpty(skillData.emitFXPrefab))
-            emitPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Emit/" + skillData.emitFXPrefab);
-        if (!string.IsNullOrEmpty(skillData.effectPrefab))
+        VFXPath = "Prefab/Projectile/Skill/" + skillData.ID + "/";
+        if (skillData.emitFXPrefab)
+            emitPrefab = Resources.Load<GameObject>(VFXPath + "Emit");
+        if (skillData.effectPrefab)
         {
-            effectPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Effect/" + skillData.effectPrefab);
+            effectPrefab = Resources.Load<GameObject>(VFXPath + "Effect");
         }
-        if (!string.IsNullOrEmpty(skillData.hitFXPrefab))
-            hitFXPrefab = Resources.Load<GameObject>("Prefab/Projectile/Skill/Hit/" + skillData.hitFXPrefab);
+        if (skillData.hitFXPrefab)
+            hitFXPrefab = Resources.Load<GameObject>(VFXPath + "Hit");
 
         icon = Resources.Load<Sprite>(skillData.icon);
 
