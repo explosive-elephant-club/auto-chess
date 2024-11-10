@@ -12,6 +12,8 @@ public class SkillEffect : MonoBehaviour
     protected float curTime;
 
     protected Transform target;
+
+    public float destroyDelay = 0;
     public List<ChampionController> hits;
 
 
@@ -37,7 +39,7 @@ public class SkillEffect : MonoBehaviour
             Destroy(hitParticleInstance);
         if (emitParticleInstance != null)
             Destroy(emitParticleInstance);
-        Destroy(gameObject);
+        Destroy(gameObject, destroyDelay);
     }
 
     protected virtual void InstantiateEmitEffect()
@@ -127,7 +129,7 @@ public class SkillEffect : MonoBehaviour
         InstantiateHitEffect(hit.bounds.ClosestPoint(transform.position));
         InterceptShieldEffect shieldEffect = hit.GetComponent<InterceptShieldEffect>();
         shieldEffect.OnGotHit(skill.owner, skill.skillData.damageData);
-        Destroy(gameObject);
+        Destroy(gameObject, destroyDelay);
     }
 
     protected virtual void OnCollideChampionBegin(ChampionController c, Vector3 colPos)

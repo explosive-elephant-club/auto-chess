@@ -92,7 +92,7 @@ public class ColProjectileEffect : SkillEffect
             if (curHit <= 0)
             {
                 isMoving = false;
-                Destroy(gameObject);
+                Destroy(gameObject, destroyDelay);
             }
 
         }
