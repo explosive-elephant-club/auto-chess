@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1aabf8c2fd0ee4d9b86257e947f772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyDelay: 0
   hits: []
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
