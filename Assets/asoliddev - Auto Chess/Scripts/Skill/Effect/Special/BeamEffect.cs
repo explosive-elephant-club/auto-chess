@@ -7,6 +7,7 @@ public class BeamEffect : ColProjectileEffect
     public TrailRenderer[] trails;
     public GameObject projectile;
     public float scaleDownTime;
+
     protected override void OnCollideChampionBegin(ChampionController c, Vector3 colPos)
     {
         if (!hits.Contains(c))
@@ -14,9 +15,29 @@ public class BeamEffect : ColProjectileEffect
             hits.Add(c);
             OnHitEffect(c);
             InstantiateHitEffect(colPos);
-            isMoving = false;
-            projectile.SetActive(false);
-            StartCoroutine(BeamScaleDown());
+            curHit--;
+            if (curHit <= 0)
+            {
+                isMoving = false;
+                projectile.SetActive(false);
+                StartCoroutine(BeamScaleDown());
+                Destroy(gameObject, destroyDelay);
+            }
+        }
+    }
+    
+    protected override void OnMovingUpdate()
+    {
+        if (isMoving)
+        {
+            ParabolaMoving();
+            if (curTime > duration)
+            {
+                isMoving = false;
+                projectile.SetActive(false);
+                StartCoroutine(BeamScaleDown());
+                Destroy(gameObject, destroyDelay);
+            }
         }
     }
 

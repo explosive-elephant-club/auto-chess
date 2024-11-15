@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7825569386308763556}
   - component: {fileID: 6142999933576049664}
   m_Layer: 0
-  m_Name: Beam_LightningPlasma
+  m_Name: Effect
   m_TagString: SkillProjectileEffect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3530531389661191520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 67.32824, y: -2.51, z: 54.05}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3951621283660077872}
@@ -150,7 +150,7 @@ MonoBehaviour:
   emitParticleInstance: {fileID: 0}
   speed: 100
   g: 0
-  hitConsume: 1
+  hitConsume: 99
   trails:
   - {fileID: 3139637429561751700}
   - {fileID: 1268209688623307159}

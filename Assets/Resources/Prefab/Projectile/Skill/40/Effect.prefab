@@ -9207,7 +9207,7 @@ GameObject:
   - component: {fileID: 2651489056783403015}
   - component: {fileID: 8077597507679462155}
   m_Layer: 0
-  m_Name: BlueShockwaveMissilev2
+  m_Name: Effect
   m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

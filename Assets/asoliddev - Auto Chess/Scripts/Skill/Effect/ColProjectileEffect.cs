@@ -94,7 +94,6 @@ public class ColProjectileEffect : SkillEffect
                 isMoving = false;
                 Destroy(gameObject, destroyDelay);
             }
-
         }
     }
 

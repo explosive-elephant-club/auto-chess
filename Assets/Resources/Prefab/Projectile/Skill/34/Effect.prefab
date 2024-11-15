@@ -9458,7 +9458,7 @@ GameObject:
   - component: {fileID: 3482437147168246375}
   - component: {fileID: 6139447026841090319}
   m_Layer: 0
-  m_Name: ColProjectile_GreenPlasmaMissile
+  m_Name: Effect
   m_TagString: SkillEffectCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
