@@ -25,7 +25,10 @@ public class OwnChampionManager : ChampionManager
         base.OnLeaveCombat();
         foreach (var champion in championsHexaMapArray)
         {
-            champion.Reset();
+            if (champion.unitType == ChampionUnitType.Main)
+                champion.Reset();
+            else
+                champion.DestroySelf();
         }
     }
 

@@ -99,6 +99,14 @@ public class SkillController : MonoBehaviour
         return (curSkillIndex + 1) % activedSkillList.Count;
     }
 
+    public ConstructorBase GetNextSkillConstructor()
+    {
+        if (activedSkillList[GetNextSkillIndex()] != null)
+            return activedSkillList[GetNextSkillIndex()].constructor;
+        else
+            return null;
+    }
+
     public bool IsAllNull()
     {
         foreach (var s in activedSkillList)
@@ -109,33 +117,35 @@ public class SkillController : MonoBehaviour
         return true;
     }
 
-    public void TryCastSkill()
+    public bool isCasting()
     {
         if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)//等待持续施法
         {
             if (activedSkillList[curSkillIndex].state == SkillState.Casting)
             {
-                return;
+                return true;
             }
         }
-        if (activedSkillList[GetNextSkillIndex()] == null)//跳过null技能
+        return false;
+    }
+
+    public void SkipEmptySkill()
+    {
+        curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
+        if (GetNextSkillIndex() == 0)//一轮释放完毕
         {
-            curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
-            if (GetNextSkillIndex() == 0)//一轮释放完毕
+            if (curCastDelay < curChargingDelay)
             {
-                if (curCastDelay < curChargingDelay)
-                {
-                    curCastDelay = curChargingDelay;
-                    cdTimer = curChargingDelay;
-                }
+                curCastDelay = curChargingDelay;
+                cdTimer = curChargingDelay;
             }
-            return;
         }
+    }
 
-
+    public void TryCastSkill()
+    {
         if (cdTimer <= 0)//释放
         {
-
             if (activedSkillList[GetNextSkillIndex()].IsPrepared())
             {
                 foreach (var d in activedSkillList[GetNextSkillIndex()].skillDecorators)

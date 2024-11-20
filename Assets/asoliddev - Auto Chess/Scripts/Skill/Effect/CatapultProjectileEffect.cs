@@ -13,6 +13,7 @@ public class CatapultProjectileEffect : ColProjectileEffect
     {
         if (!hits.Contains(c))
         {
+            hits.Clear();
             hits.Add(c);
             OnHitEffect(c);
             InstantiateHitEffect(colPos);
@@ -31,14 +32,20 @@ public class CatapultProjectileEffect : ColProjectileEffect
 
     void ChooseNewTarget()
     {
-        if (isBacktrack || isFirst)
+        if (isFirst)
         {
             isFirst = false;
+            if (!isBacktrack)
+                catapultedTargets.Add(target.GetComponent<ChampionController>());
+        }
+        if (!isBacktrack)
+        {
             catapultedTargets.Add(target.GetComponent<ChampionController>());
         }
 
         List<ChampionController> targets =
                        skill.targetsSelector.FindTargetByRange(skill.owner, skill.skillRangeSelectorType, catapultRange, skill.owner.team).targets;
+        targets.Remove(target.GetComponent<ChampionController>());
         if (targets.Count > 0)
         {
             int i = 0;
@@ -47,8 +54,9 @@ public class CatapultProjectileEffect : ColProjectileEffect
             {
                 count++;
                 i = Random.Range(0, targets.Count);
-            } while (!catapultedTargets.Contains(targets[i]) || count > targets.Count);
-            oringinTarget = targets[i].transform.position + new Vector3(0, 1.5f, 0);
+            } while (catapultedTargets.Contains(targets[i]) && count < targets.Count);
+            target = targets[i].transform;
+            oringinTarget = target.position + new Vector3(0, 1.5f, 0);
             CaculateInitialVelocity();
             PointedAtTarget(oringinTarget);
         }

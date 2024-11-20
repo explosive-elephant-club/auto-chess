@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8375853742777569459}
   - component: {fileID: 8966992866890883916}
   - component: {fileID: 8333664502465175948}
-  - component: {fileID: -8099573795593609079}
   - component: {fileID: 5157859386544786478}
+  - component: {fileID: 8310235046980096955}
   m_Layer: 0
   m_Name: 1-1-1
   m_TagString: Untagged
@@ -56,6 +56,7 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
   bonusBuffList: 
@@ -97,6 +98,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &8966992866890883916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +138,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &-8099573795593609079
+--- !u!65 &5157859386544786478
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308579822991788495}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8310235046980096955
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,19 +167,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &5157859386544786478
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308579822991788495}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &440129858444282048
 GameObject:
   m_ObjectHideFlags: 0

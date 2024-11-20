@@ -172,6 +172,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &4958136435058505989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,6 +498,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 61c6e363d346b9f41a0b1bc1dfb37f2d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 61c6e363d346b9f41a0b1bc1dfb37f2d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 61c6e363d346b9f41a0b1bc1dfb37f2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400020, guid: 61c6e363d346b9f41a0b1bc1dfb37f2d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400026, guid: 61c6e363d346b9f41a0b1bc1dfb37f2d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -686,6 +703,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 6f77b8ae71402254eba122e754bd3814, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 6f77b8ae71402254eba122e754bd3814, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 6f77b8ae71402254eba122e754bd3814, type: 3}
       propertyPath: m_Layer

@@ -107,9 +107,17 @@ public class ConstructorBase : MonoBehaviour
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
         championController = _championController;
-        cost = Mathf.CeilToInt
-               (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
-               GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
+        if (constructorData.level > 0)
+        {
+            cost = Mathf.CeilToInt
+                         (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
+                         GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
+        }
+        else
+        {
+            cost = 0;
+        }
+
 
         type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
 
@@ -148,11 +156,8 @@ public class ConstructorBase : MonoBehaviour
                 championController.skillController.AddSkill(id, this);
             }
         }
-
         if (isAutoPackage)
             AutoPackage();
-
-
         championController.skillController.UpdateSkillCapacity();
     }
 
@@ -319,6 +324,8 @@ public class ConstructorBase : MonoBehaviour
         if (isContainSelf)
             constructors.Add(this);
         ConstructorBase parent = parentConstructor;
+        if (parent == null)
+            return constructors;
         do
         {
             constructors.Add(parent);
@@ -341,5 +348,40 @@ public class ConstructorBase : MonoBehaviour
             }
         }
         return constructors;
+    }
+
+    //获取旋转底座
+    public virtual Transform GetRotateTrans()
+    {
+        ConstructorBase son = this;
+        ConstructorBase parent = parentConstructor;
+        ConstructorSlot parentSlot = null;
+
+        do
+        {
+            if (son.type == ConstructorType.Chassis)
+            {
+                return null;
+            }
+            foreach (var s in parent.slots)
+            {
+                if (s.constructorInstance == son)
+                {
+                    parentSlot = s;
+                    break;
+                }
+            }
+
+            if (parentSlot.slotDataID == 1002 || parentSlot.slotDataID == 1003 || parentSlot.slotDataID == 1004)
+            {
+                return parentSlot.slotTrans;
+            }
+            son = parent;
+            if (son.type == ConstructorType.Chassis)
+            {
+                return null;
+            }
+            parent = parent.parentConstructor;
+        } while (true);
     }
 }

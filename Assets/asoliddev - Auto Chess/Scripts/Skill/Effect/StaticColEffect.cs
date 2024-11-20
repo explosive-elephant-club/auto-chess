@@ -16,6 +16,7 @@ public class StaticColEffect : SkillEffect
     public override void Init(Skill _skill, Transform _target)
     {
         base.Init(_skill, _target);
+        InstantiateEmitEffect();
         if (isSpawnOnTarget)
         {
             transform.position = target.position;
@@ -32,7 +33,7 @@ public class StaticColEffect : SkillEffect
         effectEffectiveTimes = int.Parse(GetParam("effectEffectiveTimes"));
         duration = overrideDuration > 0 ? overrideDuration : duration;
         intervel = (duration - overrideDelay) / effectEffectiveTimes;
-        InstantiateEmitEffect();
+
         //PointedAtTarget();
     }
 

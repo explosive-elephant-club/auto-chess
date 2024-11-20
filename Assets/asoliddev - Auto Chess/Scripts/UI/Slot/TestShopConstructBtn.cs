@@ -43,6 +43,8 @@ public class TestShopConstructBtn : MonoBehaviour
 
     public void Refresh(ConstructorBaseData data)
     {
+        if (data.ID > 200)
+            return;
         constructorData = data;
         cost = Mathf.CeilToInt
         (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *

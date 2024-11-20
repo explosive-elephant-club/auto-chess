@@ -123,6 +123,7 @@ public class Skill
         skillTargetSelectorType = (SkillTargetSelectorType)Enum.Parse(typeof(SkillTargetSelectorType), skillData.skillTargetSelectorType);
 
         owner = _owner;
+        manager = owner.championManeger;
         constructor = _constructor;
         intervalTime = skillData.duration / skillData.effectCounts;
         countRemain = skillData.usableCount;
@@ -179,11 +180,15 @@ public class Skill
 
     public bool IsAvailable()
     {
+
         if (countRemain > 0 || countRemain == -1)
+        {
             if (owner.attributesController.curMana >= skillData.manaCost)
             {
                 return true;
             }
+        }
+
         return false;
     }
 

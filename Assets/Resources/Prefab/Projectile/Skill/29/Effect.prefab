@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 8503809064798645175}
   - component: {fileID: 8503809064790142283}
   - component: {fileID: 3406881147123097843}
-  - component: {fileID: 8876062842180992109}
   - component: {fileID: 4218377843985315606}
+  - component: {fileID: 8443756045011621393}
   m_Layer: 0
   m_Name: Effect
   m_TagString: SkillEffectCol
@@ -4892,25 +4892,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &8876062842180992109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8503809064784702921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c1aabf8c2fd0ee4d9b86257e947f772, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyDelay: 0
-  hits: []
-  hitParticleInstance: {fileID: 0}
-  emitParticleInstance: {fileID: 0}
-  speed: 35
-  g: 5
-  hitConsume: 1
 --- !u!135 &4218377843985315606
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4924,3 +4905,24 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8443756045011621393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8503809064784702921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6e2bfd8723bef498108ae430f5e1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDelay: 0
+  hits: []
+  hitParticleInstance: {fileID: 0}
+  emitParticleInstance: {fileID: 0}
+  speed: 55
+  g: 0
+  hitConsume: 3
+  catapultRange: 4
+  isBacktrack: 1

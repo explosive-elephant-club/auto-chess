@@ -6,6 +6,8 @@ using General;
 using ExcelConfig;
 
 public enum ChampionTeam { Player, Oponent }
+public enum ChampionUnitType { Main, Support }
+public enum ChampionSpaceType { Ground, Air }
 
 public class ChampionManager : MonoBehaviour
 {
@@ -117,7 +119,7 @@ public class ChampionManager : MonoBehaviour
         enemyConfig.championController.SetWorldRotation();
 
         enemyConfig.championController.CalculateBonuses();
-        currentChampionCount = championsHexaMapArray.Count;
+        currentChampionCount = GetCurrentChampionCount();
         //set gold on ui
         UIController.Instance.UpdateUI();
 
@@ -146,12 +148,57 @@ public class ChampionManager : MonoBehaviour
         championController.SetWorldRotation();
 
         championController.CalculateBonuses();
-        currentChampionCount = championsHexaMapArray.Count;
+        currentChampionCount = GetCurrentChampionCount();
         //set gold on ui
         UIController.Instance.UpdateUI();
 
         return true;
     }
+
+    public bool AddSupportChampionToBattle(GridInfo emptyGrid, string name, int[] skillIDs)
+    {
+        GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/Support/" + name));
+
+        //get championController
+        ChampionController championController = championPrefab.GetComponent<ChampionController>();
+
+        StoreChampionInArray(emptyGrid, championController);
+
+        championPrefab.name = championPrefab.name + championsHexaMapArray.Count;
+        //setup chapioncontroller
+        championController.Init(team, this, null, ChampionUnitType.Support);
+        foreach (var id in skillIDs)
+        {
+            championController.skillController.AddActivedSkill(id);
+        }
+
+        //set position and rotation
+        championController.SetWorldPosition();
+        championController.SetWorldRotation();
+
+        championController.CalculateBonuses();
+        currentChampionCount = GetCurrentChampionCount();
+        championController.navMeshAgent.enabled = true;
+        //set gold on ui
+        UIController.Instance.UpdateUI();
+
+        return true;
+    }
+
+    public int GetCurrentChampionCount()
+    {
+        int i = 0;
+        foreach (var c in championsHexaMapArray)
+        {
+            if (c.unitType == ChampionUnitType.Main)
+            {
+                i++;
+            }
+        }
+        return i;
+    }
+
+
 
     public ChampionController FindAnyTargetInRange(ChampionController _championController, int bestDistance)
     {
@@ -265,7 +312,7 @@ public class ChampionManager : MonoBehaviour
                     //目标点是战场
                     if (gridInfo.gridType == GridType.HexaMap)
                     {
-                        if (championsHexaMapArray.Count < currentChampionLimit || dragStartGridInfo.gridType == GridType.HexaMap)
+                        if (GetCurrentChampionCount() < currentChampionLimit || dragStartGridInfo.gridType == GridType.HexaMap)
                         {
                             RemoveChampionFromArray(GamePlayController.Instance.pickedChampion);
                             StoreChampionInArray(gridInfo, GamePlayController.Instance.pickedChampion);
@@ -279,7 +326,7 @@ public class ChampionManager : MonoBehaviour
                 }
             }
 
-            currentChampionCount = championsHexaMapArray.Count;
+            currentChampionCount = GetCurrentChampionCount();
 
             //update ui
             UIController.Instance.UpdateUI();
@@ -331,7 +378,7 @@ public class ChampionManager : MonoBehaviour
             }
         }
 
-        if (championDead == championsHexaMapArray.Count)
+        if (championDead == GetCurrentChampionCount())
             return true;
 
         return false;

@@ -344,6 +344,19 @@ public class Map : CreateSingleton<Map>
         return null;
     }
 
+    public GridInfo GetEmptySlot(GridInfo grid, int range)
+    {
+        foreach (var g in mapGridArray)
+        {
+            if (g.occupyChampion == null && g.bookChampion == null)
+            {
+                if (grid.GetDistance(g) <= range)
+                    return g;
+            }
+        }
+        return null;
+    }
+
     public List<GridInfo> FindPath(GridInfo startNode, GridInfo targetNode, ChampionController champion)
     {
         var toSearch = new List<GridInfo>() { startNode };

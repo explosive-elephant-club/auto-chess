@@ -837,6 +837,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Top_Riser_Lvl2
       objectReference: {fileID: 0}
+    - target: {fileID: 3888744484795462701, guid: 35781246b25f99944bdc66422e462104,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3888744484795462703, guid: 35781246b25f99944bdc66422e462104,
         type: 3}
       propertyPath: m_RootOrder
@@ -1898,6 +1903,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Top_Copter_Blades_Lvl5
+      objectReference: {fileID: 0}
+    - target: {fileID: 945663124607534015, guid: d282f671cda00ee45813937cca3d38b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 945663124607639455, guid: d282f671cda00ee45813937cca3d38b0,
         type: 3}

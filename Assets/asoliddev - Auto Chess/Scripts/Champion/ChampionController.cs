@@ -22,11 +22,12 @@ public class ChampionController : MonoBehaviour
     public GridInfo originGridInfo;
 
     public ChampionTeam team = ChampionTeam.Player;
+    public ChampionUnitType unitType = ChampionUnitType.Main;
 
     public ChampionAttributesController attributesController;
     public BuffController buffController;
     public SkillController skillController;
-    private NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
 
 
     public Dictionary<ConstructorBonusType, int> constructorTypeCount;
@@ -69,7 +70,7 @@ public class ChampionController : MonoBehaviour
     /// </summary>
     /// <param name="_champion"></param>
     /// <param name="_teamID"></param>
-    public void Init(ChampionTeam _team, ChampionManager _championManeger, ConstructorBaseData constructorData = null)
+    public void Init(ChampionTeam _team, ChampionManager _championManeger, ConstructorBaseData constructorData = null, ChampionUnitType _unitType = ChampionUnitType.Main)
     {
         team = _team;
         if (team == ChampionTeam.Player)
@@ -228,9 +229,19 @@ public class ChampionController : MonoBehaviour
     public bool TurnToTarget()
     {
         Vector3 dir = target.transform.position - transform.position;
+        dir.y = 0;
         Quaternion q = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, q, 8 * Time.deltaTime);
-        return Vector3.Angle(dir, transform.forward) > 2f;
+        if (skillController.GetNextSkillConstructor().GetRotateTrans() != null)
+        {
+            Transform trans = skillController.GetNextSkillConstructor().GetRotateTrans();
+            trans.rotation = Quaternion.Slerp(trans.rotation, q, 8 * Time.deltaTime);
+            return Vector3.Angle(dir, trans.forward) > 2f;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, 8 * Time.deltaTime);
+            return Vector3.Angle(dir, transform.forward) > 2f;
+        }
     }
 
     public ChampionController FindTarget(int bestDistance, FindTargetMode mode)
@@ -319,9 +330,9 @@ public class ChampionController : MonoBehaviour
         return occupyGridInfo.GetDistance(target.occupyGridInfo) <= GetInAttackRange();
     }
 
-    void DebugPrint(string str)
+    public void DebugPrint(string str)
     {
-        if (team == ChampionTeam.Oponent)
+        if (team == ChampionTeam.Player)
             Debug.Log(gameObject.name + ":  " + str);
     }
 
@@ -415,7 +426,7 @@ public class ChampionController : MonoBehaviour
             foreach (var d in addDamages)
             {
                 float trueDMG = attributesController.ApplyDamage(d.dmg, (DamageType)Enum.Parse(typeof(DamageType), d.type));
-                
+
                 //add floating text
                 WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
                 //death
