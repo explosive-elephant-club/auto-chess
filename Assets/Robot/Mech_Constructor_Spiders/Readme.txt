@@ -4,54 +4,94 @@ If they don't, please contact me slsovest@gmail.com.
 
 
 
-Assembling the turrets:
+Assembling the robots:
 
-
-All the parts may have containers for mounting other parts, their names start with "Mount_".
-(In some cases they may be deep in bone hierarchy).
+Legs, shoulders and cockpits contain containers for mounting other parts, their names start with "Mount_".
 Just drop the part in the corresponding container, and It'll snap into place.
 
-- Start with Base ("Base_Turret_" or "Base_Tower_"), find the "Mount_top" container inside it. 
-- Drop the "Base_top" part into it, find another "Mount_top" container inside it.
-- Drop the Shoulders or the Cockpit into the "Base_Top"
-- Find the other mounting points inside the Cockpit or Shoulders
+- Start with legs. 
+- The first container is in Legs->HIPS->Pelvis->Top->Mount_top. 
+- Put the shoulders or the cockpit into "Mount_top".
+- Find other containers inside shoulders and cockpit.
 
-
-Which parts you can drop into which containers:
-(The best way would be just to explore the turrets in the demo scene).
-
-"Mount_Top": "Base_Top", "Top_...", "Tower_...", "Shoulders_", "Cockpit_..."
-"Mount_Cockpit": Cockpits
-"Mount_Backpack": Backpacks
-"Mount_Weapon L/R": Weapon_...", "HalfShoulder_..."
-You can try to drop the "Roof" parts into "Mount_Weapon_Top" containers inside the cockpits, but generally you'll just have to eyeball it.
-
-
-After the assembly, the turrets consist of many separate parts and, even with batching, can produce high number of draw calls.
+After the assembly, robots consist of many separate parts and, even with batching, produce high number of draw calls.
 You may want to combine non-animated parts into a single mesh for the sake of optimization.
 
-All the weapons contain locators at their barrel ends (named "Barrel_end", or "Barrel_end_[number]" in case there are multiple barrels).
+All weapons contain locators at their barrel ends (named "Barrel_end"). Rocket launchers contain multiple locators, for all of the rockets.
+
+If you need a cap for the hole at the top of the legs, you can find it in the Models->Legs_top_cap.fbx. Just drop it in Legs->HIPS, then move from HIPS to Pelvis.
 
 
 
 
-Textures:
+Animations:
+
+Idle and Jump_jetpack animation files contain several animations:
+Idle: "Idle_simple" - frames 170-260
+Jump_jetpack: "Jump_jet_start"(6-14), "Jump_jet_idle" - 15-55", "Jump_jet_land" - 56-67
+
+Unlike the other weapons, the minigun hasn't the same animation for all levels (due to different barrel rotation speed), check its Animator Controller.
+Jetpack Jump
+Switch to "jump_idle" after the "jump_start". You may want to tilt the the mech forward or backward when mech is flying. Switch to "jump_land" when it's time to land.
+Simple jump
+Consists of only one animation, not as flexible as the Jetpack jump. Hope it still could be useful in some projects.
+
+If you want mech weapons to bounce a bit while running or walking,
+you may drop the "Top_anim_weapons_bounce" prefab into the top part after mech is assembled, and drag the weapons into "Top_anim_weapons_bounce/Mount_weapons" container.
+
+If you want to tweak the animations or create the new ones, the source .ma file contains the animated parts with their rigs.
 
 
-The source .PSD can be found in the "Materials" folder.
-For a quick repaint, adjust the layers in the "COLOR" folders. 
-You can drop your decals and textures (camouflage, for example) in the folder as well. Just be careful with texture seams.
+
+
+The texture PSD:
+
+For a quick repaint, adjust the layers in the "COLOR" folder. You can drop your decals and textures (camouflage, for example) in the folder as well. Just be careful with texture seams.
+You may want to turn off the "FX_Rust" and "FX_Chipped_paint" layers for more cartoony look.
+Or make ambient occlusion stronger by increasing opacity of "SHADING/MORE_OCCLUSION" layer.
 
 
 
 
-If you have any ideas how I could organize the assets any better way, or if you're missing any particular animation or module, please, write (slsovest@gmail.com). 
-Will try to include it into this pack or into the future ones.
+I'm fairly new to Unity, and if you have any ideas how I could organize the assets any better way, please, write.
+I'm planning to develop the Mech Construstor assets further. The images of the progress will be added here: https://www.behance.net/slava_zhuravlev/wip
+If you have any ideas for the ongoing assets, if you think of a certain module or a weapon type which should be made, please write me via slsovest@gmail.com.
+I will try to include it in the future assets.
 
 
 
-Version 2.0 (March 2018):
-Added flat-colored PBR textures.
-Added new parts:
-- fences (3 levels)
-- top-mounted radars (3 levels)
+
+Version 1.1
+
+Added skinned legs, cannons and machineguns. The models consist only of a single mesh object, and require 1 draw call (instead of 12 for the old legs, my bad). But do not batch.
+Replaced the old prefabs with the new ones. The old ones can be found in Prefabs/Non skinned folder.
+They may still work better (because of batching), if you have a lot of robots in a scene.
+
+
+Version 1.2
+
+Replaced in-place legs animations with animations with root motion. Hope they will work fine with Mecanim. If not, please, write. 
+The old animations are in Animations/Legs_In_place_animations.rar.
+The legs pivot was slightly off center, fixed. (Thanks to Devon G. for pointing to that.)
+
+
+Version 1.3
+
+4 new parts added:
+- Shoulders_lt_frame_upgrade
+- Shoulders_med_frame_upgrade
+- Shoulders_med_shield_upgrade
+- Cockpit_jet_upgrade
+
+New animations added:
+- Jetpack jump
+- Simple jump
+- Fall
+
+
+Version 1.4
+
+Root motion finally fixed (had to add an additional parent bone to all the legs and animations).
+Walk and run animation tweaked a bit.
+Turn on place animation added.
+Added HalfShoulder parts (can be very useful with the Spiders and Tanks pack).
