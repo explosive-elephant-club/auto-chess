@@ -49,11 +49,11 @@ public class ShopConstructController : MonoBehaviour
     {
         UpdateUI();
         refreshCostText.text = GameConfig.Instance.refreshCost.ToString();
-        normalConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 1);
-        rareConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 2);
-        specialConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 3);
-        epicConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 4);
-        legenConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 5);
+        normalConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 1 && c.type != "Isolate");
+        rareConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 2 && c.type != "Isolate");
+        specialConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 3 && c.type != "Isolate");
+        epicConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 4 && c.type != "Isolate");
+        legenConstructors = GameExcelConfig.Instance.constructorsArray.FindAll(c => c.level == 5 && c.type != "Isolate");
     }
 
     private void OnEnable()

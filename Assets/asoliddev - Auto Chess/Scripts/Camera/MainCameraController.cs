@@ -12,7 +12,6 @@ public class MainCameraController : MonoBehaviour
     float inputZoom;
     Vector3 oringinPos;
     public Vector3 target;
-    public float size;
     public float speed;
     public float offsetXMin;
     public float offsetXMax;
@@ -33,12 +32,12 @@ public class MainCameraController : MonoBehaviour
         if (inputDir.magnitude >= 0.05f)
         {
             target = mainCamera.transform.position;
-            target += new Vector3(inputDir.x, inputDir.y, 0);
+            target += new Vector3(inputDir.x, 0, inputDir.y);
         }
         else if (Mathf.Abs(inputZoom) > 0)
         {
-            size = mainCamera.orthographicSize;
-            size += Mathf.Sign(inputZoom) * 0.4f;
+            target = mainCamera.transform.position;
+            target += new Vector3(0, Mathf.Sign(inputZoom) * 4, 0);
         }
         Vector3 offset = target - oringinPos;
         if (offsetXMin > offset.x || offsetXMax < offset.x)
@@ -49,14 +48,12 @@ public class MainCameraController : MonoBehaviour
         {
             target.y = mainCamera.transform.position.y;
         }
-        if (offsetZMin > size || offsetZMax < size)
+        if (offsetZMin > offset.z || offsetZMax < offset.z)
         {
-            size = mainCamera.orthographicSize;
+            target.z = mainCamera.transform.position.z;
         }
         mainCamera.transform.position = Vector3.Slerp(mainCamera.transform.position, target, speed * Time.deltaTime);
-        mainCamera.orthographicSize = size;
         worldCanvasCamera.transform.position = mainCamera.transform.position;
-        worldCanvasCamera.orthographicSize = size;
     }
 
     public void CameraMove(InputAction.CallbackContext context)

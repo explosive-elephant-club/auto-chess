@@ -20,7 +20,8 @@ public enum ConstructorType
     Antenna,
     Shield,
     Base,
-    Weapon
+    Weapon,
+    Isolate
 }
 
 
@@ -359,7 +360,7 @@ public class ConstructorBase : MonoBehaviour
 
         do
         {
-            if (son.type == ConstructorType.Chassis)
+            if (son.type == ConstructorType.Chassis || son.type == ConstructorType.Isolate)
             {
                 return null;
             }
@@ -377,7 +378,7 @@ public class ConstructorBase : MonoBehaviour
                 return parentSlot.slotTrans;
             }
             son = parent;
-            if (son.type == ConstructorType.Chassis)
+            if (son.type == ConstructorType.Chassis || son.type == ConstructorType.Isolate)
             {
                 return null;
             }

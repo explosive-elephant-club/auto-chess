@@ -195,7 +195,7 @@ public class ChampionController : MonoBehaviour
 
     public ConstructorBase GetChassisConstructor()
     {
-        return constructors.Find(c => c.type == ConstructorType.Chassis);
+        return constructors.Find(c => c.type == ConstructorType.Chassis || c.type == ConstructorType.Isolate);
     }
 
     /// <summary>
@@ -217,11 +217,11 @@ public class ChampionController : MonoBehaviour
 
         if (team == ChampionTeam.Player)
         {
-            rotation = new Vector3(0, 180, 0);
+            rotation = new Vector3(0, 205, 0);
         }
         else if (team == ChampionTeam.Oponent)
         {
-            rotation = new Vector3(0, 0, 0);
+            rotation = new Vector3(0, 25, 0);
         }
         this.transform.rotation = Quaternion.Euler(rotation);
     }

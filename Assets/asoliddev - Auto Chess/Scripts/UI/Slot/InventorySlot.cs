@@ -126,7 +126,9 @@ public class InventorySlot : ContainerSlot
         {
             AttachConstructor(UIController.Instance.constructorAssembleController.pointEnterTreeViewSlot);
         }
-        else if (InputController.Instance.gridInfo != null && inventoryConstructor.constructorBaseData.type == ConstructorType.Chassis.ToString())
+        else if (InputController.Instance.gridInfo != null &&
+            (inventoryConstructor.constructorBaseData.type == ConstructorType.Chassis.ToString() ||
+            inventoryConstructor.constructorBaseData.type == ConstructorType.Isolate.ToString()))
         {
             AddConstructor(InputController.Instance.gridInfo);
         }

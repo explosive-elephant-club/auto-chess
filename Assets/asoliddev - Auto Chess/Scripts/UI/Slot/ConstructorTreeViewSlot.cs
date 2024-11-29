@@ -233,7 +233,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     public void RemoveConstructor()
     {
         List<ConstructorBaseData> removedData = new List<ConstructorBaseData>();
-        if (constructor.type == ConstructorType.Chassis)
+        if (constructor.type == ConstructorType.Chassis || constructor.type == ConstructorType.Isolate)
         {
             ChampionController championController = constructor.championController;
             removedData = constructor.removeAllConstructor();

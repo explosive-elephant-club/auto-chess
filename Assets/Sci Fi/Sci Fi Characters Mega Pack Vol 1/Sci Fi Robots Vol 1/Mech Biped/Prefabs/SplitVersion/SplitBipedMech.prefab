@@ -421,10 +421,11 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36a83a40de68d63449ed9e20418ca950, type: 3}
+  - {fileID: 2100000, guid: 35600e051e54b924d849c78075d8f929, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -432,6 +433,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -551,7 +553,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3911889432066954846}
   m_LocalRotation: {x: 0.5000002, y: 0.49999988, z: -0.5, w: -0.49999994}
-  m_LocalPosition: {x: -0.10611999, y: 1.0499995, z: 0.0640561}
+  m_LocalPosition: {x: -0.11, y: 1.04, z: 0.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3911889432066853486}
@@ -3222,11 +3224,12 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19f08bea1f5b69f46892ad882f9b609f, type: 3}
-  - {fileID: 2100002, guid: 19f08bea1f5b69f46892ad882f9b609f, type: 3}
+  - {fileID: 2100000, guid: 35600e051e54b924d849c78075d8f929, type: 2}
+  - {fileID: 2100000, guid: 0633eb38232d93144aec3e24350fb60a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3234,6 +3237,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -3669,6 +3673,10 @@ PrefabInstance:
       objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000,
         type: 0}
     - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.0502541
       objectReference: {fileID: 0}
@@ -3679,6 +3687,10 @@ PrefabInstance:
     - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.06205456
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3693,14 +3705,6 @@ PrefabInstance:
       value: -0.00000007375701
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
       objectReference: {fileID: 0}
@@ -3712,6 +3716,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35600e051e54b924d849c78075d8f929, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 925220f3a6096394ebdc1ea08b42e36a, type: 3}
 --- !u!4 &7210369775167748668 stripped
@@ -3743,6 +3751,10 @@ PrefabInstance:
       objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000,
         type: 0}
     - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.0499991
       objectReference: {fileID: 0}
@@ -3753,6 +3765,10 @@ PrefabInstance:
     - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.062054694
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3767,14 +3783,6 @@ PrefabInstance:
       value: -0.00000007375701
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: f095b5f56416412498b627f346fd3af4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
       objectReference: {fileID: 0}
@@ -3786,6 +3794,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: f095b5f56416412498b627f346fd3af4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35600e051e54b924d849c78075d8f929, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f095b5f56416412498b627f346fd3af4, type: 3}
 --- !u!4 &7210369775494431377 stripped

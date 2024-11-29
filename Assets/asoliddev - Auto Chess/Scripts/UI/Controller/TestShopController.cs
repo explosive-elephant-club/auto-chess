@@ -29,10 +29,14 @@ public class TestShopController : MonoBehaviour
         testShopConstructBtns = new List<TestShopConstructBtn>();
         foreach (var c in GameExcelConfig.Instance.constructorsArray)
         {
-            TestShopConstructBtn btn = Instantiate(testBuyBtn).GetComponent<TestShopConstructBtn>();
-            btn.transform.SetParent(content, false);
-            btn.Refresh(c);
-            testShopConstructBtns.Add(btn);
+            if (c.type != "Isolate")
+            {
+                TestShopConstructBtn btn = Instantiate(testBuyBtn).GetComponent<TestShopConstructBtn>();
+                btn.transform.SetParent(content, false);
+                btn.Refresh(c);
+                testShopConstructBtns.Add(btn);
+            }
+
         }
     }
 
