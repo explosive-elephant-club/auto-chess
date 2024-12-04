@@ -1,0 +1,1003 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2013104398204278687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2393350964704912715}
+  m_Layer: 0
+  m_Name: Barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2393350964704912715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013104398204278687}
+  m_LocalRotation: {x: -0.70710677, y: -0.0000001490116, z: 0.7071069, w: -0.000000059604638}
+  m_LocalPosition: {x: -0.84, y: 0, z: 0.003}
+  m_LocalScale: {x: 0.100000024, y: 0.09999999, z: 0.09999999}
+  m_Children: []
+  m_Father: {fileID: 5801400789955653372}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &2333944489746512857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 976520571254985635}
+  m_Layer: 0
+  m_Name: Barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &976520571254985635
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333944489746512857}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.84, y: -0, z: -0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_Children: []
+  m_Father: {fileID: 5808856176164070276}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &5802930832517354642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808563692554778736}
+  m_Layer: 0
+  m_Name: AssaultMech_FootRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808563692554778736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802930832517354642}
+  m_LocalRotation: {x: 0.00000006396459, y: 0.00000008544677, z: 0.46868068, w: 0.8833677}
+  m_LocalPosition: {x: -0.7647122, y: -0.000000038146972, z: 0}
+  m_LocalScale: {x: 1, y: 1.0000001, z: 1}
+  m_Children:
+  - {fileID: 5801576343193696022}
+  - {fileID: 5808765567790585088}
+  - {fileID: 5801399261371737374}
+  m_Father: {fileID: 5801562270675738718}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.000009915846, y: 0.000008761109, z: 37.972786}
+--- !u!1 &5802976648899999260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801568737415456998}
+  - component: {fileID: 5899679018246879250}
+  - component: {fileID: 619562682477027555}
+  m_Layer: 0
+  m_Name: Isolate_Enemy_AssaultMech_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801568737415456998
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802976648899999260}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.57, y: -2.53, z: 19.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5801579941747139818}
+  - {fileID: 5808521353986988018}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &5899679018246879250
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802976648899999260}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 6b54c65c68de1314694945804fe7edbc, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6b088a274e12e8b459944e3522a51efa, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &619562682477027555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802976648899999260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructorDataID: 325
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _level: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _PaintingType: 
+    _valueChanges: []
+    _slots: 
+    _skillID: 
+  type: 0
+  slots: []
+  parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
+  animator: {fileID: 5899679018246879250}
+  skillCastPoints:
+  - {fileID: 976520571254985635}
+  - {fileID: 2393350964704912715}
+  renderers:
+  - {fileID: 5864949884892835746}
+  cost: 0
+--- !u!1 &5802987894874501808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808610613044800422}
+  m_Layer: 0
+  m_Name: AssaultMech_ThighRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808610613044800422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802987894874501808}
+  m_LocalRotation: {x: 0.00000017085335, y: 0.00000016433073, z: -0.7264068, w: 0.687265}
+  m_LocalPosition: {x: 0.0019643402, y: -0.074636325, z: 0.000000076293944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5801562270675738718}
+  m_Father: {fileID: 5801599455676690068}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.000018187264, y: -0.000012910973, z: -124.481064}
+--- !u!1 &5803031765446302992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808856176164070276}
+  m_Layer: 0
+  m_Name: AssaultMech_WeaponLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808856176164070276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803031765446302992}
+  m_LocalRotation: {x: -0.00000012654334, y: 0.00000021033573, z: 0.7045889, w: 0.7096157}
+  m_LocalPosition: {x: -0.18682632, y: -0.030893497, z: -1.1135502}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 976520571254985635}
+  m_Father: {fileID: 5809046181422875002}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: -0.000027272486, y: 0.000006886551, z: 89.59268}
+--- !u!1 &5803078800158338244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801231124631657820}
+  m_Layer: 0
+  m_Name: AssaultMech_ToeLeft_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801231124631657820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803078800158338244}
+  m_LocalRotation: {x: 0.76213557, y: -0.5222096, z: -0.21630639, w: -0.3156869}
+  m_LocalPosition: {x: -0.3666487, y: 0.24631166, z: 0.12823755}
+  m_LocalScale: {x: 0.99999994, y: 1.0000001, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5801694115607100654}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -45.000004, y: -179.99997, z: -111.16271}
+--- !u!1 &5803097151689960958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801400789955653372}
+  m_Layer: 0
+  m_Name: AssaultMech_WeaponRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801400789955653372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803097151689960958}
+  m_LocalRotation: {x: 0.7096156, y: 0.704589, z: -0.00000022276002, w: 0.0000002211821}
+  m_LocalPosition: {x: -0.18682571, y: -0.030893134, z: 1.1131016}
+  m_LocalScale: {x: 0.99999994, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2393350964704912715}
+  m_Father: {fileID: 5809046181422875002}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0.000035971265, y: -180, z: 90.40729}
+--- !u!1 &5803098281210314920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801399261371737374}
+  m_Layer: 0
+  m_Name: AssaultMech_ToeLRight_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801399261371737374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803098281210314920}
+  m_LocalRotation: {x: -0.00000022494487, y: 0.00000009505009, z: -0.57929605, w: 0.81511724}
+  m_LocalPosition: {x: -0.37714317, y: 0.26464525, z: 0.000000038146972}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5808563692554778736}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -0.000014727467, y: 0.000024123756, z: -70.802086}
+--- !u!1 &5803147533095804992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808783844947066144}
+  m_Layer: 0
+  m_Name: AssaultMech_Pelvis
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808783844947066144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803147533095804992}
+  m_LocalRotation: {x: -0.000000010495336, y: 0.70710254, z: 0.000000010578491, w: 0.707111}
+  m_LocalPosition: {x: -0, y: 0.17040418, z: 1.3490584}
+  m_LocalScale: {x: 0.9999999, y: 1, z: 0.9999999}
+  m_Children:
+  - {fileID: 5801385058554351442}
+  - {fileID: 5801599455676690068}
+  - {fileID: 5808574731456210712}
+  m_Father: {fileID: 5801579941747139818}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.0000016278491, y: 89.999306, z: 0.0000000064330847}
+--- !u!1 &5803185310376711508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801599455676690068}
+  m_Layer: 0
+  m_Name: AssaultMech_HipRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801599455676690068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803185310376711508}
+  m_LocalRotation: {x: 1, y: -0.00000063385335, z: -0.000005960464, w: 0.00000013315427}
+  m_LocalPosition: {x: 0.34586036, y: 0.013231411, z: 0.4759959}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5808610613044800422}
+  m_Father: {fileID: 5808783844947066144}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0.000015257962, y: -179.99931, z: -179.99991}
+--- !u!1 &5803303287146698402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808521353986988018}
+  - component: {fileID: 5864949884892835746}
+  m_Layer: 0
+  m_Name: SK_AssaultMech
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808521353986988018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803303287146698402}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5801568737415456998}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &5864949884892835746
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803303287146698402}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 33efa54a2f2b5e340b2348d016159bb9, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 1
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 4300000, guid: 6b54c65c68de1314694945804fe7edbc, type: 3}
+  m_Bones:
+  - {fileID: 5809046181422875002}
+  - {fileID: 5808925042811536170}
+  - {fileID: 5808856176164070276}
+  - {fileID: 5801223647506115236}
+  - {fileID: 5808574731456210712}
+  - {fileID: 5801385058554351442}
+  - {fileID: 5808681296013726006}
+  - {fileID: 5808783844947066144}
+  - {fileID: 5801720286848143250}
+  - {fileID: 5801400789955653372}
+  - {fileID: 5808610613044800422}
+  - {fileID: 5801599455676690068}
+  - {fileID: 5801674177907956204}
+  - {fileID: 5801694115607100654}
+  - {fileID: 5801709089930682820}
+  - {fileID: 5801424790653157930}
+  - {fileID: 5808580447198642378}
+  - {fileID: 5801231124631657820}
+  - {fileID: 5801576343193696022}
+  - {fileID: 5808563692554778736}
+  - {fileID: 5801562270675738718}
+  - {fileID: 5801399261371737374}
+  - {fileID: 5808765567790585088}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 5808783844947066144}
+  m_AABB:
+    m_Center: {x: -0.05032593, y: -0.1251697, z: 0.0000071525574}
+    m_Extent: {x: 1.5010588, y: 1.0948889, z: 1.3972108}
+  m_DirtyAABB: 0
+--- !u!1 &5803354433164923404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808681296013726006}
+  m_Layer: 0
+  m_Name: AssaultMech_ArmLeft_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808681296013726006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803354433164923404}
+  m_LocalRotation: {x: 0.4982195, y: -0.5017742, z: 0.49821943, w: 0.50177425}
+  m_LocalPosition: {x: -0.23122695, y: 0.10411968, z: -0.2774485}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5809046181422875002}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 89.59265, y: -90, z: 0}
+--- !u!1 &5803482922844526062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801720286848143250}
+  m_Layer: 0
+  m_Name: AssaultMech_ArmRight_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801720286848143250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803482922844526062}
+  m_LocalRotation: {x: 0.50177413, y: 0.49821955, z: -0.501774, w: 0.4982197}
+  m_LocalPosition: {x: -0.23122695, y: 0.104119755, z: 0.7837908}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5809046181422875002}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 89.59265, y: -89.99975, z: -179.99976}
+--- !u!1 &5803552412532001398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808925042811536170}
+  m_Layer: 0
+  m_Name: AssaultMech_ArmLeft_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808925042811536170
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803552412532001398}
+  m_LocalRotation: {x: 0.4982195, y: -0.5017742, z: 0.49821943, w: 0.50177425}
+  m_LocalPosition: {x: -0.2312271, y: 0.10411957, z: -0.7842395}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5809046181422875002}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 89.59265, y: -90, z: 0}
+--- !u!1 &5803590376495533602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808574731456210712}
+  m_Layer: 0
+  m_Name: AssaultMech_Neck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808574731456210712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803590376495533602}
+  m_LocalRotation: {x: 0.00000013411044, y: 0.0000028014176, z: -3.7081435e-13, w: 1}
+  m_LocalPosition: {x: -0.14600784, y: 0, z: 0.0000018310546}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5809046181422875002}
+  m_Father: {fileID: 5808783844947066144}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0.000015362828, y: 0.00032099153, z: 5.3364046e-13}
+--- !u!1 &5803656468742901414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801562270675738718}
+  m_Layer: 0
+  m_Name: AssaultMech_CalfRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801562270675738718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803656468742901414}
+  m_LocalRotation: {x: -0.000000033374366, y: 0.000000098956775, z: 0.9475607, w: -0.31957585}
+  m_LocalPosition: {x: -0.9341731, y: 0.0000003814697, z: -0.00000022888183}
+  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
+  m_Children:
+  - {fileID: 5808563692554778736}
+  m_Father: {fileID: 5808610613044800422}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.000016083584, y: -0.0000061214246, z: -93.49179}
+--- !u!1 &5803657168450518506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801694115607100654}
+  m_Layer: 0
+  m_Name: AssaultMech_FootLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801694115607100654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803657168450518506}
+  m_LocalRotation: {x: -0.000000008417416, y: -0.00000008568693, z: -0.46868005, w: 0.883368}
+  m_LocalPosition: {x: -0.7647122, y: -0.00000022888183, z: 0.000000038146972}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
+  m_Children:
+  - {fileID: 5801231124631657820}
+  - {fileID: 5808580447198642378}
+  - {fileID: 5801424790653157930}
+  m_Father: {fileID: 5801709089930682820}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.00000277101, y: -0.000003802716, z: -37.972725}
+--- !u!1 &5803723339196869164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801223647506115236}
+  m_Layer: 0
+  m_Name: AssaultMech_ThighLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801223647506115236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803723339196869164}
+  m_LocalRotation: {x: 0.00000036251592, y: 0.0000005850515, z: 0.7264064, w: 0.6872654}
+  m_LocalPosition: {x: 0.0019644164, y: 0.07463634, z: -0.000000076293944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5801709089930682820}
+  m_Father: {fileID: 5801385058554351442}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.000019941068, y: 0.00008160593, z: 124.48101}
+--- !u!1 &5803840245621793226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801579941747139818}
+  m_Layer: 0
+  m_Name: root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801579941747139818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803840245621793226}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5808783844947066144}
+  m_Father: {fileID: 5801568737415456998}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &5805031223042888654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808765567790585088}
+  m_Layer: 0
+  m_Name: AssaultMech_ToeLRight_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808765567790585088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805031223042888654}
+  m_LocalRotation: {x: 0.7621356, y: 0.5222095, z: 0.216306, w: -0.3156869}
+  m_LocalPosition: {x: -0.36664885, y: -0.24631155, z: -0.1550885}
+  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+  m_Children: []
+  m_Father: {fileID: 5808563692554778736}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -44.99998, y: -179.99995, z: 111.16269}
+--- !u!1 &5805050744231041672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801674177907956204}
+  m_Layer: 0
+  m_Name: AssaultMech_ArmRight_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801674177907956204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805050744231041672}
+  m_LocalRotation: {x: 0.5017742, y: 0.4982195, z: -0.5017741, w: 0.4982196}
+  m_LocalPosition: {x: -0.23122665, y: 0.10411964, z: 0.27699986}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5809046181422875002}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 89.59265, y: -90, z: 180}
+--- !u!1 &5805056763840229500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801424790653157930}
+  m_Layer: 0
+  m_Name: AssaultMech_ToeLeft_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801424790653157930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805056763840229500}
+  m_LocalRotation: {x: 0.000000108539425, y: 0.00000007713793, z: 0.57929605, w: 0.81511724}
+  m_LocalPosition: {x: -0.3771431, y: -0.26464516, z: 0.000000076293944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5801694115607100654}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0.0000047833005, y: 0.000014449844, z: 70.802086}
+--- !u!1 &5805061508100922082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801709089930682820}
+  m_Layer: 0
+  m_Name: AssaultMech_CalfLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801709089930682820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805061508100922082}
+  m_LocalRotation: {x: -2.2707266e-15, y: -6.7328226e-15, z: 0.94756055, w: 0.31957635}
+  m_LocalPosition: {x: -0.9341731, y: -0.00000022888183, z: -0.000000038146972}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5801694115607100654}
+  m_Father: {fileID: 5801223647506115236}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.0000011450257, y: -0.000001961848, z: 93.49174}
+--- !u!1 &5805074639539900846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801385058554351442}
+  m_Layer: 0
+  m_Name: AssaultMech_HipLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801385058554351442
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805074639539900846}
+  m_LocalRotation: {x: 0.00000013411045, y: 0.0000052452087, z: -5.9407555e-11, w: 1}
+  m_LocalPosition: {x: 0.34584922, y: 0.013231449, z: -0.4762654}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5801223647506115236}
+  m_Father: {fileID: 5808783844947066144}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.00001536283, y: 0.00060077815, z: -0.0000000064128987}
+--- !u!1 &5805083236488459250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5809046181422875002}
+  m_Layer: 0
+  m_Name: AssaultMech_Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5809046181422875002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805083236488459250}
+  m_LocalRotation: {x: -0.00000015099582, y: 0.0000031888485, z: -5.9068195e-11, w: 1}
+  m_LocalPosition: {x: -0.29520386, y: -0.0034006117, z: 0.0000020306109}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5808681296013726006}
+  - {fileID: 5808925042811536170}
+  - {fileID: 5801674177907956204}
+  - {fileID: 5801720286848143250}
+  - {fileID: 5808856176164070276}
+  - {fileID: 5801400789955653372}
+  m_Father: {fileID: 5808574731456210712}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.000017207405, y: 0.00036545226, z: -0.0000000065052728}
+--- !u!1 &5805101820731564266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5808580447198642378}
+  m_Layer: 0
+  m_Name: AssaultMech_ToeLeft_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5808580447198642378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805101820731564266}
+  m_LocalRotation: {x: 0.76213557, y: -0.52220964, z: 0.216306, w: 0.31568697}
+  m_LocalPosition: {x: -0.3666488, y: 0.24631162, z: -0.15508853}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5801694115607100654}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 44.99998, y: -179.99994, z: -111.162674}
+--- !u!1 &5805118077945009178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801576343193696022}
+  m_Layer: 0
+  m_Name: AssaultMech_ToeLRight_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801576343193696022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805118077945009178}
+  m_LocalRotation: {x: 0.76213557, y: 0.5222095, z: -0.21630642, w: 0.31568688}
+  m_LocalPosition: {x: -0.36664882, y: -0.24631155, z: 0.1282376}
+  m_LocalScale: {x: 1, y: 0.99999994, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5808563692554778736}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 45.000004, y: -179.99997, z: 111.16271}

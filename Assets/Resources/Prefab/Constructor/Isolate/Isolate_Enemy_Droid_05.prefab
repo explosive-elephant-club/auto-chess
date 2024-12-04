@@ -1,0 +1,1655 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3881868681985828598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2458946214268406257}
+  - component: {fileID: 8109714693380448533}
+  - component: {fileID: 5624543724437011433}
+  m_Layer: 0
+  m_Name: SM_Droid-01_Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2458946214268406257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3881868681985828598}
+  m_LocalRotation: {x: 0.5000002, y: -0.49999988, z: 0.49999988, w: 0.5000002}
+  m_LocalPosition: {x: 0.00000019073485, y: -0.046594236, z: -0.034851894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 490493134519814685}
+  m_Father: {fileID: 4077083002980922717}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8109714693380448533
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3881868681985828598}
+  m_Mesh: {fileID: 4300002, guid: 36ac9fcf34538d14583f301307731951, type: 3}
+--- !u!23 &5624543724437011433
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3881868681985828598}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f54af1d54c47e8843b3625dc0b48d1b1, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &4071385360825233339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4076968923264725491}
+  m_Layer: 0
+  m_Name: root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4076968923264725491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071385360825233339}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4074512630840123865}
+  m_Father: {fileID: 4077221668022135601}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &4071386833343696965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077090841733464869}
+  - component: {fileID: 4137737541739828087}
+  m_Layer: 0
+  m_Name: SK_Droid-01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077090841733464869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071386833343696965}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4077221668022135601}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &4137737541739828087
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071386833343696965}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c505a07d30cba1c4fbe75e50aa7e9e72, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 1
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 4300000, guid: 36ac9fcf34538d14583f301307731951, type: 3}
+  m_Bones:
+  - {fileID: 4077088188679146051}
+  - {fileID: 4074618431112116321}
+  - {fileID: 4077062691683584071}
+  - {fileID: 4076891224351695371}
+  - {fileID: 4074488419146116799}
+  - {fileID: 4077098738817897249}
+  - {fileID: 4074364496803566173}
+  - {fileID: 4074512630840123865}
+  - {fileID: 4077294577135779987}
+  - {fileID: 4077062355310884915}
+  - {fileID: 4077224346571885067}
+  - {fileID: 4077259851754800989}
+  - {fileID: 4077059487774620373}
+  - {fileID: 4076979781609235307}
+  - {fileID: 4074250654143151825}
+  - {fileID: 4074117439539411609}
+  - {fileID: 4074199679113070757}
+  - {fileID: 4074250612075762131}
+  - {fileID: 4074080808806511157}
+  - {fileID: 4076947557535010009}
+  - {fileID: 4074291656699083623}
+  - {fileID: 4077428562262191017}
+  - {fileID: 4074078485157672045}
+  - {fileID: 4074261106031956251}
+  - {fileID: 4077119368184100781}
+  - {fileID: 4074311814986439169}
+  - {fileID: 4074095071668386331}
+  - {fileID: 4077439109861230639}
+  - {fileID: 4077194617813774625}
+  - {fileID: 4077076380946789481}
+  - {fileID: 4077291044383144589}
+  - {fileID: 4074463650835143003}
+  - {fileID: 4074225071904737155}
+  - {fileID: 4076978389893751407}
+  - {fileID: 4074421012532343751}
+  - {fileID: 4074487814395387599}
+  - {fileID: 4074563033525191995}
+  - {fileID: 4074487884067417825}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 4074512630840123865}
+  m_AABB:
+    m_Center: {x: 0.07513142, y: -0.0007148981, z: 0.018672176}
+    m_Extent: {x: 1.0556405, y: 0.25037897, z: 0.18573704}
+  m_DirtyAABB: 0
+--- !u!1 &4071418071819523091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074291656699083623}
+  m_Layer: 0
+  m_Name: Droid-01_ToeRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074291656699083623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071418071819523091}
+  m_LocalRotation: {x: 0.00000009357225, y: -0.00000022929193, z: 0.3778406, w: 0.9258707}
+  m_LocalPosition: {x: -0.18339764, y: -0.000000047683713, z: 0.000000009536743}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4076947557535010009}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.000028298773, y: -0.0000021271183, z: 85.701355}
+--- !u!1 &4071459624873616449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077062691683584071}
+  m_Layer: 0
+  m_Name: Droid-01_UpperArmLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077062691683584071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071459624873616449}
+  m_LocalRotation: {x: 0.49728835, y: -0.5027234, z: 0.49769408, w: 0.50226897}
+  m_LocalPosition: {x: -0.10712128, y: 0.00000014305114, z: -0.00000045776366}
+  m_LocalScale: {x: 0.9999999, y: 1, z: 0.9999999}
+  m_Children:
+  - {fileID: 4074117439539411609}
+  m_Father: {fileID: 4077088188679146051}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 33.856743, y: -4.28692, z: 89.11337}
+--- !u!1 &4071477210880893353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074487814395387599}
+  m_Layer: 0
+  m_Name: Droid-01_FingerA_2_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074487814395387599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071477210880893353}
+  m_LocalRotation: {x: -0.02506971, y: 0, z: -0, w: 0.9996857}
+  m_LocalPosition: {x: -0.06257799, y: 0, z: 0.000000076293944}
+  m_LocalScale: {x: 1, y: 1.0000001, z: 0.99999994}
+  m_Children: []
+  m_Father: {fileID: 4074421012532343751}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -2.8731074, y: 0.000009617042, z: 84.788345}
+--- !u!1 &4071490220079786123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077294577135779987}
+  m_Layer: 0
+  m_Name: Droid-01_HipLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077294577135779987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071490220079786123}
+  m_LocalRotation: {x: 0.0023217732, y: 0.01106009, z: 0.7063323, w: 0.7077902}
+  m_LocalPosition: {x: 0.00013786316, y: -0.04053711, z: -0.00087790965}
+  m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
+  m_Children:
+  - {fileID: 4077062355310884915}
+  m_Father: {fileID: 4074512630840123865}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 22.950092, y: 6.65896, z: 85.22022}
+--- !u!1 &4071496126982472691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074488419146116799}
+  m_Layer: 0
+  m_Name: Droid-01_Neck1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074488419146116799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071496126982472691}
+  m_LocalRotation: {x: -0.0000019594772, y: -0.012856349, z: 0.00000044487172, w: 0.9999174}
+  m_LocalPosition: {x: -0.3347667, y: 4.1654857e-12, z: 0.000000085830685}
+  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Children:
+  - {fileID: 4077098738817897249}
+  m_Father: {fileID: 4074618431112116321}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -0.5371287, y: -1.4732744, z: 0.0011961707}
+--- !u!1 &4071496463544496681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074080808806511157}
+  m_Layer: 0
+  m_Name: Droid-01_ClavicleRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074080808806511157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071496463544496681}
+  m_LocalRotation: {x: -0.50585914, y: 0.50586003, z: 0.4940706, w: -0.49407125}
+  m_LocalPosition: {x: -0.25602448, y: 0.1040002, z: -0.017478637}
+  m_LocalScale: {x: 1, y: 0.9999998, z: 0.9999998}
+  m_Children:
+  - {fileID: 4077076380946789481}
+  m_Father: {fileID: 4074618431112116321}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 15.635617, y: -125.20665, z: -98.995544}
+--- !u!1 &4071527213154879345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077020439057032045}
+  m_Layer: 0
+  m_Name: Droid-01_WeaponIdle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077020439057032045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071527213154879345}
+  m_LocalRotation: {x: 0.19818273, y: 0.7858898, z: -0.32147652, w: 0.48964655}
+  m_LocalPosition: {x: -0.3031805, y: 0.009983053, z: -0.052752227}
+  m_LocalScale: {x: 1.0000004, y: 1.0000006, z: 0.9999997}
+  m_Children: []
+  m_Father: {fileID: 4074618431112116321}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 44.37641, y: 116.041725, z: -0.2661474}
+--- !u!1 &4071547567142148281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077224346571885067}
+  m_Layer: 0
+  m_Name: Droid-01_HipRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077224346571885067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071547567142148281}
+  m_LocalRotation: {x: -0.0023206754, y: 0.011060592, z: -0.70633227, w: 0.7077903}
+  m_LocalPosition: {x: 0.00013778686, y: 0.041, z: -0.00087775226}
+  m_LocalScale: {x: 1, y: 1, z: 0.99999994}
+  m_Children:
+  - {fileID: 4077259851754800989}
+  m_Father: {fileID: 4074512630840123865}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 8.3935995, y: 3.8541265, z: -71.151794}
+--- !u!1 &4071558293168222911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077428562262191017}
+  m_Layer: 0
+  m_Name: Droid-01_CalfRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077428562262191017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071558293168222911}
+  m_LocalRotation: {x: 0.000000012593761, y: -0.0000011969812, z: -0.010462868, w: 0.9999453}
+  m_LocalPosition: {x: -0.45977232, y: 0.0000010919571, z: 0.000000009536743}
+  m_LocalScale: {x: 1.0000001, y: 0.99999994, z: 1}
+  m_Children:
+  - {fileID: 4076947557535010009}
+  m_Father: {fileID: 4077259851754800989}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.43509254, y: 1.8291132, z: -27.959244}
+--- !u!1 &4071568332927528299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074250654143151825}
+  m_Layer: 0
+  m_Name: Droid-01_CalfLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074250654143151825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071568332927528299}
+  m_LocalRotation: {x: 0.000000029946584, y: 0.0000028660565, z: 0.010520165, w: 0.9999447}
+  m_LocalPosition: {x: -0.4597721, y: -0.0000010871887, z: -0.000000009536743}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
+  m_Children:
+  - {fileID: 4077059487774620373}
+  m_Father: {fileID: 4077062355310884915}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -1.0250453, y: 2.697856, z: 42.803104}
+--- !u!1 &4071603930566020401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074463650835143003}
+  m_Layer: 0
+  m_Name: Droid-01_HandRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074463650835143003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071603930566020401}
+  m_LocalRotation: {x: -0.004286029, y: 0.00009410742, z: -0.00009520337, w: 0.9999908}
+  m_LocalPosition: {x: -0.05007059, y: 0.000004911423, z: -0.000012283325}
+  m_LocalScale: {x: 1, y: 1.0000001, z: 1.0000001}
+  m_Children:
+  - {fileID: 4074421012532343751}
+  - {fileID: 4074225071904737155}
+  - {fileID: 4076978389893751407}
+  - {fileID: 4077083002980922717}
+  - {fileID: 4074109503185011539}
+  m_Father: {fileID: 4077291044383144589}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -20.49114, y: 0.014831266, z: -0.0116956495}
+--- !u!1 &4071621020860226455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077439109861230639}
+  m_Layer: 0
+  m_Name: Droid-01_FingerC_2_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077439109861230639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071621020860226455}
+  m_LocalRotation: {x: 0.0020611244, y: 0.0000057678076, z: 0.0006005658, w: 0.99999774}
+  m_LocalPosition: {x: -0.06258302, y: -0.0000011639437, z: -0.0000000013411044}
+  m_LocalScale: {x: 0.9999998, y: 0.9999999, z: 1.0000002}
+  m_Children: []
+  m_Father: {fileID: 4074261106031956251}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.11300629, y: 0.20739973, z: 118.45868}
+--- !u!1 &4071629681745017005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074421012532343751}
+  m_Layer: 0
+  m_Name: Droid-01_FingerA_1_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074421012532343751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071629681745017005}
+  m_LocalRotation: {x: 0.0031808023, y: -0.00021375608, z: 0.00021358879, w: 0.99999493}
+  m_LocalPosition: {x: -0.07518526, y: 0.027071513, z: 0.022198332}
+  m_LocalScale: {x: 1.0000001, y: 0.9999999, z: 0.9999998}
+  m_Children:
+  - {fileID: 4074487814395387599}
+  m_Father: {fileID: 4074463650835143003}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.059735816, y: -0.3603988, z: -76.73211}
+--- !u!1 &4071648623745531811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077083002980922717}
+  m_Layer: 0
+  m_Name: Droid-01_WeaponAction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077083002980922717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071648623745531811}
+  m_LocalRotation: {x: 0.5002843, y: 0.5001497, z: -0.49664438, w: 0.5029018}
+  m_LocalPosition: {x: -0.06975639, y: 0.00054040906, z: -0.005729446}
+  m_LocalScale: {x: 0.9999995, y: 0.99999994, z: 1.0000004}
+  m_Children:
+  - {fileID: 2458946214268406257}
+  m_Father: {fileID: 4074463650835143003}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 89.64557, y: 98.067764, z: 8.433693}
+--- !u!1 &4071650680895599483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077088188679146051}
+  m_Layer: 0
+  m_Name: Droid-01_ClavicleLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077088188679146051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071650680895599483}
+  m_LocalRotation: {x: 0.5058603, y: 0.5058596, z: -0.49407077, w: -0.49407032}
+  m_LocalPosition: {x: -0.25602463, y: -0.10403371, z: -0.017478857}
+  m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000001}
+  m_Children:
+  - {fileID: 4077062691683584071}
+  m_Father: {fileID: 4074618431112116321}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -18.237532, y: -94.32689, z: 96.51417}
+--- !u!1 &4071666925539756487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074512326884537027}
+  m_Layer: 0
+  m_Name: nub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074512326884537027
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071666925539756487}
+  m_LocalRotation: {x: -0.006316636, y: 0.0000013108311, z: -0.0024698297, w: 0.99997705}
+  m_LocalPosition: {x: -0.113540106, y: 0.00000032787685, z: -0.0000000035636174}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4074199679113070757}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4071674951260765293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4076979781609235307}
+  m_Layer: 0
+  m_Name: Droid-01_ToeLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4076979781609235307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071674951260765293}
+  m_LocalRotation: {x: -0.000000043907857, y: -0.00000010759303, z: -0.37784046, w: 0.9258707}
+  m_LocalPosition: {x: -0.18339767, y: 0.000000052452087, z: -0.0000000137660265}
+  m_LocalScale: {x: 1.0000001, y: 1.0000004, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4077059487774620373}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.000010887468, y: -0.0000076674105, z: -54.845192}
+--- !u!1 &4071675552063619895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074250612075762131}
+  m_Layer: 0
+  m_Name: Droid-01_WristLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074250612075762131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071675552063619895}
+  m_LocalRotation: {x: 0.012905719, y: 0.00003522997, z: -0.010010605, w: 0.99986666}
+  m_LocalPosition: {x: -0.2915024, y: 0.000000019073486, z: -0.000000076293944}
+  m_LocalScale: {x: 1.0000007, y: 1.0000005, z: 1.0000001}
+  m_Children:
+  - {fileID: 4074199679113070757}
+  m_Father: {fileID: 4074117439539411609}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 1.4788934, y: -0.010771674, z: -1.147387}
+--- !u!1 &4071712698883032291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4076978389893751407}
+  m_Layer: 0
+  m_Name: Droid-01_FingerC_1_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4076978389893751407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071712698883032291}
+  m_LocalRotation: {x: 0.000075685435, y: -0.0002280826, z: 0.0002265191, w: 0.99999994}
+  m_LocalPosition: {x: -0.11412794, y: 0.00090735435, z: -0.02157875}
+  m_LocalScale: {x: 1.0000001, y: 0.9999998, z: 0.99999994}
+  m_Children:
+  - {fileID: 4074487884067417825}
+  m_Father: {fileID: 4074463650835143003}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -0.021571938, y: -0.017116638, z: -69.91372}
+--- !u!1 &4071730865669800885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074311814986439169}
+  m_Layer: 0
+  m_Name: Droid-01_FingerA_2_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074311814986439169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071730865669800885}
+  m_LocalRotation: {x: 0.025069708, y: -0, z: -0, w: 0.9996857}
+  m_LocalPosition: {x: -0.06257804, y: -2.1538511e-10, z: -9.934666e-10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4077119368184100781}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 2.8730853, y: 0.000009296473, z: -76.841484}
+--- !u!1 &4071746554632873573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074512630840123865}
+  m_Layer: 0
+  m_Name: Droid-01_Pelvis
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074512630840123865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071746554632873573}
+  m_LocalRotation: {x: 0.49522856, y: 0.49522692, z: -0.50472796, w: 0.50472635}
+  m_LocalPosition: {x: -0, y: 0.061330423, z: 1.0394753}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4077294577135779987}
+  - {fileID: 4077224346571885067}
+  - {fileID: 4074364496803566173}
+  m_Father: {fileID: 4076968923264725491}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 59.98233, y: 87.82365, z: -1.884664}
+--- !u!1 &4071768009243403083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077076380946789481}
+  m_Layer: 0
+  m_Name: Droid-01_UpperArmRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077076380946789481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071768009243403083}
+  m_LocalRotation: {x: 0.50305265, y: 0.5030451, z: 0.49693617, w: -0.49692866}
+  m_LocalPosition: {x: -0.107121296, y: -0.00000017166137, z: 0}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
+  m_Children:
+  - {fileID: 4077194617813774625}
+  m_Father: {fileID: 4074080808806511157}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -65.24556, y: -3.9239242, z: -86.505165}
+--- !u!1 &4071777390938569985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077098738817897249}
+  m_Layer: 0
+  m_Name: Droid-01_Neck2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077098738817897249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071777390938569985}
+  m_LocalRotation: {x: 0.00000088500826, y: -0.010402822, z: 0.0000012598267, w: 0.9999459}
+  m_LocalPosition: {x: -0.058538664, y: -0.0000000012075179, z: 0.00000011920929}
+  m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
+  m_Children:
+  - {fileID: 4076891224351695371}
+  m_Father: {fileID: 4074488419146116799}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.00012271693, y: 22.307749, z: 0.00016291073}
+--- !u!1 &4071839734211462215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074199679113070757}
+  m_Layer: 0
+  m_Name: Droid-01_HandLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074199679113070757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071839734211462215}
+  m_LocalRotation: {x: 0.004264167, y: -0.0000053836634, z: 0.00013377702, w: 0.99999094}
+  m_LocalPosition: {x: -0.05007044, y: 0.000000019073486, z: 0}
+  m_LocalScale: {x: 0.99999994, y: 1.0000002, z: 1.0000002}
+  m_Children:
+  - {fileID: 4077119368184100781}
+  - {fileID: 4074078485157672045}
+  - {fileID: 4074261106031956251}
+  - {fileID: 4074512326884537027}
+  m_Father: {fileID: 4074250612075762131}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 20.488636, y: 0.00504476, z: 0.016361976}
+--- !u!1 &4071847370991139069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077259851754800989}
+  m_Layer: 0
+  m_Name: Droid-01_ThighRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077259851754800989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071847370991139069}
+  m_LocalRotation: {x: -0.49427804, y: 0.49976394, z: -0.501272, w: 0.5046302}
+  m_LocalPosition: {x: -0.07000563, y: -0.0000020599364, z: 0.000011444092}
+  m_LocalScale: {x: 1, y: 1, z: 1.0000001}
+  m_Children:
+  - {fileID: 4077428562262191017}
+  m_Father: {fileID: 4077224346571885067}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.74715334, y: 89.43914, z: -86.96658}
+--- !u!1 &4071859679507604527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4076947557535010009}
+  m_Layer: 0
+  m_Name: Droid-01_FootRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4076947557535010009
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071859679507604527}
+  m_LocalRotation: {x: -0.00000022424625, y: -0.000000080999435, z: 0.3396471, w: 0.94055295}
+  m_LocalPosition: {x: -0.4102872, y: 0.00010232925, z: 0.00061678886}
+  m_LocalScale: {x: 1.0000002, y: 0.99999994, z: 1}
+  m_Children:
+  - {fileID: 4074291656699083623}
+  m_Father: {fileID: 4077428562262191017}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.000027598577, y: -0.000010292058, z: 20.451483}
+--- !u!1 &4071861713875586241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077119368184100781}
+  m_Layer: 0
+  m_Name: Droid-01_FingerA_1_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077119368184100781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071861713875586241}
+  m_LocalRotation: {x: -0.0031778095, y: 0.0000070857927, z: -0.0003022478, w: 0.99999493}
+  m_LocalPosition: {x: -0.0751803, y: -0.027058229, z: 0.022231292}
+  m_LocalScale: {x: 1.0000004, y: 0.99999976, z: 0.9999998}
+  m_Children:
+  - {fileID: 4074311814986439169}
+  m_Father: {fileID: 4074199679113070757}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.1083099, y: -0.34767157, z: 72.8073}
+--- !u!1 &4071887075749538409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074078485157672045}
+  m_Layer: 0
+  m_Name: Droid-01_FingerB_1_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074078485157672045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071887075749538409}
+  m_LocalRotation: {x: -0.0020551707, y: -0.000012642051, z: -0.00030281823, w: 0.99999785}
+  m_LocalPosition: {x: -0.11413692, y: -0.0006083393, z: 0.022289809}
+  m_LocalScale: {x: 1.0000004, y: 0.99999994, z: 0.99999976}
+  m_Children:
+  - {fileID: 4074095071668386331}
+  m_Father: {fileID: 4074199679113070757}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -0.058993947, y: -0.22800133, z: 75.1235}
+--- !u!1 &4071916396453251125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074225071904737155}
+  m_Layer: 0
+  m_Name: Droid-01_FingerB_1_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074225071904737155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071916396453251125}
+  m_LocalRotation: {x: 0.000075685435, y: -0.0002280826, z: 0.0002265191, w: 0.99999994}
+  m_LocalPosition: {x: -0.11414654, y: 0.0006285572, z: 0.022239532}
+  m_LocalScale: {x: 1.0000001, y: 0.9999998, z: 0.99999994}
+  m_Children:
+  - {fileID: 4074563033525191995}
+  m_Father: {fileID: 4074463650835143003}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -0.0198763, y: -0.019059392, z: -64.546524}
+--- !u!1 &4071955403406858201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077194617813774625}
+  m_Layer: 0
+  m_Name: Droid-01_ForearmRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077194617813774625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071955403406858201}
+  m_LocalRotation: {x: -0.00078385713, y: 0.093250014, z: -0.004357666, w: 0.9956329}
+  m_LocalPosition: {x: -0.29448897, y: -0.000000038146972, z: 0.00000061035155}
+  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+  m_Children:
+  - {fileID: 4077291044383144589}
+  m_Father: {fileID: 4077076380946789481}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 3.2730072, y: 103.60531, z: -2.64662}
+--- !u!1 &4072027198802329765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074364496803566173}
+  m_Layer: 0
+  m_Name: Droid-01_Spine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074364496803566173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072027198802329765}
+  m_LocalRotation: {x: -0.00000005821514, y: -0.0021149968, z: 0.00000015066026, w: 0.9999978}
+  m_LocalPosition: {x: -0.12837669, y: 4.5474734e-15, z: 0.000000076293944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4074618431112116321}
+  m_Father: {fileID: 4074512630840123865}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 29.991085, y: -0.44814512, z: -0.7682342}
+--- !u!1 &4072050608655797335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077221668022135601}
+  - component: {fileID: 4167742371259515869}
+  - component: {fileID: 1950205358356744011}
+  m_Layer: 0
+  m_Name: Isolate_Enemy_Droid_05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077221668022135601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072050608655797335}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4076968923264725491}
+  - {fileID: 4077090841733464869}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &4167742371259515869
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072050608655797335}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 36ac9fcf34538d14583f301307731951, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6aae4c79cfee69b43b3f50fa899b80cd, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1950205358356744011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072050608655797335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2428707f620214d8e2c00da4f6ce86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructorDataID: 324
+  constructorData:
+    _ID: 0
+    _name: 
+    _prefab: 
+    _type: 
+    _level: 0
+    _property1: 
+    _property2: 
+    _property3: 
+    _PaintingType: 
+    _valueChanges: []
+    _slots: 
+    _skillID: 
+  type: 2
+  slots: []
+  parentConstructor: {fileID: 0}
+  enablePlayNewSkillAnim: 1
+  championController: {fileID: 0}
+  animator: {fileID: 4167742371259515869}
+  skillCastPoints:
+  - {fileID: 490493134519814685}
+  renderers:
+  - {fileID: 4137737541739828087}
+  cost: 0
+--- !u!1 &4072061694647798803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4076891224351695371}
+  m_Layer: 0
+  m_Name: Droid-01_Head
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4076891224351695371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072061694647798803}
+  m_LocalRotation: {x: 0.002173637, y: 0.019198675, z: 0.005149315, w: 0.9998001}
+  m_LocalPosition: {x: -0.1040567, y: 0.0000000149681, z: 0.0000034809111}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4077098738817897249}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.23761208, y: -23.27469, z: 0.59477687}
+--- !u!1 &4072072045394478463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074487884067417825}
+  m_Layer: 0
+  m_Name: Droid-01_FingerC_2_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074487884067417825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072072045394478463}
+  m_LocalRotation: {x: -0.0000743857, y: 0.0000014761438, z: -0.0006134504, w: 0.9999998}
+  m_LocalPosition: {x: -0.062582985, y: 0.0000027561186, z: -0.0000006866455}
+  m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 0.99999994}
+  m_Children: []
+  m_Father: {fileID: 4076978389893751407}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.004172335, y: 0.0074349414, z: -118.198524}
+--- !u!1 &4072080215763851307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077059487774620373}
+  m_Layer: 0
+  m_Name: Droid-01_FootLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077059487774620373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072080215763851307}
+  m_LocalRotation: {x: -0.000000004751397, y: -0.00000001315827, z: -0.33964708, w: 0.94055295}
+  m_LocalPosition: {x: -0.41028723, y: -0.00010233879, z: 0.0006167984}
+  m_LocalScale: {x: 1, y: 0.99999994, z: 1}
+  m_Children:
+  - {fileID: 4076979781609235307}
+  m_Father: {fileID: 4074250654143151825}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.00000033697427, y: -0.0000017922584, z: -31.204285}
+--- !u!1 &4072087017714373467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074618431112116321}
+  m_Layer: 0
+  m_Name: Droid-01_Torso
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074618431112116321
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072087017714373467}
+  m_LocalRotation: {x: 0.00000118838, y: 0.023402084, z: 0.000000016226045, w: 0.9997262}
+  m_LocalPosition: {x: -0.15577568, y: -0.000000023841894, z: -0.000000007152557}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4077088188679146051}
+  - {fileID: 4074080808806511157}
+  - {fileID: 4074488419146116799}
+  - {fileID: 4077020439057032045}
+  m_Father: {fileID: 4074364496803566173}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.00013236565, y: 25.181929, z: 0.0000043412015}
+--- !u!1 &4073371423013352775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077291044383144589}
+  m_Layer: 0
+  m_Name: Droid-01_WristRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077291044383144589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073371423013352775}
+  m_LocalRotation: {x: 0.0022646843, y: 0.000119087876, z: 0.0043706554, w: 0.9999879}
+  m_LocalPosition: {x: -0.2914836, y: -0.0000005149841, z: 0.0000002479553}
+  m_LocalScale: {x: 0.9999998, y: 0.9999999, z: 0.99999994}
+  m_Children:
+  - {fileID: 4074463650835143003}
+  m_Father: {fileID: 4077194617813774625}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.25944752, y: 0.014783223, z: 0.500877}
+--- !u!1 &4073376149436538973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4077062355310884915}
+  m_Layer: 0
+  m_Name: Droid-01_ThighLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4077062355310884915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073376149436538973}
+  m_LocalRotation: {x: 0.49414343, y: 0.49965286, z: 0.50137824, w: 0.5047664}
+  m_LocalPosition: {x: -0.070924275, y: 0, z: -0.000000076293944}
+  m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 0.9999999}
+  m_Children:
+  - {fileID: 4074250654143151825}
+  m_Father: {fileID: 4077294577135779987}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 1.142295, y: 88.812874, z: 50.213856}
+--- !u!1 &4073383479842016295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074117439539411609}
+  m_Layer: 0
+  m_Name: Droid-01_ForearmLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074117439539411609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073383479842016295}
+  m_LocalRotation: {x: -0.0004522788, y: 0.08710507, z: 0.0057515097, w: 0.99618244}
+  m_LocalPosition: {x: -0.2944667, y: 0.000000057220458, z: -0.0000000047683715}
+  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+  m_Children:
+  - {fileID: 4074250612075762131}
+  m_Father: {fileID: 4077062691683584071}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -4.929114, y: 107.31255, z: 3.5894444}
+--- !u!1 &4073409917392460119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074109503185011539}
+  m_Layer: 0
+  m_Name: nub 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074109503185011539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073409917392460119}
+  m_LocalRotation: {x: 0.006311475, y: -0.0002198086, z: 0.0023822803, w: 0.99997723}
+  m_LocalPosition: {x: -0.11353998, y: 0.000019931793, z: -0.000050048828}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 0.9999999}
+  m_Children: []
+  m_Father: {fileID: 4074463650835143003}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4073429519900845569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074095071668386331}
+  m_Layer: 0
+  m_Name: Droid-01_FingerB_2_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074095071668386331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073429519900845569}
+  m_LocalRotation: {x: 0.0020611244, y: 0.0000057678076, z: 0.0006005658, w: 0.99999774}
+  m_LocalPosition: {x: -0.06258302, y: -0.0000011639437, z: -0.0000000013411044}
+  m_LocalScale: {x: 0.9999998, y: 0.9999999, z: 1.0000002}
+  m_Children: []
+  m_Father: {fileID: 4074078485157672045}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0.06724166, y: 0.22641462, z: 106.4146}
+--- !u!1 &4073432137401595649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074563033525191995}
+  m_Layer: 0
+  m_Name: Droid-01_FingerB_2_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074563033525191995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073432137401595649}
+  m_LocalRotation: {x: -0.000074385855, y: 0.0000012377251, z: -0.00061344804, w: 0.9999998}
+  m_LocalPosition: {x: -0.062583044, y: 0.0000027751921, z: -0.00000061035155}
+  m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 0.99999994}
+  m_Children: []
+  m_Father: {fileID: 4074225071904737155}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.0013360135, y: 0.008419833, z: -98.09809}
+--- !u!1 &4073461901107465977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4074261106031956251}
+  m_Layer: 0
+  m_Name: Droid-01_FingerC_1_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4074261106031956251
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073461901107465977}
+  m_LocalRotation: {x: -0.0020551707, y: -0.000012642051, z: -0.00030281823, w: 0.99999785}
+  m_LocalPosition: {x: -0.11413769, y: -0.00088685035, z: -0.021528473}
+  m_LocalScale: {x: 1.0000004, y: 0.99999994, z: 0.99999976}
+  m_Children:
+  - {fileID: 4077439109861230639}
+  m_Father: {fileID: 4074199679113070757}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -0.082503095, y: -0.22058591, z: 69.123604}
+--- !u!1 &7676341724080877208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 490493134519814685}
+  m_Layer: 0
+  m_Name: Barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &490493134519814685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7676341724080877208}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.001, y: 0.126, z: 0.582}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_Children: []
+  m_Father: {fileID: 2458946214268406257}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
