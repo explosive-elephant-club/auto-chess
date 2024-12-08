@@ -195,6 +195,10 @@ public class ChampionController : MonoBehaviour
 
     public ConstructorBase GetChassisConstructor()
     {
+        foreach (var c in constructors)
+        {
+            Debug.Log(c.constructorDataID + ":" + c.type);
+        }
         return constructors.Find(c => c.type == ConstructorType.Chassis || c.type == ConstructorType.Isolate);
     }
 

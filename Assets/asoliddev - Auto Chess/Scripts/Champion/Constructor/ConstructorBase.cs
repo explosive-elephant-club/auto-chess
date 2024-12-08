@@ -67,7 +67,6 @@ public class ConstructorBase : MonoBehaviour
     //属性修改
     public ValueOperation[] valueOperations = new ValueOperation[0];
     //种类
-    [HideInInspector]
     public ConstructorType type;
     //附加槽位
     public List<ConstructorSlot> slots;
@@ -107,6 +106,9 @@ public class ConstructorBase : MonoBehaviour
     {
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
+
+        UnityEngine.Debug.Log(constructorData.ID);
+
         championController = _championController;
         if (constructorData.level > 0)
         {

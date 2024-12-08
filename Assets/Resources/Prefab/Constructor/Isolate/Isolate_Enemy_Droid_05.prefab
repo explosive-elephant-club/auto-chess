@@ -1172,6 +1172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4074364496803566173}
+  - component: {fileID: 6812938759980896192}
   m_Layer: 0
   m_Name: Droid-01_Spine
   m_TagString: Untagged
@@ -1194,6 +1195,20 @@ Transform:
   m_Father: {fileID: 4074512630840123865}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 29.991085, y: -0.44814512, z: -0.7682342}
+--- !u!136 &6812938759980896192
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072027198802329765}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.25
+  m_Height: 2.1179574
+  m_Direction: 0
+  m_Center: {x: 0.18, y: 0, z: 0}
 --- !u!1 &4072050608655797335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,6 +1220,7 @@ GameObject:
   - component: {fileID: 4077221668022135601}
   - component: {fileID: 4167742371259515869}
   - component: {fileID: 1950205358356744011}
+  - component: {fileID: 6227909993698197551}
   m_Layer: 0
   m_Name: Isolate_Enemy_Droid_05
   m_TagString: Untagged
@@ -1273,7 +1289,7 @@ MonoBehaviour:
     _valueChanges: []
     _slots: 
     _skillID: 
-  type: 2
+  type: 12
   slots: []
   parentConstructor: {fileID: 0}
   enablePlayNewSkillAnim: 1
@@ -1284,6 +1300,19 @@ MonoBehaviour:
   renderers:
   - {fileID: 4137737541739828087}
   cost: 0
+--- !u!114 &6227909993698197551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072050608655797335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976daa3f2bff9b34ebc28fb7a37ee12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &4072061694647798803
 GameObject:
   m_ObjectHideFlags: 0

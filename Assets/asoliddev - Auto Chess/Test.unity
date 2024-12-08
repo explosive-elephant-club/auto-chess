@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -250,6 +250,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &151291699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +286,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &151291700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,8 +304,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -307,6 +315,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &151291701
 Transform:
   m_ObjectHideFlags: 0
@@ -320,7 +329,7 @@ Transform:
   m_Children:
   - {fileID: 1966618928}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &179841835
 GameObject:
@@ -465,6 +474,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &293870401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,6 +510,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &293870402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,8 +528,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -522,6 +539,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &293870403
 Transform:
   m_ObjectHideFlags: 0
@@ -535,7 +553,7 @@ Transform:
   m_Children:
   - {fileID: 683523208}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &349267737
 GameObject:
@@ -591,6 +609,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &349267740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +645,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &349267741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,8 +663,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -648,6 +674,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &349267742
 Transform:
   m_ObjectHideFlags: 0
@@ -661,7 +688,7 @@ Transform:
   m_Children:
   - {fileID: 705051228}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &405522745
 GameObject:
@@ -754,7 +781,7 @@ Transform:
   m_LocalScale: {x: 50, y: 0.1, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &436681278
 PrefabInstance:
@@ -954,6 +981,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &611309635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -985,6 +1017,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &611309636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,8 +1035,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -1011,6 +1046,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &611309637
 Transform:
   m_ObjectHideFlags: 0
@@ -1024,7 +1060,7 @@ Transform:
   m_Children:
   - {fileID: 1548245593}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &626611319 stripped
 Transform:
@@ -1374,6 +1410,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &990826010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,6 +1446,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &990826011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1422,8 +1464,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -1431,6 +1475,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &990826012
 Transform:
   m_ObjectHideFlags: 0
@@ -1444,7 +1489,7 @@ Transform:
   m_Children:
   - {fileID: 446292779}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1300315340 stripped
 Transform:
@@ -1542,7 +1587,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1352693024 stripped
 MonoBehaviour:
@@ -1758,6 +1803,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &1425302469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1789,6 +1839,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &1425302470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1806,8 +1857,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -1815,6 +1868,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &1425302471
 Transform:
   m_ObjectHideFlags: 0
@@ -1828,7 +1882,7 @@ Transform:
   m_Children:
   - {fileID: 135109339}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1496691543 stripped
 Transform:
@@ -1965,6 +2019,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &1558625099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,6 +2055,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &1558625100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2013,8 +2073,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -2022,6 +2084,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &1558625101
 Transform:
   m_ObjectHideFlags: 0
@@ -2035,7 +2098,7 @@ Transform:
   m_Children:
   - {fileID: 2147272258}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1679609637
 GameObject:
@@ -2091,6 +2154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &1679609640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2122,6 +2190,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &1679609641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2139,8 +2208,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -2148,6 +2219,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!4 &1679609642
 Transform:
   m_ObjectHideFlags: 0
@@ -2161,7 +2233,7 @@ Transform:
   m_Children:
   - {fileID: 2091693364}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1928417966
 PrefabInstance:
@@ -2691,7 +2763,7 @@ PrefabInstance:
     - target: {fileID: 615248387017197769, guid: cd57d44c45c5c594888c9daab896013b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 615248387017197769, guid: cd57d44c45c5c594888c9daab896013b,
         type: 3}
@@ -2760,7 +2832,7 @@ PrefabInstance:
     - target: {fileID: 721792582061558053, guid: 95b68854f70581d4a8977fc252c25085,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 721792582061558053, guid: 95b68854f70581d4a8977fc252c25085,
         type: 3}
@@ -2826,6 +2898,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curSkillIndex: -1
+  curCastDelay: 0
+  curChargingDelay: 0
+  cdTimer: 0
+  curVoidShieldEffect: {fileID: 0}
 --- !u!114 &1848224214302115546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2857,6 +2934,7 @@ MonoBehaviour:
     - name: invisible
       byteFormat: 16
       state: 0
+  championController: {fileID: 0}
 --- !u!114 &2146636775932416110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2875,8 +2953,10 @@ MonoBehaviour:
   bookGridInfo: {fileID: 0}
   originGridInfo: {fileID: 0}
   team: 0
+  unitType: 0
   buffController: {fileID: 0}
   skillController: {fileID: 0}
+  navMeshAgent: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
@@ -2884,6 +2964,7 @@ MonoBehaviour:
   path: []
   state: 
   totalDamage: 0
+  speed: {x: 0, y: 0, z: 0}
 --- !u!195 &2178663656195815397
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3003,6 +3084,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9469f9ad5ac8ce43b4df99fa275a409, type: 3}
+--- !u!1001 &3883460991153873514
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4059008395381663396, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy_Droid_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.634544
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.992596
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588562510959177175, guid: f06e485813270f9489cd590e9cbe4507,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f06e485813270f9489cd590e9cbe4507, type: 3}
 --- !u!4 &4091798202405721301
 Transform:
   m_ObjectHideFlags: 0
@@ -3017,7 +3167,7 @@ Transform:
   - {fileID: 2904326833974308450}
   - {fileID: 1352693025}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4958136434253048403
 PrefabInstance:
@@ -3034,7 +3184,7 @@ PrefabInstance:
     - target: {fileID: 4958136435058505994, guid: e66d44df8bc8bde43a2a3614622a89ff,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4958136435058505994, guid: e66d44df8bc8bde43a2a3614622a89ff,
         type: 3}
@@ -3098,7 +3248,7 @@ PrefabInstance:
     - target: {fileID: 5211094391017251600, guid: aa98618508beae749a6e03b387afdc3b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5211094391017251600, guid: aa98618508beae749a6e03b387afdc3b,
         type: 3}
@@ -3172,7 +3322,7 @@ PrefabInstance:
     - target: {fileID: 5911821796633808316, guid: fd29273de71112b42888d1cc80d5e82f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5911821796633808316, guid: fd29273de71112b42888d1cc80d5e82f,
         type: 3}
@@ -3236,7 +3386,7 @@ PrefabInstance:
     - target: {fileID: 7050619494336668530, guid: b56d2376ec9566e4cb110f0ff75feba1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7050619494336668530, guid: b56d2376ec9566e4cb110f0ff75feba1,
         type: 3}
@@ -3363,7 +3513,7 @@ PrefabInstance:
     - target: {fileID: 7889140649941992091, guid: bdc81d10d42e9ec459268d7880d1be0a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7889140649941992091, guid: bdc81d10d42e9ec459268d7880d1be0a,
         type: 3}
@@ -3432,7 +3582,7 @@ PrefabInstance:
     - target: {fileID: 8435400087467839612, guid: c19cffc7653e68a4eada44b39660f095,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8435400087467839612, guid: c19cffc7653e68a4eada44b39660f095,
         type: 3}

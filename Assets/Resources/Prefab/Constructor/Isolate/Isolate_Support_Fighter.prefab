@@ -292,8 +292,9 @@ GameObject:
   - component: {fileID: 920052067243471949}
   - component: {fileID: 920052067236567981}
   - component: {fileID: 3624733818552359600}
+  - component: {fileID: -5573292785383566276}
   m_Layer: 0
-  m_Name: Chassis_Support_Fighter
+  m_Name: Isolate_Support_Fighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,7 +361,7 @@ MonoBehaviour:
     _valueChanges: []
     _slots: 
     _skillID: 
-  type: 2
+  type: 12
   slots: []
   parentConstructor: {fileID: 0}
   enablePlayNewSkillAnim: 1
@@ -372,6 +373,19 @@ MonoBehaviour:
   renderers:
   - {fileID: 920052067232261485}
   cost: 0
+--- !u!114 &-5573292785383566276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920052067243829357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976daa3f2bff9b34ebc28fb7a37ee12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &920052067243829359
 GameObject:
   m_ObjectHideFlags: 0

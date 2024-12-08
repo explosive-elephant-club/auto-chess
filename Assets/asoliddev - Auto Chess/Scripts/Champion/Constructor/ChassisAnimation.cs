@@ -8,6 +8,7 @@ public class ChassisAnimation : MonoBehaviour
 {
     public Animator animator;
     private Vector3 lastFramePosition;
+    private Quaternion lastFrameRotarion;
     float v = 0; float h = 0;
     bool isMove = false;
 
@@ -23,7 +24,8 @@ public class ChassisAnimation : MonoBehaviour
     {
         Vector3 speed = (this.transform.position - lastFramePosition) / Time.deltaTime;
         speed.y = 0;
-        isMove = speed.magnitude > 0;
+        Vector3 rot = (this.transform.rotation.eulerAngles - lastFrameRotarion.eulerAngles) / Time.deltaTime;
+        isMove = speed.magnitude > 0 || rot.y > 0.03f;
         animator.SetBool("IsMove", isMove);
 
         if (isMove)
@@ -44,5 +46,6 @@ public class ChassisAnimation : MonoBehaviour
         animator.SetFloat("HorizontalSpeed", h);
         //store last frame position
         lastFramePosition = this.transform.position;
+        lastFrameRotarion = this.transform.rotation;
     }
 }

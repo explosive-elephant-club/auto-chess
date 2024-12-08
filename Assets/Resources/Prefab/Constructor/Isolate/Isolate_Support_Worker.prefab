@@ -363,8 +363,9 @@ GameObject:
   - component: {fileID: 7158978330729367283}
   - component: {fileID: 7158978330719496467}
   - component: {fileID: 9004834627800943076}
+  - component: {fileID: -2894376093990079315}
   m_Layer: 0
-  m_Name: Chassis_Support_Worker
+  m_Name: Isolate_Support_Worker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,7 +432,7 @@ MonoBehaviour:
     _valueChanges: []
     _slots: 
     _skillID: 
-  type: 2
+  type: 12
   slots: []
   parentConstructor: {fileID: 0}
   enablePlayNewSkillAnim: 1
@@ -443,6 +444,19 @@ MonoBehaviour:
   renderers:
   - {fileID: 7158978330715281363}
   cost: 0
+--- !u!114 &-2894376093990079315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7158978330728880851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976daa3f2bff9b34ebc28fb7a37ee12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &7158978330728880853
 GameObject:
   m_ObjectHideFlags: 0
