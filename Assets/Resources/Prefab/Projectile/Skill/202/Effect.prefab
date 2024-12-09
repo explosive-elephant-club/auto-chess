@@ -48,4 +48,4 @@ MonoBehaviour:
   hitParticleInstance: {fileID: 0}
   emitParticleInstance: {fileID: 0}
   supportName: Worker
-  skillIDs: 2f010000
+  skillIDs: 2e010000

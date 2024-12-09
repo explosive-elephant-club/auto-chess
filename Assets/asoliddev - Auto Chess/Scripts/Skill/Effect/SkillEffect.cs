@@ -44,22 +44,12 @@ public class SkillEffect : MonoBehaviour
 
     protected virtual void InstantiateEmitEffect()
     {
-        if (skill.emitPrefab)
-        {
-            emitParticleInstance = Instantiate(skill.emitPrefab, transform.position, transform.rotation) as GameObject;
-            emitParticleInstance.transform.rotation = transform.rotation;
-            Destroy(emitParticleInstance, 1.5f); // Lifetime of muzzle effect.
-        }
+        emitParticleInstance = skill.InstantiateEmitInstance(transform.position, transform.rotation, 1.5f);
     }
 
     protected virtual void InstantiateHitEffect(Vector3 pos)
     {
-        if (skill.hitFXPrefab != null)
-        {
-            hitParticleInstance = Instantiate(skill.hitFXPrefab, pos, Quaternion.FromToRotation(Vector3.up, Vector3.zero)) as GameObject;
-            Destroy(hitParticleInstance, 1.5f);
-        }
-
+        hitParticleInstance = skill.InstantiateHitInstance(pos, Quaternion.FromToRotation(Vector3.up, Vector3.zero), 1.5f);
     }
 
     protected virtual void PointedAtTarget(Vector3 targetPos)

@@ -223,7 +223,7 @@ public class Skill
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
 
         curTime = 0;
-        curIntervalTime = 0;
+        curIntervalTime = skillData.delay;
         curEffectCount = 0;
 
         owner.attributesController.curMana -= skillData.manaCost;
@@ -259,14 +259,20 @@ public class Skill
         if (selectorResult.targets.Count == 0)
             return;
         if (selectorResult.targets != null)
+        {
+            InstantiateEmitInstance(GetCastPoint().position, GetCastPoint().rotation, 1.5f);
+            curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
             foreach (ChampionController C in selectorResult.targets)
             {
                 if (!C.isDead)
                 {
+                    InstantiateHitInstance(C.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.zero), 1.5f);
                     AddBuffToTargetFunc(C);
                     AddDMGToTargetFunc(C);
                 }
             }
+        }
+
         if (selectorResult.mapGrids != null)
             foreach (GridInfo G in selectorResult.mapGrids)
             {
@@ -276,12 +282,12 @@ public class Skill
 
     public virtual void InstanceEffect()
     {
-        curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
-
         GameObject obj = GameObject.Instantiate(effectPrefab);
         //obj.transform.parent = GetCastPoint();
         obj.transform.position = GetCastPoint().position;
         obj.transform.rotation = GetCastPoint().rotation;
+
+        curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
 
         SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
         skillEffect.Init(this, selectorResult.targets[0].transform);
@@ -326,7 +332,7 @@ public class Skill
 
     public virtual bool IsFinish()
     {
-        return (curTime >= skillData.duration) || (selectorResult.targets[0] != null ? selectorResult.targets[0].isDead : false);
+        return (curTime >= skillData.duration + skillData.delay) || (selectorResult.targets[0] != null ? selectorResult.targets[0].isDead : false);
     }
 
     public virtual void DestroyEffect()
@@ -397,6 +403,28 @@ public class Skill
                 }
             }
         }
+    }
+
+    public virtual GameObject InstantiateEmitInstance(Vector3 pos, Quaternion rot, float duration)
+    {
+        if (emitPrefab != null)
+        {
+            GameObject emitParticleInstance = GameObject.Instantiate(emitPrefab, pos, rot) as GameObject;
+            GameObject.Destroy(emitParticleInstance, duration);
+            return emitParticleInstance;
+        }
+        return null;
+    }
+
+    public virtual GameObject InstantiateHitInstance(Vector3 pos, Quaternion rot, float duration)
+    {
+        if (hitFXPrefab != null)
+        {
+            GameObject hitParticleInstance = GameObject.Instantiate(hitFXPrefab, pos, rot) as GameObject;
+            GameObject.Destroy(hitParticleInstance, duration);
+            return hitParticleInstance;
+        }
+        return null;
     }
 
     protected bool HasParameter(Animator animator, string parameterName)

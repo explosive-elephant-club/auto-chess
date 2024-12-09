@@ -20,13 +20,21 @@ public class LineEffect : SkillEffect
         effectEffectiveTimes = int.Parse(GetParam("effectEffectiveTimes"));
         intervel = duration / effectEffectiveTimes;
         InstantiateEmitEffect();
+        InstantiateHitEffect(target.position);
     }
 
     protected override void InstantiateEmitEffect()
     {
-        emitParticleInstance = Instantiate(skill.emitPrefab, transform.position, transform.rotation) as GameObject;
+        base.InstantiateEmitEffect();
         emitParticleInstance.transform.parent = transform;
+
         hitParticleInstance = Instantiate(skill.hitFXPrefab, target.position, Quaternion.FromToRotation(Vector3.up, Vector3.zero)) as GameObject;
+        hitParticleInstance.transform.parent = transform;
+    }
+
+    protected override void InstantiateHitEffect(Vector3 pos)
+    {
+        base.InstantiateHitEffect(pos);
         hitParticleInstance.transform.parent = transform;
     }
 

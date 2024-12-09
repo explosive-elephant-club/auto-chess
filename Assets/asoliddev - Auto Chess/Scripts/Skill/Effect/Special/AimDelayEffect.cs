@@ -56,9 +56,9 @@ public class AimDelayEffect : ColProjectileEffect
     {
         if (aimParticlePrefab)
         {
-            emitParticleInstance = Instantiate(aimParticlePrefab, transform.position, transform.rotation) as GameObject;
-            emitParticleInstance.transform.rotation = transform.rotation;
-            Destroy(emitParticleInstance, 1.5f); // Lifetime of muzzle effect.
+            aimParticleInstance = Instantiate(aimParticlePrefab, transform.position, transform.rotation) as GameObject;
+            aimParticleInstance.transform.rotation = transform.rotation;
+            Destroy(aimParticleInstance, 1.5f); // Lifetime of muzzle effect.
         }
     }
 }
