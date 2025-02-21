@@ -14,6 +14,7 @@ public class InputController : CreateSingleton<InputController>
 {
     public LayerMask uiLayer;
     public LayerMask triggerLayer;
+    public LayerMask unitLayer;
 
     //declare rayhit
     RaycastHit hit;
@@ -24,7 +25,7 @@ public class InputController : CreateSingleton<InputController>
 
     protected override void InitSingleton()
     {
-
+        m_Plane = new Plane(Vector3.up, Vector3.zero);
     }
 
     // Start is called before the first frame update
@@ -34,16 +35,18 @@ public class InputController : CreateSingleton<InputController>
     }
 
     //to store mouse position
-    private Vector3 mousePosition;
-
-    public GridInfo gridInfo = null;
-    public GridInfo previousGridInfo = null;
+    public Vector3 mousePosition;
+    public Plane m_Plane;
+    public MapContainer mapContainer;
+    public ChampionController champion;
+    public ChampionController previousChampion;
     public GameObject ui = null;
 
     /// Update is called once per frame
     void Update()
     {
-        gridInfo = null;
+        mapContainer = null;
+        champion = null;
         ui = null;
 
         PointerEventData eventData = new PointerEventData(EventSystem.current);
@@ -55,32 +58,45 @@ public class InputController : CreateSingleton<InputController>
 
 
         ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        //if ray hits something
-        if (Physics.Raycast(ray, out hit, 100f, triggerLayer, QueryTriggerInteraction.Collide))
+        float enter = 100.0f;
+        if (Map.Instance.m_Plane.Raycast(ray, out enter))
         {
-            //get trigger info of the  hited object
-            gridInfo = hit.collider.gameObject.GetComponent<GridInfo>();
+            mousePosition = ray.GetPoint(enter);
+        }
 
-            //this is a trigger
-            if (gridInfo != null)
-            {
-                if (gridInfo != previousGridInfo)
+
+        if (Physics.Raycast(ray, out hit, 300f, triggerLayer, QueryTriggerInteraction.Collide))
+        {
+            mapContainer = hit.collider.gameObject.GetComponent<MapContainer>();
+        }
+
+        if (Physics.Raycast(ray, out hit, 300f, unitLayer, QueryTriggerInteraction.Collide))
+        {
+            champion = hit.collider.gameObject.GetComponentInParent<ChampionController>();
+            if (champion != null)
+                if (champion != previousChampion)
                 {
-                    Map.Instance.resetIndicators();
-                    previousGridInfo = gridInfo;
-                    gridInfo.SetColor(Map.Instance.indicatorActiveColor);
+                    previousChampion = champion;
                 }
-
-            }
-            else
-                Map.Instance.resetIndicators(); //reset colors
         }
-        else
+
+    }
+
+    public bool CheckChampionInRange(ChampionController pickedChampion)
+    {
+        Vector3 pos = mousePosition;
+        float rad = pickedChampion.championVolumeController.rad;
+        Debug.Log("CheckChampionInRange pos" + pos);
+        Debug.Log("CheckChampionInRange rad" + rad);
+        var list = Physics.OverlapSphere(pos, rad, 1 << LayerMask.NameToLayer("UnitVolume"));
+        foreach (var c in list)
         {
-            Map.Instance.resetIndicators();
+            Debug.Log(c.gameObject);
+            if (pickedChampion.championVolumeController.col != c)
+            {
+                return true;
+            }
         }
-
-        //store mouse position
-        mousePosition = Mouse.current.position.ReadValue();
+        return false;
     }
 }

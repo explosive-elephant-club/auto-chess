@@ -11,13 +11,12 @@ public class BaseMoveState : State
     }
     public override void OnEnter()
     {
-        //championController.FindPath();
+        championController.championMovementController.StartMove();
     }
     public override void OnUpdate()
     {
         if (championController.target == null || championController.CheckState("immovable") || championController.isDead)
         {
-
             fsm.SwitchState("Idle");
             return;
         }
@@ -29,16 +28,7 @@ public class BaseMoveState : State
         }
         else
         {
-            if (championController.path == null)
-            {
-                fsm.SwitchState("Idle");
-                return;
-            }
-            else
-            {
-                MoveToTarget();
-            }
-
+            CheckSkillTarget();
         }
     }
     public override void OnLeave()
@@ -46,57 +36,23 @@ public class BaseMoveState : State
 
     }
 
-    public void MoveToTarget()
+
+    void CheckSkillTarget()
     {
-        if (championController.bookGridInfo == null)
+        Debug.Log("CheckSkillTarget");
+        if (championController.skillController.GetNextAvailableSkill() != null)
         {
-            championController.FindPath();
-        }
-        if (championController.bookGridInfo.CheckInGrid(championController))
-        {
-            //Debug.Log("InGrid:" + bookGridInfo.name);
-            championController.EnterGrid(championController.bookGridInfo);
-            OnEnterGrid(championController.bookGridInfo);
-            if (championController.path == null)
-                return;
-            if (championController.bookGridInfo == championController.target.occupyGridInfo)
+            var c = championController.FindTarget(championController.GetNextAvailableSkillDistance(), FindTargetMode.AnyInRange);
+            if (c != null)
             {
-                championController.StopMove();
-                championController.SetWorldPosition();
-                OnGetTarget(championController.bookGridInfo);
+                championController.target = c;
+                fsm.SwitchState("CastSkill");
+                return;
             }
-        }
-        else
-        {
-            championController.NavMeshAgentMove();
-        }
-    }
-
-    void OnEnterGrid(GridInfo grid)
-    {
-        var c = championController.FindTarget(championController.GetInAttackRange(), FindTargetMode.AnyInRange);
-        if (c != null)
-        {
-            championController.target = c;
-            fsm.SwitchState("CastSkill");
+            Debug.Log("FindTarget null");
             return;
         }
-        if (!championController.FindPath())
-        {
-            fsm.SwitchState("Idle");
-            return;
-        }
+        Debug.Log("GetNextAvailableSkill null");
     }
 
-    void OnMoveFailed(GridInfo grid)
-    {
-        fsm.SwitchState("Idle");
-        return;
-    }
-
-    void OnGetTarget(GridInfo grid)
-    {
-        fsm.SwitchState("Idle");
-        return;
-    }
 }

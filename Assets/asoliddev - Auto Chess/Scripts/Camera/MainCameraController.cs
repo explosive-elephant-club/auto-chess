@@ -11,19 +11,20 @@ public class MainCameraController : MonoBehaviour
     Vector2 inputDir;
     float inputZoom;
     Vector3 oringinPos;
-    public Vector3 target;
+    public Vector3 targetPos;
+    public float targetZoom;
     public float speed;
     public float offsetXMin;
     public float offsetXMax;
-    public float offsetYMin;
-    public float offsetYMax;
+    public float zoomMin;
+    public float zoomMax;
     public float offsetZMin;
     public float offsetZMax;
 
     private void Start()
     {
         oringinPos = mainCamera.transform.position;
-        target += mainCamera.transform.position;
+        targetPos += mainCamera.transform.position;
     }
 
     // Update is called once per frame
@@ -31,28 +32,29 @@ public class MainCameraController : MonoBehaviour
     {
         if (inputDir.magnitude >= 0.05f)
         {
-            target = mainCamera.transform.position;
-            target += new Vector3(inputDir.x, 0, inputDir.y);
+            targetPos = mainCamera.transform.position;
+            targetPos += Quaternion.AngleAxis(-45, Vector3.up) * new Vector3(inputDir.x, 0, inputDir.y);
         }
         else if (Mathf.Abs(inputZoom) > 0)
         {
-            target = mainCamera.transform.position;
-            target += new Vector3(0, Mathf.Sign(inputZoom) * 4, 0);
+            targetZoom = mainCamera.orthographicSize + Mathf.Sign(inputZoom) * 4;
+            //target += new Vector3(0, Mathf.Sign(inputZoom) * 4, 0);
         }
-        Vector3 offset = target - oringinPos;
+        Vector3 offset = targetPos - oringinPos;
         if (offsetXMin > offset.x || offsetXMax < offset.x)
         {
-            target.x = mainCamera.transform.position.x;
+            targetPos.x = mainCamera.transform.position.x;
         }
-        if (offsetYMin > offset.y || offsetYMax < offset.y)
+        if (zoomMin > targetZoom || zoomMax < targetZoom)
         {
-            target.y = mainCamera.transform.position.y;
+            targetZoom = mainCamera.orthographicSize;
         }
         if (offsetZMin > offset.z || offsetZMax < offset.z)
         {
-            target.z = mainCamera.transform.position.z;
+            targetPos.z = mainCamera.transform.position.z;
         }
-        mainCamera.transform.position = Vector3.Slerp(mainCamera.transform.position, target, speed * Time.deltaTime);
+        mainCamera.transform.position = Vector3.Slerp(mainCamera.transform.position, targetPos, speed * Time.deltaTime);
+        mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, targetZoom, speed * Time.deltaTime);
         worldCanvasCamera.transform.position = mainCamera.transform.position;
     }
 

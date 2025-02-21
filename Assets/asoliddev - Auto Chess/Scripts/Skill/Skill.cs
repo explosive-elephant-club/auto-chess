@@ -6,98 +6,108 @@ using ExcelConfig;
 using System.Linq;
 using UnityEngine.Events;
 
-
-public enum SkillTargetType//目标类型
-{
-
-    //自身
-    Self,
-    //队友
-    Teammate,
-    //敌人
-    Enemy
-}
-public enum SkillRangeSelectorType//范围选择类型
-{
-    //自定义
-    Custom,
-    //范围内所有友军
-    TeammatesInRange,
-    //范围内所有敌人
-    EnemiesInRange,
-    //范围内所有棋格
-    MapHexInRange,
-}
-
-public enum SkillTargetSelectorType//目标选择类型
-{
-    //自定义
-    Custom,
-    //任一
-    Any,
-    //最近的
-    Nearest,
-    //最远的
-    Farthest,
-    //伤害最高的
-    HighestDPS,
-    //等级最高的
-    HighestLevel,
-    //生命值最多的
-    MostHP,
-    //生命值最少的
-    LeastHP,
-    //周围友军最多的
-    MostTeammatesSurrounded,
-    //周围敌人最多的
-    MostEnemiesSurrounded,
-}
-
+/// <summary>
+/// 描述技能当前的状态
+/// </summary>
 public enum SkillState
 {
     Disable,
     Casting,
     CD
 }
-
+/// <summary>
+/// 技能的全部数据和行为
+/// </summary>
 public class Skill
 {
+    /// <summary>
+    /// 技能的配置数据
+    /// </summary>
     public SkillData skillData;
-
+    /// <summary>
+    /// 技能持续时间的计时器
+    /// </summary>
     public float curTime = 0;
+    /// <summary>
+    /// 生效间隔
+    /// </summary>
     public float intervalTime = 0;
+    /// <summary>
+    /// 生效间隔的计时器
+    /// </summary>
     public float curIntervalTime = 0;
+    /// <summary>
+    /// 生效的计数器
+    /// </summary>
     public float curEffectCount = 0;
 
     public SkillTargetType skillTargetType;
     public SkillRangeSelectorType skillRangeSelectorType;
     public SkillTargetSelectorType skillTargetSelectorType;
-
-    public ChampionController owner;//技能的拥有者
-    public ConstructorBase constructor;//技能的载体
+    /// <summary>
+    /// 技能的拥有者
+    /// </summary>
+    public ChampionController owner;
+    /// <summary>
+    /// 技能的拥有者的管理器
+    /// </summary>
+    public ChampionManager manager;
+    /// <summary>
+    /// 技能的来源部件
+    /// </summary>
+    public ConstructorBase constructor;
+    /// <summary>
+    /// 技能释放次数的计数器
+    /// </summary>
     public int countRemain;
 
     public string VFXPath;
+    /// <summary>
+    /// 发射特效预制体
+    /// </summary>
     public GameObject emitPrefab;
+    /// <summary>
+    /// 投射物预制体
+    /// </summary>
     public GameObject effectPrefab;
+    /// <summary>
+    /// 击中特效预制体
+    /// </summary>
     public GameObject hitFXPrefab;
     public Sprite icon;
-
+    /// <summary>
+    /// 目标选择器
+    /// </summary>
     public SkillTargetsSelector targetsSelector;
+    /// <summary>
+    /// 被选中的目标
+    /// </summary>
     public SelectorResult selectorResult;
-
+    /// <summary>
+    /// 技能的状态
+    /// </summary>
     public SkillState state;
-
+    /// <summary>
+    /// 技能实例化的所有特效
+    /// </summary>
     public List<SkillEffect> effectInstances = new List<SkillEffect>();
+    /// <summary>
+    /// 技能管理器
+    /// </summary>
     public SkillController skillController;
+    /// <summary>
+    /// 技能修饰器
+    /// </summary>
     public List<SkillDecorator> skillDecorators = new List<SkillDecorator>();
 
-    public ChampionManager manager;
 
-
+    /// <summary>
+    /// 目前技能特效生成点
+    /// </summary>
     public int curCastPointIndex;
 
-
+    //一系列函数委托 使得后续能够用修饰器统一修改相应操作
+    #region 
     public Func<bool> IsFindTargetFunc;
     public Action CastFunc;
     public Action EffectFunc;
@@ -112,7 +122,14 @@ public class Skill
     public Action ResetFunc;
     public Action PlayCastAnimFunc;
     public Action PlayEndAnimFunc;
+    #endregion
 
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// <param name="_skillData">技能配置数据</param>
+    /// <param name="_owner">拥有单位</param>
+    /// <param name="_constructor">来源部件</param>
     public void Init(SkillData _skillData, ChampionController _owner, ConstructorBase _constructor)
     {
         skillData = _skillData;
@@ -125,14 +142,15 @@ public class Skill
         owner = _owner;
         manager = owner.championManeger;
         constructor = _constructor;
+        //根据技能持续时间和效果触发次数计算出intervalTime，初始化剩余使用次数countRemain（-1 表示无限制）。
         intervalTime = skillData.duration / skillData.effectCounts;
         countRemain = skillData.usableCount;
         curEffectCount = 0;
         curCastPointIndex = 0;
-
+        //目标选择器加载
         selectorResult = new SelectorResult();
         targetsSelector = new SkillTargetsSelector();
-
+        //特效加载
         VFXPath = "Prefab/Projectile/Skill/" + skillData.ID + "/";
         if (skillData.emitFXPrefab)
             emitPrefab = Resources.Load<GameObject>(VFXPath + "Emit");
@@ -147,7 +165,7 @@ public class Skill
 
         state = SkillState.Disable;
         skillController = owner.skillController;
-
+        //调用GetDecorator方法通过反射创建装饰器实例
         if (!string.IsNullOrEmpty(skillData.skillDecorators[0]))
         {
             foreach (var d in skillData.skillDecorators)
@@ -159,6 +177,7 @@ public class Skill
         BindFunc();
     }
 
+    //绑定函数委托
     public void BindFunc()
     {
         IsFindTargetFunc = IsFindTarget;
@@ -177,10 +196,13 @@ public class Skill
         PlayCastAnimFunc = PlayCastAnim;
         PlayEndAnimFunc = PlayEndAnim;
     }
-
+    /// <summary>
+    /// 判断技能是否可用
+    /// </summary>
+    /// <returns></returns>
     public bool IsAvailable()
     {
-
+        //剩余使用次数（countRemain）大于零（或者等于 -1 表示无限制）且拥有者当前法力值足够支付技能消耗
         if (countRemain > 0 || countRemain == -1)
         {
             if (owner.attributesController.curMana >= skillData.manaCost)
@@ -191,56 +213,95 @@ public class Skill
 
         return false;
     }
-
+    /// <summary>
+    /// 判断技能是否就绪
+    /// </summary>
+    /// <returns></returns>
     public bool IsPrepared()
     {
+        //判断是否成功找到目标
         if (IsAvailable())
             return IsFindTargetFunc();
         return false;
     }
-
+    /// <summary>
+    /// 根据技能目标类型，利用目标选择器查找目标
+    /// </summary>
+    /// <returns></returns>
+    public virtual ChampionController FindAvailableTarget()
+    {
+        if (skillTargetType != SkillTargetType.Self)
+        {
+            ChampionManager manager = targetsSelector.FindTargetsManagerByType(skillTargetType, owner.team);
+            ChampionController c = targetsSelector.FindTargetBySelectorType(skillTargetSelectorType, manager, owner, 60);
+            if (c == null)
+            {
+                return null;
+            }
+            SelectorResult _selectorResult = targetsSelector.FindTargetByRange(c, skillRangeSelectorType, skillData.range, owner.team);
+            return _selectorResult.targets[0];
+        }
+        else
+        {
+            return owner;
+        }
+    }
+    /// <summary>
+    /// 用于检查是否能找到目标，同时将查找到的目标列表保存到selectorResult中
+    /// </summary>
+    /// <returns></returns>
     public virtual bool IsFindTarget()
     {
         if (skillTargetType != SkillTargetType.Self)
         {
             ChampionManager manager = targetsSelector.FindTargetsManagerByType(skillTargetType, owner.team);
             ChampionController c = targetsSelector.FindTargetBySelectorType(skillTargetSelectorType, manager, owner, skillData.distance);
+
             if (c == null)
+            {
                 return false;
+            }
+
             selectorResult = targetsSelector.FindTargetByRange(c, skillRangeSelectorType, skillData.range, owner.team);
             return true;
         }
         else
         {
-            selectorResult = new SelectorResult(new List<ChampionController>() { owner }, null);
+            selectorResult = new SelectorResult(new List<ChampionController>() { owner }, Vector3.zero);
             return true;
         }
     }
-
+    /// <summary>
+    /// 技能释放
+    /// </summary>
     public virtual void Cast()
     {
         state = SkillState.Casting;
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
-
+        //重置计时器和计数器
         curTime = 0;
         curIntervalTime = skillData.delay;
         curEffectCount = 0;
-
+        //扣除施放技能所需的法力值，更新剩余使用次数
         owner.attributesController.curMana -= skillData.manaCost;
-
         if (countRemain != -1)
             countRemain -= 1;
-
+        //播放施放动画
         PlayCastAnimFunc();
 
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.AfterCast.ToString());
     }
-
+    /// <summary>
+    /// 获取当前技能施放点
+    /// </summary>
+    /// <returns></returns>
     public Transform GetCastPoint()
     {
         return constructor.skillCastPoints[curCastPointIndex];
     }
-
+    /// <summary>
+    /// 技能生效
+    /// </summary>
     public virtual void Effect()
     {
         //直接生效
@@ -253,7 +314,9 @@ public class Skill
             InstanceEffectFunc();
         }
     }
-
+    /// <summary>
+    /// 直接生效 对目标直接造成伤害并施加buff
+    /// </summary>
     public virtual void DirectEffect()
     {
         if (selectorResult.targets.Count == 0)
@@ -272,14 +335,10 @@ public class Skill
                 }
             }
         }
-
-        if (selectorResult.mapGrids != null)
-            foreach (GridInfo G in selectorResult.mapGrids)
-            {
-                G.ApplyEffect(skillData.hexEffectPrefab);
-            }
     }
-
+    /// <summary>
+    /// 创建技能投射物特效实例
+    /// </summary>
     public virtual void InstanceEffect()
     {
         GameObject obj = GameObject.Instantiate(effectPrefab);
@@ -294,7 +353,10 @@ public class Skill
         effectInstances.Add(skillEffect);
     }
 
-
+    /// <summary>
+    /// 对目标施加buff
+    /// </summary>
+    /// <param name="target">目标</param>
     public virtual void AddBuffToTarget(ChampionController target)
     {
         foreach (int buff_ID in skillData.addBuffs)
@@ -303,15 +365,20 @@ public class Skill
                 target.buffController.AddBuff(buff_ID, owner);
         }
     }
-
+    /// <summary>
+    /// 对目标造成伤害
+    /// </summary>
+    /// <param name="target">目标</param>
     public virtual void AddDMGToTarget(ChampionController target)
     {
         if (!string.IsNullOrEmpty(skillData.damageData[0].type))
         {
-            owner.TakeDamage(target, skillData.damageData);
+            owner.championCombatController.TakeDamage(target, skillData.damageData);
         }
     }
-
+    /// <summary>
+    /// 技能持续施法时Update
+    /// </summary>
     public virtual void OnCastingUpdate()
     {
         curTime += Time.deltaTime;
@@ -329,12 +396,17 @@ public class Skill
             EffectFunc();
         }
     }
-
+    /// <summary>
+    /// 根据技能总持续时间或目标状态（例如目标死亡）判断是否结束技能施放
+    /// </summary>
+    /// <returns></returns>
     public virtual bool IsFinish()
     {
         return (curTime >= skillData.duration + skillData.delay) || (selectorResult.targets[0] != null ? selectorResult.targets[0].isDead : false);
     }
-
+    /// <summary>
+    /// 销毁所有已生成的技能特效实例
+    /// </summary>
     public virtual void DestroyEffect()
     {
         if (effectInstances.Count > 0)
@@ -347,14 +419,17 @@ public class Skill
             effectInstances.Clear();
         }
     }
-
+    /// <summary>
+    /// 技能结束
+    /// </summary>
     public virtual void OnFinish()
     {
         state = SkillState.CD;
         PlayEndAnimFunc();
     }
-
-
+    /// <summary>
+    /// 技能重置
+    /// </summary>
     public virtual void Reset()
     {
         state = SkillState.CD;
@@ -364,7 +439,9 @@ public class Skill
         selectorResult.Clear();
         countRemain = skillData.usableCount;
     }
-
+    /// <summary>
+    /// 播放释放动画
+    /// </summary>
     public virtual void PlayCastAnim()
     {
 
@@ -384,7 +461,9 @@ public class Skill
             }
         }
     }
-
+    /// <summary>
+    /// 播放持续释放结束动画
+    /// </summary>
     public virtual void PlayEndAnim()
     {
         //绑定动画结束时间
@@ -404,7 +483,13 @@ public class Skill
             }
         }
     }
-
+    /// <summary>
+    /// 实例化发射特效
+    /// </summary>
+    /// <param name="pos">位置</param>
+    /// <param name="rot">旋转</param>
+    /// <param name="duration">持续时间</param>
+    /// <returns></returns>
     public virtual GameObject InstantiateEmitInstance(Vector3 pos, Quaternion rot, float duration)
     {
         if (emitPrefab != null)
@@ -415,7 +500,13 @@ public class Skill
         }
         return null;
     }
-
+    /// <summary>
+    /// 实例化命中特效
+    /// </summary>
+    /// <param name="pos">位置</param>
+    /// <param name="rot">旋转</param>
+    /// <param name="duration">持续时间</param>
+    /// <returns></returns>
     public virtual GameObject InstantiateHitInstance(Vector3 pos, Quaternion rot, float duration)
     {
         if (hitFXPrefab != null)
@@ -426,7 +517,12 @@ public class Skill
         }
         return null;
     }
-
+    /// <summary>
+    /// 判断动画状态机中是否存在某个指定参数名
+    /// </summary>
+    /// <param name="animator">动画状态机</param>
+    /// <param name="parameterName">参数名</param>
+    /// <returns></returns>
     protected bool HasParameter(Animator animator, string parameterName)
     {
         foreach (var param in animator.parameters)
@@ -437,7 +533,10 @@ public class Skill
 
         return false;
     }
-
+    /// <summary>
+    /// 通过传入装饰器名称，使用反射创建对应的SkillDecorator实例
+    /// </summary>
+    /// <param name="decoratorName">装饰器名称</param>
     public void GetDecorator(string decoratorName)
     {
         Type type = Type.GetType(decoratorName);

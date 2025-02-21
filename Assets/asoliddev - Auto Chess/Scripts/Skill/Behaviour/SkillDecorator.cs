@@ -4,11 +4,22 @@ using UnityEngine;
 using ExcelConfig;
 using System;
 
+/// <summary>
+/// 技能修饰器
+/// </summary>
 public class SkillDecorator : Skill
 {
     protected Skill skill;
-    protected string[] _params;
+    /// <summary>
+    /// 是否已经修饰过技能
+    /// </summary>
     public bool hasDecorated = false;
+
+    /// <summary>
+    /// 修饰目标技能
+    /// </summary>
+    /// <param name="_skill">目标技能</param>
+    /// <returns>修饰过的技能</returns>
     public Skill Decorate(Skill _skill)
     {
         skill = _skill;
@@ -18,13 +29,12 @@ public class SkillDecorator : Skill
     }
 
     public virtual void Init() { }
-
-    public virtual void GetParams(string str)
-    {
-        if (!string.IsNullOrEmpty(str))
-            _params = str.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-    }
-
+    
+    /// <summary>
+    /// 通过变量的名称在配置数据中获取变量的值
+    /// </summary>
+    /// <param name="name">变量的名称</param>
+    /// <returns>变量的值</returns>
     public string GetParam(string name)
     {
         foreach (var p in skill.skillData.paramValues)

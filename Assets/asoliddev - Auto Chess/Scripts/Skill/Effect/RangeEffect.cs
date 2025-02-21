@@ -9,22 +9,22 @@ public class RangeEffect : SkillEffect
     public override void Init(Skill _skill, Transform _target)
     {
         base.Init(_skill, _target);
-        Transform t;
+
         if (skill.skillRangeSelectorType == SkillRangeSelectorType.MapHexInRange)
         {
-            t = skill.selectorResult.mapGrids[0].transform;
+            transform.position = skill.selectorResult.pos;
         }
         else
         {
-            t = target;
+            if (isAttach)
+            {
+                transform.parent = target.transform;
+                if (isOriginPos)
+                    transform.localPosition = Vector3.zero;
+            }
         }
 
-        if (isAttach)
-        {
-            transform.parent = t.transform;
-            if (isOriginPos)
-                transform.localPosition = Vector3.zero;
-        }
+
 
     }
 

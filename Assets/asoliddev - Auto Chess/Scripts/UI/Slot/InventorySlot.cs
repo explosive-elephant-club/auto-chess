@@ -72,11 +72,11 @@ public class InventorySlot : ContainerSlot
         }
     }
 
-    public void AddConstructor(GridInfo grid)
+    public void AddConstructor(MapContainer mapContainer, Vector3 pos)
     {
-        if (grid.gridType == GridType.Inventory && grid.occupyChampion == null)
+        if (mapContainer.containerType == ContainerType.Inventory)
         {
-            GamePlayController.Instance.ownChampionManager.AddChampionToInventory(inventoryConstructor.constructorBaseData, grid);
+            GamePlayController.Instance.ownChampionManager.AddChampionToInventory(inventoryConstructor.constructorBaseData, pos);
             UIController.Instance.inventoryController.RemoveConstructor(inventoryConstructor);
         }
     }
@@ -126,11 +126,11 @@ public class InventorySlot : ContainerSlot
         {
             AttachConstructor(UIController.Instance.constructorAssembleController.pointEnterTreeViewSlot);
         }
-        else if (InputController.Instance.gridInfo != null &&
+        else if (InputController.Instance.mapContainer != null &&
             (inventoryConstructor.constructorBaseData.type == ConstructorType.Chassis.ToString() ||
             inventoryConstructor.constructorBaseData.type == ConstructorType.Isolate.ToString()))
         {
-            AddConstructor(InputController.Instance.gridInfo);
+            AddConstructor(InputController.Instance.mapContainer, InputController.Instance.mousePosition);
         }
     }
 

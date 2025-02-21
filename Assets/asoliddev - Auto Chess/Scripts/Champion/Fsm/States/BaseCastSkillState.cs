@@ -7,7 +7,7 @@ public class BaseCastSkillState : State
 {
     public override void OnEnter()
     {
-        championController.StopMove();
+        championController.championMovementController.StopMove();
         if (championController.CheckState("disarm"))
         {
             fsm.SwitchState("Idle");

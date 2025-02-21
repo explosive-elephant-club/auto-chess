@@ -26,9 +26,9 @@ namespace ExcelConfig
 		public class enemiesClass
 		{
 			public int id;
-			public int x;
-			public int y;
-			public int z;
+			public float x;
+			public float y;
+			public float z;
 		}
 		[SerializeField]
 		private enemiesClass[] _enemies;

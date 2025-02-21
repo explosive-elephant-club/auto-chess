@@ -31,7 +31,7 @@ public class OponentChampionManager : ChampionManager
     public int CalculatePunish()
     {
         int value = 0;
-        foreach (var champion in championsHexaMapArray)
+        foreach (var champion in championsBattleArray)
         {
             if (!champion.isDead)
             {

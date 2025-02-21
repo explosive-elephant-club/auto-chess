@@ -7,7 +7,7 @@ public class EnemyConfig
 {
     public ChampionController championController;
     public int[] skillIDs;
-    public GridInfo grid;
+    public Vector3 pos;
 }
 
 public class LevelManager : CreateSingleton<LevelManager>
@@ -34,7 +34,6 @@ public class LevelManager : CreateSingleton<LevelManager>
         foreach (var e in levelData.enemies)
         {
             EnemyData enemyData = GameExcelConfig.Instance._eeDataManager.Get<EnemyData>(e.id);
-            Vector3 coor = new Vector3(e.x, e.y, e.z);
 
             GameObject championPrefab = Instantiate(Resources.Load<GameObject>("Prefab/Champion/" + enemyData.prefab));
             championPrefab.name = championPrefab.name;
@@ -42,7 +41,7 @@ public class LevelManager : CreateSingleton<LevelManager>
             EnemyConfig enemyConfig = new EnemyConfig();
             enemyConfig.championController = championPrefab.GetComponent<ChampionController>();
             enemyConfig.skillIDs = enemyData.skills;
-            enemyConfig.grid = Map.Instance.GetHexaMapSlot(coor);
+            enemyConfig.pos = new Vector3(e.x, e.y, e.z);
 
             enemyConfigs.Add(enemyConfig);
         }

@@ -380,7 +380,7 @@ Transform:
   m_GameObject: {fileID: 7158978330728880851}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7158978330729367281}
   - {fileID: 7158978330729367287}
@@ -439,8 +439,7 @@ MonoBehaviour:
   championController: {fileID: 0}
   animator: {fileID: 7158978330719496467}
   skillCastPoints:
-  - {fileID: 7158978330729367271}
-  - {fileID: 7158978330729367273}
+  - {fileID: 7083412237910321318}
   renderers:
   - {fileID: 7158978330715281363}
   cost: 0
@@ -490,6 +489,7 @@ Transform:
   - {fileID: 7158978330729367295}
   - {fileID: 7158978330729367289}
   - {fileID: 7158978330729367291}
+  - {fileID: 7083412237910321318}
   m_Father: {fileID: 7158978330729367287}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -645,4 +645,34 @@ Transform:
   - {fileID: 7158978330729367273}
   m_Father: {fileID: 7158978330729367269}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8642926101076771571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7083412237910321318}
+  m_Layer: 0
+  m_Name: SkillPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7083412237910321318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8642926101076771571}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.299}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7158978330729367285}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

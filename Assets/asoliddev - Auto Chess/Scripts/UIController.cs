@@ -6,10 +6,11 @@ using UnityEngine.UI;
 using ExcelConfig;
 
 
-public class UIController : CreateSingleton<UIController>
+public class UIController : CreateSingleton<UIController>, IGameStage
 {
+    //是否正在拖拽UI中的物品
     public bool isSlotUIDragged = false;
-
+    //用于遮挡屏幕或暂停画面
     public GameObject mask;
     public ShopGUIController shopController;
     public LevelInfoController levelInfo;
@@ -19,26 +20,14 @@ public class UIController : CreateSingleton<UIController>
     public GameObject restartButton;
     public PopupController popupController;
 
-    public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
 
     protected override void InitSingleton()
     {
-        InitStageDic();
     }
 
-    public void InitStageDic()
-    {
-        gameStageActions.Add("OnEnterPreparation", OnEnterPreparation);
-        gameStageActions.Add("OnEnterCombat", OnEnterCombat);
-        gameStageActions.Add("OnEnterLoss", OnEnterLoss);
-        gameStageActions.Add("OnUpdatePreparation", OnUpdatePreparation);
-        gameStageActions.Add("OnUpdateCombat", OnUpdateCombat);
-        gameStageActions.Add("OnUpdateLoss", OnUpdateLoss);
-        gameStageActions.Add("OnLeavePreparation", OnLeavePreparation);
-        gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
-        gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
-    }
-
+    /// <summary>
+    /// 重新开始按钮
+    /// </summary>
     public void Restart_Click()
     {
         GamePlayController.Instance.RestartGame();
@@ -51,12 +40,18 @@ public class UIController : CreateSingleton<UIController>
         constructorAssembleController.UpdateUI();
     }
 
+    /// <summary>
+    /// 显示游戏失败的界面
+    /// </summary>
     public void ShowLossScreen()
     {
         mask.SetActive(true);
         restartButton.SetActive(true);
     }
 
+    /// <summary>
+    /// 显示游戏的主界面
+    /// </summary>
     public void ShowGameScreen()
     {
         mask.SetActive(false);
@@ -74,7 +69,7 @@ public class UIController : CreateSingleton<UIController>
 
     public void OnUpdatePreparation()
     {
-       
+
     }
     public void OnLeavePreparation()
     {
@@ -89,7 +84,11 @@ public class UIController : CreateSingleton<UIController>
     }
     public void OnUpdateCombat()
     {
+        //更新UI上的战斗计时器
+        levelInfo.UpdateCombatTimer((int)(GameConfig.Instance.combatStageDuration - GamePlayController.Instance.timer));
+
         championInfoController.OnUpdateCombat();
+
     }
     public void OnLeaveCombat()
     {
@@ -98,7 +97,7 @@ public class UIController : CreateSingleton<UIController>
 
     public void OnEnterLoss()
     {
-
+        ShowLossScreen();
     }
     public void OnUpdateLoss()
     {

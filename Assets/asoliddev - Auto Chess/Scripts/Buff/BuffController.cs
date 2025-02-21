@@ -58,7 +58,7 @@ public class BuffStateContainer
         return states.Find(s => s.name == name).state;
     }
 }
-public class BuffController : MonoBehaviour
+public class BuffController
 {
     [SerializeField]
     public List<Buff> buffList = new List<Buff>();
@@ -69,9 +69,9 @@ public class BuffController : MonoBehaviour
 
     public ChampionController championController;
 
-    private void Start()
+    public BuffController(ChampionController _championController)
     {
-        championController = gameObject.GetComponent<ChampionController>();
+        championController = _championController;
     }
 
     //添加一个buff
@@ -110,35 +110,35 @@ public class BuffController : MonoBehaviour
                 List<ChampionController> teammates;
                 if (championController.team == ChampionTeam.Player)
                 {
-                    teammates = GamePlayController.Instance.ownChampionManager.championsHexaMapArray;
+                    teammates = GamePlayController.Instance.ownChampionManager.championsBattleArray;
                 }
                 else
                 {
-                    teammates = GamePlayController.Instance.oponentChampionManager.championsHexaMapArray;
+                    teammates = GamePlayController.Instance.oponentChampionManager.championsBattleArray;
                 }
                 foreach (ChampionController c in teammates)
                 {
-                    c.gameObject.GetComponent<BuffController>().AddBuff(id, championController);
+                    c.buffController.AddBuff(id, championController);
                 }
                 break;
             case AddBuffTargetType.Enemy:
-                ChampionController target = gameObject.GetComponent<ChampionController>().target;
+                ChampionController target = championController.target;
                 if (target != null)
-                    target.gameObject.GetComponent<BuffController>().AddBuff(id, championController);
+                    target.buffController.AddBuff(id, championController);
                 break;
             case AddBuffTargetType.Enemies:
                 List<ChampionController> enemies;
                 if (championController.team == ChampionTeam.Player)
                 {
-                    enemies = GamePlayController.Instance.oponentChampionManager.championsHexaMapArray;
+                    enemies = GamePlayController.Instance.oponentChampionManager.championsBattleArray;
                 }
                 else
                 {
-                    enemies = GamePlayController.Instance.ownChampionManager.championsHexaMapArray;
+                    enemies = GamePlayController.Instance.ownChampionManager.championsBattleArray;
                 }
                 foreach (ChampionController c in enemies)
                 {
-                    c.gameObject.GetComponent<BuffController>().AddBuff(id, championController);
+                    c.buffController.AddBuff(id, championController);
                 }
                 break;
 

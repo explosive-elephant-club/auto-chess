@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6768887448515415473}
   - component: {fileID: 8713749816407542026}
-  - component: {fileID: 8971488960440557502}
-  - component: {fileID: 8416396163325488193}
   - component: {fileID: 8870750416845926017}
   m_Layer: 0
   m_Name: Champion
@@ -50,66 +48,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructors:
   - {fileID: 7954759596174752809}
-  occupyGridInfo: {fileID: 0}
-  bookGridInfo: {fileID: 0}
-  originGridInfo: {fileID: 0}
+  container: {fileID: 0}
+  originPos: {x: 0, y: 0, z: 0}
   team: 0
-  buffController: {fileID: 0}
-  skillController: {fileID: 0}
+  unitType: 0
+  championVolumeController: {fileID: 0}
   bonusBuffList: 
   isDead: 0
   target: {fileID: 0}
   championManeger: {fileID: 0}
-  path: []
   state: 
   totalDamage: 0
-  speed: {x: 0, y: 0, z: 0}
---- !u!114 &8971488960440557502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933485929987868354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656ab5034847ee5488b5def34ae156f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buffList: []
-  buffStateContainer:
-    allSuperposStates: 0
-    states:
-    - name: immovable
-      byteFormat: 1
-      state: 0
-    - name: disarm
-      byteFormat: 2
-      state: 0
-    - name: silence
-      byteFormat: 4
-      state: 0
-    - name: invincible
-      byteFormat: 8
-      state: 0
-    - name: invisible
-      byteFormat: 16
-      state: 0
---- !u!114 &8416396163325488193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933485929987868354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfd159b664b560948836f367c7d774c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curSkillIndex: -1
-  curCastDelay: 0
-  curChargingDelay: 0
 --- !u!195 &8870750416845926017
 NavMeshAgent:
   m_ObjectHideFlags: 0

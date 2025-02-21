@@ -158,7 +158,7 @@ public class ChampionInfoController : BaseControllerUI
     {
         int i = 0;
         //iterate bonuses
-        foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.pickedChampion.constructorTypeCount)
+        foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.pickedChampion.bonus)
         {
             typesBar.transform.GetChild(i).gameObject.SetActive(true);
             typesBar.transform.GetChild(i).gameObject.name = m.Key.name;

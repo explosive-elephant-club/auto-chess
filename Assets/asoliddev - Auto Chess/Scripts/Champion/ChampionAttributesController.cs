@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 [SerializeField]
 public class ChampionAttributesController
 {
+    ChampionController championController;
+
     //护盾值
     public ChampionAttribute maxArmor;
     //机体值
@@ -80,8 +82,10 @@ public class ChampionAttributesController
 
     float healthRate = 1f;
 
-    public ChampionAttributesController()
+    public ChampionAttributesController(ChampionController _championController)
     {
+        championController = _championController;
+
         maxArmor = new ChampionAttribute(0, "MaxArmor");
         maxHealth = new ChampionAttribute(0, "maxHealth");
         maxMana = new ChampionAttribute(0, "maxMana");
@@ -118,6 +122,10 @@ public class ChampionAttributesController
         lightningResistance = new Resistance(10, 50, 10);
         acidResistance = new Resistance(10, 50, 10);
 
+        fireResistance.callAction = () => { championController.buffController.AddBuff(301); };
+        iceResistance.callAction = () => { championController.buffController.AddBuff(302); };
+        lightningResistance.callAction = () => { championController.buffController.AddBuff(303); };
+        acidResistance.callAction = () => { championController.buffController.AddBuff(304); };
 
         healthRate = 1f;
     }

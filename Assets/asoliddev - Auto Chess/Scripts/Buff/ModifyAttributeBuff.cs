@@ -19,7 +19,6 @@ public class ValueOperation
         string[] element = code.Split(' ');
         valueName = element[0];
         value = float.Parse(element[2]);
-
         ChampionAttribute attribute = (ChampionAttribute)GeneralMethod.GetValueByName(attributesController, valueName);
         switch (element[1])
         {
@@ -77,7 +76,7 @@ public class ModifyAttributeBuff : Buff
         if (!string.IsNullOrEmpty(modifyAttributeData.valueChanges[0]))
         {
             //valueOperations = new ValueOperation[modifyAttributeData.valueChanges.Length];
-            for (int i = 0; i < valueOperations.Count; i++)
+            for (int i = 0; i < modifyAttributeData.valueChanges.Length; i++)
             {
                 valueOperations.Add(new ValueOperation(modifyAttributeData.valueChanges[i],
                     _owner.attributesController));
@@ -87,8 +86,13 @@ public class ModifyAttributeBuff : Buff
 
     public override void BuffActive()
     {
+
         buffController.AddBuffState(this);
 
+        if (buffData.ID == 207)
+        {
+            Debug.Log("207 BuffActive");
+        }
         foreach (ValueOperation operation in valueOperations)
         {
             operation.operate.Invoke();

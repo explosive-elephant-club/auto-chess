@@ -15,7 +15,6 @@ public class OwnChampionManager : ChampionManager
     {
         base.OnEnterPreparation();
         currentChampionLimit = commandLevelData.limitMax;
-        UIController.Instance.levelInfo.UpdateUI();
         this.AddChampionToBattle("Enemy/1-4");
         //this.AddChampionToBattle(ChampionShop.Instance.GetRandomChampionInfo());
     }
@@ -23,7 +22,7 @@ public class OwnChampionManager : ChampionManager
     public override void OnLeaveCombat()
     {
         base.OnLeaveCombat();
-        foreach (var champion in championsHexaMapArray)
+        foreach (var champion in championsBattleArray)
         {
             if (champion.unitType == ChampionUnitType.Main)
                 champion.Reset();

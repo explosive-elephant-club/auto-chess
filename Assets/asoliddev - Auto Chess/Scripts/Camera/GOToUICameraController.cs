@@ -10,7 +10,7 @@ public class GOToUICameraController : MonoBehaviour
 
     [Header("Init Position")]
     [SerializeField]
-    private float cameraDist = 1.5f;
+    private float cameraDist = 6f;
     [SerializeField]
     private float cameraPitch = 6f;
     [SerializeField]

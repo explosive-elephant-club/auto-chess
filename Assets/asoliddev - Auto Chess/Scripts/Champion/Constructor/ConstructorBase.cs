@@ -7,6 +7,10 @@ using ExcelConfig;
 using UnityEngine.PlayerLoop;
 using System.Linq;
 using System.Diagnostics;
+
+/// <summary>
+/// 部件类型
+/// </summary>
 public enum ConstructorType
 {
     Arm,
@@ -25,6 +29,9 @@ public enum ConstructorType
 }
 
 
+/// <summary>
+/// 安装部件的槽位
+/// </summary>
 [Serializable]
 public class ConstructorSlot
 {
@@ -32,6 +39,9 @@ public class ConstructorSlot
     public Transform slotTrans;
     [HideInInspector]
     public ConstructorSlotType slotType;
+    /// <summary>
+    /// 该槽位支持的部件类型列表
+    /// </summary>
     [HideInInspector]
     public List<ConstructorType> adaptTypes = new List<ConstructorType>();
 
@@ -39,12 +49,16 @@ public class ConstructorSlot
 
     [HideInInspector]
     public bool isAble = true;
+    /// <summary>
+    /// 当前槽位上的部件实例
+    /// </summary>
     public ConstructorBase constructorInstance;
 
     public void Init()
     {
         isAble = true;
         slotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotDataID);
+        //解析配置数据中的slotType.adaptTypes，将其转换为列表
         foreach (var t in slotType.adaptTypes)
         {
             if (!string.IsNullOrEmpty(t))
@@ -55,31 +69,65 @@ public class ConstructorSlot
         }
     }
 
+    /// <summary>
+    /// 子物体能否放入槽位中
+    /// </summary>
+    /// <param name="constructor">子物体</param>
+    /// <returns>尝试结果</returns>
+    public bool CanAttach(ConstructorBase constructor)
+    {
+        ConstructorType t = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructor.constructorData.type);
+        return (adaptTypes.Contains(t) && isAble);
+    }
+
 }
 
-
+/// <summary>
+/// 部件类
+/// </summary>
 public class ConstructorBase : MonoBehaviour
 {
     public int constructorDataID;
+    /// <summary>
+    /// 组件的配置数据
+    /// </summary>
     [HideInInspector]
     public ConstructorBaseData constructorData;
 
-    //属性修改
+    /// <summary>
+    /// 用于修改属性值的操作
+    /// </summary>
     public ValueOperation[] valueOperations = new ValueOperation[0];
-    //种类
+    /// <summary>
+    /// 组件类型
+    /// </summary>
     public ConstructorType type;
-    //附加槽位
+    /// <summary>
+    /// 槽位
+    /// </summary>
     public List<ConstructorSlot> slots;
-    //父组件
+    /// <summary>
+    /// 父部件
+    /// </summary>
     public ConstructorBase parentConstructor;
-    //是否可以播放新的技能动画
+    /// <summary>
+    /// 是否可以播放新的技能动画
+    /// </summary>
     public bool enablePlayNewSkillAnim = true;
-
+    /// <summary>
+    /// 所属的单位
+    /// </summary>
     public ChampionController championController;
     public Animator animator;
+    /// <summary>
+    /// 技能释放点位
+    /// </summary>
     public Transform[] skillCastPoints;
     public UnityAction onSkillAnimEffect = new UnityAction(() => { });
     public UnityAction onSkillAnimFinish = new UnityAction(() => { });
+    /// <summary>
+    /// 渲染器 用于更换材质
+    /// </summary>
     public Renderer[] renderers;
 
     public int cost;
@@ -102,14 +150,19 @@ public class ConstructorBase : MonoBehaviour
         onSkillAnimEffect.Invoke();
     }
 
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// <param name="_championController">所属单位</param>
+    /// <param name="isAutoPackage">是否自动装配子部件</param>
     public void Init(ChampionController _championController, bool isAutoPackage)
     {
+        //获取配置数据
         if (constructorData.ID == 0)
             constructorData = GameExcelConfig.Instance.constructorsArray.Find(c => c.ID == constructorDataID);
 
-        UnityEngine.Debug.Log(constructorData.ID);
-
         championController = _championController;
+        //计算价格
         if (constructorData.level > 0)
         {
             cost = Mathf.CeilToInt
@@ -128,6 +181,7 @@ public class ConstructorBase : MonoBehaviour
         {
             s.Init();
         }
+
         if (GamePlayController.Instance.pickedChampion == championController)
         {
             foreach (Transform tran in transform.GetComponentsInChildren<Transform>())
@@ -136,8 +190,11 @@ public class ConstructorBase : MonoBehaviour
             }
         }
 
+
+
         InitPainting();
 
+        //属性加成
         if (!string.IsNullOrEmpty(constructorData.valueChanges[0]))
         {
             valueOperations = new ValueOperation[constructorData.valueChanges.Length];
@@ -151,47 +208,59 @@ public class ConstructorBase : MonoBehaviour
         {
             operation.operate.Invoke();
         }
+        //增加技能给单位
         if (constructorData.skillID[0] != 0)
         {
             foreach (var id in constructorData.skillID)
             {
-                UnityEngine.Debug.Log("AddSkill " + id);
                 championController.skillController.AddSkill(id, this);
             }
         }
+        //递归组装所有子部件
         if (isAutoPackage)
             AutoPackage();
+        //更新技能槽位
         championController.skillController.UpdateSkillCapacity();
     }
-
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// /// <param name="_constructorData">部件数据</param>
+    /// <param name="championController">所属单位</param>
+    /// <param name="isAutoPackage">是否自动装配子部件</param>
     public void Init(ConstructorBaseData _constructorData, ChampionController championController, bool isAutoPackage)
     {
         constructorData = _constructorData;
         Init(championController, isAutoPackage);
     }
 
+    /// <summary>
+    /// 移除部件
+    /// </summary>
     public void OnRemove()
     {
+        //恢复属性
         foreach (ValueOperation operation in valueOperations)
         {
             operation.reset.Invoke();
         }
+        //移除技能
         championController.skillController.RemoveSkill(this);
         UIController.Instance.championInfoController.UpdateUI();
     }
 
-    //更换涂装
+    /// <summary>
+    /// 更换涂装
+    /// </summary>
     public void InitPainting()
     {
     }
 
-    public bool CanAttach(ConstructorBase constructor, ConstructorSlot slot)
-    {
-        ConstructorType t = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructor.constructorData.type);
-        return (slot.adaptTypes.Contains(t) && slot.isAble);
-    }
-
-    //添加子组件
+    /// <summary>
+    /// 添加子组件
+    /// </summary>
+    /// <param name="constructor">子组件</param>
+    /// <param name="slot">槽位</param>
     public virtual void AttachConstructor(ConstructorBase constructor, ConstructorSlot slot)
     {
         //UnityEngine.Debug.Log(name + " " + slot.isAble);
@@ -252,7 +321,11 @@ public class ConstructorBase : MonoBehaviour
         }
         championController.skillController.UpdateSkillCapacity();
     }
-
+    /// <summary>
+    /// 添加子组件
+    /// </summary>
+    /// <param name="constructorData">部件配置数据</param>
+    /// <param name="slot">槽位</param>
     public virtual void AttachConstructor(ConstructorBaseData constructorData, ConstructorSlot slot)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>("Prefab/Constructor/" + constructorData.prefab));
@@ -262,7 +335,11 @@ public class ConstructorBase : MonoBehaviour
         AttachConstructor(_constructorBase, slot);
     }
 
-    //移除子组件
+    /// <summary>
+    /// 移除子组件
+    /// </summary>
+    /// <param name="slot">槽位</param>
+    /// <returns>被移除的部件和其所有子部件</returns>
     public virtual List<ConstructorBaseData> removeConstructor(ConstructorSlot slot)
     {
         List<ConstructorBaseData> data = new List<ConstructorBaseData>();
@@ -277,7 +354,10 @@ public class ConstructorBase : MonoBehaviour
         return data;
     }
 
-    //移除所有组件
+    /// <summary>
+    /// 移除所有组件
+    /// </summary>
+    /// <returns>被移除的所有部件</returns>
     public virtual List<ConstructorBaseData> removeAllConstructor()
     {
         List<ConstructorBaseData> data = new List<ConstructorBaseData>();
@@ -291,9 +371,12 @@ public class ConstructorBase : MonoBehaviour
         return data;
     }
 
-    //自动获取槽位中的物体并组装
+    /// <summary>
+    /// 自动获取槽位中的物体并组装
+    /// </summary>
     public virtual void AutoPackage()
     {
+        //遍历所有槽位，检测是否已有子部件
         foreach (ConstructorSlot s in slots)
         {
             if (s.slotTrans.childCount > 0)
@@ -302,7 +385,8 @@ public class ConstructorBase : MonoBehaviour
                 if (constructor == null)
                     return;
                 constructor.Init(championController, false);
-                if (CanAttach(constructor, s))
+                //如果能装配，则调用递归进行组装，否则销毁无效组件
+                if (s.CanAttach(constructor))
                 {
                     AttachConstructor(constructor, s);
                     if (!championController.constructors.Contains(constructor))
@@ -320,7 +404,11 @@ public class ConstructorBase : MonoBehaviour
         return;
     }
 
-    //向上获取所有父组件
+    /// <summary>
+    /// 向上获取所有父组件
+    /// </summary>
+    /// <param name="isContainSelf">是否包括自身</param>
+    /// <returns>获取的所有父组件</returns>
     public virtual List<ConstructorBase> GetAllParentConstructors(bool isContainSelf)
     {
         List<ConstructorBase> constructors = new List<ConstructorBase>();
@@ -337,7 +425,11 @@ public class ConstructorBase : MonoBehaviour
         return constructors;
     }
 
-    //向下获取所有子组件
+    /// <summary>
+    /// 向下获取所有子组件
+    /// </summary>
+    /// <param name="isContainSelf">是否包括自身</param>
+    /// <returns>获取的所有子组件</returns>
     public virtual List<ConstructorBase> GetAllChildrenConstructors(bool isContainSelf)
     {
         List<ConstructorBase> constructors = new List<ConstructorBase>();
@@ -353,7 +445,10 @@ public class ConstructorBase : MonoBehaviour
         return constructors;
     }
 
-    //获取旋转底座
+    /// <summary>
+    /// 计算并返回该部件件的旋转基点
+    /// </summary>
+    /// <returns>旋转基点</returns>
     public virtual Transform GetRotateTrans()
     {
         ConstructorBase son = this;
@@ -374,12 +469,13 @@ public class ConstructorBase : MonoBehaviour
                     break;
                 }
             }
-
+            //特性类型返回自身
             if (parentSlot.slotDataID == 1002 || parentSlot.slotDataID == 1003 || parentSlot.slotDataID == 1004)
             {
                 return parentSlot.slotTrans;
             }
             son = parent;
+            //遍历到父节点就返回null
             if (son.type == ConstructorType.Chassis || son.type == ConstructorType.Isolate)
             {
                 return null;

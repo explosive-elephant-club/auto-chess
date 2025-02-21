@@ -7,30 +7,63 @@ using System;
 using System.Reflection;
 using UnityEngine.InputSystem;
 using ExcelConfig;
+using System.Linq;
 
 public enum FindTargetMode { AnyInRange, Nearest, Farthest }
 
 /// <summary>
 /// Controls a single champion movement and combat
 /// </summary>
-public class ChampionController : MonoBehaviour
+public class ChampionController : MonoBehaviour, IGameStage
 {
+    /// <summary>
+    /// 部件数组
+    /// </summary>
     public List<ConstructorBase> constructors = new List<ConstructorBase>();
-
-    public GridInfo occupyGridInfo;
-    public GridInfo bookGridInfo;
-    public GridInfo originGridInfo;
+    /// <summary>
+    /// 所处地块
+    /// </summary>
+    public MapContainer container;
+    /// <summary>
+    /// 战斗开始前的位置
+    /// </summary>
+    public Vector3 originPos;
 
     public ChampionTeam team = ChampionTeam.Player;
     public ChampionUnitType unitType = ChampionUnitType.Main;
 
+    /// <summary>
+    /// 单位的选中框和体积控制管理
+    /// </summary>
+    public ChampionVolumeController championVolumeController;
+    /// <summary>
+    /// 单位的属性管理
+    /// </summary>
     public ChampionAttributesController attributesController;
+    /// <summary>
+    /// 单位的移动管理
+    /// </summary>
+    public ChampionMovementController championMovementController;
+    /// <summary>
+    /// 单位战斗计算管理
+    /// </summary>
+    public ChampionCombatController championCombatController;
+    /// <summary>
+    /// buff管理
+    /// </summary>
     public BuffController buffController;
+    /// <summary>
+    /// 技能管理
+    /// </summary>
     public SkillController skillController;
-    public NavMeshAgent navMeshAgent;
 
-
-    public Dictionary<ConstructorBonusType, int> constructorTypeCount;
+    /// <summary>
+    /// 羁绊增益字典
+    /// </summary>
+    public Dictionary<ConstructorBonusType, int> bonus;
+    /// <summary>
+    /// 羁绊增益buff
+    /// </summary>
     public List<int> bonusBuffList;
 
 
@@ -38,38 +71,34 @@ public class ChampionController : MonoBehaviour
 
     [HideInInspector]
     public bool isDead = false;
-
+    /// <summary>
+    /// 技能目标
+    /// </summary>
     public ChampionController target;
 
     private List<Effect> effects;
 
     public ChampionManager championManeger;
-
+    /// <summary>
+    /// AI状态机
+    /// </summary>
     public Fsm AIActionFsm;
 
-    public List<GridInfo> path;
-
-    public string state;
-
-    public Dictionary<string, CallBack> gameStageActions = new Dictionary<string, CallBack>();
-
     public float totalDamage = 0;
-    public Vector3 speed;
 
     /// Start is called before the first frame update
     void Awake()
     {
-        navMeshAgent = this.GetComponent<NavMeshAgent>();
-        buffController = this.GetComponent<BuffController>();
-        skillController = this.GetComponent<SkillController>();
-        InitStageDic();
+        championVolumeController = this.GetComponent<ChampionVolumeController>();
     }
 
     /// <summary>
-    /// When champion created Champion and teamID passed
+    /// 初始化
     /// </summary>
-    /// <param name="_champion"></param>
-    /// <param name="_teamID"></param>
+    /// <param name="_team">阵营</param>
+    /// <param name="_championManeger">上级管理器</param>
+    /// <param name="constructorData">底盘组件数据</param>
+    /// <param name="_unitType">单位主次类型</param>
     public void Init(ChampionTeam _team, ChampionManager _championManeger, ConstructorBaseData constructorData = null, ChampionUnitType _unitType = ChampionUnitType.Main)
     {
         team = _team;
@@ -81,69 +110,60 @@ public class ChampionController : MonoBehaviour
         {
             gameObject.tag = "Enemy";
         }
-        //store scripts
 
         championManeger = _championManeger;
 
-        //disable agent
-        navMeshAgent.enabled = false;
 
-        //set stats
-        attributesController = new ChampionAttributesController();
-        attributesController.fireResistance.callAction = () => { buffController.AddBuff(301); };
-        attributesController.iceResistance.callAction = () => { buffController.AddBuff(302); };
-        attributesController.lightningResistance.callAction = () => { buffController.AddBuff(303); };
-        attributesController.acidResistance.callAction = () => { buffController.AddBuff(304); };
-
-        WorldCanvasController.Instance.AddHealthBar(this.gameObject);
-
-        effects = new List<Effect>();
-
-        AIActionFsm = new Fsm();
+        //初始化子管理器
+        attributesController = new ChampionAttributesController(this);
+        championMovementController = new ChampionMovementController(this);
+        championCombatController = new ChampionCombatController(this);
+        buffController = new BuffController(this);
+        skillController = new SkillController(this);
         InitFsm();
+
+        //分配部件
         if (constructorData == null)
             GetChassisConstructor().Init(this, true);
         else
             GetChassisConstructor().Init(constructorData, this, true);
 
+        //修正最大值变化后的属性
         attributesController.RecalculateAfterMaxChange();
-        GamePlayController.Instance.StageStateAddListener(gameStageActions);
+        //向GamePlayController注册阶段事件
+        GamePlayController.Instance.AddStageListener(this);
+        WorldCanvasController.Instance.AddHealthBar(this.gameObject);
+        effects = new List<Effect>();
     }
 
+    /// <summary>
+    /// 初始化有限状态机
+    /// </summary>
     void InitFsm()
     {
+        AIActionFsm = new Fsm();
+        //获取所有挂载的状态
         State[] states = transform.Find("States").GetComponents<State>();
         foreach (State s in states)
         {
             s.Init();
             AIActionFsm.states.Add(s._name, s);
         }
+        //默认为Idle
         AIActionFsm.Init("Idle");
     }
 
-    public void InitStageDic()
-    {
-        gameStageActions.Add("OnEnterPreparation", OnEnterPreparation);
-        gameStageActions.Add("OnEnterCombat", OnEnterCombat);
-        gameStageActions.Add("OnEnterLoss", OnEnterLoss);
-        gameStageActions.Add("OnUpdatePreparation", OnUpdatePreparation);
-        gameStageActions.Add("OnUpdateCombat", OnUpdateCombat);
-        gameStageActions.Add("OnUpdateLoss", OnUpdateLoss);
-        gameStageActions.Add("OnLeavePreparation", OnLeavePreparation);
-        gameStageActions.Add("OnLeaveCombat", OnLeaveCombat);
-        gameStageActions.Add("OnLeaveLoss", OnLeaveLoss);
-    }
-
+    /// <summary>
+    /// 被移除出发的事件
+    /// </summary>
     public void OnRemove()
     {
-        GamePlayController.Instance.StageStateRemoveListener(gameStageActions);
+        GamePlayController.Instance.RemoveStageListener(this);
     }
 
     /// Update is called once per frame
     void Update()
     {
-        state = AIActionFsm.curState._name;
-        speed = navMeshAgent.velocity;
     }
 
     /// <summary>
@@ -157,7 +177,7 @@ public class ChampionController : MonoBehaviour
 
 
     /// <summary>
-    /// Resets champion after combat is over
+    /// 复位单位状态
     /// </summary>
     public void Reset()
     {
@@ -169,23 +189,22 @@ public class ChampionController : MonoBehaviour
         isDead = false;
         target = null;
 
-        path = null;
+        championMovementController.path = null;
 
         //reset position
-        if (originGridInfo != null)
+        if (originPos != null)
         {
-            LeaveGrid();
-            EnterGrid(originGridInfo);
+            transform.position = originPos;
         }
         SetWorldPosition();
         SetWorldRotation();
 
         skillController.Reset();
 
-        //remove add buffs
+        //移除所有buff
         buffController.RemoveAllBuff();
 
-        //remove all effects
+        //移除所有特效
         foreach (Effect e in effects)
         {
             e.Remove();
@@ -193,27 +212,24 @@ public class ChampionController : MonoBehaviour
         effects = new List<Effect>();
     }
 
+    /// <summary>
+    /// 获取单位的底盘部件
+    /// </summary>
     public ConstructorBase GetChassisConstructor()
     {
-        foreach (var c in constructors)
-        {
-            Debug.Log(c.constructorDataID + ":" + c.type);
-        }
         return constructors.Find(c => c.type == ConstructorType.Chassis || c.type == ConstructorType.Isolate);
     }
 
     /// <summary>
-    /// Move to corrent world position
+    /// 设置单位到战斗开始前的位置
     /// </summary>
     public void SetWorldPosition()
     {
-        Vector3 worldPosition = occupyGridInfo.gameObject.transform.position;
-        worldPosition.y = this.transform.position.y;
-        this.transform.position = worldPosition;
+        this.transform.position = originPos;
     }
 
     /// <summary>
-    /// Set correct rotation
+    /// 根据阵营设置不同的朝向
     /// </summary>
     public void SetWorldRotation()
     {
@@ -221,33 +237,69 @@ public class ChampionController : MonoBehaviour
 
         if (team == ChampionTeam.Player)
         {
-            rotation = new Vector3(0, 205, 0);
+            rotation = new Vector3(0, 0, 0);
         }
         else if (team == ChampionTeam.Oponent)
         {
-            rotation = new Vector3(0, 25, 0);
+            rotation = new Vector3(0, 180, 0);
         }
         this.transform.rotation = Quaternion.Euler(rotation);
     }
 
+    /// <summary>
+    /// 逐渐旋转到面向目标的方向
+    /// </summary>
+    /// <returns>是否正对目标</returns>
     public bool TurnToTarget()
     {
+        //需要朝向目标的方向
         Vector3 dir = target.transform.position - transform.position;
         dir.y = 0;
         Quaternion q = Quaternion.LookRotation(dir);
-        if (skillController.GetNextSkillConstructor().GetRotateTrans() != null)
+
+        ConstructorBase skillConstructor = skillController.GetNextSkillConstructor();
+        float rotationSpeed = 8f * Time.deltaTime;
+
+        //判断拥有下一个释放的技能部件是否有底座可以旋转
+        if (skillConstructor.GetRotateTrans() != null)
         {
-            Transform trans = skillController.GetNextSkillConstructor().GetRotateTrans();
-            trans.rotation = Quaternion.Slerp(trans.rotation, q, 8 * Time.deltaTime);
+            //应用旋转到该组件
+            Transform trans = skillConstructor.GetRotateTrans();
+            trans.rotation = Quaternion.Slerp(trans.rotation, q, rotationSpeed);
             return Vector3.Angle(dir, trans.forward) > 2f;
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, q, 8 * Time.deltaTime);
+            //应用旋转到单位本体
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, rotationSpeed);
             return Vector3.Angle(dir, transform.forward) > 2f;
         }
     }
 
+    /// <summary>
+    /// 寻找下一个释放技能的目标
+    /// </summary>
+    /// <returns></returns>
+    public ChampionController FindNextAvailableSkillTarget()
+    {
+        Skill skill = skillController.GetNextAvailableSkill();
+        if (skill != null)
+        {
+            ChampionController c = skill.FindAvailableTarget();
+            if (c != null)
+            {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 寻找目标
+    /// </summary>
+    /// <param name="bestDistance">最大距离</param>
+    /// <param name="mode">寻找模式</param>
+    /// <returns></returns>
     public ChampionController FindTarget(int bestDistance, FindTargetMode mode)
     {
         ChampionManager manager;
@@ -272,66 +324,24 @@ public class ChampionController : MonoBehaviour
         return null;
     }
 
-    public bool FindPath()
+    /// <summary>
+    /// 获取下一个释放技能的施法距离
+    /// </summary>
+    /// <returns></returns>
+    public int GetNextAvailableSkillDistance()
     {
-        if (target != null)
-        {
-            path = Map.Instance.FindPath(occupyGridInfo, target.occupyGridInfo, this);
-            if (path == null)
-                return false;
-            //Debug.Log("FindPath:" + occupyGridInfo.name + "=>" + target.occupyGridInfo.name);
-            BookGrid(path[0]);
-            return true;
-        }
-        return false;
+        return (int)attributesController.addRange.GetTrueValue() + skillController.GetNextAvailableSkill().skillData.distance;
     }
 
-
-    public void EnterGrid(GridInfo grid)
-    {
-        //Debug.Log("EnterGrid:" + grid.name);
-        ClearBook();
-        LeaveGrid();
-        occupyGridInfo = grid;
-        grid.occupyChampion = this;
-    }
-
-    public void LeaveGrid()
-    {
-        if (occupyGridInfo != null)
-        {
-            occupyGridInfo.occupyChampion = null;
-            occupyGridInfo = null;
-        }
-
-    }
-
-    public void BookGrid(GridInfo grid)
-    {
-        ClearBook();
-        bookGridInfo = grid;
-        grid.bookChampion = this;
-    }
-
-    public void ClearBook()
-    {
-        if (bookGridInfo != null)
-        {
-            bookGridInfo.bookChampion = null;
-            bookGridInfo = null;
-        }
-    }
-
-    public int GetInAttackRange()
-    {
-        return (int)attributesController.addRange.GetTrueValue() + skillController.GetNextSkillRange();
-    }
-
+    /// <summary>
+    /// 是否有目标在打击范围里
+    /// </summary>
+    /// <returns></returns>
     public bool IsTargetInAttackRange()
     {
-        if (target == null || target.isDead)
+        if (target == null || target.isDead || skillController.GetNextAvailableSkill() == null)
             return false;
-        return occupyGridInfo.GetDistance(target.occupyGridInfo) <= GetInAttackRange();
+        return Vector3.Distance(transform.position, target.transform.position) <= GetNextAvailableSkillDistance();
     }
 
     public void DebugPrint(string str)
@@ -340,156 +350,45 @@ public class ChampionController : MonoBehaviour
             Debug.Log(gameObject.name + ":  " + str);
     }
 
-    public void NavMeshAgentMove()
+    public float GetDistance(ChampionController _target)
     {
-        if (navMeshAgent.enabled)
+        return Vector3.Distance(transform.position, _target.transform.position);
+    }
+
+    /// <summary>
+    /// 获取周围的友军单位
+    /// </summary>
+    /// <param name="range"></param>
+    /// <returns></returns>
+    public List<ChampionController> GetTeammateNeighbors(float range = 3f)
+    {
+        List<ChampionController> list = new List<ChampionController>();
+        foreach (var c in championManeger.championsBattleArray)
         {
-            if (navMeshAgent.speed != attributesController.moveSpeed.GetTrueValue())
+            if (GetDistance(c) < range && c.team == team)
             {
-                navMeshAgent.speed = attributesController.moveSpeed.GetTrueValue();
+                list.Add(c);
             }
-            navMeshAgent.destination = bookGridInfo.transform.position;
-            navMeshAgent.isStopped = false;
         }
+        return list;
     }
 
-    public void StopMove()
+    /// <summary>
+    /// 获取周围的敌军单位
+    /// </summary>
+    /// <param name="range"></param>
+    /// <returns></returns>
+    public List<ChampionController> GetEnemyNeighbors(float range = 3f)
     {
-        if (navMeshAgent.enabled)
-            navMeshAgent.isStopped = true;
-    }
-
-    public int GetDistance(ChampionController _target)
-    {
-        return occupyGridInfo.GetDistance(_target.occupyGridInfo);
-    }
-
-    public void TakeDamage(ChampionController _target, SkillData.damageDataClass[] damages, float fix = 1)
-    {
-        if (target == null)
-            return;
-        buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-
-        if (_target.skillController.curVoidShieldEffect != null)
+        List<ChampionController> list = new List<ChampionController>();
+        foreach (var c in championManeger.championsBattleArray)
         {
-            _target.skillController.curVoidShieldEffect.OnGotHit(this, damages);
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
-            return;
-        }
-
-        float crit = 1;
-        if (attributesController.CritCheck())
-        {
-            Debug.Log("暴击");
-            crit = attributesController.critMultiple.GetTrueValue();
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterCrit.ToString());
-        }
-        List<SkillData.damageDataClass> addDamages = new List<SkillData.damageDataClass>();
-        for (int i = 0; i < damages.Length; i++)
-        {
-            float trueDamage = attributesController.GetTrueDamage(damages[i].dmg,
-                (DamageType)Enum.Parse(typeof(DamageType), damages[i].type), damages[i].correction);
-            trueDamage *= fix;
-            trueDamage *= crit;
-
-            totalDamage += trueDamage;
-            addDamages.Add(new SkillData.damageDataClass() { dmg = (int)trueDamage, type = damages[i].type });
-        }
-        _target.OnGotHit(addDamages);
-        buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
-    }
-
-    public void TakeDamage(ChampionController _target, float dmg, DamageType damageType, float correction = 0, float fix = 1)
-    {
-        if (target == null)
-            return;
-        buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
-        float crit = 1;
-        if (attributesController.CritCheck())
-        {
-            Debug.Log("暴击");
-            crit = attributesController.critMultiple.GetTrueValue();
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterCrit.ToString());
-        }
-        float trueDamage = attributesController.GetTrueDamage(dmg, damageType, correction);
-        trueDamage *= fix;
-        trueDamage *= crit;
-        OnGotHit(trueDamage, damageType);
-
-        totalDamage += trueDamage;
-
-        buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
-    }
-
-    public bool OnGotHit(List<SkillData.damageDataClass> addDamages)
-    {
-        if (attributesController.HitCheck())
-        {
-            buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
-
-            foreach (var d in addDamages)
+            if (GetDistance(c) < range && c.team != team)
             {
-                float trueDMG = attributesController.ApplyDamage(d.dmg, (DamageType)Enum.Parse(typeof(DamageType), d.type));
-
-                //add floating text
-                WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
-                //death
-                if (attributesController.curHealth <= 0)
-                {
-                    Dead();
-                }
+                list.Add(c);
             }
-
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterHit.ToString());
         }
-        else
-        {
-            Debug.Log("闪避");
-            WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), 0);
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterDodge.ToString());
-        }
-        return isDead;
-    }
-
-    public bool OnGotHit(float dmg, DamageType damageType)
-    {
-        if (attributesController.HitCheck())
-        {
-            buffController.eventCenter.Broadcast(BuffActiveMode.BeforeHit.ToString());
-
-            float trueDMG = attributesController.ApplyDamage(dmg, damageType);
-            //add floating text
-            WorldCanvasController.Instance.AddDamageText(this.transform.position + new Vector3(0, 2.5f, 0), trueDMG);
-            switch (damageType)
-            {
-                case DamageType.Fire:
-                    attributesController.fireResistance.OnGetHit(trueDMG);
-                    break;
-                case DamageType.Ice:
-                    attributesController.iceResistance.OnGetHit(trueDMG);
-                    break;
-                case DamageType.Lightning:
-                    attributesController.lightningResistance.OnGetHit(trueDMG);
-                    break;
-                case DamageType.Acid:
-                    attributesController.acidResistance.OnGetHit(trueDMG);
-                    break;
-                default:
-                    break;
-            }
-            //death
-            if (attributesController.curHealth <= 0)
-            {
-                Dead();
-            }
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterHit.ToString());
-        }
-        else
-        {
-            Debug.Log("闪避");
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterDodge.ToString());
-        }
-        return isDead;
+        return list;
     }
 
     public void Dead()
@@ -497,13 +396,11 @@ public class ChampionController : MonoBehaviour
         AIActionFsm.SwitchState("Idle");
         this.gameObject.SetActive(false);
         isDead = true;
-        LeaveGrid();
-        ClearBook();
         championManeger.OnChampionDeath(this);
     }
 
     /// <summary>
-    /// Add effect to this champion
+    /// 添加特效
     /// </summary>
     public void AddEffect(GameObject effectPrefab, float duration)
     {
@@ -532,7 +429,7 @@ public class ChampionController : MonoBehaviour
     }
 
     /// <summary>
-    /// Remove effect when expired
+    /// 移除特效
     /// </summary>
     public void RemoveEffect(Effect effect)
     {
@@ -540,15 +437,23 @@ public class ChampionController : MonoBehaviour
         effect.Remove();
     }
 
+    /// <summary>
+    /// 检查异常状态
+    /// </summary>
+    /// <param name="stateName"></param>
+    /// <returns></returns>
     public bool CheckState(string stateName)
     {
         return buffController.buffStateContainer.GetState(stateName);
     }
 
+    /// <summary>
+    /// 计算羁绊增益
+    /// </summary>
     public void CalculateBonuses()
     {
         //init dictionary
-        constructorTypeCount = new Dictionary<ConstructorBonusType, int>();
+        bonus = new Dictionary<ConstructorBonusType, int>();
 
         List<ConstructorBonusType> types = new List<ConstructorBonusType>();
         foreach (ConstructorBase constructor in constructors)
@@ -558,24 +463,24 @@ public class ChampionController : MonoBehaviour
             {
                 if (t != null)
                 {
-                    if (constructorTypeCount.ContainsKey(t))
+                    if (bonus.ContainsKey(t))
                     {
                         int cCount = 0;
-                        constructorTypeCount.TryGetValue(t, out cCount);
+                        bonus.TryGetValue(t, out cCount);
                         cCount++;
-                        constructorTypeCount[t] = cCount;
+                        bonus[t] = cCount;
 
                     }
                     else
                     {
-                        constructorTypeCount.Add(t, 1);
+                        bonus.Add(t, 1);
                     }
                 }
             }
         }
 
         bonusBuffList.Clear();
-        foreach (KeyValuePair<ConstructorBonusType, int> m in constructorTypeCount)
+        foreach (KeyValuePair<ConstructorBonusType, int> m in bonus)
         {
             int buffID = 0;
             foreach (ConstructorBonusType.BonusClass b in m.Key.Bonus)
@@ -598,6 +503,10 @@ public class ChampionController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 计算单位的价值
+    /// </summary>
+    /// <returns></returns>
     public int CalculateTotalCost()
     {
         int cost = 0;
@@ -623,25 +532,26 @@ public class ChampionController : MonoBehaviour
     {
         if (_isDragged)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            float enter = 100.0f;
-            if (Map.Instance.m_Plane.Raycast(ray, out enter))
-            {
-                Vector3 hitPoint = ray.GetPoint(enter);
-                Vector3 p = new Vector3(hitPoint.x, 1.0f, hitPoint.z);
-                this.transform.position = Vector3.Lerp(this.transform.position, p, 0.2f);
-            }
+            // 关闭当前单位的碰撞体，以避免拖拽时与其他单位或地图产生物理碰撞
+            championVolumeController.col.enabled = false;
+
+            //使单位平滑移动 到鼠标位置
+            Vector3 mousePosition = InputController.Instance.mousePosition;
+            Vector3 p = new Vector3(mousePosition.x, mousePosition.y, mousePosition.z);
+            this.transform.position = Vector3.Lerp(this.transform.position, p, 0.2f);
         }
         else
         {
-            float distance = Vector3.Distance(occupyGridInfo.gameObject.transform.position, this.transform.position);
+            //打开碰撞体，避免与其他单位发生重叠问题
+            championVolumeController.col.enabled = true;
+            float distance = Vector3.Distance(originPos, this.transform.position);
             if (distance > 0.25f)
             {
-                this.transform.position = Vector3.Lerp(this.transform.position, occupyGridInfo.gameObject.transform.position, 0.1f);
+                this.transform.position = Vector3.Lerp(this.transform.position, originPos, 0.1f);
             }
             else
             {
-                this.transform.position = occupyGridInfo.gameObject.transform.position;
+                this.transform.position = originPos;
             }
         }
     }
@@ -653,13 +563,15 @@ public class ChampionController : MonoBehaviour
     public void OnEnterCombat()
     {
         IsDragged = false;
-        this.transform.position = occupyGridInfo.gameObject.transform.position;
+        this.transform.position = originPos;
 
-        //in combat grid
-        if (occupyGridInfo.gridType == GridType.HexaMap)
+        //检查单位是否在战斗区域
+        if (container.containerType == ContainerType.Battle)
         {
-            navMeshAgent.enabled = true;
-            originGridInfo = occupyGridInfo;
+            //打开移动
+            championMovementController.MoveMode();
+            //更新原点
+            originPos = new Vector3(transform.position.x, container.col.bounds.min.y, transform.position.z);
         }
 
         //添加羁绊Buff
@@ -673,12 +585,14 @@ public class ChampionController : MonoBehaviour
     }
     public void OnUpdateCombat()
     {
-        if (!isDead && occupyGridInfo != null)
+        if (!isDead)
         {
+            //血量和能量恢复
             attributesController.Regenerate();
-            navMeshAgent.speed = attributesController.moveSpeed.GetTrueValue();
+            championMovementController.UpdateSpeed();
 
-            if (occupyGridInfo.gridType == GridType.HexaMap)
+            //子管理器驱动
+            if (container.containerType == ContainerType.Battle)
                 AIActionFsm.curState.OnUpdate();
             buffController.OnUpdateCombat();
             skillController.OnUpdateCombat();
@@ -690,7 +604,8 @@ public class ChampionController : MonoBehaviour
     }
     public void OnLeaveCombat()
     {
-        navMeshAgent.enabled = false;
+        //关闭移动
+        championMovementController.StaticMode();
         buffController.eventCenter.Broadcast(BuffActiveMode.AfterBattle.ToString());
         //Reset();
     }

@@ -177,7 +177,7 @@ public class Buff
             curTime -= Time.deltaTime;
             if (curTime <= 0)
             {
-                owner.SendMessage("RemoveBuff", this);
+                buffController.RemoveBuff(this);
             }
         }
 
@@ -206,7 +206,6 @@ public class Buff
     }
     public virtual void BuffStart()
     {
-        BuffController _controller = owner.GetComponent<BuffController>();
         if (activeMode != BuffActiveMode.Interval)
         {
             if (activeMode == BuffActiveMode.Always)
@@ -215,7 +214,7 @@ public class Buff
             }
             else
             {
-                _controller.eventCenter.AddListener(buffData.activeMode.ToString(), BuffActive);
+                owner.buffController.eventCenter.AddListener(buffData.activeMode.ToString(), BuffActive);
             }
         }
         buffBehaviour.BuffStart();

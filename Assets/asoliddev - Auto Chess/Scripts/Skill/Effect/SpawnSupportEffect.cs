@@ -16,11 +16,13 @@ public class SpawnSupportEffect : SkillEffect
 
     protected virtual void InstanceSupport()
     {
-        GridInfo grid = Map.Instance.GetEmptySlot(skill.owner.occupyGridInfo, 2);
-        transform.position = grid.transform.position + new Vector3(0, 2, 0);
-        InstantiateEmitEffect();
-        if (grid != null)
-            skill.manager.AddSupportChampionToBattle(grid, supportName, skillIDs);
+        Vector3 pos = Vector3.zero;
+        if (skill.owner.container.GetEmptyPos(5, out pos))
+        {
+            transform.position = pos + new Vector3(0, 2, 0);
+            InstantiateEmitEffect();
+            skill.manager.AddSupportChampionToBattle(pos, supportName, skillIDs);
+        }
         Destroy(gameObject, destroyDelay);
     }
 }

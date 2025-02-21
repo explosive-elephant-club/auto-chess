@@ -25,7 +25,7 @@ public class BurnBuffBehaviour : BuffBehaviour
             dmg = baseDmg + maxLayer * superposeDmg;
         }
         Debug.Log("BurnBuffBehaviour BuffActive " + dmg);
-        buff.owner.OnGotHit(dmg, DamageType.Pure);
+        buff.owner.championCombatController.OnGotHit(dmg, DamageType.Pure);
     }
     public override void BuffDestroy()
     {

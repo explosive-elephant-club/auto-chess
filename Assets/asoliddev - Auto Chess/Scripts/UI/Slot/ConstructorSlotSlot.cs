@@ -46,13 +46,13 @@ public class ConstructorSlotSlot : MonoBehaviour, IPointerEnterHandler, IPointer
         UIController.Instance.popupController.constructorSlotPopup.Show
             (slotTypeData, this.gameObject, Vector3.right);
         if (slot != null)
-            UIController.Instance.constructorAssembleController.ShowPickedSlot(slot);
+            UIController.Instance.constructorAssembleController.ShowPickedSlotFrame(slot);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         UIController.Instance.popupController.constructorSlotPopup.Clear();
         if (slot != null)
-            UIController.Instance.constructorAssembleController.ClearPickedSlot();
+            UIController.Instance.constructorAssembleController.ClosePickedSlotFrame();
     }
 }
