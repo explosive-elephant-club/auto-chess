@@ -13,11 +13,13 @@ public class UIBindTool : Editor
     /// 简称+真实地址  类型
     /// </summary>
     private static Dictionary<string, Type> findDic = new Dictionary<string, Type>();//保存已经找到的控件 类型名字简称+真实地址 类型 原因防止key重复并且都是3位好处理
+    private static Dictionary<string, Type> realTypeDic = new Dictionary<string, Type>();//保存已经找到的控件 类型名字简称+真实地址 类型 原因防止key重复并且都是3位好处理
     private static Dictionary<Type, string> dicMap = GenerateBtuDic();
     [MenuItem("GameObject/GenerateBinding", false, 0)]
     private static void GenerateBinding()
     {
- 
+        findDic.Clear();
+        realTypeDic.Clear();
         if (Selection.gameObjects.Length < 1)//返回当前在Hierarchy面板上或Project文件夹下选择的游戏物体GameObject数组，未选择则数组长度则为0
             return;
         GameObject selectObj = Selection.gameObjects[0];//找到选中的第一个物体
@@ -45,6 +47,7 @@ public class UIBindTool : Editor
                 //if (!components[i].name.StartsWith(startsWith))
                 if (!components[i].name.EndsWith(endWith))
                     continue;// 加一个字符串条件判断
+                
                 //满足条件
                 Component component = components[i];
  
@@ -54,18 +57,27 @@ public class UIBindTool : Editor
                 string path = component.name;
                 Transform transform = component.transform;
                 //构成控件的path
+                bool needSkip = false;
                 while (!transform.parent.name.Equals(selectObj.name))//中间的地址
                 {
                     //Debug.Log(transform.name);
                     path = transform.parent.name + "/" + path;
                     transform = transform.parent;
+                    if (transform.GetComponent<SubViewBase>() != null)
+                    {
+                        needSkip = true;
+                        break;
+                    }
                 }
-                //地址=父物体名字+中间地址+名字
+                if(needSkip) continue;
+                
+                    //地址=父物体名字+中间地址+名字
                 //Debug.Log(selectObj.name +"/"+ path);
                 findDic.Add(dicMap[type] + /*selectObj.name + "/" +*/ path, type);
+                realTypeDic.Add(dicMap[type] + /*selectObj.name + "/" +*/ path, component.GetType());
                 //Debug.Log(dicMap[type] + /*selectObj.name + "/" +*/ path);
                 //组件的声明
-                pasteContent.Append("\t"+"private" + " " + type.Name + " _" + name + ";");
+                pasteContent.Append("\t"+"private" + " " + component.GetType().Name + " _" + name + ";");
                 pasteContent.Append("\n");
  
             }
@@ -101,7 +113,7 @@ public class UIBindTool : Editor
             //Debug.Log(componentName + " " + realPath + " " + varName);
             //语句
             pasteContent.Append("\n");
-            pasteContent.Append($"\t\t_{varName} = transform.Find(\"{realPath}\").GetComponent<{findDic[item].Name}>();");
+            pasteContent.Append($"\t\t_{varName} = transform.Find(\"{realPath}\").GetComponent<{realTypeDic[item].Name}>();");
             //rigidbody = transform.Find().GetComponent<>();
  
         }
@@ -144,6 +156,7 @@ public class UIBindTool : Editor
         dic.Add(typeof(Scrollbar), "scrB");
         dic.Add(typeof(Image), "img");
         dic.Add(typeof(Text), "text");
+        dic.Add(typeof(SubViewBase), "subView");
         return dic;
     }
  
