@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using ExcelConfig;
 public class ShopConstructController : MonoBehaviour
 {
-    public TextMeshProUGUI refreshCostText;
-    public TextMeshProUGUI championLimitText;
+    public Text refreshCostText;
+    public Text championLimitText;
     public Button refreshBtn;
     public Button lockBtn;
 

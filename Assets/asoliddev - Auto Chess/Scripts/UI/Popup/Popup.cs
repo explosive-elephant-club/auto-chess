@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 using General;
 using System.Diagnostics;
@@ -12,8 +12,8 @@ using UnityEngine.PlayerLoop;
 [Serializable]
 public class TextPair
 {
-    public TextMeshProUGUI attribute;
-    public TextMeshProUGUI value;
+    public Text attribute;
+    public Text value;
 }
 
 public class Popup : MonoBehaviour

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 using General;
 using System.Diagnostics;
@@ -13,8 +13,8 @@ public class ConstructorPopup : Popup
 {
     public Image iconImg;
     public Image nameAndTypeImg;
-    public TextMeshProUGUI constructorName;
-    public TextMeshProUGUI typeName;
+    public Text constructorName;
+    public Text typeName;
     public TextPair cost;
 
     public Transform typeContent;
@@ -100,9 +100,9 @@ public class ConstructorPopup : Popup
             if (i < constructorData.valueChanges.Length && !string.IsNullOrEmpty(constructorData.valueChanges[0]))
             {
                 string[] element = constructorData.valueChanges[i].Split(' ');
-                attributeInfo[i].transform.Find("Name").GetComponent<TextMeshProUGUI>().text
+                attributeInfo[i].transform.Find("Name").GetComponent<Text>().text
                     = element[0] + ":";
-                attributeInfo[i].transform.Find("Value").GetComponent<TextMeshProUGUI>().text
+                attributeInfo[i].transform.Find("Value").GetComponent<Text>().text
                    = element[1] + element[2];
                 attributeInfo[i].SetActive(true);
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 using UnityEditor;
 using General;
@@ -12,8 +12,8 @@ using UnityEngine.PlayerLoop;
 
 public class TypePopup : Popup
 {
-    public TextMeshProUGUI typeName;
-    public TextMeshProUGUI description;
+    public Text typeName;
+    public Text description;
     public TypeSlot selfSlot;
 
     public Transform constructorContent;

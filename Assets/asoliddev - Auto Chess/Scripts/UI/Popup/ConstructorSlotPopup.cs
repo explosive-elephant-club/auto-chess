@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 using General;
 using System.Diagnostics;
@@ -11,27 +11,27 @@ using UnityEngine.EventSystems;
 
 public class ConstructorSlotPopup : Popup
 {
-    public TextMeshProUGUI constructorName;
+    public Text constructorName;
     public Transform adaptTypesContent;
-    public List<TextMeshProUGUI> adaptTypes;
+    public List<Text> adaptTypes;
     public Transform forbiddenChildrenTypesContent;
-    public List<TextMeshProUGUI> forbiddenChildrenTypes;
+    public List<Text> forbiddenChildrenTypes;
     public Transform forbiddenParentsTypesContent;
-    public List<TextMeshProUGUI> forbiddenParentsTypes;
+    public List<Text> forbiddenParentsTypes;
     // Start is called before the first frame update
     void Start()
     {
         foreach (Transform child in adaptTypesContent)
         {
-            adaptTypes.Add(child.GetComponentInChildren<TextMeshProUGUI>());
+            adaptTypes.Add(child.GetComponentInChildren<Text>());
         }
         foreach (Transform child in forbiddenChildrenTypesContent)
         {
-            forbiddenChildrenTypes.Add(child.GetComponentInChildren<TextMeshProUGUI>());
+            forbiddenChildrenTypes.Add(child.GetComponentInChildren<Text>());
         }
         foreach (Transform child in forbiddenParentsTypesContent)
         {
-            forbiddenParentsTypes.Add(child.GetComponentInChildren<TextMeshProUGUI>());
+            forbiddenParentsTypes.Add(child.GetComponentInChildren<Text>());
         }
     }
 

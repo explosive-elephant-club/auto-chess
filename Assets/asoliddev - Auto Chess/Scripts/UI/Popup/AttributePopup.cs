@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using ExcelConfig;
 using General;
 using System.Diagnostics;
@@ -11,8 +10,8 @@ using UnityEngine.PlayerLoop;
 
 public class AttributePopup : Popup
 {
-    public TextMeshProUGUI attributeName;
-    public TextMeshProUGUI attributeValue;
+    public Text attributeName;
+    public Text attributeValue;
     public void Show(String _attributeName, string _attributeValue, GameObject targetUI, Vector3 dir)
     {
         attributeName.text = _attributeName;

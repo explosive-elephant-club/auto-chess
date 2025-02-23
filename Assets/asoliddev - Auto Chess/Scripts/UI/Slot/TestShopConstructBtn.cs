@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 using UnityEngine.EventSystems;
 
@@ -11,9 +11,9 @@ public class TestShopConstructBtn : MonoBehaviour
     public Image iconImage;
     public Image levelFrameImage;
     public GameObject[] typeIconArray;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI typeText;
-    public TextMeshProUGUI buyCostText;
+    public Text nameText;
+    public Text typeText;
+    public Text buyCostText;
 
     public ConstructorBaseData constructorData;
     int cost;

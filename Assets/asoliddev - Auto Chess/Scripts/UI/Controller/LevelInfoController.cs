@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using ExcelConfig;
 
 public class LevelInfoController : MonoBehaviour
 {
-    public TextMeshProUGUI midTitleText;
-    public TextMeshProUGUI midValueText;
-    public TextMeshProUGUI goldText;
-    public TextMeshProUGUI HPText;
-    public TextMeshProUGUI robotLimitText;
+    public Text midTitleText;
+    public Text midValueText;
+    public Text goldText;
+    public Text HPText;
+    public Text robotLimitText;
     public Button readyBtn;
     public Button shopBtn;
     public Button inventoryBtn;
@@ -44,7 +43,7 @@ public class LevelInfoController : MonoBehaviour
         if (count > 0)
         {
             inventoryPointTip.SetActive(true);
-            inventoryPointTip.GetComponentInChildren<TextMeshProUGUI>().text = count.ToString();
+            inventoryPointTip.GetComponentInChildren<Text>().text = count.ToString();
         }
         else
         {

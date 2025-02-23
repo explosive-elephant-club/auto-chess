@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
 /// 部件组装管理器
@@ -44,7 +43,7 @@ public class ConstructorAssembleController : BaseControllerUI
     /// </summary>
     float[] zoomValues = { 12f, 15f, 18f, 20f, 24f };
     int zoomIndex = 2;
-    public TextMeshProUGUI zoomValueText;
+    public Text zoomValueText;
 
     /// <summary>
     /// 展开UI Panel

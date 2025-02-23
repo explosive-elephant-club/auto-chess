@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 using UnityEngine.EventSystems;
 
@@ -13,9 +13,9 @@ public class ShopConstructBtn : ContainerSlot
     public Image iconImage;
 
     public GameObject[] typeIconArray;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI typeText;
-    public TextMeshProUGUI buyCostText;
+    public Text nameText;
+    public Text typeText;
+    public Text buyCostText;
 
     public Transform slotContent;
     public List<GameObject> slotInfo;

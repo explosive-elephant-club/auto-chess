@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using TMPro;
+
 using ExcelConfig;
 using UnityEditor;
 using UnityEngine.EventSystems;
@@ -13,9 +13,9 @@ public class InventorySlot : ContainerSlot
     int cost;
     public Image[] images;
     public Image icon;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI typeText;
-    public TextMeshProUGUI buyCostText;
+    public Text nameText;
+    public Text typeText;
+    public Text buyCostText;
     public GameObject[] typeIconArray;
 
     public Transform slotContent;

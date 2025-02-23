@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 using General;
 using System.Diagnostics;
@@ -12,8 +12,8 @@ using UnityEngine.PlayerLoop;
 
 public class SkillPopup : Popup
 {
-    public TextMeshProUGUI skillName;
-    public TextMeshProUGUI description;
+    public Text skillName;
+    public Text description;
 
     public TextPair CastDelay;
     public TextPair ChargingDelay;
@@ -66,8 +66,8 @@ public class SkillPopup : Popup
                 damageInfo[i].SetActive(false);
                 if (i < skillData.damageData.Length)
                 {
-                    //damageInfo[i].transform.Find("DamageType").GetComponent<TextMeshProUGUI>().text = string.Format("<sprite=\"AtributeIcon\" name=\"{0}\">", skillData.damageData[i].type);
-                    damageInfo[i].transform.Find("DamageType/DamageValue").GetComponent<TextMeshProUGUI>().text = skillData.damageData[i].dmg.ToString() + "(+" + skillData.damageData[i].correction.ToString() + ")";
+                    //damageInfo[i].transform.Find("DamageType").GetComponent<Text>().text = string.Format("<sprite=\"AtributeIcon\" name=\"{0}\">", skillData.damageData[i].type);
+                    damageInfo[i].transform.Find("DamageType/DamageValue").GetComponent<Text>().text = skillData.damageData[i].dmg.ToString() + "(+" + skillData.damageData[i].correction.ToString() + ")";
                     damageInfo[i].SetActive(true);
                 }
             }

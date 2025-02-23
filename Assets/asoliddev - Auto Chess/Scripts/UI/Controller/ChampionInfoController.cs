@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using ExcelConfig;
 using General;
 using System.Diagnostics;
@@ -126,7 +125,7 @@ public class ChampionInfoController : BaseControllerUI
     public void UpdateArmorBar()
     {
 
-        armorBar.transform.Find("Slider/ValueText").GetComponent<TextMeshProUGUI>().text =
+        armorBar.transform.Find("Slider/ValueText").GetComponent<Text>().text =
             Mathf.Floor(attributesController.curArmor) + "/" +
                 Mathf.Floor(attributesController.maxArmor.GetTrueValue());
 
@@ -136,7 +135,7 @@ public class ChampionInfoController : BaseControllerUI
 
     public void UpdateMechBar()
     {
-        mechBar.transform.Find("Slider/ValueText").GetComponent<TextMeshProUGUI>().text =
+        mechBar.transform.Find("Slider/ValueText").GetComponent<Text>().text =
             Mathf.Floor(attributesController.curHealth) + "/" +
                 Mathf.Floor(attributesController.maxHealth.GetTrueValue());
 
@@ -146,7 +145,7 @@ public class ChampionInfoController : BaseControllerUI
 
     public void UpdateManaBar()
     {
-        manaBar.transform.Find("Slider/ValueText").GetComponent<TextMeshProUGUI>().text =
+        manaBar.transform.Find("Slider/ValueText").GetComponent<Text>().text =
             Mathf.Floor(attributesController.curMana) + "/" +
                 Mathf.Floor(attributesController.maxMana.GetTrueValue());
 

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using TMPro;
+
 using ExcelConfig;
 using UnityEngine.EventSystems;
 
 public class AttributeSlot : ContainerSlot
 {
-    TextMeshProUGUI valueText;
+    Text valueText;
     string attributeName;
 
     private void Awake()
     {
-        valueText = transform.Find("Text_Value").GetComponent<TextMeshProUGUI>();
+        valueText = transform.Find("Text_Value").GetComponent<Text>();
     }
 
     public void Init(string _attributeName, float value, bool _isBaseLinear = true)

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 using ExcelConfig;
 
 public class DataStatisticSlot : MonoBehaviour
 {
     public Image characterMiniImage;
-    public TextMeshProUGUI nameText;
+    public Text nameText;
     public GameObject[] levelStarts;
     public Image slide1;
     public Image slide2;
-    public TextMeshProUGUI valueText;
+    public Text valueText;
 
     float slide1TotalValue;
     float slide2TotalValue;

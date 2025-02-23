@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using TMPro;
+
 using ExcelConfig;
 using UnityEngine.EventSystems;
 
@@ -13,7 +13,7 @@ public class SkillSlot : ContainerSlot
     public Image BG;
     public Image cdMask;
     public Image pickTip;
-    public TextMeshProUGUI countText;
+    public Text countText;
     public Skill skill;
     public bool isActivated;
     public SkillState skillState;

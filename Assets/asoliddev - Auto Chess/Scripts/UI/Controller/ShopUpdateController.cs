@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System;
 
 [Serializable]
 public class LevelUpdateMenu
 {
     public Button levelUpBtn;
-    public TextMeshProUGUI levelUpCost;
-    public TextMeshProUGUI level;
-    public TextMeshProUGUI info;
+    public Text levelUpCost;
+    public Text level;
+    public Text info;
 }
 
 public class ShopUpdateController : MonoBehaviour

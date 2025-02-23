@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TestShopController : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class TestShopController : MonoBehaviour
 
     public Scrollbar scrollbar;
 
-    public TMP_InputField inputField;
+    public InputField inputField;
     public Button searchBtn;
 
 
@@ -42,10 +41,10 @@ public class TestShopController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F5))
+        /*if (Input.GetKeyUp(KeyCode.F5))
         {
             SetUIActive(!canvasGroup.interactable);
-        }
+        }*/
     }
 
     // Update is called once per frame
