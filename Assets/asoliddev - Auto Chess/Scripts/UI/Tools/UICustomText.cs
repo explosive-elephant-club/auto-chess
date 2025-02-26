@@ -58,8 +58,8 @@ namespace Game
             ShouldFlip = flip;
         }
         
-        private float _shadowPerFontSize = 0.05f;
-        private float _outlinePerFontSize = 0.05f;
+        public float shadowPerFontSize = 0.05f;
+        public float outlinePerFontSize = 0.05f;
         private int _fontSize = 14;
         public override string text
         {
@@ -116,8 +116,9 @@ namespace Game
         {
             if (_fontSize != fontSize)
             {
-                var size = fontSize * _outlinePerFontSize;
+                var size = fontSize * shadowPerFontSize;
                 gameObject.GetOrAddComponent<Shadow>().effectDistance = new Vector2(size, -size);
+                size = fontSize * outlinePerFontSize;
                 gameObject.GetOrAddComponent<Outline>().effectDistance = new Vector2(size, -size);
                 _fontSize = fontSize;
             }

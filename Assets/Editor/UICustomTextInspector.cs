@@ -28,6 +28,8 @@ public class UICustomTextInspector : UnityEditor.UI.TextEditor
         {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("maxWidth"));
         }
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("outlinePerFontSize"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("shadowPerFontSize"));
         serializedObject.ApplyModifiedProperties();
 
         base.OnInspectorGUI();
