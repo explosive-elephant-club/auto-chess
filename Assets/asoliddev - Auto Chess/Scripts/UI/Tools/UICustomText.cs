@@ -47,6 +47,7 @@ namespace Game
 
         private bool m_ImgDirty = false;
         private int m_ShowImgCount = 0;
+        private const float _baseSize = .083f;
         public bool isUseMaxWidth;
         public float maxWidth;
         private static readonly StringBuilder TextBuilder = new StringBuilder();
@@ -58,8 +59,8 @@ namespace Game
             ShouldFlip = flip;
         }
         
-        public float shadowPerFontSize = 0.05f;
-        public float outlinePerFontSize = 0.05f;
+        public float shadowPerFontSize = 1;
+        public float outlinePerFontSize = 1;
         private int _fontSize = 14;
         public override string text
         {
@@ -116,9 +117,9 @@ namespace Game
         {
             if (_fontSize != fontSize)
             {
-                var size = fontSize * shadowPerFontSize;
+                var size = fontSize * shadowPerFontSize * _baseSize;
                 gameObject.GetOrAddComponent<Shadow>().effectDistance = new Vector2(size, -size);
-                size = fontSize * outlinePerFontSize;
+                size = fontSize * outlinePerFontSize * _baseSize;
                 gameObject.GetOrAddComponent<Outline>().effectDistance = new Vector2(size, -size);
                 _fontSize = fontSize;
             }
@@ -181,8 +182,8 @@ namespace Game
                         rt.localScale = Vector3.one;
                         rt.anchorMax = new Vector2(0, 0.5f);
                         rt.anchorMin = new Vector2(0, 0.5f);
+                        rt.pivot = new Vector2(0.5f, 0.7f);
                     }
-
                     m_UsedImages.Add(go.GetComponent<Image>());
                 }
 
@@ -196,7 +197,7 @@ namespace Game
                     }
                     else
                     {
-                        img.sprite = Resources.Load<Sprite>(spriteName);
+                        img.sprite = ResourceManager.LoadResource<Sprite>(spriteName);
                     }
                 }
 

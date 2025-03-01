@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Game;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,4 +21,19 @@ public class CustomToolsFunc
         }
         AssetDatabase.Refresh(); 
     }
+    
+    [MenuItem("GameObject/资源相关/批量替换Text字体为fzxs12", priority = 2)]
+    private static void ReplaceTextInPrefabsTextFontToFzxs12()
+    {
+        foreach (GameObject obj in Selection.gameObjects)
+        {
+            var coms = obj.GetComponentsInChildren<UICustomText>();
+            foreach (var com in coms)
+            {
+                com.font = ResourceManager.LoadResource<Font>("fzxs12");
+            }
+        }
+        AssetDatabase.Refresh(); 
+    }
+    
 }

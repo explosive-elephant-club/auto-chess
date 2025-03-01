@@ -5,7 +5,8 @@ using UnityEditor;
 using System;
 using UnityEngine.UI;
 using System.Text;
- 
+using Game;
+
 public class UIBindTool : Editor
 {
     private static string endWith = "_Auto";
@@ -84,11 +85,10 @@ public class UIBindTool : Editor
             //Debug.Log(pasteContent);
  
         }
-        pasteContent.Append("\t#endregion\n");
         //查找组件
         pasteContent.Append("\t//自动获取组件添加字典管理");
         pasteContent.Append("\n");
-        pasteContent.Append("\tprivate void AutoBindingUI()");
+        pasteContent.Append("\tpublic override void AutoBindingUI()");
         pasteContent.Append("\n");
         pasteContent.Append("\t{");
         foreach (string item in findDic.Keys)
@@ -142,6 +142,7 @@ public class UIBindTool : Editor
         //TODO:生成封装组件事件的方法
         pasteContent.Append("\n");
         pasteContent.Append("\t}");
+        pasteContent.Append("\n\t#endregion\n");
         TextEditor text = new TextEditor();
  
         text.text = pasteContent.ToString();
@@ -155,7 +156,7 @@ public class UIBindTool : Editor
         dic.Add(typeof(Button), "btn");
         dic.Add(typeof(Scrollbar), "scrB");
         dic.Add(typeof(Image), "img");
-        dic.Add(typeof(Text), "text");
+        dic.Add(typeof(UICustomText), "text");
         dic.Add(typeof(SubViewBase), "subView");
         return dic;
     }

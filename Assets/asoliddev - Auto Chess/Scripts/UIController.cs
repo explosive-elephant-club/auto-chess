@@ -20,9 +20,12 @@ public class UIController : CreateSingleton<UIController>, IGameStage
     public GameObject restartButton;
     public PopupController popupController;
 
+    public RectTransform canvasRoot;
+
 
     protected override void InitSingleton()
     {
+        inventoryController = ResourceManager.LoadGameObjectResource("UI/InventoryController", canvasRoot).GetComponent<InventoryController>();
     }
 
     /// <summary>

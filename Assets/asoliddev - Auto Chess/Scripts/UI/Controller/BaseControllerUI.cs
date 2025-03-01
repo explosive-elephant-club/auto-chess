@@ -11,12 +11,18 @@ public class BaseControllerUI : MonoBehaviour
     public virtual void Init()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        AutoBindingUI();
     }
 
     // Update is called once per frame
     public virtual void UpdateUI()
     {
 
+    }
+
+    public virtual void AutoBindingUI()
+    {
+        
     }
 
     public void SetUIActive(bool isActive)
