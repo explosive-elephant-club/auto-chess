@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,7 +33,6 @@ public class InventoryController : BaseControllerUI
         public Toggle toggle;
     }
 
-
     public List<typeToggle> typeToggles;
 
 
@@ -48,39 +47,40 @@ public class InventoryController : BaseControllerUI
     }
     
     #region 自动绑定
-    private Button _btnPickAllBtn;
-    private Button _btnCancelAllBtn;
-    private Button _btnName;
-    private Button _btnType;
-    private Button _btnCost;
-    private Button _btnBonusTypeBar;
-    private Button _btnSlotsBar;
-    private Image _imgPickAllBtn;
-    private Image _imgCancelAllBtn;
-    private UICustomText _textName;
-    private UICustomText _textType;
-    private UICustomText _textCost;
-    private UICustomText _textBonusTypeBar;
-    private UICustomText _textSlotsBar;
-    //自动获取组件添加字典管理
-    public override void AutoBindingUI()
-    {
-        _btnPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Button>();
-        _btnCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Button>();
-        _btnName = transform.Find("BG/Title/Name_Auto").GetComponent<Button>();
-        _btnType = transform.Find("BG/Title/Type_Auto").GetComponent<Button>();
-        _btnCost = transform.Find("BG/Title/Cost_Auto").GetComponent<Button>();
-        _btnBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<Button>();
-        _btnSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<Button>();
-        _imgPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Image>();
-        _imgCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Image>();
-        _textName = transform.Find("BG/Title/Name_Auto").GetComponent<UICustomText>();
-        _textType = transform.Find("BG/Title/Type_Auto").GetComponent<UICustomText>();
-        _textCost = transform.Find("BG/Title/Cost_Auto").GetComponent<UICustomText>();
-        _textBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<UICustomText>();
-        _textSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<UICustomText>();
-    }
-    #endregion
+	private Button _btnPickAllBtn;
+	private Button _btnCancelAllBtn;
+	private Button _btnName;
+	private Button _btnType;
+	private Button _btnCost;
+	private Button _btnBonusTypeBar;
+	private Button _btnSlotsBar;
+	private Image _imgPickAllBtn;
+	private Image _imgCancelAllBtn;
+	private UICustomText _textName;
+	private UICustomText _textType;
+	private UICustomText _textCost;
+	private UICustomText _textBonusTypeBar;
+	private UICustomText _textSlotsBar;
+	//自动获取组件添加字典管理
+	public override void AutoBindingUI()
+	{
+		_btnPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Button>();
+		_btnCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Button>();
+		_btnName = transform.Find("BG/Title/Name_Auto").GetComponent<Button>();
+		_btnType = transform.Find("BG/Title/Type_Auto").GetComponent<Button>();
+		_btnCost = transform.Find("BG/Title/Cost_Auto").GetComponent<Button>();
+		_btnBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<Button>();
+		_btnSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<Button>();
+		_imgPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Image>();
+		_imgCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Image>();
+		_textName = transform.Find("BG/Title/Name_Auto").GetComponent<UICustomText>();
+		_textType = transform.Find("BG/Title/Type_Auto").GetComponent<UICustomText>();
+		_textCost = transform.Find("BG/Title/Cost_Auto").GetComponent<UICustomText>();
+		_textBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<UICustomText>();
+		_textSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<UICustomText>();
+	}
+	#endregion
+
     
     void Start()
     {

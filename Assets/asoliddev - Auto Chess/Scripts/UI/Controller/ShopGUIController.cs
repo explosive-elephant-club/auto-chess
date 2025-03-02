@@ -26,6 +26,11 @@ public class ShopGUIController : BaseControllerUI
     {
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
+    
+    #region 自动绑定
+    
+    #endregion
+    
     void Start()
     {
         AddAllListener();

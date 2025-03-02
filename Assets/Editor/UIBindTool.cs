@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.IO;
 using UnityEngine.UI;
 using System.Text;
+using System.Text.RegularExpressions;
 using Game;
 
 public class UIBindTool : Editor
 {
     private static string endWith = "_Auto";
+    // 定义正则表达式模式
+    private static string pattern = @"#region 自动绑定\s*(.*?)\s*#endregion";
     /// <summary>
     /// 简称+真实地址  类型
     /// </summary>
@@ -143,12 +147,34 @@ public class UIBindTool : Editor
         pasteContent.Append("\n");
         pasteContent.Append("\t}");
         pasteContent.Append("\n\t#endregion\n");
-        TextEditor text = new TextEditor();
- 
-        text.text = pasteContent.ToString();
-        text.SelectAll();
-        text.Copy();
+
+        string scriptPath = GetScriptPath(selectObj.GetComponent<BaseControllerUI>().GetType());
+        // 读取脚本文件内容
+        string scriptContent = File.ReadAllText(scriptPath);
+        Regex regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled);
+        var match = regex.Match(scriptContent);
+        scriptContent = scriptContent.Replace(match.ToString(), pasteContent.ToString());
+        File.WriteAllText(scriptPath, scriptContent);
+        AssetDatabase.Refresh();
         Debug.Log("生成成功");
+    }
+    
+    /// <summary>
+    /// 根据脚本名字获取脚本的全路径
+    /// </summary>
+    /// <param name="scriptType"></param>
+    /// <returns></returns>
+    private static string GetScriptPath(Type scriptType)
+    {
+        string _scriptName = scriptType.Name;
+        string[] guidArray = UnityEditor.AssetDatabase.FindAssets(_scriptName);
+        foreach (string guid in guidArray) {
+            string scriptFullPath = AssetDatabase.GUIDToAssetPath(guid);
+            if (scriptFullPath.EndsWith(_scriptName + ".cs")) { 
+                return scriptFullPath;
+            }
+        }
+        return null;
     }
     private static Dictionary<Type, string> GenerateBtuDic()//寻找里面有没有我定义的类型的键(key)匹配,然后返回我对应的类型?
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ExcelConfig;
 
-public class LevelInfoController : MonoBehaviour
+public class LevelInfoController : BaseControllerUI
 {
     public Text midTitleText;
     public Text midValueText;
@@ -15,6 +15,10 @@ public class LevelInfoController : MonoBehaviour
     public Button shopBtn;
     public Button inventoryBtn;
     public GameObject inventoryPointTip;
+    
+    #region 自动绑定
+    
+    #endregion
 
     // Start is called before the first frame update
     void Start()

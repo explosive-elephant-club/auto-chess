@@ -48,6 +48,10 @@ public class ChampionInfoController : BaseControllerUI
         }
         rebuildAllLayout = gameObject.GetComponent<RebuildAllLayout>();
     }
+    
+    #region 自动绑定
+    
+    #endregion
 
     // Update is called once per frame
     public override void UpdateUI()

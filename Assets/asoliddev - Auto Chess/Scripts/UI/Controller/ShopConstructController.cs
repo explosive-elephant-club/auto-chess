@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ExcelConfig;
-public class ShopConstructController : MonoBehaviour
+public class ShopConstructController : BaseControllerUI
 {
     public Text refreshCostText;
     public Text championLimitText;
@@ -44,6 +44,11 @@ public class ShopConstructController : MonoBehaviour
             RefreshShop(false);
         });
     }
+    
+    #region 自动绑定
+    
+    #endregion
+    
     void Start()
     {
         UpdateUI();

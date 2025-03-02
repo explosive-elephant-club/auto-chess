@@ -7,7 +7,7 @@ using ExcelConfig;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class DraggedUIController : MonoBehaviour
+public class DraggedUIController : BaseControllerUI
 {
     public Image icon;
     Vector3 offset;
@@ -17,6 +17,10 @@ public class DraggedUIController : MonoBehaviour
     {
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
+    
+    #region 自动绑定
+    
+    #endregion
 
     void Start()
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestShopController : MonoBehaviour
+public class TestShopController : BaseControllerUI
 {
     CanvasGroup canvasGroup;
     public GameObject testBuyBtn;
@@ -23,6 +23,10 @@ public class TestShopController : MonoBehaviour
         searchBtn.onClick.AddListener(Search);
         SetUIActive(false);
     }
+    
+    #region 自动绑定
+    
+    #endregion
     void Start()
     {
         testShopConstructBtns = new List<TestShopConstructBtn>();

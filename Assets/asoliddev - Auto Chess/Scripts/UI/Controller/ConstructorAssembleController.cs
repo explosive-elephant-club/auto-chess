@@ -76,6 +76,9 @@ public class ConstructorAssembleController : BaseControllerUI
         lineLayer = constructorPanel.transform.Find("LineLayer");
     }
 
+    #region 自动绑定
+    
+    #endregion
     private void Start()
     {
         camController = GamePlayController.Instance._GOToUICameraController;

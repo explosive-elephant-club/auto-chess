@@ -13,7 +13,7 @@ public class LevelUpdateMenu
     public Text info;
 }
 
-public class ShopUpdateController : MonoBehaviour
+public class ShopUpdateController : BaseControllerUI
 {
     public LevelUpdateMenu combatLevelUpMenu;
     public LevelUpdateMenu tradeLevelUpMenu;
@@ -37,6 +37,9 @@ public class ShopUpdateController : MonoBehaviour
         get { return GameConfig.Instance.GetCurLogisticsLevelData(); }
     }
 
+    #region 自动绑定
+    
+    #endregion
 
     void Start()
     {

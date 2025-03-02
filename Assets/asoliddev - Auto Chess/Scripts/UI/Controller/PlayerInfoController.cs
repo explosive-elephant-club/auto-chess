@@ -4,13 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using ExcelConfig;
 
-public class PlayerInfoController : MonoBehaviour
+public class PlayerInfoController : BaseControllerUI
 {
     public Button dealDamageTagBtn;
     public Button takeDamageTagBtn;
     public Button healTagBtn;
     public Button killsTagBtn;
     public DataStatisticSlot[] dataStatisticSlots;
+    
+    #region 自动绑定
+    
+    #endregion
 
     // Start is called before the first frame update
     void Start()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PopupController : MonoBehaviour
+public class PopupController : BaseControllerUI
 {
     public GameObject popupMask;
     public SkillPopup skillPopup;
@@ -13,6 +13,11 @@ public class PopupController : MonoBehaviour
     public ConstructorSlotPopup constructorSlotPopup;
     public Popup curPickedPopup;
     public List<Popup> nailedPopups = new List<Popup>();
+    
+    #region 自动绑定
+    
+    #endregion
+    
     // Start is called before the first frame update
     void Start()
     {
