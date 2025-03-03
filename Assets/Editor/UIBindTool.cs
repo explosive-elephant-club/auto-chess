@@ -68,7 +68,8 @@ public class UIBindTool : Editor
                     //Debug.Log(transform.name);
                     path = transform.parent.name + "/" + path;
                     transform = transform.parent;
-                    if (transform.GetComponent<SubViewBase>() != null)
+                    if (transform.GetComponent<SubViewBase>() != null ||
+                        transform.GetComponent<ContainerSlot>() != null)
                     {
                         needSkip = true;
                         break;
@@ -147,8 +148,24 @@ public class UIBindTool : Editor
         pasteContent.Append("\n");
         pasteContent.Append("\t}");
         pasteContent.Append("\n\t#endregion\n");
-
-        string scriptPath = GetScriptPath(selectObj.GetComponent<BaseControllerUI>().GetType());
+        string scriptPath;
+        if (selectObj.GetComponent<BaseControllerUI>() != null)
+        {
+            scriptPath = GetScriptPath(selectObj.GetComponent<BaseControllerUI>().GetType());
+        }
+        else if (selectObj.GetComponent<SubViewBase>() != null)
+        {
+            scriptPath = GetScriptPath(selectObj.GetComponent<SubViewBase>().GetType());
+        }
+        else if (selectObj.GetComponent<ContainerSlot>() != null)
+        {
+            scriptPath = GetScriptPath(selectObj.GetComponent<ContainerSlot>().GetType());
+        }
+        else
+        {
+            Debug.LogError("当前选中物体没有对应的脚本");
+            return;
+        }
         // 读取脚本文件内容
         string scriptContent = File.ReadAllText(scriptPath);
         Regex regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled);
