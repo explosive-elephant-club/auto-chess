@@ -1052,6 +1052,7 @@ GameObject:
   - component: {fileID: 7522679153838385171}
   - component: {fileID: 7522679153838385170}
   - component: {fileID: 7619641086311967458}
+  - component: {fileID: 8051318647686397866}
   m_Layer: 5
   m_Name: TestContructBuyBtn
   m_TagString: Untagged
@@ -1195,6 +1196,18 @@ MonoBehaviour:
     _valueChanges: []
     _slots: 
     _skillID: 
+--- !u!225 &8051318647686397866
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522679153838385181}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7522679154000669716
 GameObject:
   m_ObjectHideFlags: 0

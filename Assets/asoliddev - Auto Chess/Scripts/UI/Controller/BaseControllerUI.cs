@@ -22,10 +22,10 @@ public class BaseControllerUI : MonoBehaviour
 
     public virtual void AutoBindingUI()
     {
-        
+
     }
 
-    public void SetUIActive(bool isActive)
+    public virtual void SetUIActive(bool isActive)
     {
         if (isActive)
         {

@@ -25,7 +25,7 @@ public class UIController : CreateSingleton<UIController>, IGameStage
 
     protected override void InitSingleton()
     {
-        inventoryController = ResourceManager.LoadGameObjectResource("UI/InventoryController", canvasRoot).GetComponent<InventoryController>();
+        inventoryController = ResourceManager.LoadGameObjectResource("UI/Controller/InventoryController", canvasRoot).GetComponent<InventoryController>();
     }
 
     /// <summary>

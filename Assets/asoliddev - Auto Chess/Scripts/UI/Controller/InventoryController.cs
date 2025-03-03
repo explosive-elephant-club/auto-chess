@@ -35,6 +35,8 @@ public class InventoryController : BaseControllerUI
 
     public List<typeToggle> typeToggles;
 
+    string inventorySlotPath = "UI/Slot/InventorySlot";
+
 
     // Start is called before the first frame update
     void Awake()
@@ -45,49 +47,49 @@ public class InventoryController : BaseControllerUI
         }
         Init();
     }
-    
-    #region 自动绑定
-	private Button _btnPickAllBtn;
-	private Button _btnCancelAllBtn;
-	private Button _btnName;
-	private Button _btnType;
-	private Button _btnCost;
-	private Button _btnBonusTypeBar;
-	private Button _btnSlotsBar;
-	private Image _imgPickAllBtn;
-	private Image _imgCancelAllBtn;
-	private UICustomText _textName;
-	private UICustomText _textType;
-	private UICustomText _textCost;
-	private UICustomText _textBonusTypeBar;
-	private UICustomText _textSlotsBar;
-	//自动获取组件添加字典管理
-	public override void AutoBindingUI()
-	{
-		_btnPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Button>();
-		_btnCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Button>();
-		_btnName = transform.Find("BG/Title/Name_Auto").GetComponent<Button>();
-		_btnType = transform.Find("BG/Title/Type_Auto").GetComponent<Button>();
-		_btnCost = transform.Find("BG/Title/Cost_Auto").GetComponent<Button>();
-		_btnBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<Button>();
-		_btnSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<Button>();
-		_imgPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Image>();
-		_imgCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Image>();
-		_textName = transform.Find("BG/Title/Name_Auto").GetComponent<UICustomText>();
-		_textType = transform.Find("BG/Title/Type_Auto").GetComponent<UICustomText>();
-		_textCost = transform.Find("BG/Title/Cost_Auto").GetComponent<UICustomText>();
-		_textBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<UICustomText>();
-		_textSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<UICustomText>();
-	}
-	#endregion
 
-    
+    #region 自动绑定
+    private Button _btnPickAllBtn;
+    private Button _btnCancelAllBtn;
+    private Button _btnName;
+    private Button _btnType;
+    private Button _btnCost;
+    private Button _btnBonusTypeBar;
+    private Button _btnSlotsBar;
+    private Image _imgPickAllBtn;
+    private Image _imgCancelAllBtn;
+    private UICustomText _textName;
+    private UICustomText _textType;
+    private UICustomText _textCost;
+    private UICustomText _textBonusTypeBar;
+    private UICustomText _textSlotsBar;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
+    {
+        _btnPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Button>();
+        _btnCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Button>();
+        _btnName = transform.Find("BG/Title/Name_Auto").GetComponent<Button>();
+        _btnType = transform.Find("BG/Title/Type_Auto").GetComponent<Button>();
+        _btnCost = transform.Find("BG/Title/Cost_Auto").GetComponent<Button>();
+        _btnBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<Button>();
+        _btnSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<Button>();
+        _imgPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Image>();
+        _imgCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Image>();
+        _textName = transform.Find("BG/Title/Name_Auto").GetComponent<UICustomText>();
+        _textType = transform.Find("BG/Title/Type_Auto").GetComponent<UICustomText>();
+        _textCost = transform.Find("BG/Title/Cost_Auto").GetComponent<UICustomText>();
+        _textBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<UICustomText>();
+        _textSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<UICustomText>();
+    }
+    #endregion
+
+
     void Start()
     {
         AddAllListener();
         UpdateUI();
     }
-    
+
     public void AddAllListener()
     {
         pickAllBtn.onClick.AddListener(() =>
@@ -146,21 +148,44 @@ public class InventoryController : BaseControllerUI
         }
         GetPickedConstructors();
         UpdateNewCount();
-        for (int i = 0; i < inventorySlots.Count; i++)
-        {
-            inventorySlots[i].gameObject.SetActive(false);
-            if (i < pickedConstructors.Count)
-            {
-                inventorySlots[i].gameObject.SetActive(true);
-                inventorySlots[i].Init(pickedConstructors[i]);
-            }
-        }
+        UpdateInventorySlots();
     }
 
+    /// <summary>
+    /// 标记新添加的部件
+    /// </summary>
     public void UpdateNewCount()
     {
         newCount = GameData.Instance.allInventoryConstructors.FindAll(c => c.isNew).Count;
         UIController.Instance.levelInfo.UpdateInventoryPointTip(newCount);
+    }
+
+    /// <summary>
+    /// 刷新仓库部件列表
+    /// </summary>
+    public void UpdateInventorySlots()
+    {
+        //检查slot对象池中的数量，如果数量不足，则实例化新的slot
+        int n = pickedConstructors.Count - inventorySlots.Count;
+        if (n > 0)
+        {
+            for (var i = 0; i < n; i++)
+            {
+                InventorySlot slot = ResourceManager.LoadGameObjectResource(inventorySlotPath, viewport.transform.Find("Content")).GetComponent<InventorySlot>();
+                inventorySlots.Add(slot);
+            }
+
+        }
+        //对每个slot重新初始化，隐藏多余的slot
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            inventorySlots[i].SetUIActive(false);
+            if (i < pickedConstructors.Count)
+            {
+                inventorySlots[i].SetUIActive(true);
+                inventorySlots[i].Init(pickedConstructors[i]);
+            }
+        }
     }
 
     public void AddConstructors(List<ConstructorBaseData> constructorBaseDatas)
@@ -194,6 +219,9 @@ public class InventoryController : BaseControllerUI
         UpdateUI();
     }
 
+    /// <summary>
+    /// 获取仓库中所有被选中的部件
+    /// </summary>
     void GetPickedConstructors()
     {
         List<ConstructorType> types = new List<ConstructorType>();

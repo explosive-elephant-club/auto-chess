@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 5703094313301827649}
   - component: {fileID: 5703094313301827650}
   - component: {fileID: 5703094313301827648}
+  - component: {fileID: 5062309992741041857}
   m_Layer: 5
   m_Name: SkillSlot
   m_TagString: Untagged
@@ -444,6 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d2fad1e8a46c94194937f31bca4bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
   icon: {fileID: 5703094313923410066}
   BG: {fileID: 3365471359243024479}
   cdMask: {fileID: 6228332286921148114}
@@ -451,6 +453,18 @@ MonoBehaviour:
   countText: {fileID: 842463854618559085}
   isActivated: 0
   skillState: 0
+--- !u!225 &5062309992741041857
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5703094313301827660}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5703094313923410077
 GameObject:
   m_ObjectHideFlags: 0

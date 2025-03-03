@@ -2199,6 +2199,7 @@ GameObject:
   - component: {fileID: 6357404957211196217}
   - component: {fileID: 5108893775962100892}
   - component: {fileID: 3591703473089677421}
+  - component: {fileID: 9064637270089224018}
   m_Layer: 5
   m_Name: ContructBuyBtn
   m_TagString: Untagged
@@ -2238,6 +2239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5090e69fbd66c45b549224cc91df78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
   mainPanel: {fileID: 5182906228668572395}
   lockImage: {fileID: 5108893775233678077}
   iconImage: {fileID: 9160117846643080238}
@@ -2343,6 +2345,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &9064637270089224018
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108893775962100882}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5152137623762051421
 GameObject:
   m_ObjectHideFlags: 0

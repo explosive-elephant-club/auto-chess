@@ -867,7 +867,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 36.805668, y: -8.175671}
-  m_SizeDelta: {x: 49.913544, y: 12.351341}
+  m_SizeDelta: {x: 0, y: 12.351341}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6906799901470710830
 CanvasRenderer:
@@ -1607,6 +1607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5090e69fbd66c45b549224cc91df78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
   mainPanel: {fileID: 6906799902857074081}
   lockImage: {fileID: 6906799901962268005}
   iconImage: {fileID: 0}
@@ -1820,7 +1821,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 36.805664, y: -21.180363}
-  m_SizeDelta: {x: 42.423996, y: 13.658041}
+  m_SizeDelta: {x: 0, y: 13.658041}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8015412909082785955
 CanvasRenderer:

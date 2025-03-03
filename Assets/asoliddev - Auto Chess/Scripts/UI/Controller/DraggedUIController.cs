@@ -11,7 +11,6 @@ public class DraggedUIController : BaseControllerUI
 {
     public Image icon;
     Vector3 offset;
-    CanvasGroup canvasGroup;
     // Start is called before the first frame update
     void Awake()
     {
@@ -41,23 +40,6 @@ public class DraggedUIController : BaseControllerUI
 
         //GetComponent<RectTransform>().sizeDelta = new Vector2(min, min);
         SetUIActive(true);
-    }
-
-    public void SetUIActive(bool isActive)
-    {
-        if (isActive)
-        {
-            canvasGroup.alpha = 1;
-            //canvasGroup.interactable = true;
-            //canvasGroup.blocksRaycasts = true;
-        }
-        else
-        {
-            canvasGroup.alpha = 0;
-            //canvasGroup.interactable = false;
-            //canvasGroup.blocksRaycasts = false;
-        }
-
     }
 
     public void OnPointerDown(PointerEventData eventData)

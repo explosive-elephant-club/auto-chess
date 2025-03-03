@@ -11,6 +11,8 @@ public class PointerEvent : UnityEvent<PointerEventData> { }
 
 public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler
 {
+    [HideInInspector]
+    public CanvasGroup canvasGroup;
     public PointerEvent onPointerDownEvent = new PointerEvent();
     public PointerEvent onPointerUpEvent = new PointerEvent();
     public PointerEvent onPointerEnterEvent = new PointerEvent();
@@ -20,6 +22,7 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     void Start()
     {
         draggedUI = GameObject.Find("ScreenCanvas/DraggedUI").GetComponent<DraggedUIController>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame
@@ -41,7 +44,7 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         onPointerDownEvent.Invoke(eventData);
-       
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -53,7 +56,7 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerUp(PointerEventData eventData)
     {
         onPointerUpEvent.Invoke(eventData);
-        
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -64,5 +67,22 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerExit(PointerEventData eventData)
     {
         onPointerExitEvent.Invoke(eventData);
+    }
+
+    public void SetUIActive(bool isActive)
+    {
+        if (isActive)
+        {
+            canvasGroup.alpha = 1;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            canvasGroup.alpha = 0;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+
     }
 }

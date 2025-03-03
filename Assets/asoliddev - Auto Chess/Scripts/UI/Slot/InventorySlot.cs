@@ -18,15 +18,18 @@ public class InventorySlot : ContainerSlot
     public Text buyCostText;
     public GameObject[] typeIconArray;
 
-    public Transform slotContent;
+    public Transform slotsInfoContent;
     public List<GameObject> slotInfo;
 
     public GameObject pointTip;
     public InventoryConstructor inventoryConstructor;
+    
+    #region 自动绑定
+    #endregion
 
     private void Awake()
     {
-        foreach (Transform child in slotContent)
+        foreach (Transform child in slotsInfoContent)
         {
             slotInfo.Add(child.gameObject);
         }
@@ -107,7 +110,7 @@ public class InventorySlot : ContainerSlot
                 slotInfo[i].SetActive(true);
             }
         }
-        slotContent.gameObject.SetActive(slotInfo.Count > 0);
+        slotsInfoContent.gameObject.SetActive(slotInfo.Count > 0);
     }
 
     public void OnPointerDownEvent(PointerEventData eventData)
