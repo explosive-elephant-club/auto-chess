@@ -97,7 +97,7 @@ public class ShopUpdateController : BaseControllerUI
         UpdateUI();
     }
 
-    public void UpdateUI()
+    public override void UpdateUI()
     {
         UpdateMenu(combatLevelUpMenu, GameData.Instance.combatLevel, combatLevelData.cost);
         UpdateMenu(tradeLevelUpMenu, GameData.Instance.tradeLevel, tradeLevelData.cost);

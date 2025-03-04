@@ -1,70 +1,27 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
-
 using ExcelConfig;
 using UnityEngine.EventSystems;
 
-public class PointerEvent : UnityEvent<PointerEventData> { }
-
-public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler
+public class ContainerInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [HideInInspector]
     public CanvasGroup canvasGroup;
-    public PointerEvent onPointerDownEvent = new PointerEvent();
-    public PointerEvent onPointerUpEvent = new PointerEvent();
     public PointerEvent onPointerEnterEvent = new PointerEvent();
     public PointerEvent onPointerExitEvent = new PointerEvent();
-    public PointerEvent onDragEvent = new PointerEvent();
-    protected DraggedUIController draggedUI;
 
     public virtual void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         AutoBindingUI();
-        draggedUI = GameObject.Find("ScreenCanvas/DraggedUI").GetComponent<DraggedUIController>();
-    }
-
-    void Start()
-    {
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void ClearAllListener()
     {
-        onPointerDownEvent.RemoveAllListeners();
-        onDragEvent.RemoveAllListeners();
-        onPointerUpEvent.RemoveAllListeners();
         onPointerEnterEvent.RemoveAllListeners();
         onPointerExitEvent.RemoveAllListeners();
-    }
-
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        onPointerDownEvent.Invoke(eventData);
-
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        onDragEvent.Invoke(eventData);
-
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        onPointerUpEvent.Invoke(eventData);
-
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -76,7 +33,6 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         onPointerExitEvent.Invoke(eventData);
     }
-
     public void SetUIActive(bool isActive)
     {
         if (isActive)
@@ -95,6 +51,7 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         }
 
     }
+
     public virtual void AutoBindingUI()
     {
 

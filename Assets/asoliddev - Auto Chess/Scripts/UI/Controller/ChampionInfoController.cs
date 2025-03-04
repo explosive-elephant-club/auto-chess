@@ -29,14 +29,13 @@ public class ChampionInfoController : BaseControllerUI
 
     public SkillSlot pointEnterSlot;
 
-    RebuildAllLayout rebuildAllLayout;
-
     ChampionController championController;
     ChampionAttributesController attributesController;
     SkillController skillController;
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         Init();
         foreach (Transform child in activatedSkillSlotContent.transform)
         {
@@ -46,20 +45,14 @@ public class ChampionInfoController : BaseControllerUI
         {
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
         }
-        rebuildAllLayout = gameObject.GetComponent<RebuildAllLayout>();
     }
-    
+
     #region 自动绑定
-    
+
     #endregion
 
     // Update is called once per frame
     public override void UpdateUI()
-    {
-        StartCoroutine(AsyncUpdate());
-    }
-
-    IEnumerator AsyncUpdate()
     {
         if (GamePlayController.Instance.pickedChampion != null)
         {
@@ -73,16 +66,16 @@ public class ChampionInfoController : BaseControllerUI
             UpdateTypesBar();
             UpdateAttributeData();
             UpdateSkillSlot();
-            yield return StartCoroutine(rebuildAllLayout.RebuildAllSizeFitterRects());
-            //gameObject.SendMessage("RebuildAll");
+            GeneralMethod.ForceRefreshContentSizeFitterUpwards(activatedSkillSlotContent.transform);
+            GeneralMethod.ForceRefreshContentSizeFitterUpwards(deactivatedSkillSlotContent.transform);
             SetUIActive(true);
         }
         else
         {
-            StopAllCoroutines();
             SetUIActive(false);
         }
     }
+
 
     public void OnPointEnterSlot(SkillSlot skillSlot)
     {
@@ -285,6 +278,6 @@ public class ChampionInfoController : BaseControllerUI
         }
 
         UpdateSkillSlot();
-        gameObject.SendMessage("RebuildAll");
+        GeneralMethod.ForceRefreshContentSizeFitterUpwards(skillSlot.transform);
     }
 }

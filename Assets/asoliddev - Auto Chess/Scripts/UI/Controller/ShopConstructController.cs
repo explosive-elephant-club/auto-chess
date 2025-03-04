@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ExcelConfig;
+using General;
+
 public class ShopConstructController : BaseControllerUI
 {
     public Text refreshCostText;
@@ -31,8 +33,9 @@ public class ShopConstructController : BaseControllerUI
     List<ConstructorBaseData> legenConstructors;
 
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         foreach (Transform child in constructsContent.transform)
         {
             shopConstructBtns.Add(child.GetComponent<ShopConstructBtn>());
@@ -44,11 +47,11 @@ public class ShopConstructController : BaseControllerUI
             RefreshShop(false);
         });
     }
-    
+
     #region 自动绑定
-    
+
     #endregion
-    
+
     void Start()
     {
         UpdateUI();
@@ -65,7 +68,7 @@ public class ShopConstructController : BaseControllerUI
         UpdateUI();
     }
 
-    public void UpdateUI()
+    public override void UpdateUI()
     {
 
         if (isLocked)
@@ -156,7 +159,7 @@ public class ShopConstructController : BaseControllerUI
 
         //update ui
         UpdateUI();
-        constructsContent.SendMessage("RebuildAll");
+        GeneralMethod.ForceRefreshContentSizeFitterUpwards(constructsContent.transform);
     }
 
     public void AddShopSlot()

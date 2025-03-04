@@ -27,7 +27,7 @@ public class ConstructorTreeViewInfo : ContainerSlot
             UIController.Instance.inventoryController.pointEnterInventorySlot.AttachConstructor(treeViewSlot);
             //treeViewSlot.AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
         }
-        else if (UIController.Instance.inventoryController.viewport == InputController.Instance.ui)
+        else if (UIController.Instance.inventoryController._imgViewport == InputController.Instance.ui)
         {
             treeViewSlot.RemoveConstructor();
         }

@@ -20,36 +20,30 @@ public class Popup : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
     public RectTransform rectTransform;
-    RebuildAllLayout rebuildAllLayout;
     public bool isNailed = false;
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        rebuildAllLayout = GetComponent<RebuildAllLayout>();
         rectTransform = GetComponent<RectTransform>();
+        AutoBindingUI();
         SetUIActive(false);
     }
 
-    void Update()
+    public virtual void AutoBindingUI()
     {
+
     }
 
     public virtual void Show(GameObject targetUI, Vector2 dir, float length = 5f)
     {
         UIController.Instance.popupController.curPickedPopup = this;
-        StartCoroutine(AsyncUpdate(targetUI, dir, length));
-    }
-
-    IEnumerator AsyncUpdate(GameObject targetUI, Vector2 dir, float length = 5f)
-    {
-        yield return StartCoroutine(rebuildAllLayout.RebuildAllSizeFitterRects());
+        GeneralMethod.ForceRefreshAllContentSizeFitter(transform);
         UpdatePosition(targetUI, dir, length);
         SetUIActive(true);
     }
 
     public virtual void Clear()
     {
-        StopAllCoroutines();
         if (!isNailed)
         {
             SetUIActive(false);

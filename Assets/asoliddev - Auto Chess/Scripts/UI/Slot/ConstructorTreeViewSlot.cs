@@ -72,7 +72,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    public void Awake()
     {
         cam = GameObject.Find("3DToUICamera").GetComponent<Camera>();
         screenCanvasRectTransform = GameObject.Find("ScreenCanvas").GetComponent<RectTransform>();

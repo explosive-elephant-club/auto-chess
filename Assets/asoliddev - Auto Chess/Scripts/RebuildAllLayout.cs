@@ -8,9 +8,9 @@ public class RebuildAllLayout : BaseControllerUI
 {
     public List<RectTransform> allSizeFitterRects = new List<RectTransform>();
 
-    private void Awake()
+    public override void Awake()
     {
-
+        base.Awake();
         Init();
         Register(transform);
 

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace General
 {
@@ -36,6 +37,44 @@ namespace General
                 return f.GetValue(_class);
             }
             return f;
+        }
+
+        /// <summary>
+        /// 向上遍历强制刷新所有的contentSizeFitter
+        /// </summary>
+        /// <param name="target">起始节点</param>
+        public static void ForceRefreshContentSizeFitterUpwards(Transform target)
+        {
+            Transform parent = target;
+            while (parent != null)
+            {
+                if (parent.GetComponent<ContentSizeFitter>() != null)
+                {
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+                }
+                if (parent.parent != null)
+                {
+                    parent = parent.parent;
+                }
+                else
+                {
+                    parent = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 强制刷新子物体和自身所有的contentSizeFitter
+        /// </summary>
+        /// <param name="target">根节点</param>
+        public static void ForceRefreshAllContentSizeFitter(Transform target)
+        {
+            Debug.Log("强制刷新子物体");
+            var fitters = target.GetComponentsInChildren<ContentSizeFitter>();
+            for (int i = fitters.Length - 1; i >= 0; i--)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(fitters[i].RectTransform());
+            }
         }
     }
 }

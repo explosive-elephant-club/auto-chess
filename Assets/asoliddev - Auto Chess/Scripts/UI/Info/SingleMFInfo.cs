@@ -6,13 +6,14 @@ using UnityEngine.UI;
 using ExcelConfig;
 using UnityEngine.EventSystems;
 
-public class SingleTypeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SingleMFInfo : ContainerInfo
 {
     Image icon;
     public ConstructorBonusType constructorBonusType;
     // Start is called before the first frame update
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         icon = GetComponent<Image>();
     }
 
@@ -26,16 +27,18 @@ public class SingleTypeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         constructorBonusType = _constructorBonusType;
         icon.sprite = Resources.Load<Sprite>(constructorBonusType.icon);
+        onPointerEnterEvent.AddListener(OnPointerEnterEvent);
+        onPointerExitEvent.AddListener(OnPointerExitEvent);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerEnterEvent(PointerEventData eventData)
     {
         UIController.Instance.popupController.typePopup.Show
             (constructorBonusType, 1, this.gameObject, Vector3.right);
 
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExitEvent(PointerEventData eventData)
     {
         UIController.Instance.popupController.typePopup.Clear();
     }

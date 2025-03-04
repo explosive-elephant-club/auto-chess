@@ -16,15 +16,15 @@ public class TestShopController : BaseControllerUI
 
     List<TestShopConstructBtn> testShopConstructBtns;
 
-    void Awake()
+    public override void Awake()
     {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        base.Awake();
         searchBtn.onClick.AddListener(Search);
         SetUIActive(false);
     }
-    
+
     #region 自动绑定
-    
+
     #endregion
     void Start()
     {

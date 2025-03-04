@@ -12,7 +12,7 @@ public class AttributeSlot : ContainerSlot
     Text valueText;
     string attributeName;
 
-    private void Awake()
+    public override void Awake()
     {
         valueText = transform.Find("Text_Value").GetComponent<Text>();
     }

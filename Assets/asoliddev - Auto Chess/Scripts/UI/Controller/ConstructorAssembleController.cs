@@ -69,15 +69,16 @@ public class ConstructorAssembleController : BaseControllerUI
     public ConstructorTreeViewSlot pickedSlot;
 
     // Start is called before the first frame update
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         Init();
         DisableSlotsParent = constructorPanel.transform.Find("DisableSlots");
         lineLayer = constructorPanel.transform.Find("LineLayer");
     }
 
     #region 自动绑定
-    
+
     #endregion
     private void Start()
     {

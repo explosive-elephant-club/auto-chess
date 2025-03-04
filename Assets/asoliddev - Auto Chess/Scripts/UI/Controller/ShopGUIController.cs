@@ -22,15 +22,15 @@ public class ShopGUIController : BaseControllerUI
     GameObject lastActivedSubPanel;
     public UnityEvent contentSwitchEvent;
 
-    void Awake()
+    public override void Awake()
     {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        base.Awake();
     }
-    
+
     #region 自动绑定
-    
+
     #endregion
-    
+
     void Start()
     {
         AddAllListener();

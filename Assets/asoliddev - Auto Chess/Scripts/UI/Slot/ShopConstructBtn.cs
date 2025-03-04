@@ -26,7 +26,7 @@ public class ShopConstructBtn : ContainerSlot
     int cost;
 
     // Start is called before the first frame update
-    void Awake()
+    public override void Awake()
     {
         GetComponent<Button>().onClick.AddListener(BuyConstruct);
     }
@@ -108,7 +108,7 @@ public class ShopConstructBtn : ContainerSlot
             slotInfo[i].SetActive(false);
             if (i < constructorData.slots.Length && constructorData.slots[0] != 0)
             {
-                slotInfo[i].GetComponent<ConstructorSlotSlot>().Init(constructorData.slots[i]);
+                slotInfo[i].GetComponent<SlotInfo>().Init(constructorData.slots[i]);
                 slotInfo[i].SetActive(true);
             }
         }

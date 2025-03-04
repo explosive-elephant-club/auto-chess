@@ -17,13 +17,6 @@ public class InventoryController : BaseControllerUI
     public InventorySlot pointEnterInventorySlot;
     public List<InventorySlot> inventorySlots;
 
-    public Button pickAllBtn;
-    public Button cancelAllBtn;
-
-    public GameObject viewport;
-
-    public Button closeBtn;
-
     public int newCount;
 
     [Serializable]
@@ -38,60 +31,56 @@ public class InventoryController : BaseControllerUI
     string inventorySlotPath = "UI/Slot/InventorySlot";
 
 
-    // Start is called before the first frame update
-    void Awake()
+    #region 自动绑定
+    private Button _btnButtonClose;
+    private Button _btnPickAllBtn;
+    private Button _btnCancelAllBtn;
+    private Button _btnName;
+    private Button _btnType;
+    private Button _btnCost;
+    private Button _btnBonusTypeBar;
+    private Button _btnSlotsBar;
+    private Image _imgButtonClose;
+    private Image _imgPickAllBtn;
+    private Image _imgCancelAllBtn;
+    public Image _imgViewport;
+    private UICustomText _textName;
+    private UICustomText _textType;
+    private UICustomText _textCost;
+    private UICustomText _textBonusTypeBar;
+    private UICustomText _textSlotsBar;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
     {
-        foreach (Transform child in viewport.transform.Find("Content"))
+        _btnButtonClose = transform.Find("ButtonClose_Auto").GetComponent<Button>();
+        _btnPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Button>();
+        _btnCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Button>();
+        _btnName = transform.Find("BG/Title/Name_Auto").GetComponent<Button>();
+        _btnType = transform.Find("BG/Title/Type_Auto").GetComponent<Button>();
+        _btnCost = transform.Find("BG/Title/Cost_Auto").GetComponent<Button>();
+        _btnBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<Button>();
+        _btnSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<Button>();
+        _imgButtonClose = transform.Find("ButtonClose_Auto").GetComponent<Image>();
+        _imgPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Image>();
+        _imgCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Image>();
+        _imgViewport = transform.Find("BG/InventorySlots/Viewport_Auto").GetComponent<Image>();
+        _textName = transform.Find("BG/Title/Name_Auto").GetComponent<UICustomText>();
+        _textType = transform.Find("BG/Title/Type_Auto").GetComponent<UICustomText>();
+        _textCost = transform.Find("BG/Title/Cost_Auto").GetComponent<UICustomText>();
+        _textBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<UICustomText>();
+        _textSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<UICustomText>();
+    }
+    #endregion
+
+    public override void Awake()
+    {
+        base.Awake();
+        Init();
+        foreach (Transform child in _imgViewport.transform.Find("Content"))
         {
             inventorySlots.Add(child.gameObject.GetComponent<InventorySlot>());
         }
-        Init();
     }
-
-    #region 自动绑定
-	private Button _btnButtonClose;
-	private Button _btnPickAllBtn;
-	private Button _btnCancelAllBtn;
-	private Button _btnName;
-	private Button _btnType;
-	private Button _btnCost;
-	private Button _btnBonusTypeBar;
-	private Button _btnSlotsBar;
-	private Image _imgButtonClose;
-	private Image _imgPickAllBtn;
-	private Image _imgCancelAllBtn;
-	private Image _imgViewport;
-	private UICustomText _textName;
-	private UICustomText _textType;
-	private UICustomText _textCost;
-	private UICustomText _textBonusTypeBar;
-	private UICustomText _textSlotsBar;
-	//自动获取组件添加字典管理
-	public override void AutoBindingUI()
-	{
-		_btnButtonClose = transform.Find("ButtonClose_Auto").GetComponent<Button>();
-		_btnPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Button>();
-		_btnCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Button>();
-		_btnName = transform.Find("BG/Title/Name_Auto").GetComponent<Button>();
-		_btnType = transform.Find("BG/Title/Type_Auto").GetComponent<Button>();
-		_btnCost = transform.Find("BG/Title/Cost_Auto").GetComponent<Button>();
-		_btnBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<Button>();
-		_btnSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<Button>();
-		_imgButtonClose = transform.Find("ButtonClose_Auto").GetComponent<Image>();
-		_imgPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Image>();
-		_imgCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Image>();
-		_imgViewport = transform.Find("BG/InventorySlots/Viewport_Auto").GetComponent<Image>();
-		_textName = transform.Find("BG/Title/Name_Auto").GetComponent<UICustomText>();
-		_textType = transform.Find("BG/Title/Type_Auto").GetComponent<UICustomText>();
-		_textCost = transform.Find("BG/Title/Cost_Auto").GetComponent<UICustomText>();
-		_textBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<UICustomText>();
-		_textSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<UICustomText>();
-	}
-	#endregion
-
-
-
-
 
     void Start()
     {
@@ -101,7 +90,7 @@ public class InventoryController : BaseControllerUI
 
     public void AddAllListener()
     {
-        pickAllBtn.onClick.AddListener(() =>
+        _btnPickAllBtn.onClick.AddListener(() =>
         {
             foreach (var t in typeToggles)
             {
@@ -109,7 +98,7 @@ public class InventoryController : BaseControllerUI
             }
             UpdateUI();
         });
-        cancelAllBtn.onClick.AddListener(() =>
+        _btnCancelAllBtn.onClick.AddListener(() =>
         {
             foreach (var t in typeToggles)
             {
@@ -124,7 +113,7 @@ public class InventoryController : BaseControllerUI
                 UpdateUI();
             });
         }
-        closeBtn.onClick.AddListener(() =>
+        _btnButtonClose.onClick.AddListener(() =>
         {
             isExpand = false;
             UpdateUI();
@@ -136,7 +125,7 @@ public class InventoryController : BaseControllerUI
         pointEnterInventorySlot = inventorySlot;
         if (pointEnterInventorySlot.inventoryConstructor != null)
             UIController.Instance.popupController.constructorPopup.Show
-                (pointEnterInventorySlot.inventoryConstructor.constructorBaseData, pointEnterInventorySlot.gameObject, Vector3.up);
+                (pointEnterInventorySlot.inventoryConstructor.constructorBaseData, pointEnterInventorySlot.gameObject, Vector3.left);
     }
 
     public void OnPointLeaveSlot()
@@ -180,7 +169,7 @@ public class InventoryController : BaseControllerUI
         {
             for (var i = 0; i < n; i++)
             {
-                InventorySlot slot = ResourceManager.LoadGameObjectResource(inventorySlotPath, viewport.transform.Find("Content")).GetComponent<InventorySlot>();
+                InventorySlot slot = ResourceManager.LoadGameObjectResource(inventorySlotPath, _imgViewport.transform.Find("Content")).GetComponent<InventorySlot>();
                 inventorySlots.Add(slot);
             }
 

@@ -34,8 +34,8 @@ public class UIBindTool : Editor
                                                         //}
                                                         //if (dicMap == null) ;
                                                         //Dictionary<Type, string> dicMap = GenerateBtuDic();//控件类型对应的名字字典
- 
- 
+
+
         StringBuilder pasteContent = new StringBuilder();
         //声明保存的字典 
         //rider不要\t
@@ -52,10 +52,10 @@ public class UIBindTool : Editor
                 //if (!components[i].name.StartsWith(startsWith))
                 if (!components[i].name.EndsWith(endWith))
                     continue;// 加一个字符串条件判断
-                
+
                 //满足条件
                 Component component = components[i];
- 
+
                 //组件的名字
                 string name = dicMap[type] + component.name.Substring(0, component.name.Length - endWith.Length);
                 //组件的地址 
@@ -75,20 +75,20 @@ public class UIBindTool : Editor
                         break;
                     }
                 }
-                if(needSkip) continue;
-                
-                    //地址=父物体名字+中间地址+名字
+                if (needSkip) continue;
+
+                //地址=父物体名字+中间地址+名字
                 //Debug.Log(selectObj.name +"/"+ path);
                 findDic.Add(dicMap[type] + /*selectObj.name + "/" +*/ path, type);
                 realTypeDic.Add(dicMap[type] + /*selectObj.name + "/" +*/ path, component.GetType());
                 //Debug.Log(dicMap[type] + /*selectObj.name + "/" +*/ path);
                 //组件的声明
-                pasteContent.Append("\t"+"private" + " " + component.GetType().Name + " _" + name + ";");
+                pasteContent.Append("\t" + "private" + " " + component.GetType().Name + " _" + name + ";");
                 pasteContent.Append("\n");
- 
+
             }
             //Debug.Log(pasteContent);
- 
+
         }
         //查找组件
         pasteContent.Append("\t//自动获取组件添加字典管理");
@@ -106,12 +106,12 @@ public class UIBindTool : Editor
                 componentName = temp[temp.Length - 1];
             else
                 componentName = temp[temp.Length - 1].Substring(dicMap[findDic[item]].Length);
- 
- 
+
+
             //获取真实地址 Bug
             string realPath = item.Substring(dicMap[findDic[item]].Length);
- 
- 
+
+
             //拼接变量名
             string varName = dicMap[findDic[item]] + componentName.Substring(0, componentName.Length - endWith.Length);
             //Debug.Log(componentName.Substring(0, componentName.Length - endWith.Length));
@@ -120,7 +120,7 @@ public class UIBindTool : Editor
             pasteContent.Append("\n");
             pasteContent.Append($"\t\t_{varName} = transform.Find(\"{realPath}\").GetComponent<{realTypeDic[item].Name}>();");
             //rigidbody = transform.Find().GetComponent<>();
- 
+
         }
         /*//加入字典
         foreach (string item in findDic.Keys)
@@ -161,6 +161,14 @@ public class UIBindTool : Editor
         {
             scriptPath = GetScriptPath(selectObj.GetComponent<ContainerSlot>().GetType());
         }
+        else if (selectObj.GetComponent<Popup>() != null)
+        {
+            scriptPath = GetScriptPath(selectObj.GetComponent<Popup>().GetType());
+        }
+        else if (selectObj.GetComponent<ContainerInfo>() != null)
+        {
+            scriptPath = GetScriptPath(selectObj.GetComponent<ContainerInfo>().GetType());
+        }
         else
         {
             Debug.LogError("当前选中物体没有对应的脚本");
@@ -175,7 +183,7 @@ public class UIBindTool : Editor
         AssetDatabase.Refresh();
         Debug.Log("生成成功");
     }
-    
+
     /// <summary>
     /// 根据脚本名字获取脚本的全路径
     /// </summary>
@@ -185,9 +193,11 @@ public class UIBindTool : Editor
     {
         string _scriptName = scriptType.Name;
         string[] guidArray = UnityEditor.AssetDatabase.FindAssets(_scriptName);
-        foreach (string guid in guidArray) {
+        foreach (string guid in guidArray)
+        {
             string scriptFullPath = AssetDatabase.GUIDToAssetPath(guid);
-            if (scriptFullPath.EndsWith(_scriptName + ".cs")) { 
+            if (scriptFullPath.EndsWith(_scriptName + ".cs"))
+            {
                 return scriptFullPath;
             }
         }
@@ -200,9 +210,10 @@ public class UIBindTool : Editor
         dic.Add(typeof(Scrollbar), "scrB");
         dic.Add(typeof(Image), "img");
         dic.Add(typeof(UICustomText), "text");
+        dic.Add(typeof(LayoutGroup), "layoutGroup");
         dic.Add(typeof(SubViewBase), "subView");
         return dic;
     }
- 
- 
+
+
 }

@@ -8,10 +8,15 @@ public class BaseControllerUI : MonoBehaviour
     [HideInInspector]
     public CanvasGroup canvasGroup;
     // Start is called before the first frame update
-    public virtual void Init()
+    public virtual void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         AutoBindingUI();
+    }
+
+    public virtual void Init()
+    {
+
     }
 
     // Update is called once per frame

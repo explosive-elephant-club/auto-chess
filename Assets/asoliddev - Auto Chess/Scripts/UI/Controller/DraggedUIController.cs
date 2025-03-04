@@ -12,13 +12,13 @@ public class DraggedUIController : BaseControllerUI
     public Image icon;
     Vector3 offset;
     // Start is called before the first frame update
-    void Awake()
+    public override void Awake()
     {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        base.Awake();
     }
-    
+
     #region 自动绑定
-    
+
     #endregion
 
     void Start()
