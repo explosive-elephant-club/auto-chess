@@ -13,7 +13,7 @@ using Game;
 public class ConstructorPopup : Popup
 {
     public List<SingleMFInfo> singleMFInfoList;
-    public List<AttributeInfo> attributeInfoList;
+    public List<ConstructorAttributeInfo> constructorAttributeInfoList;
     public List<SlotInfo> slotInfoList;
     public List<SkillSlot> skillSlotList;
 
@@ -56,7 +56,7 @@ public class ConstructorPopup : Popup
         }
         foreach (Transform child in _layoutGroupAttribute.transform)
         {
-            attributeInfoList.Add(child.GetComponent<AttributeInfo>());
+            constructorAttributeInfoList.Add(child.GetComponent<ConstructorAttributeInfo>());
         }
         foreach (Transform child in _layoutGroupSlotContent.transform)
         {
@@ -114,17 +114,17 @@ public class ConstructorPopup : Popup
 
     void UpdateAttributeInfo(ConstructorBaseData constructorData)
     {
-        for (int i = 0; i < attributeInfoList.Count; i++)
+        for (int i = 0; i < constructorAttributeInfoList.Count; i++)
         {
-            attributeInfoList[i].SetUIActive(false);
+            constructorAttributeInfoList[i].SetUIActive(false);
             if (i < constructorData.valueChanges.Length && !string.IsNullOrEmpty(constructorData.valueChanges[0]))
             {
                 string[] element = constructorData.valueChanges[i].Split(' ');
-                attributeInfoList[i].Init(element[0] + ":", element[1] + element[2]);
-                attributeInfoList[i].SetUIActive(true);
+                constructorAttributeInfoList[i].Init(element[0] + ":", element[1] + element[2]);
+                constructorAttributeInfoList[i].SetUIActive(true);
             }
         }
-        _layoutGroupAttribute.gameObject.SetActive(attributeInfoList.Count > 0);
+        _layoutGroupAttribute.gameObject.SetActive(constructorAttributeInfoList.Count > 0);
     }
 
     void UpdateSlotInfo(ConstructorBaseData constructorData)

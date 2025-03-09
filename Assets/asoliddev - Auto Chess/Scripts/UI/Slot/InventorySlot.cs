@@ -59,7 +59,7 @@ public class InventorySlot : ContainerSlot
         {
             slotInfoList.Add(child.GetComponent<SlotInfo>());
         }
-        BGImages = new Image[] { _imgIconAndName, _imgType, _imgCost, _imgBonusTypeBar, _imgSlotsBar };
+        BGImages = new Image[] { _imgPanel, _imgIconAndName, _imgType, _imgCost, _imgBonusTypeBar, _imgSlotsBar };
     }
 
     public void Init(InventoryConstructor _inventoryConstructor)

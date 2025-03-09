@@ -201,7 +201,7 @@ public class ConstructorBase : MonoBehaviour
             for (int i = 0; i < valueOperations.Length; i++)
             {
                 valueOperations[i] = new ValueOperation(constructorData.valueChanges[i],
-                championController.attributesController);
+                championController.attributesController, ValueModifySource.Constructor);
             }
         }
         foreach (ValueOperation operation in valueOperations)

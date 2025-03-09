@@ -1146,8 +1146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
   BGImages: []
-  typeIconArray: []
-  slotInfoArray: []
+  singleMFInfoList: []
+  slotInfoList: []
   pointTip: {fileID: 99573139467422351}
   inventoryConstructor:
     constructorBaseData:
@@ -1492,7 +1492,7 @@ PrefabInstance:
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
@@ -1616,7 +1616,7 @@ PrefabInstance:
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
@@ -1740,7 +1740,7 @@ PrefabInstance:
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
@@ -1864,7 +1864,7 @@ PrefabInstance:
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
@@ -2112,7 +2112,7 @@ PrefabInstance:
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7948156852956445678, guid: 419e7410a3678e4468f01787ed5e4d30,
         type: 3}

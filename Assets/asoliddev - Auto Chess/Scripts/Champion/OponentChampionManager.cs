@@ -23,7 +23,7 @@ public class OponentChampionManager : ChampionManager
     {
         base.OnLeaveCombat();
         GameData.Instance.currentHP -= CalculatePunish();
-        UIController.Instance.levelInfo.UpdateUI();
+        UIController.Instance.levelInfoController.UpdateUI();
         UnityEngine.Debug.Log("OponentChampionManager Reset");
         Reset();
     }
@@ -44,7 +44,7 @@ public class OponentChampionManager : ChampionManager
     public override void OnChampionDeath(ChampionController championController)
     {
         GameData.Instance.currentGold += Mathf.CeilToInt(championController.CalculateTotalCost() * 0.1f);
-        UIController.Instance.levelInfo.UpdateUI();
+        UIController.Instance.levelInfoController.UpdateUI();
         base.OnChampionDeath(championController);
     }
 }

@@ -212,6 +212,7 @@ public class UIBindTool : Editor
         dic.Add(typeof(UICustomText), "text");
         dic.Add(typeof(LayoutGroup), "layoutGroup");
         dic.Add(typeof(SubViewBase), "subView");
+         dic.Add(typeof(Toggle), "toggle");
         return dic;
     }
 

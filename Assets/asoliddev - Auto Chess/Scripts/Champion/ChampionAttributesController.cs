@@ -29,9 +29,9 @@ public class ChampionAttributesController
 
 
     //受击命中率 闪避率=1-受击命中率 hitRate*-0.3=闪避率+30%
-    public ChampionAttribute hitRate;
+    public ChampionAttribute dodgeChange;
     //非暴击率 暴击率=1-非暴击率 nonCritChange*-0.3=暴击率+30%
-    public ChampionAttribute nonCritChange;
+    public ChampionAttribute CritChange;
     //暴击倍数
     public ChampionAttribute critMultiple;
 
@@ -42,8 +42,8 @@ public class ChampionAttributesController
 
     //造成的伤害倍率
     public ChampionAttribute takeDamageMultiple;
-    //受到的伤害倍率
-    public ChampionAttribute applyDamageMultiple;
+    //减少伤害倍率
+    public ChampionAttribute damageDefenceRate;
 
     //物理属性伤害
     public ChampionAttribute physicalDamage;
@@ -57,15 +57,15 @@ public class ChampionAttributesController
     public ChampionAttribute acidDamage;
 
     //物理属性伤害承受率 减伤率=1-伤害承受率 DamageApplyRate*-0.3=减伤率+30%
-    public ChampionAttribute physicalDamageApplyRate;
+    public ChampionAttribute physicalDefenceRate;
     //燃烧属性伤害承受率
-    public ChampionAttribute fireDamageApplyRate;
+    public ChampionAttribute fireDefenceRate;
     //冰冻属性伤害承受率
-    public ChampionAttribute iceDamageApplyRate;
+    public ChampionAttribute iceDefenceRate;
     //电击属性伤害承受率
-    public ChampionAttribute lightingDamageApplyRate;
+    public ChampionAttribute lightingDefenceRate;
     //酸蚀属性伤害承受率
-    public ChampionAttribute acidDamageApplyRate;
+    public ChampionAttribute acidDefenceRate;
 
     //火焰抗性
     public Resistance fireResistance;
@@ -86,36 +86,36 @@ public class ChampionAttributesController
     {
         championController = _championController;
 
-        maxArmor = new ChampionAttribute(0, "MaxArmor");
-        maxHealth = new ChampionAttribute(0, "maxHealth");
-        maxMana = new ChampionAttribute(0, "maxMana");
+        maxArmor = new ChampionAttribute(0, "MaxArmor", false, AttributeFormat.Int);
+        maxHealth = new ChampionAttribute(0, "maxHealth", false, AttributeFormat.Int);
+        maxMana = new ChampionAttribute(0, "maxMana", false, AttributeFormat.Int);
 
-        moveSpeed = new ChampionAttribute(0, "MoveSpeed");
-        addRange = new ChampionAttribute(0, "AddRange");
-        electricPower = new ChampionAttribute(0, "ElectricPower");
-        castDelay = new ChampionAttribute(2, "CastDelay");
-        chargingDelay = new ChampionAttribute(2, "ChargingDelay");
+        moveSpeed = new ChampionAttribute(0, "MoveSpeed", false, AttributeFormat.Float2);
+        addRange = new ChampionAttribute(0, "AddRange", false, AttributeFormat.Float2);
+        electricPower = new ChampionAttribute(0, "ElectricPower", false, AttributeFormat.Int);
+        castDelay = new ChampionAttribute(2, "CastDelay", false, AttributeFormat.Float2);
+        chargingDelay = new ChampionAttribute(2, "ChargingDelay", false, AttributeFormat.Float2);
 
-        hitRate = new ChampionAttribute(1, "HitRate");
-        nonCritChange = new ChampionAttribute(1, "CritChange");
-        critMultiple = new ChampionAttribute(1.5f, "CritMultiple");
+        dodgeChange = new ChampionAttribute(1, "DodgeChange", true, AttributeFormat.Percentage);
+        CritChange = new ChampionAttribute(1, "CritChange", true, AttributeFormat.Percentage);
+        critMultiple = new ChampionAttribute(1.5f, "CritMultiple", false, AttributeFormat.Float2);
 
-        armorRegeneration = new ChampionAttribute(1, "ArmorRegeneration");
-        manaRegeneration = new ChampionAttribute(4, "ManaRegeneration");
-        takeDamageMultiple = new ChampionAttribute(1, "TakeDamageMultiple");
-        applyDamageMultiple = new ChampionAttribute(1, "ApplyDamageMultiple");
+        armorRegeneration = new ChampionAttribute(1, "ArmorRegeneration", false, AttributeFormat.Float2);
+        manaRegeneration = new ChampionAttribute(4, "ManaRegeneration", false, AttributeFormat.Float2);
+        takeDamageMultiple = new ChampionAttribute(1, "TakeDamageMultiple", false, AttributeFormat.Percentage);
+        damageDefenceRate = new ChampionAttribute(1, "DamageDefenceRate", true, AttributeFormat.Percentage);
 
-        physicalDamage = new ChampionAttribute(0, "PhysicalDamage");
-        fireDamage = new ChampionAttribute(0, "FireDamage");
-        iceDamage = new ChampionAttribute(0, "IceDamage");
-        lightingDamage = new ChampionAttribute(0, "LightingDamage");
-        acidDamage = new ChampionAttribute(0, "AcidDamage");
+        physicalDamage = new ChampionAttribute(0, "PhysicalDamage", false, AttributeFormat.Float2);
+        fireDamage = new ChampionAttribute(0, "FireDamage", false, AttributeFormat.Float2);
+        iceDamage = new ChampionAttribute(0, "IceDamage", false, AttributeFormat.Float2);
+        lightingDamage = new ChampionAttribute(0, "LightingDamage", false, AttributeFormat.Float2);
+        acidDamage = new ChampionAttribute(0, "AcidDamage", false, AttributeFormat.Float2);
 
-        physicalDamageApplyRate = new ChampionAttribute(1, "PhysicalDamageApplyRate");
-        fireDamageApplyRate = new ChampionAttribute(1, "FireDamageApplyRate");
-        iceDamageApplyRate = new ChampionAttribute(1, "IceDamageApplyRate");
-        lightingDamageApplyRate = new ChampionAttribute(1, "LightingDamageApplyRate");
-        acidDamageApplyRate = new ChampionAttribute(1, "AcidDamageApplyRate");
+        physicalDefenceRate = new ChampionAttribute(1, "PhysicalDefenceRate", true, AttributeFormat.Percentage);
+        fireDefenceRate = new ChampionAttribute(1, "FireDefenceRate", true, AttributeFormat.Percentage);
+        iceDefenceRate = new ChampionAttribute(1, "IceDefenceRate", true, AttributeFormat.Percentage);
+        lightingDefenceRate = new ChampionAttribute(1, "LightingDefenceRate", true, AttributeFormat.Percentage);
+        acidDefenceRate = new ChampionAttribute(1, "AcidDefenceRate", true, AttributeFormat.Percentage);
 
         fireResistance = new Resistance(10, 50, 10);
         iceResistance = new Resistance(10, 50, 10);
@@ -133,13 +133,13 @@ public class ChampionAttributesController
     public bool HitCheck()
     {
         float randomValue = Random.Range(0, 1f);
-        return randomValue <= hitRate.GetTrueValue();
+        return randomValue >= dodgeChange.GetTrueValue();
     }
 
     public bool CritCheck()
     {
         float randomValue = Random.Range(0, 1f);
-        return randomValue <= (1 - nonCritChange.GetTrueValue());
+        return randomValue <= CritChange.GetTrueValue();
     }
 
     public void Regenerate()
@@ -197,28 +197,28 @@ public class ChampionAttributesController
     public float ApplyDamage(float dmg, DamageType type)
     {
         float trueDamage = dmg;
-        trueDamage *= applyDamageMultiple.GetTrueValue();
+        trueDamage *= (1 - damageDefenceRate.GetTrueValue());
         switch (type)
         {
             case DamageType.Physical:
-                trueDamage *= physicalDamageApplyRate.GetTrueValue();
+                trueDamage *= (1 - physicalDefenceRate.GetTrueValue());
                 break;
             case DamageType.Pure:
                 break;
             case DamageType.Fire:
-                trueDamage *= fireDamageApplyRate.GetTrueValue();
+                trueDamage *= (1 - fireDefenceRate.GetTrueValue());
                 fireResistance.OnGetHit(trueDamage);
                 break;
             case DamageType.Ice:
-                trueDamage *= iceDamageApplyRate.GetTrueValue();
+                trueDamage *= (1 - iceDefenceRate.GetTrueValue());
                 iceResistance.OnGetHit(trueDamage);
                 break;
             case DamageType.Lightning:
-                trueDamage *= lightingDamageApplyRate.GetTrueValue();
+                trueDamage *= (1 - lightingDefenceRate.GetTrueValue());
                 lightningResistance.OnGetHit(trueDamage);
                 break;
             case DamageType.Acid:
-                trueDamage *= acidDamageApplyRate.GetTrueValue();
+                trueDamage *= (1 - acidDefenceRate.GetTrueValue());
                 acidResistance.OnGetHit(trueDamage);
                 break;
         }

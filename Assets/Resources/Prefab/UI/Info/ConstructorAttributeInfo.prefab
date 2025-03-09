@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 6890919245038501020}
   - component: {fileID: 6657432241174540973}
   - component: {fileID: 1152231038101345741}
-  - component: {fileID: 5713598841923251471}
   - component: {fileID: 3179342066537542123}
+  - component: {fileID: 3269439384375288395}
   m_Layer: 5
-  m_Name: AttributeInfo
+  m_Name: ConstructorAttributeInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,19 +79,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5713598841923251471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 139534633312260348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adc1001532f67744f89711913ec6ef77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 0}
 --- !u!225 &3179342066537542123
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -104,6 +91,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3269439384375288395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139534633312260348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc1001532f67744f89711913ec6ef77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
 --- !u!1 &5957858795735863871
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1.328, y: -1.328}
+  m_EffectDistance: {x: 1.245, y: -1.245}
   m_UseGraphicAlpha: 1
 --- !u!114 &177591476109700143
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1.328, y: -1.328}
+  m_EffectDistance: {x: 1.245, y: -1.245}
   m_UseGraphicAlpha: 1
 --- !u!114 &5147620224204362464
 MonoBehaviour:
@@ -203,7 +203,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: a0fd0996eb81da549ab31b31bdc479ab, type: 3}
-    m_FontSize: 16
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1.494, y: -1.494}
+  m_EffectDistance: {x: 1.245, y: -1.245}
   m_UseGraphicAlpha: 1
 --- !u!114 &6685391113742839967
 MonoBehaviour:
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1.494, y: -1.494}
+  m_EffectDistance: {x: 1.245, y: -1.245}
   m_UseGraphicAlpha: 1
 --- !u!114 &1222833953206779697
 MonoBehaviour:
@@ -319,7 +319,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: a0fd0996eb81da549ab31b31bdc479ab, type: 3}
-    m_FontSize: 18
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10

@@ -15,9 +15,9 @@ public class LevelInfoController : BaseControllerUI
     public Button shopBtn;
     public Button inventoryBtn;
     public GameObject inventoryPointTip;
-    
+
     #region 自动绑定
-    
+
     #endregion
 
     // Start is called before the first frame update
@@ -31,10 +31,10 @@ public class LevelInfoController : BaseControllerUI
     // Update is called once per frame
     void Update()
     {
-       
+
     }
 
-    public void UpdateUI()
+    public override void UpdateUI()
     {
         goldText.text = GameData.Instance.currentGold.ToString();
         HPText.text = GameData.Instance.currentHP.ToString();

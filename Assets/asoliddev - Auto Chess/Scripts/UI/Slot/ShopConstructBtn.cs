@@ -1,61 +1,97 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 using ExcelConfig;
 using UnityEngine.EventSystems;
+using Game;
 
 public class ShopConstructBtn : ContainerSlot
 {
-    public GameObject mainPanel;
-    public GameObject lockImage;
-    public Image iconImage;
-
-    public GameObject[] typeIconArray;
-    public Text nameText;
-    public Text typeText;
-    public Text buyCostText;
-
-    public Transform slotContent;
-    public List<GameObject> slotInfo;
-    public Image[] bgImages;
+    public List<SingleMFInfo> singleMFInfoList;
+    public List<SlotInfo> slotInfoList;
+    public Image[] BGImages;
 
     public ConstructorBaseData constructorData;
 
     int cost;
 
+    #region 自动绑定
+    private Image _imgPanel;
+    private Image _imgIconAndName;
+    private Image _imgIcon;
+    private Image _imgLock;
+    private Image _imgType;
+    private Image _imgCost;
+    private Image _imgBonusTypeBar;
+    private Image _imgSlotsBar;
+    private UICustomText _textNameText;
+    private UICustomText _textTypeText;
+    private UICustomText _textCostText;
+    private HorizontalLayoutGroup _layoutGroupPanel;
+    private HorizontalLayoutGroup _layoutGroupBonusTypeBar;
+    private HorizontalLayoutGroup _layoutGroupSlotsBar;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
+    {
+        _imgPanel = transform.Find("Panel_Auto").GetComponent<Image>();
+        _imgIconAndName = transform.Find("Panel_Auto/IconAndName_Auto").GetComponent<Image>();
+        _imgIcon = transform.Find("Panel_Auto/IconAndName_Auto/Icon_Auto").GetComponent<Image>();
+        _imgLock = transform.Find("Panel_Auto/IconAndName_Auto/Lock_Auto").GetComponent<Image>();
+        _imgType = transform.Find("Panel_Auto/Type_Auto").GetComponent<Image>();
+        _imgCost = transform.Find("Panel_Auto/Cost_Auto").GetComponent<Image>();
+        _imgBonusTypeBar = transform.Find("Panel_Auto/BonusTypeBar_Auto").GetComponent<Image>();
+        _imgSlotsBar = transform.Find("Panel_Auto/SlotsBar_Auto").GetComponent<Image>();
+        _textNameText = transform.Find("Panel_Auto/IconAndName_Auto/NameText_Auto").GetComponent<UICustomText>();
+        _textTypeText = transform.Find("Panel_Auto/Type_Auto/TypeText_Auto").GetComponent<UICustomText>();
+        _textCostText = transform.Find("Panel_Auto/Cost_Auto/CostText_Auto").GetComponent<UICustomText>();
+        _layoutGroupPanel = transform.Find("Panel_Auto").GetComponent<HorizontalLayoutGroup>();
+        _layoutGroupBonusTypeBar = transform.Find("Panel_Auto/BonusTypeBar_Auto").GetComponent<HorizontalLayoutGroup>();
+        _layoutGroupSlotsBar = transform.Find("Panel_Auto/SlotsBar_Auto").GetComponent<HorizontalLayoutGroup>();
+    }
+    #endregion
+
+
     // Start is called before the first frame update
     public override void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(BuyConstruct);
+        base.Awake();
+        foreach (Transform child in _imgBonusTypeBar.transform)
+        {
+            singleMFInfoList.Add(child.GetComponent<SingleMFInfo>());
+        }
+        foreach (Transform child in _imgSlotsBar.transform)
+        {
+            slotInfoList.Add(child.GetComponent<SlotInfo>());
+        }
+        BGImages = new Image[] { _imgPanel, _imgIconAndName, _imgType, _imgCost, _imgBonusTypeBar, _imgSlotsBar };
     }
 
     public void LoadIcon()
     {
         Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructorData));
-        iconImage.sprite = _icon;
+        _imgIcon.sprite = _icon;
     }
 
     private void Start()
     {
         ClearAllListener();
+        GetComponent<Button>().onClick.AddListener(BuyConstruct);
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
-        foreach (Transform child in slotContent)
-        {
-            slotInfo.Add(child.gameObject);
-        }
+
     }
 
     public void Onlocked(bool isLocked)
     {
-        lockImage.SetActive(isLocked);
+        _imgLock.gameObject.SetActive(isLocked);
     }
-    public void Refresh(ConstructorBaseData data)
+
+    public void Refresh(ConstructorBaseData data, bool isLocked)
     {
         GetComponent<Button>().interactable = true;
-        foreach (var img in bgImages)
+        foreach (var img in BGImages)
         {
             img.color = GameConfig.Instance.levelColors[data.level - 1];
         }
@@ -66,12 +102,13 @@ public class ShopConstructBtn : ContainerSlot
         (GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorMechType>(constructorData.type).cost *
          GameExcelConfig.Instance._eeDataManager.Get<ExcelConfig.ConstructorLevel>(constructorData.level).cost);
 
-        nameText.text = constructorData.name;
+        _textNameText.text = constructorData.name;
         Color color = GameConfig.Instance.levelColors[constructorData.level - 1];
-        mainPanel.SetActive(true);
-        typeText.text = constructorData.type.ToString();
-        buyCostText.text = cost.ToString();
-        UpdateType();
+        _imgPanel.gameObject.SetActive(true);
+        Onlocked(isLocked);
+        _textTypeText.text = constructorData.type.ToString();
+        _textCostText.text = cost.ToString();
+        UpdateMFInfo();
         UpdateSlotInfo(constructorData);
     }
     public void BuyConstruct()
@@ -79,44 +116,44 @@ public class ShopConstructBtn : ContainerSlot
         if (GameData.Instance.currentGold >= cost)
         {
             GameData.Instance.currentGold -= cost;
-            UIController.Instance.levelInfo.UpdateUI();
+            UIController.Instance.levelInfoController.UpdateUI();
             UIController.Instance.inventoryController.AddConstructor(constructorData, true);
             UIController.Instance.inventoryController.UpdateUI();
             BuySuccessHide();
         }
     }
 
-    public void UpdateType()
+    public void UpdateMFInfo()
     {
         List<ConstructorBonusType> types = GamePlayController.Instance.GetAllChampionTypes(constructorData);
 
-        for (int i = 0; i < typeIconArray.Length; i++)
+        for (int i = 0; i < singleMFInfoList.Count; i++)
         {
-            typeIconArray[i].SetActive(false);
+            singleMFInfoList[i].SetUIActive(false);
             if (i < types.Count && types[i] != null)
             {
-                typeIconArray[i].SetActive(true);
-                typeIconArray[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
+                singleMFInfoList[i].SetUIActive(true);
+                singleMFInfoList[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
             }
         }
     }
 
     void UpdateSlotInfo(ConstructorBaseData constructorData)
     {
-        for (int i = 0; i < slotInfo.Count; i++)
+        for (int i = 0; i < slotInfoList.Count; i++)
         {
-            slotInfo[i].SetActive(false);
+            slotInfoList[i].SetUIActive(false);
             if (i < constructorData.slots.Length && constructorData.slots[0] != 0)
             {
-                slotInfo[i].GetComponent<SlotInfo>().Init(constructorData.slots[i]);
-                slotInfo[i].SetActive(true);
+                slotInfoList[i].GetComponent<SlotInfo>().Init(constructorData.slots[i]);
+                slotInfoList[i].SetUIActive(true);
             }
         }
-        slotContent.gameObject.SetActive(slotInfo.Count > 0);
+        //slotContent.gameObject.SetActive(slotInfoList.Count > 0);
     }
     public void BuySuccessHide()
     {
-        mainPanel.SetActive(false);
+        _imgPanel.gameObject.SetActive(false);
         GetComponent<Button>().interactable = false;
     }
     public void OnPointerEnterEvent(PointerEventData eventData)

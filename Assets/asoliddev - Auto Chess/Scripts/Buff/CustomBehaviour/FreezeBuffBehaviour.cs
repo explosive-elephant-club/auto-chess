@@ -13,8 +13,8 @@ public class FreezeBuffBehaviour : BuffBehaviour
         int count = buff.curLayer <= maxLayer ? buff.curLayer : maxLayer;
         for (int i = 0; i < count; i++)
         {
-            modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges1, buff.owner.attributesController));
-            modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges2, buff.owner.attributesController));
+            modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges1, buff.owner.attributesController, ValueModifySource.Buff));
+            modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges2, buff.owner.attributesController, ValueModifySource.Buff));
         }
     }
 

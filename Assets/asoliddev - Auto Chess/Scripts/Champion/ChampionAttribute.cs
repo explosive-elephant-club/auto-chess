@@ -13,6 +13,13 @@ public enum DamageType
     Acid
 }
 
+public enum AttributeFormat
+{
+    Int,
+    Float2,
+    Percentage
+}
+
 public class Resistance
 {
     public int layerMax;
@@ -84,6 +91,16 @@ public class Resistance
         recoverIntervel = 0;
     }
 }
+public class ModifyValue
+{
+    public float value;
+    public ValueModifySource valueModifySource;
+    public ModifyValue(float value, ValueModifySource valueModifySource)
+    {
+        this.value = value;
+        this.valueModifySource = valueModifySource;
+    }
+}
 
 public class ChampionAttribute
 {
@@ -92,56 +109,97 @@ public class ChampionAttribute
     //基础值
     public string attributeName;
     //线性叠加值
-    protected List<float> linearValue;
+    protected List<ModifyValue> linearValue;
     //倍数叠加值
-    protected List<float> multipleValue;
+    protected List<ModifyValue> multipleValue;
+    //负运算
+    public bool isNegative = false;
+    //显示类型
+    public AttributeFormat attributeFormat;
 
-    public ChampionAttribute(float baseValue, string name)
+    public ChampionAttribute(float baseValue, string name, bool _isNegative, AttributeFormat _attributeFormat)
     {
         this.baseValue = baseValue;
         attributeName = name;
-        linearValue = new List<float>();
-        multipleValue = new List<float>();
+        isNegative = _isNegative;
+        this.attributeFormat = _attributeFormat;
+
+        linearValue = new List<ModifyValue>();
+        multipleValue = new List<ModifyValue>();
     }
 
-    public void AddLinear(float value)
+    public void AddLinear(float value, ValueModifySource valueModifySource)
     {
-        linearValue.Add(value);
+        linearValue.Add(new ModifyValue(value, valueModifySource));
     }
 
-    public void RemoveLinear(float value)
+    public void RemoveLinear(float value, ValueModifySource valueModifySource)
     {
-        linearValue.Remove(value);
+        linearValue.Remove(new ModifyValue(value, valueModifySource));
     }
 
-    public void AddMultiple(float value)
+    public void AddMultiple(float value, ValueModifySource valueModifySource)
     {
-        multipleValue.Add(value);
+        multipleValue.Add(new ModifyValue(value, valueModifySource));
     }
 
-    public void RemoveMultiple(float value)
+    public void RemoveMultiple(float value, ValueModifySource valueModifySource)
     {
-        multipleValue.Remove(value);
+        multipleValue.Remove(new ModifyValue(value, valueModifySource));
     }
 
     public float GetTrueValue(float externalValue = 0)
     {
         float trueLinearValue = externalValue;
         float trueMultipleValueValue = 1;
-        foreach (float value in linearValue)
+        foreach (ModifyValue modifyValue in linearValue)
         {
-            trueLinearValue += value;
+            trueLinearValue += modifyValue.value;
         }
-        foreach (float value in multipleValue)
+        foreach (ModifyValue modifyValue in multipleValue)
         {
-            trueMultipleValueValue *= value > -1 ? (1 + value) : 0;
+            trueMultipleValueValue *= modifyValue.value > -1 ? (1 + modifyValue.value) : 0;
         }
-        return (baseValue + trueLinearValue) * trueMultipleValueValue;
+        if (isNegative)
+            return 1 - (baseValue + trueLinearValue) * trueMultipleValueValue;
+        else
+            return (baseValue + trueLinearValue) * trueMultipleValueValue;
+    }
+
+    public float GetModifyValue()
+    {
+        float trueLinearValue = 0;
+        float trueMultipleValueValue = 1;
+        foreach (ModifyValue modifyValue in linearValue)
+        {
+            trueLinearValue += modifyValue.value;
+        }
+        foreach (ModifyValue modifyValue in multipleValue)
+        {
+            trueMultipleValueValue *= modifyValue.value > -1 ? (1 + modifyValue.value) : 0;
+        }
+        return (baseValue + trueLinearValue) * trueMultipleValueValue - baseValue;
     }
 
     public float GetTrueValue(float max, float min = 0)
     {
         float noLimitValue = GetTrueValue();
         return Mathf.Min(max, Mathf.Max(min, noLimitValue));
+    }
+
+    public string GetColor(float delta = 0)
+    {
+        string textColor = "white";
+        float n = delta == 0 ? GetModifyValue() : delta;
+        if (n != 0)
+            if (isNegative)
+            {
+                textColor = GetModifyValue() > 0 ? "red" : "green";
+            }
+            else
+            {
+                textColor = GetModifyValue() < 0 ? "red" : "green";
+            }
+        return textColor;
     }
 }

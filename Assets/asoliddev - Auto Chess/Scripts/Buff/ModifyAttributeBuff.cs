@@ -7,14 +7,21 @@ using ExcelConfig;
 using System;
 using General;
 
+public enum ValueModifySource
+{
+    Constructor,
+    Buff
+}
+
 public class ValueOperation
 {
     public float value;
     public string valueName;
+    public ValueModifySource valueModifySource;
     public UnityAction operate;
     public UnityAction reset;
 
-    public ValueOperation(string code, ChampionAttributesController attributesController)
+    public ValueOperation(string code, ChampionAttributesController attributesController, ValueModifySource _valueModifySource)
     {
         string[] element = code.Split(' ');
         valueName = element[0];
@@ -25,31 +32,31 @@ public class ValueOperation
             case "+":
                 operate = new UnityAction(() =>
                 {
-                    attribute.AddLinear(value);
+                    attribute.AddLinear(value, _valueModifySource);
                 });
                 reset = new UnityAction(() =>
                 {
-                    attribute.RemoveLinear(value);
+                    attribute.RemoveLinear(value, _valueModifySource);
                 });
                 break;
             case "-":
                 operate = new UnityAction(() =>
                 {
-                    attribute.AddLinear(-value);
+                    attribute.AddLinear(-value, _valueModifySource);
                 });
                 reset = new UnityAction(() =>
                 {
-                    attribute.RemoveLinear(-value);
+                    attribute.RemoveLinear(-value, _valueModifySource);
                 });
                 break;
             case "*":
                 operate = new UnityAction(() =>
                 {
-                    attribute.AddMultiple(value);
+                    attribute.AddMultiple(value, _valueModifySource);
                 });
                 reset = new UnityAction(() =>
                 {
-                    attribute.RemoveMultiple(value);
+                    attribute.RemoveMultiple(value, _valueModifySource);
                 });
                 break;
         }
@@ -79,7 +86,7 @@ public class ModifyAttributeBuff : Buff
             for (int i = 0; i < modifyAttributeData.valueChanges.Length; i++)
             {
                 valueOperations.Add(new ValueOperation(modifyAttributeData.valueChanges[i],
-                    _owner.attributesController));
+                    _owner.attributesController, ValueModifySource.Buff));
             }
         }
     }

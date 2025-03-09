@@ -69,7 +69,6 @@ namespace General
         /// <param name="target">根节点</param>
         public static void ForceRefreshAllContentSizeFitter(Transform target)
         {
-            Debug.Log("强制刷新子物体");
             var fitters = target.GetComponentsInChildren<ContentSizeFitter>();
             for (int i = fitters.Length - 1; i >= 0; i--)
             {

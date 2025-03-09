@@ -13,7 +13,7 @@ public class ShortCircuitBuffBehaviour : BuffBehaviour
         int count = buff.curLayer <= maxLayer ? buff.curLayer : maxLayer;
         for (int i = 0; i < count; i++)
         {
-            modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges, buff.owner.attributesController));
+            modifyAttributeBuff.valueOperations.Add(new ValueOperation(superposeValueChanges, buff.owner.attributesController, ValueModifySource.Buff));
         }
     }
 

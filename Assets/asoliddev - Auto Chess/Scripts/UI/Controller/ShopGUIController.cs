@@ -4,15 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using ExcelConfig;
 using UnityEngine.Events;
+using Game;
 
 public class ShopGUIController : BaseControllerUI
 {
-    public Button hideBtn;
-    public Toggle constructToggle;
-    public Toggle updateToggle;
-    public Toggle relicToggle;
-    public Toggle composeToggle;
-    public Toggle lottoToggle;
 
     Toggle lastActivedToggle;
 
@@ -21,22 +16,54 @@ public class ShopGUIController : BaseControllerUI
 
     GameObject lastActivedSubPanel;
     public UnityEvent contentSwitchEvent;
-
+    string shopConstructPath = "UI/Controller/ShopConstructController";
+    string shopUpdatePath = "UI/Controller/ShopUpdateController";
     public override void Awake()
     {
         base.Awake();
+        _layoutGroupPanel.gameObject.SetActive(false);
+        shopConstructController = ResourceManager.LoadGameObjectResource(shopConstructPath, _layoutGroupPanel.transform)
+            .GetComponent<ShopConstructController>();
+        shopUpdateController = ResourceManager.LoadGameObjectResource(shopUpdatePath, _layoutGroupPanel.transform)
+            .GetComponent<ShopUpdateController>();
+
     }
 
     #region 自动绑定
-
+    private Button _btnButtonClose;
+    private Image _imgButtonClose;
+    private HorizontalLayoutGroup _layoutGroupPanel;
+    private Toggle _toggleConstructToggle;
+    private Toggle _toggleUpdateToggle;
+    private Toggle _toggleRelicToggle;
+    private Toggle _toggleForgeToggle;
+    private Toggle _toggleCompositeToggle;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
+    {
+        _btnButtonClose = transform.Find("ButtonClose_Auto").GetComponent<Button>();
+        _imgButtonClose = transform.Find("ButtonClose_Auto").GetComponent<Image>();
+        _layoutGroupPanel = transform.Find("Panel/Content/Panel_Auto").GetComponent<HorizontalLayoutGroup>();
+        _toggleConstructToggle = transform.Find("Panel/Tabs/ConstructToggle_Auto").GetComponent<Toggle>();
+        _toggleUpdateToggle = transform.Find("Panel/Tabs/UpdateToggle_Auto").GetComponent<Toggle>();
+        _toggleRelicToggle = transform.Find("Panel/Tabs/RelicToggle_Auto").GetComponent<Toggle>();
+        _toggleForgeToggle = transform.Find("Panel/Tabs/ForgeToggle_Auto").GetComponent<Toggle>();
+        _toggleCompositeToggle = transform.Find("Panel/Tabs/CompositeToggle_Auto").GetComponent<Toggle>();
+    }
     #endregion
+
+
+
+
 
     void Start()
     {
         AddAllListener();
-        lastActivedToggle = relicToggle;
+        lastActivedToggle = _toggleForgeToggle;
         lastActivedSubPanel = shopUpdateController.gameObject;
-        constructToggle.isOn = true;
+        _toggleConstructToggle.isOn = true;
+        lastActivedSubPanel.SetActive(false);
+        _layoutGroupPanel.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -47,27 +74,27 @@ public class ShopGUIController : BaseControllerUI
 
     void AddAllListener()
     {
-        hideBtn.onClick.AddListener(() =>
+        _btnButtonClose.onClick.AddListener(() =>
             {
                 isExpand = false;
                 UpdateUI();
             });
-        constructToggle.onValueChanged.AddListener((bool b) =>
+        _toggleConstructToggle.onValueChanged.AddListener((bool b) =>
             {
                 if (b)
                 {
-                    OnToggleActive(constructToggle);
+                    OnToggleActive(_toggleConstructToggle);
                     contentSwitchEvent.AddListener(() =>
                     {
                         ActiveConstructPanel();
                     });
                 }
             });
-        updateToggle.onValueChanged.AddListener((bool b) =>
+        _toggleUpdateToggle.onValueChanged.AddListener((bool b) =>
         {
             if (b)
             {
-                OnToggleActive(updateToggle);
+                OnToggleActive(_toggleUpdateToggle);
                 contentSwitchEvent.AddListener(() =>
                 {
                     ActiveUpdatePanel();
@@ -75,25 +102,25 @@ public class ShopGUIController : BaseControllerUI
 
             }
         });
-        relicToggle.onValueChanged.AddListener((bool b) =>
+        _toggleRelicToggle.onValueChanged.AddListener((bool b) =>
         {
             if (b)
             {
-                OnToggleActive(relicToggle);
+                OnToggleActive(_toggleRelicToggle);
             }
         });
-        composeToggle.onValueChanged.AddListener((bool b) =>
+        _toggleForgeToggle.onValueChanged.AddListener((bool b) =>
         {
             if (b)
             {
-                OnToggleActive(composeToggle);
+                OnToggleActive(_toggleForgeToggle);
             }
         });
-        lottoToggle.onValueChanged.AddListener((bool b) =>
+        _toggleCompositeToggle.onValueChanged.AddListener((bool b) =>
         {
             if (b)
             {
-                OnToggleActive(lottoToggle);
+                OnToggleActive(_toggleCompositeToggle);
             }
         });
     }

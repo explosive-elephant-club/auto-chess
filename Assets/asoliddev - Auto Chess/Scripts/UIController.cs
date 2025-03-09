@@ -13,7 +13,7 @@ public class UIController : CreateSingleton<UIController>, IGameStage
     //用于遮挡屏幕或暂停画面
     public GameObject mask;
     public ShopGUIController shopController;
-    public LevelInfoController levelInfo;
+    public LevelInfoController levelInfoController;
     public ChampionInfoController championInfoController;
     public InventoryController inventoryController;
     public ConstructorAssembleController constructorAssembleController;
@@ -25,7 +25,11 @@ public class UIController : CreateSingleton<UIController>, IGameStage
 
     protected override void InitSingleton()
     {
+        levelInfoController = ResourceManager.LoadGameObjectResource("UI/Controller/LevelInfoController", canvasRoot).GetComponent<LevelInfoController>();
+        shopController = ResourceManager.LoadGameObjectResource("UI/Controller/ShopGUIController", canvasRoot).GetComponent<ShopGUIController>();
         inventoryController = ResourceManager.LoadGameObjectResource("UI/Controller/InventoryController", canvasRoot).GetComponent<InventoryController>();
+        championInfoController = ResourceManager.LoadGameObjectResource("UI/Controller/ChampionInfoController", canvasRoot).GetComponent<ChampionInfoController>();
+        constructorAssembleController = ResourceManager.LoadGameObjectResource("UI/Controller/ConstructorAssembleController", canvasRoot).GetComponent<ConstructorAssembleController>();
     }
 
     /// <summary>
@@ -38,7 +42,7 @@ public class UIController : CreateSingleton<UIController>, IGameStage
 
     public void UpdateUI()
     {
-        levelInfo.UpdateUI();
+        levelInfoController.UpdateUI();
         championInfoController.UpdateUI();
         constructorAssembleController.UpdateUI();
     }
@@ -64,7 +68,7 @@ public class UIController : CreateSingleton<UIController>, IGameStage
 
     public void OnEnterPreparation()
     {
-        levelInfo.OnEnterPreparation();
+        levelInfoController.OnEnterPreparation();
         championInfoController.OnEnterPreparation();
         shopController.OnEnterPreparation();
         UpdateUI();
@@ -81,14 +85,14 @@ public class UIController : CreateSingleton<UIController>, IGameStage
 
     public void OnEnterCombat()
     {
-        levelInfo.OnEnterCombat();
+        levelInfoController.OnEnterCombat();
         championInfoController.OnEnterCombat();
 
     }
     public void OnUpdateCombat()
     {
         //更新UI上的战斗计时器
-        levelInfo.UpdateCombatTimer((int)(GameConfig.Instance.combatStageDuration - GamePlayController.Instance.timer));
+        levelInfoController.UpdateCombatTimer((int)(GameConfig.Instance.combatStageDuration - GamePlayController.Instance.timer));
 
         championInfoController.OnUpdateCombat();
 

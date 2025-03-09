@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,50 +8,75 @@ using General;
 using System.Diagnostics;
 using System;
 using UnityEngine.PlayerLoop;
+using Game;
 
 
 public class SkillPopup : Popup
 {
-    public Text skillName;
-    public Text description;
+    public List<SkillDamageInfo> damageInfos;
 
-    public TextPair CastDelay;
-    public TextPair ChargingDelay;
-    public TextPair ManaCost;
-    public TextPair Count;
-    public TextPair Distance;
-    public TextPair Range;
+    #region 自动绑定
+    private Image _imgCount;
+    private UICustomText _textNameText;
+    private UICustomText _textLevelText;
+    private UICustomText _textDescriptionText;
+    private UICustomText _textCastDelayText;
+    private UICustomText _textCargingDelayText;
+    private UICustomText _textManaCostText;
+    private UICustomText _textCountValueText;
+    private UICustomText _textDistanceText;
+    private UICustomText _textRangeText;
+    private HorizontalLayoutGroup _layoutGroupCount;
+    private GridLayoutGroup _layoutGroupDamageContent;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
+    {
+        _imgCount = transform.Find("Attributes/Panel/Count_Auto").GetComponent<Image>();
+        _textNameText = transform.Find("Name/NameText_Auto").GetComponent<UICustomText>();
+        _textLevelText = transform.Find("Name/LevelText _Auto").GetComponent<UICustomText>();
+        _textDescriptionText = transform.Find("Description/DescriptionText_Auto").GetComponent<UICustomText>();
+        _textCastDelayText = transform.Find("Attributes/Panel/CastDelay/BG/CastDelayText_Auto").GetComponent<UICustomText>();
+        _textCargingDelayText = transform.Find("Attributes/Panel/ChargingDelay/BG/CargingDelayText_Auto").GetComponent<UICustomText>();
+        _textManaCostText = transform.Find("Attributes/Panel/ManaCost/BG/ManaCostText_Auto").GetComponent<UICustomText>();
+        _textCountValueText = transform.Find("Attributes/Panel/Count_Auto/BG/CountValueText_Auto").GetComponent<UICustomText>();
+        _textDistanceText = transform.Find("Attributes/Panel/Distance/BG/DistanceText_Auto").GetComponent<UICustomText>();
+        _textRangeText = transform.Find("Attributes/Panel/Range/BG/RangeText_Auto").GetComponent<UICustomText>();
+        _layoutGroupCount = transform.Find("Attributes/Panel/Count_Auto").GetComponent<HorizontalLayoutGroup>();
+        _layoutGroupDamageContent = transform.Find("Damage/DamageContent_Auto").GetComponent<GridLayoutGroup>();
+    }
+    #endregion
 
-    public Transform damageContent;
-    public List<GameObject> damageInfo;
+
+
 
     private void Start()
     {
-        foreach (Transform child in damageContent)
+        foreach (Transform child in _layoutGroupDamageContent.transform)
         {
-            damageInfo.Add(child.gameObject);
+            damageInfos.Add(child.GetComponent<SkillDamageInfo>());
         }
     }
 
     public void Show(SkillData skillData, GameObject targetUI, Vector3 dir)
     {
-        skillName.text = skillData.name + " Lvl." + skillData.Level;
-        description.text = skillData.description;
-        CastDelay.value.text = skillData.castDelay.ToString();
-        ChargingDelay.value.text = skillData.chargingDelay.ToString();
-        ManaCost.value.text = skillData.manaCost.ToString();
+        _textNameText.text = skillData.name;
+        _textLevelText.text = " Lvl." + skillData.Level;
+        _textDescriptionText.text = skillData.description;
+        _textCastDelayText.text = skillData.castDelay.ToString();
+        _textCargingDelayText.text = skillData.chargingDelay.ToString();
+        _textManaCostText.text = skillData.manaCost.ToString();
         if (skillData.usableCount != -1)
         {
-            Count.value.transform.parent.gameObject.SetActive(true);
-            Count.value.text = skillData.usableCount.ToString();
+            _imgCount.gameObject.SetActive(true);
+            _textCountValueText.text = skillData.usableCount.ToString();
         }
         else
         {
-            Count.value.transform.parent.gameObject.SetActive(false);
+            _imgCount.gameObject.SetActive(false);
         }
 
-        Distance.value.text = skillData.distance.ToString();
-        Range.value.text = skillData.range.ToString();
+        _textDistanceText.text = skillData.distance.ToString();
+        _textRangeText.text = skillData.range.ToString();
         UpdateDamageInfo(skillData);
         base.Show(targetUI, dir);
     }
@@ -60,21 +85,20 @@ public class SkillPopup : Popup
     {
         if (skillData.damageData[0].dmg != 0)
         {
-            damageContent.parent.gameObject.SetActive(true);
-            for (int i = 0; i < damageInfo.Count; i++)
+            _layoutGroupDamageContent.transform.parent.gameObject.SetActive(true);
+            for (int i = 0; i < damageInfos.Count; i++)
             {
-                damageInfo[i].SetActive(false);
+                damageInfos[i].SetUIActive(false);
                 if (i < skillData.damageData.Length)
                 {
-                    //damageInfo[i].transform.Find("DamageType").GetComponent<Text>().text = string.Format("<sprite=\"AtributeIcon\" name=\"{0}\">", skillData.damageData[i].type);
-                    damageInfo[i].transform.Find("DamageType/DamageValue").GetComponent<Text>().text = skillData.damageData[i].dmg.ToString() + "(+" + skillData.damageData[i].correction.ToString() + ")";
-                    damageInfo[i].SetActive(true);
+                    damageInfos[i].Init(skillData.damageData[i]);
+                    damageInfos[i].SetUIActive(true);
                 }
             }
         }
         else
         {
-            damageContent.parent.gameObject.SetActive(false);
+            _layoutGroupDamageContent.transform.parent.gameObject.SetActive(false);
         }
 
     }

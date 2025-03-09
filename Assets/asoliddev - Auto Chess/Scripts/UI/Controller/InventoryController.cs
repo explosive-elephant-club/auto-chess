@@ -155,7 +155,7 @@ public class InventoryController : BaseControllerUI
     public void UpdateNewCount()
     {
         newCount = GameData.Instance.allInventoryConstructors.FindAll(c => c.isNew).Count;
-        UIController.Instance.levelInfo.UpdateInventoryPointTip(newCount);
+        UIController.Instance.levelInfoController.UpdateInventoryPointTip(newCount);
     }
 
     /// <summary>

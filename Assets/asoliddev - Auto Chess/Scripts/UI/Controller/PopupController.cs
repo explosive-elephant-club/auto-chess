@@ -13,15 +13,18 @@ public class PopupController : BaseControllerUI
     public ConstructorSlotPopup constructorSlotPopup;
     public Popup curPickedPopup;
     public List<Popup> nailedPopups = new List<Popup>();
-    
-    #region 自动绑定
-    
-    #endregion
-    
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    #region 自动绑定
+
+    #endregion
+
+    // Start is called before the first frame update
+    public override void Awake()
+    {
+        base.Awake();
+        constructorPopup = ResourceManager.LoadGameObjectResource("UI/Popup/ConstructorPopup", transform).GetComponent<ConstructorPopup>();
+        attributePopup = ResourceManager.LoadGameObjectResource("UI/Popup/AttributePopup", transform).GetComponent<AttributePopup>();
+        skillPopup = ResourceManager.LoadGameObjectResource("UI/Popup/SkillPopup", transform).GetComponent<SkillPopup>();
     }
 
     // Update is called once per frame

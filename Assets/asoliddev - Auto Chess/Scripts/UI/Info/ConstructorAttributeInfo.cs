@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Game;
-public class AttributeInfo : ContainerInfo
+public class ConstructorAttributeInfo : ContainerInfo
 {
     public override void Awake()
     {
