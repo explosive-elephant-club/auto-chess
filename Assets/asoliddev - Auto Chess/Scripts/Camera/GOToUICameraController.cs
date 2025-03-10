@@ -16,9 +16,17 @@ public class GOToUICameraController : MonoBehaviour
     [SerializeField]
     private Vector3 cameraTargetOffset;
 
-    [SerializeField]
-    private float cameraDisMoveSpeed = .1f;
 
+    
+    [Header("Camera Distance")]
+    [SerializeField]
+    private float cameraDisMoveSpeed = .001f;
+    [SerializeField]
+    private float cameraDisMax = 10f;
+    [SerializeField]
+    private float cameraDisMin = 3f;
+    
+    private Vector3 _realTargetPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +44,12 @@ public class GOToUICameraController : MonoBehaviour
     public void UpdateDis(InputAction.CallbackContext context)
     {
         if (cameraTarget == null) return;
-        Vector3 dir = (cameraTarget.position + cameraTargetOffset - transform.position).normalized;
-        transform.position += dir * context.ReadValue<float>() * cameraDisMoveSpeed;
+        Vector3 dir = (transform.position - _realTargetPos).normalized;
+        cameraDist -= context.ReadValue<float>() * cameraDisMoveSpeed;
+        Debug.Log(context.ReadValue<float>() * cameraDisMoveSpeed);
+        cameraDist = Mathf.Clamp(cameraDist, cameraDisMin, cameraDisMax);
+        transform.position = _realTargetPos + dir *  cameraDist;
+        transform.LookAt(cameraTarget);
     }
 
     public void ResetCam(Transform _cameraTarget = null, float height = 0f)
@@ -45,8 +57,8 @@ public class GOToUICameraController : MonoBehaviour
         //cameraTarget = _cameraTarget;
         if (cameraTarget != null)
         {
-            transform.position = cameraTarget.position + cameraTargetOffset;
-            transform.position += Vector3.up * height;
+            _realTargetPos = cameraTarget.position + cameraTargetOffset + Vector3.up * height;
+            transform.position = _realTargetPos;
             transform.position += cameraTarget.forward * cameraDist;
             transform.LookAt(cameraTarget);
         }
