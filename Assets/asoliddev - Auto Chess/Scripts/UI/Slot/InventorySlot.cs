@@ -113,14 +113,14 @@ public class InventorySlot : ContainerSlot
 
     public void UpdateMFInfo()
     {
-        List<ConstructorBonusType> types = GamePlayController.Instance.GetAllChampionTypes(inventoryConstructor.constructorBaseData);
-
+        List<ConstructorBonus> bonus = GamePlayController.Instance.GetChampionFeatureBonus(inventoryConstructor.constructorBaseData);
+        bonus.Add(GamePlayController.Instance.GetChampionManufacturerBonus(inventoryConstructor.constructorBaseData));
         for (int i = 0; i < singleMFInfoList.Count; i++)
         {
             singleMFInfoList[i].SetUIActive(false);
-            if (i < types.Count && types[i] != null)
+            if (i < bonus.Count && bonus[i] != null)
             {
-                singleMFInfoList[i].Init(types[i]);
+                singleMFInfoList[i].Init(bonus[i]);
                 singleMFInfoList[i].ClearAllListener();
                 singleMFInfoList[i].SetUIActive(true);
             }

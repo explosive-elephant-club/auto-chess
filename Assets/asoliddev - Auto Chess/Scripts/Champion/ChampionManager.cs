@@ -60,6 +60,17 @@ public class ChampionManager : MonoBehaviour, IGameStage
     /// </summary>
     private MapContainer dragStartContainer = null;
 
+
+    /// <summary>
+    /// 特性增益字典
+    /// </summary>
+    public Dictionary<ConstructorBonus, int> featureBonus;
+    /// <summary>
+    /// 特性增益buff
+    /// </summary>
+    public List<int> featureBonusBuffList;
+
+
     private void Awake()
     {
 
@@ -551,6 +562,60 @@ public class ChampionManager : MonoBehaviour, IGameStage
         }
         championController.OnRemove();
         Destroy(championController.gameObject);
+    }
+
+    /// <summary>
+    /// 计算羁绊增益
+    /// </summary>
+    public void CalculateAllFeatureBonuses()
+    {
+        //init dictionary
+        featureBonus = new Dictionary<ConstructorBonus, int>();
+
+        foreach (ChampionController champion in championsBattleArray)
+        {
+            List<ConstructorBonus> fbs = champion.featureBonus;
+            foreach (var fb in fbs)
+            {
+                if (featureBonus.ContainsKey(fb))
+                {
+                    int cCount = 0;
+                    featureBonus.TryGetValue(fb, out cCount);
+                    cCount++;
+                    featureBonus[fb] = cCount;
+
+                }
+                else
+                {
+                    featureBonus.Add(fb, 1);
+                }
+            }
+
+
+        }
+
+        featureBonusBuffList.Clear();
+        foreach (KeyValuePair<ConstructorBonus, int> m in featureBonus)
+        {
+            int buffID = 0;
+            foreach (ConstructorBonus.BonusClass b in m.Key.Bonus)
+            {
+                if (m.Value >= b.count)
+                {
+                    buffID = b.buff_ID;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            //have enough champions to get bonus
+            if (buffID != 0)
+            {
+                featureBonusBuffList.Add(buffID);
+            }
+        }
     }
 
     public virtual void OnEnterPreparation()

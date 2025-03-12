@@ -12,15 +12,15 @@ public class SlotInfo : ContainerInfo
     ConstructorSlot slot;
     ConstructorSlotType slotTypeData;
     #region 自动绑定
-	private Image _imgIcon;
-	private Image _imgForbidden;
-	//自动获取组件添加字典管理
-	public override void AutoBindingUI()
-	{
-		_imgIcon = transform.Find("Mask/Icon_Auto").GetComponent<Image>();
-		_imgForbidden = transform.Find("Mask/Forbidden_Auto").GetComponent<Image>();
-	}
-	#endregion
+    private Image _imgIcon;
+    private Image _imgForbidden;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
+    {
+        _imgIcon = transform.Find("Mask/Icon_Auto").GetComponent<Image>();
+        _imgForbidden = transform.Find("Mask/Forbidden_Auto").GetComponent<Image>();
+    }
+    #endregion
 
 
 
@@ -28,6 +28,7 @@ public class SlotInfo : ContainerInfo
     {
         slot = null;
         slotTypeData = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == id);
+        _imgIcon.sprite = ResourceManager.LoadResource<Sprite>(slotTypeData.icon);
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
         _imgForbidden.enabled = false;

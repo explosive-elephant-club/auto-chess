@@ -97,7 +97,8 @@ public class ConstructorPopup : Popup
 
     void UpdateTypesInfo(ConstructorBaseData constructorData)
     {
-        List<ConstructorBonusType> bonus = GamePlayController.Instance.GetAllChampionTypes(constructorData);
+        List<ConstructorBonus> bonus = GamePlayController.Instance.GetChampionFeatureBonus(constructorData);
+        bonus.Add(GamePlayController.Instance.GetChampionManufacturerBonus(constructorData));
         for (int i = 0; i < singleMFInfoList.Count; i++)
         {
             singleMFInfoList[i].gameObject.SetActive(false);
@@ -124,7 +125,7 @@ public class ConstructorPopup : Popup
                 constructorAttributeInfoList[i].SetUIActive(true);
             }
         }
-        _layoutGroupAttribute.gameObject.SetActive(constructorAttributeInfoList.Count > 0);
+        _layoutGroupAttribute.gameObject.SetActive(!string.IsNullOrEmpty(constructorData.valueChanges[0]));
     }
 
     void UpdateSlotInfo(ConstructorBaseData constructorData)
@@ -138,7 +139,7 @@ public class ConstructorPopup : Popup
                 slotInfoList[i].SetUIActive(true);
             }
         }
-        _layoutGroupSlotContent.gameObject.SetActive(slotInfoList.Count > 0);
+        _layoutGroupSlotContent.transform.parent.gameObject.SetActive(constructorData.slots[0] != 0);
     }
 
     void UpdateSkillInfo(ConstructorBaseData constructorData)
@@ -162,6 +163,6 @@ public class ConstructorPopup : Popup
                 });
             }
         }
-        _layoutGroupSkillContent.gameObject.SetActive(skillSlotList.Count > 0);
+        _layoutGroupSkillContent.transform.gameObject.SetActive(constructorData.skillID[0] != 0);
     }
 }

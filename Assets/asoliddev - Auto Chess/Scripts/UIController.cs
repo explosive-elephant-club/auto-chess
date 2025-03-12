@@ -76,7 +76,7 @@ public class UIController : CreateSingleton<UIController>, IGameStage
 
     public void OnUpdatePreparation()
     {
-
+        championInfoController.OnUpdatePreparation();
     }
     public void OnLeavePreparation()
     {

@@ -31,6 +31,10 @@ namespace ExcelConfig
 		public string c_name { get { return _c_name; } }
 
 		[SerializeField]
+		private string _icon;
+		public string icon { get { return _icon; } }
+
+		[SerializeField]
 		private string[] _adaptTypes;
 		public string[] adaptTypes { get { return _adaptTypes; } }
 
@@ -61,6 +65,7 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _ID);
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _c_name);
+			TryParse(sheet[row][column++], out _icon);
 			string[] _adaptTypesArray = sheet[row][column++].Split(',');
 			int _adaptTypesCount = _adaptTypesArray.Length;
 			_adaptTypes = new string[_adaptTypesCount];

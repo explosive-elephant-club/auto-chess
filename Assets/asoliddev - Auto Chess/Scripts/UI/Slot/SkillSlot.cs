@@ -64,7 +64,7 @@ public class SkillSlot : ContainerSlot
             onPointerUpEvent.AddListener(OnPointerUpEvent);
             onDragEvent.AddListener(OnDragEvent);
             _imgIcon.gameObject.SetActive(true);
-            _imgIcon.sprite = Resources.Load<Sprite>(skill.skillData.icon);
+            _imgIcon.sprite = ResourceManager.LoadResource<Sprite>(skill.skillData.icon);
 
             _imgDefBG.color = GameConfig.Instance.levelColors[skill.constructor.constructorData.level - 1];
             _imgDefBG.gameObject.SetActive(true);
@@ -81,7 +81,7 @@ public class SkillSlot : ContainerSlot
         Clear();
         ClearAllListener();
         _imgIcon.gameObject.SetActive(true);
-        _imgIcon.sprite = Resources.Load<Sprite>(_skillData.icon);
+        _imgIcon.sprite = ResourceManager.LoadResource<Sprite>(_skillData.icon);
         _imgDefBG.color = GameConfig.Instance.levelColors[constructorBaseData.level - 1];
         _imgDefBG.gameObject.SetActive(true);
     }

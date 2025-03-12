@@ -142,15 +142,18 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
 
 
     /// <summary>
-    /// 获取单位的羁绊buff
+    /// 获取单位的羁绊
     /// </summary>
     /// <param name="constructorData">单位数据</param>
-    public List<ConstructorBonusType> GetAllChampionTypes(ConstructorBaseData constructorData)
+    public ConstructorBonus GetChampionManufacturerBonus(ConstructorBaseData constructorData)
     {
-        List<ConstructorBonusType> types = new List<ConstructorBonusType>();
-        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property1));
-        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property2));
-        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property3));
+        return GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonus>(constructorData.property1);
+    }
+    public List<ConstructorBonus> GetChampionFeatureBonus(ConstructorBaseData constructorData)
+    {
+        List<ConstructorBonus> types = new List<ConstructorBonus>();
+        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonus>(constructorData.property2));
+        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonus>(constructorData.property3));
         return types;
     }
 
@@ -304,12 +307,12 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     public void OnEnterCombat()
     {
     }
-    
+
     public void OnUpdateCombat()
     {
         //更新时间
         timer += Time.deltaTime;
-        
+
 
         //如果计时器到达最大战斗时长，重新进入准备阶段
         if (timer > GameConfig.Instance.combatStageDuration)

@@ -125,15 +125,16 @@ public class ShopConstructBtn : ContainerSlot
 
     public void UpdateMFInfo()
     {
-        List<ConstructorBonusType> types = GamePlayController.Instance.GetAllChampionTypes(constructorData);
-
+        List<ConstructorBonus> bonus = GamePlayController.Instance.GetChampionFeatureBonus(constructorData);
+        bonus.Add(GamePlayController.Instance.GetChampionManufacturerBonus(constructorData));
         for (int i = 0; i < singleMFInfoList.Count; i++)
         {
             singleMFInfoList[i].SetUIActive(false);
-            if (i < types.Count && types[i] != null)
+            if (i < bonus.Count && bonus[i] != null)
             {
+                singleMFInfoList[i].Init(bonus[i]);
                 singleMFInfoList[i].SetUIActive(true);
-                singleMFInfoList[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
+
             }
         }
     }

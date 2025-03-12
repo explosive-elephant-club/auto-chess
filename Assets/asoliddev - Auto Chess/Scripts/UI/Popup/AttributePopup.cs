@@ -27,16 +27,46 @@ public class AttributePopup : Popup
     {
         attribute = _attribute;
         _textAttributeName.text = attribute.attributeName;
+        string textColor = attribute.GetColor();
+
+        float originValue = attribute.GetConstructorModifyValue();
+        float trueValue = attribute.GetTrueValue();
+        float modifyValue = trueValue - originValue;
+
+
+        string modifyText = string.Format("(<color={0}>{1:G}</color>)", textColor, modifyValue);
+        if (modifyValue == 0)
+        {
+            modifyText = "";
+        }
+        else
+        {
+            string positiveSign = "";
+            if (modifyValue > 0)
+                positiveSign = "+";
+            switch (attribute.attributeFormat)
+            {
+                case AttributeFormat.Int:
+                    modifyText = string.Format("(<color={0}>{1}{2:G}</color>)", textColor, positiveSign, modifyValue);
+                    break;
+                case AttributeFormat.Float2:
+                    modifyText = string.Format("(<color={0}>{1}{2:G}</color>)", textColor, positiveSign, modifyValue);
+                    break;
+                case AttributeFormat.Percentage:
+                    modifyText = string.Format("(<color={0}>{1}{2:P0}</color>)", textColor, positiveSign, modifyValue);
+                    break;
+            }
+        }
         switch (attribute.attributeFormat)
         {
             case AttributeFormat.Int:
-                _textAttributeValue.text = string.Format(":{0:G}", attribute.GetTrueValue());
+                _textAttributeValue.text = string.Format(":{0:G}{1}", originValue, modifyText);
                 break;
             case AttributeFormat.Float2:
-                _textAttributeValue.text = string.Format(":{0:G}", attribute.GetTrueValue());
+                _textAttributeValue.text = string.Format(":{0:G}{1}", originValue, modifyText);
                 break;
             case AttributeFormat.Percentage:
-                _textAttributeValue.text = string.Format(":{0:P0}", attribute.GetTrueValue());
+                _textAttributeValue.text = string.Format(":{0:P0}{1}", originValue, modifyText);
                 break;
         }
         base.Show(targetUI, dir);

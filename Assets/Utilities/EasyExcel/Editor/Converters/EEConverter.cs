@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace EasyExcel
 {
@@ -11,7 +12,7 @@ namespace EasyExcel
 	{
 		public const string excelPathKey = "EasyExcelExcelPath";
 		public const string csChangedKey = "EasyExcelCSChanged";
-		
+
 		private static SheetData ToSheetData(EEWorksheet sheet)
 		{
 			var sheetData = new SheetData();
@@ -32,7 +33,7 @@ namespace EasyExcel
 
 			return sheetData;
 		}
-		
+
 		private static SheetData ToSheetDataRemoveEmptyColumn(EEWorksheet sheet)
 		{
 			var validNameColumns = new List<int>();
@@ -49,7 +50,7 @@ namespace EasyExcel
 				if (EEColumnFieldParser.IsSupportedType(cellValue))
 					validTypeColumns.Add(validNameColumns[column]);
 			}
-			
+
 			var sheetData = new SheetData();
 			for (var i = 0; i < sheet.RowCount; i++)
 			{
@@ -68,7 +69,7 @@ namespace EasyExcel
 
 			return sheetData;
 		}
-		
+
 		private static bool IsValidSheet(EEWorksheet sheet)
 		{
 			if (sheet == null || sheet.RowCount <= EESettings.Current.TypeRowIndex || sheet.ColumnCount < 1)
@@ -77,7 +78,7 @@ namespace EasyExcel
 			for (int col = 0; col < sheet.ColumnCount; col++)
 			{
 				string varType = sheet.GetCellValue(EESettings.Current.TypeRowIndex, col);
-				if (string.IsNullOrEmpty(varType) || varType.Equals(" ")  || varType.Equals("\r"))
+				if (string.IsNullOrEmpty(varType) || varType.Equals(" ") || varType.Equals("\r"))
 					continue;
 				if (EEColumnFieldParser.IsSupportedType(varType))
 				{
@@ -86,7 +87,7 @@ namespace EasyExcel
 						validColumnCount++;
 				}
 			}
-			
+
 			return validColumnCount > 0;
 		}
 
@@ -96,11 +97,11 @@ namespace EasyExcel
 		}
 
 		private static bool isDisplayingProgress;
-		
+
 		private static void UpdateProgressBar(int progress, int progressMax, string desc)
 		{
 			var title = "EasyExcel importing...[" + progress + " / " + progressMax + "]";
-			var value = progress / (float) progressMax;
+			var value = progress / (float)progressMax;
 			EditorUtility.DisplayProgressBar(title, desc, value);
 			isDisplayingProgress = true;
 		}
