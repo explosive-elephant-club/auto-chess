@@ -58,7 +58,7 @@ public class ConstructorAssembleController : BaseControllerUI
     /// </summary>
     public Button closeBtn;
 
-    GOToUICameraController camController;
+    CameraManager camController;
 
     //存放未激活的上级节点 子节点是对象池以供复用
     [HideInInspector]
@@ -82,7 +82,7 @@ public class ConstructorAssembleController : BaseControllerUI
     #endregion
     private void Start()
     {
-        camController = GamePlayController.Instance._GOToUICameraController;
+        camController = GamePlayController.Instance.CameraManager;
         AddAllListener();
         SetUIActive(false);
     }

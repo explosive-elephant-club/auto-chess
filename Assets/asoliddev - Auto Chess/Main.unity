@@ -717,6 +717,7 @@ MonoBehaviour:
   championsBattleArray: []
   currentChampionLimit: 3
   currentChampionCount: 0
+  featureBonusBuffList: 
 --- !u!4 &27158422
 Transform:
   m_ObjectHideFlags: 0
@@ -751,6 +752,7 @@ MonoBehaviour:
   championsBattleArray: []
   currentChampionLimit: 3
   currentChampionCount: 0
+  featureBonusBuffList: 
 --- !u!114 &27158424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,20 +762,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 27158420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540decc34862f1049a20d5cb164c6a70, type: 3}
+  m_Script: {fileID: 11500000, guid: 96656f33fdde4dbdacb4be3c54d65c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 683597823}
   worldCanvasCamera: {fileID: 1702208225}
   targetPos: {x: 0, y: 0, z: 0}
   targetZoom: 0
-  speed: 20
-  offsetXMin: -20
-  offsetXMax: 20
-  zoomMin: 10
-  zoomMax: 40
-  offsetZMin: -40
-  offsetZMax: 40
+  speed: 0
+  offsetXMin: 0
+  offsetXMax: 0
+  zoomMin: 0
+  zoomMax: 0
+  offsetZMin: 0
+  offsetZMax: 0
+  cameraTarget: {fileID: 0}
+  cameraDist: 6
+  cameraTargetOffset: {x: 0, y: 0, z: 0}
+  cameraDisMoveSpeed: 0.001
+  cameraDisMax: 10
+  cameraDisMin: 3
 --- !u!1 &27960816
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,18 +915,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1069226694}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &27974729 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8435308197302953747, guid: 29d97a48b9843eb4d987b2e8d08d1c70,
-    type: 3}
-  m_PrefabInstance: {fileID: 1069226694}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d1e5a50837c2a64687ebba468bac9fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &50705488
 GameObject:
   m_ObjectHideFlags: 0
@@ -5452,10 +5448,10 @@ MonoBehaviour:
     m_Bits: 32
   triggerLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   unitLayer:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 0
   mousePosition: {x: 0, y: 0, z: 0}
   mapContainer: {fileID: 0}
   champion: {fileID: 0}
@@ -9175,12 +9171,8 @@ MonoBehaviour:
   canvasGroup: {fileID: 638343216}
   rectTransform: {fileID: 638343214}
   isNailed: 0
-  constructorName: {fileID: 119132581}
-  adaptTypesContent: {fileID: 815255940}
   adaptTypes: []
-  forbiddenChildrenTypesContent: {fileID: 339526397}
   forbiddenChildrenTypes: []
-  forbiddenParentsTypesContent: {fileID: 1063921678}
   forbiddenParentsTypes: []
 --- !u!1 &638576510
 GameObject:
@@ -9653,7 +9645,7 @@ Transform:
   m_GameObject: {fileID: 683597820}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 24.10881, y: 32.378273, z: -18.321533}
+  m_LocalPosition: {x: 24, y: 32, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12592,107 +12584,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896986930}
   m_CullTransparentMesh: 0
---- !u!1 &903487625
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 903487626}
-  - component: {fileID: 903487629}
-  - component: {fileID: 903487628}
-  - component: {fileID: 903487627}
-  m_Layer: 10
-  m_Name: 3DToUICanvas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &903487626
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 903487625}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
---- !u!114 &903487627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 903487625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &903487628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 903487625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 1
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
---- !u!223 &903487629
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 903487625}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 1
-  m_Camera: {fileID: 1555037707}
-  m_PlaneDistance: 1
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!1 &904864711
 GameObject:
   m_ObjectHideFlags: 0
@@ -22421,8 +22312,7 @@ MonoBehaviour:
   timer: 0
   ownChampionManager: {fileID: 27158421}
   oponentChampionManager: {fileID: 27158423}
-  mainCameraController: {fileID: 27158424}
-  _GOToUICameraController: {fileID: 1555037706}
+  CameraManager: {fileID: 27158424}
   pickedChampion: {fileID: 0}
 --- !u!1 &1284594346
 GameObject:
@@ -23840,9 +23730,6 @@ MonoBehaviour:
   canvasGroup: {fileID: 0}
   rectTransform: {fileID: 0}
   isNailed: 0
-  typeName: {fileID: 0}
-  description: {fileID: 0}
-  selfSlot: {fileID: 27974729}
   constructorContent: {fileID: 27960817}
   constructorInfo: []
 --- !u!114 &1387623447
@@ -24904,108 +24791,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537349429}
   m_CullTransparentMesh: 0
---- !u!1 &1555037705
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1555037708}
-  - component: {fileID: 1555037707}
-  - component: {fileID: 1555037706}
-  m_Layer: 0
-  m_Name: 3DToUICamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1555037706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555037705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18384bf9c36923c48ba274c82f1d6f5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraTarget: {fileID: 0}
-  cameraDist: 6
-  cameraTargetOffset: {x: 0, y: 0, z: 0}
-  cameraDisMoveSpeed: 0.1
-  cameraDisMax: 10
-  cameraDisMin: 3
---- !u!20 &1555037707
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555037705}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.03
-  far clip plane: 20
-  field of view: 30
-  orthographic: 0
-  orthographic size: 1.8
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 1536
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 123e1b401e9b80848b1bc9c8f84d8390, type: 2}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &1555037708
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555037705}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 165.3676, y: 981.1959, z: -146.42477}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1558268076
 GameObject:
   m_ObjectHideFlags: 0
@@ -25130,7 +24915,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 27158424}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: CameraMove
         m_Mode: 0
@@ -25178,7 +24963,7 @@ MonoBehaviour:
     m_ActionName: GamePlay/popupUnnail[/Keyboard/alt]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 27158424}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: CameraZoom
         m_Mode: 0
@@ -30954,7 +30739,7 @@ MonoBehaviour:
   popupMask: {fileID: 863348177}
   skillPopup: {fileID: 0}
   constructorPopup: {fileID: 0}
-  typePopup: {fileID: 1387623446}
+  manufacturerPopup: {fileID: 0}
   attributePopup: {fileID: 0}
   constructorSlotPopup: {fileID: 638343221}
   curPickedPopup: {fileID: 0}
@@ -35661,7 +35446,8 @@ MonoBehaviour:
   team: 0
   unitType: 0
   championVolumeController: {fileID: 0}
-  bonusBuffList: 
+  manufacturerBonusBuffList: 
+  featureBonus: []
   isDead: 0
   target: {fileID: 0}
   championManeger: {fileID: 0}
@@ -36549,13 +36335,11 @@ SceneRoots:
   - {fileID: 683597824}
   - {fileID: 227645637}
   - {fileID: 8250556564009591657}
-  - {fileID: 1555037708}
   - {fileID: 1702208226}
   - {fileID: 1944416378}
   - {fileID: 1634753059}
   - {fileID: 129059052}
   - {fileID: 767787648}
-  - {fileID: 903487626}
   - {fileID: 1240386697}
   - {fileID: 1297855494}
   - {fileID: 7509283764286056647}
