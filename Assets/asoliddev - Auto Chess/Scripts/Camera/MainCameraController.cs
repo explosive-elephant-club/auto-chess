@@ -21,7 +21,9 @@ public class MainCameraController : StateBase
     {
         base.DoOnEnter();
         _inputControls.GamePlay.CamZoom.started += CameraZoom;
+        _inputControls.GamePlay.CamZoom.canceled += CameraZoom;
         _inputControls.GamePlay.CamMove.started += CameraMove;
+        _inputControls.GamePlay.CamMove.canceled += CameraMove;
         _inputControls.Enable();
         _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
         oringinPos = _cameraManager.cameraOriginPos;
