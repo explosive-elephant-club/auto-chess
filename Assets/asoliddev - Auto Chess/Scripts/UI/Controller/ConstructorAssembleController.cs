@@ -108,18 +108,18 @@ public class ConstructorAssembleController : BaseControllerUI
 
     void UpdatePitchSlider(float value)
     {
-        camController.UpdatePitch(value);
+        //camController.UpdatePitch(value);
     }
     void UpdateYawSlider(float value)
     {
-        camController.UpdateYaw(value);
+        //camController.UpdateYaw(value);
     }
     void ZoomInBtnClick()
     {
         if (zoomIndex < zoomValues.Length - 1)
         {
             zoomIndex++;
-            camController.UpdateZoom(zoomValues[zoomIndex]);
+            //camController.UpdateZoom(zoomValues[zoomIndex]);
             zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
         }
     }
@@ -128,7 +128,7 @@ public class ConstructorAssembleController : BaseControllerUI
         if (zoomIndex > 0)
         {
             zoomIndex--;
-            camController.UpdateZoom(zoomValues[zoomIndex]);
+            //camController.UpdateZoom(zoomValues[zoomIndex]);
             zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
         }
     }
@@ -173,7 +173,7 @@ public class ConstructorAssembleController : BaseControllerUI
                 yawSlider.value = 0.5f;
                 UpdateYawSlider(0.5f);
                 zoomIndex = 2;
-                camController.UpdateZoom(zoomValues[zoomIndex]);
+                //camController.UpdateZoom(zoomValues[zoomIndex]);
                 zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
                 editToggle.isOn = isEditable;
                 RefreshConstructorPanel();
