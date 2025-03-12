@@ -56,14 +56,11 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     /// 敌人单位管理器
     /// </summary>
     public ChampionManager oponentChampionManager;
+
     /// <summary>
-    /// 主镜头控制
+    /// 镜头
     /// </summary>
-    public MainCameraController mainCameraController;
-    /// <summary>
-    /// 单位组装视角镜头控制
-    /// </summary>
-    public GOToUICameraController _GOToUICameraController;
+    public CameraManager CameraManager;
     /// <summary>
     /// 被选中的单位
     /// </summary>
@@ -223,7 +220,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
             {
                 tran.gameObject.layer = 9;
             }
-            _GOToUICameraController.ResetCam(pickedChampion.transform);
+            CameraManager.SetGoToUICameraControllerTarget(pickedChampion.transform);
         }
 
 

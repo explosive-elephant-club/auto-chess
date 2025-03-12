@@ -4,85 +4,76 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GOToUICameraController : MonoBehaviour
+public class GOToUICameraController : StateBase
 {
-    [Header("Camera Target")]
-    public Transform cameraTarget;
-
-    [Header("Init Position")]
-    [SerializeField]
-    private float cameraDist = 6f;
-
-    [SerializeField]
-    private Vector3 cameraTargetOffset;
-
-
-    
-    [Header("Camera Distance")]
-    [SerializeField]
-    private float cameraDisMoveSpeed = .001f;
-    [SerializeField]
-    private float cameraDisMax = 10f;
-    [SerializeField]
-    private float cameraDisMin = 3f;
-    
-    private Vector3 _realTargetPos;
-    private InputControls _inputControls;
-    private Vector2 _lastInputDir;
-    // Start is called before the first frame update
-    void Start()
+    public GOToUICameraController(int stateId) : base(stateId)
     {
-        _inputControls = new InputControls();
+        _inputControls = new();
         _inputControls.GamePlay.CamZoom.started += UpdateDis;
-        ResetCam();
     }
 
-    private void OnEnable()
+    private CameraManager _cameraManager;
+    private InputControls _inputControls;
+    private Vector3 _realTargetPos;
+    private Vector2 _lastInputDir;
+    private Transform _cameraTransform;
+
+    public override void DoOnEnter()
     {
+        base.DoOnEnter();
         _inputControls.Enable();
+        ResetCam();
+        StateMachine.eventCenter.AddListener<Transform, float>(CameraStateMachineHelper.ResetGoToUICameraTarget, ResetCam);
+        _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
+        _cameraTransform = _cameraManager.mainCamera.transform;
     }
 
-    private void OnDisable()
+    public override void DoOnExit()
     {
+        base.DoOnExit();
         _inputControls.Disable();
+        StateMachine.eventCenter.RemoveListener<Transform, float>(CameraStateMachineHelper.ResetGoToUICameraTarget, ResetCam);
+        _cameraManager = null;
     }
-
-    private void Update()
+    
+    public override void DoOnUpdate()
     {
-        if (cameraTarget != null)
+        base.DoOnUpdate();
+        if (_cameraManager.cameraTarget != null)
         {
             _lastInputDir = _inputControls.GamePlay.CamMove.ReadValue<Vector2>();
         }
     }
 
-    private void FixedUpdate()
+    public override void DoOnFixedUpdate()
     {
-        if (cameraTarget != null && _lastInputDir.sqrMagnitude > 0.01f)
+        base.DoOnFixedUpdate();
+        if (_cameraManager.cameraTarget != null && _lastInputDir.sqrMagnitude > 0.01f)
         {
-            transform.RotateAround(cameraTarget.position + cameraTargetOffset, -cameraTarget.up, _lastInputDir.x);
-            transform.RotateAround(cameraTarget.position + cameraTargetOffset, transform.right, _lastInputDir.y);
+            _cameraTransform.RotateAround(_cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset, -_cameraManager.cameraTarget.up, _lastInputDir.x);
+            _cameraTransform.RotateAround(_cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset, _cameraTransform.right, _lastInputDir.y);
         }
     }
     
     public void UpdateDis(InputAction.CallbackContext context)
     {
-        if (cameraTarget == null) return;
-        Vector3 dir = (transform.position - _realTargetPos).normalized;
-        cameraDist -= context.ReadValue<float>() * cameraDisMoveSpeed;
-        cameraDist = Mathf.Clamp(cameraDist, cameraDisMin, cameraDisMax);
-        transform.position = _realTargetPos + dir *  cameraDist;
-        transform.LookAt(cameraTarget);
+        if (_cameraManager.cameraTarget == null) return;
+        Vector3 dir = (_cameraTransform.position - _realTargetPos).normalized;
+        _cameraManager.cameraDist -= context.ReadValue<float>() * _cameraManager.cameraDisMoveSpeed;
+        _cameraManager.cameraDist = Mathf.Clamp(_cameraManager.cameraDist, _cameraManager.cameraDisMin, _cameraManager.cameraDisMax);
+        _cameraTransform.position = _realTargetPos + dir *  _cameraManager.cameraDist;
+        _cameraTransform.LookAt(_cameraManager.cameraTarget);
     }
 
     public void ResetCam(Transform _cameraTarget = null, float height = 0f)
     {
-        cameraTarget = _cameraTarget;
-        if (cameraTarget != null)
+        _cameraManager.cameraTarget = _cameraTarget;
+        if (_cameraManager.cameraTarget != null)
         {
-            _realTargetPos = cameraTarget.position + cameraTargetOffset + Vector3.up * height;
-            transform.position = _realTargetPos;
-            transform.position += cameraTarget.forward * cameraDist;
-            transform.LookAt(cameraTarget);
+            _realTargetPos = _cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset + Vector3.up * height;
+            _cameraTransform.position = _realTargetPos;
+            _cameraTransform.position += _cameraManager.cameraTarget.forward * _cameraManager.cameraDist;
+            _cameraTransform.LookAt(_cameraManager.cameraTarget);
         }
     }
 }

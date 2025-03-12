@@ -556,9 +556,9 @@ public class ChampionManager : MonoBehaviour, IGameStage
             UIController.Instance.championInfoController.UpdateUI();
             UIController.Instance.constructorAssembleController.UpdateUI();
         }
-        if (GamePlayController.Instance._GOToUICameraController.cameraTarget == championController.transform)
+        if (GamePlayController.Instance.CameraManager.cameraTarget == championController.transform)
         {
-            GamePlayController.Instance._GOToUICameraController.ResetCam();
+            GamePlayController.Instance.CameraManager.SetGoToUICameraControllerTarget();
         }
         championController.OnRemove();
         Destroy(championController.gameObject);
