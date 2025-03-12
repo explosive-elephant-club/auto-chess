@@ -8,28 +8,36 @@ public class MainCameraController : StateBase
 {
     public MainCameraController(int stateId) : base(stateId)
     {
-        
+        _inputControls = new();
+        _inputControls.GamePlay.CamZoom.started += CameraZoom;
+        _inputControls.GamePlay.CamZoom.canceled += CameraZoom;
+        _inputControls.GamePlay.CamMove.started += CameraMove;
+        _inputControls.GamePlay.CamMove.canceled += CameraMove;
     }
     
     Vector2 inputDir;
     float inputZoom;
     Vector3 oringinPos;
     private CameraManager _cameraManager;
-    private InputControls _inputControls = new();
+    private InputControls _inputControls;
     
     public override void DoOnEnter()
     {
         base.DoOnEnter();
-        _inputControls.GamePlay.CamZoom.started += CameraZoom;
-        _inputControls.GamePlay.CamZoom.canceled += CameraZoom;
-        _inputControls.GamePlay.CamMove.started += CameraMove;
-        _inputControls.GamePlay.CamMove.canceled += CameraMove;
+
         _inputControls.Enable();
         _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
         oringinPos = _cameraManager.cameraOriginPos;
         
         _cameraManager.mainCamera.transform.position = oringinPos;
         _cameraManager.targetPos += _cameraManager.mainCamera.transform.position;
+    }
+    
+    public override void DoOnExit()
+    {
+        base.DoOnExit();
+        _inputControls.Disable();
+        _cameraManager = null;
     }
 
     public override void DoOnFixedUpdate()

@@ -8,11 +8,12 @@ public class GOToUICameraController : StateBase
 {
     public GOToUICameraController(int stateId) : base(stateId)
     {
-        
+        _inputControls = new();
+        _inputControls.GamePlay.CamZoom.started += UpdateDis;
     }
 
     private CameraManager _cameraManager;
-    private InputControls _inputControls = new();
+    private InputControls _inputControls;
     private Vector3 _realTargetPos;
     private Vector2 _lastInputDir;
     private Transform _cameraTransform;
@@ -20,7 +21,6 @@ public class GOToUICameraController : StateBase
     public override void DoOnEnter()
     {
         base.DoOnEnter();
-        _inputControls.GamePlay.CamZoom.started += UpdateDis;
         _inputControls.Enable();
         ResetCam();
         StateMachine.eventCenter.AddListener<Transform, float>(CameraStateMachineHelper.ResetGoToUICameraTarget, ResetCam);
