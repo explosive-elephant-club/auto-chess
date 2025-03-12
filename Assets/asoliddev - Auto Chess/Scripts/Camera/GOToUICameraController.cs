@@ -27,18 +27,41 @@ public class GOToUICameraController : MonoBehaviour
     private float cameraDisMin = 3f;
     
     private Vector3 _realTargetPos;
+    private InputControls _inputControls;
+    private Vector2 _lastInputDir;
     // Start is called before the first frame update
     void Start()
     {
+        _inputControls = new InputControls();
+        _inputControls.GamePlay.CamZoom.started += UpdateDis;
         ResetCam();
     }
 
-    public void UpdateRotation(InputAction.CallbackContext context)
+    private void OnEnable()
     {
-        if (cameraTarget == null) return;
-        var inputDir = context.ReadValue<Vector2>();
-        transform.RotateAround(cameraTarget.position + cameraTargetOffset, -cameraTarget.up, inputDir.x);
-        transform.RotateAround(cameraTarget.position + cameraTargetOffset, transform.right, inputDir.y);
+        _inputControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _inputControls.Disable();
+    }
+
+    private void Update()
+    {
+        if (cameraTarget != null)
+        {
+            _lastInputDir = _inputControls.GamePlay.CamMove.ReadValue<Vector2>();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (cameraTarget != null && _lastInputDir.sqrMagnitude > 0.01f)
+        {
+            transform.RotateAround(cameraTarget.position + cameraTargetOffset, -cameraTarget.up, _lastInputDir.x);
+            transform.RotateAround(cameraTarget.position + cameraTargetOffset, transform.right, _lastInputDir.y);
+        }
     }
     
     public void UpdateDis(InputAction.CallbackContext context)
@@ -46,7 +69,6 @@ public class GOToUICameraController : MonoBehaviour
         if (cameraTarget == null) return;
         Vector3 dir = (transform.position - _realTargetPos).normalized;
         cameraDist -= context.ReadValue<float>() * cameraDisMoveSpeed;
-        Debug.Log(context.ReadValue<float>() * cameraDisMoveSpeed);
         cameraDist = Mathf.Clamp(cameraDist, cameraDisMin, cameraDisMax);
         transform.position = _realTargetPos + dir *  cameraDist;
         transform.LookAt(cameraTarget);
@@ -54,7 +76,7 @@ public class GOToUICameraController : MonoBehaviour
 
     public void ResetCam(Transform _cameraTarget = null, float height = 0f)
     {
-        //cameraTarget = _cameraTarget;
+        cameraTarget = _cameraTarget;
         if (cameraTarget != null)
         {
             _realTargetPos = cameraTarget.position + cameraTargetOffset + Vector3.up * height;
