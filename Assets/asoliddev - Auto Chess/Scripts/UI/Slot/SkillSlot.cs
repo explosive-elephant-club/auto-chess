@@ -15,21 +15,22 @@ public class SkillSlot : ContainerSlot
     public SkillState skillState;
 
     #region 自动绑定
-    private Image _imgPickTip;
-    private Image _imgDefBG;
-    private Image _imgIcon;
-    private Image _imgCDMask;
-    private UICustomText _textCount;
-    //自动获取组件添加字典管理
-    public override void AutoBindingUI()
-    {
-        _imgPickTip = transform.Find("PickTip_Auto").GetComponent<Image>();
-        _imgDefBG = transform.Find("DefBG_Auto").GetComponent<Image>();
-        _imgIcon = transform.Find("DefBG_Auto/Mask/Icon_Auto").GetComponent<Image>();
-        _imgCDMask = transform.Find("DefBG_Auto/Mask/CDMask_Auto").GetComponent<Image>();
-        _textCount = transform.Find("Count_Auto").GetComponent<UICustomText>();
-    }
-    #endregion
+	private Image _imgPickTip;
+	private Image _imgDefBG;
+	private Image _imgIcon;
+	private Image _imgCDMask;
+	private UICustomText _textCount;
+	//自动获取组件添加字典管理
+	public override void AutoBindingUI()
+	{
+		_imgPickTip = transform.Find("PickTip_Auto").GetComponent<Image>();
+		_imgDefBG = transform.Find("DefBG_Auto").GetComponent<Image>();
+		_imgIcon = transform.Find("DefBG_Auto/Mask/Icon_Auto").GetComponent<Image>();
+		_imgCDMask = transform.Find("DefBG_Auto/Mask/CDMask_Auto").GetComponent<Image>();
+		_textCount = transform.Find("DefBG_Auto/Count_Auto").GetComponent<UICustomText>();
+	}
+	#endregion
+
 
 
 
@@ -192,12 +193,4 @@ public class SkillSlot : ContainerSlot
         UIController.Instance.championInfoController.OnPointLeaveSlot();
     }
 
-    // Update is called once per frame
-    public void PopupShow(SkillData data)
-    {
-        Clear();
-        ClearAllListener();
-        _imgIcon.gameObject.SetActive(true);
-        _imgIcon.sprite = Resources.Load<Sprite>(data.icon);
-    }
 }

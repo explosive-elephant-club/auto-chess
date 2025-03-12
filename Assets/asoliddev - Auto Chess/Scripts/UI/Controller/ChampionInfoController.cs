@@ -262,6 +262,7 @@ public class ChampionInfoController : BaseControllerUI
 
     public void OnSkillSlotDragEnd(SkillSlot skillSlot)
     {
+
         if (pointEnterSlot == null)
             return;
 
@@ -276,17 +277,18 @@ public class ChampionInfoController : BaseControllerUI
             }
             else
             {
-                int index2 = deactivatedSkillSlots.IndexOf(pointEnterSlot);
+                int index2 = skillController.skillList.IndexOf(skillSlot.skill);
                 int index3 = skillController.skillList.IndexOf(pointEnterSlot.skill);
-
                 if (pointEnterSlot.skill.state == SkillState.CD)
                 {
+
+
                     skillController.RemoveActivedSkill(index1);
                     skillController.SwitchDeactivedSkill(index3, index2);
                 }
                 else
                 {
-                    skillController.AddActivedSkill(index1, index2);
+                    skillController.AddActivedSkill(index1, index3);
                     skillController.SwitchDeactivedSkill(index3, index2);
                 }
             }

@@ -477,7 +477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151, y: -473.3695}
+  m_AnchoredPosition: {x: 151, y: -551.3695}
   m_SizeDelta: {x: 298, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1832440403887076474
@@ -1061,7 +1061,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151, y: -952.7673}
+  m_AnchoredPosition: {x: 151, y: -502.58252}
   m_SizeDelta: {x: 302, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4628392850006458691
@@ -1249,7 +1249,6 @@ GameObject:
   - component: {fileID: 8899739512003007027}
   - component: {fileID: 7003289870447326479}
   - component: {fileID: 5890064873536374213}
-  - component: {fileID: 5731102408563786101}
   - component: {fileID: 2153688647723910270}
   m_Layer: 5
   m_Name: ChampionInfoController
@@ -1307,21 +1306,6 @@ MonoBehaviour:
   activatedSkillSlots: []
   deactivatedSkillSlots: []
   pointEnterSlot: {fileID: 0}
---- !u!114 &5731102408563786101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2784681526917488199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37e97a2a5cc5c084f8ca66b63905754e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isExpand: 0
-  canvasGroup: {fileID: 0}
-  allSizeFitterRects: []
 --- !u!114 &2153688647723910270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2513,7 +2497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151, y: -539.3695}
+  m_AnchoredPosition: {x: 151, y: -783.3695}
   m_SizeDelta: {x: 298, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5159929322060010283
@@ -4949,6 +4933,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: armorRegeneration
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -7397,6 +7386,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: acidDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -10134,6 +10128,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: takeDamageMultiple
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10297,6 +10296,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: castDelay
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -10462,6 +10466,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: lightingDamage
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10625,6 +10634,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: iceDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -11082,6 +11096,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: physicalDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -15805,6 +15824,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: fireDefenceRate
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -18402,6 +18426,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: moveSpeed
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -20988,6 +21017,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: acidDefenceRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -26441,6 +26475,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: dodgeChange
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -26604,6 +26643,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: fireDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -29197,6 +29241,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: electricPower
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -29653,6 +29702,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: chargingDelay
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -39381,6 +39435,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: damageDefenceRate
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -44103,6 +44162,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: physicalDefenceRate
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -44266,6 +44330,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: critMultiple
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -44863,6 +44932,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: iceDefenceRate
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -45026,6 +45100,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: lightingDefenceRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -45334,6 +45413,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: critChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
@@ -50062,6 +50146,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: addRange
       objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -54783,6 +54872,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: manaRegeneration
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796562042488310442, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8143060541449989269, guid: 3bb284e88eb247d4a8d6e70a61197ac4,
         type: 3}
