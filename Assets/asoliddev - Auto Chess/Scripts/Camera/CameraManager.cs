@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class CameraManager : MonoBehaviour
 {
     private FSMStateMachine _cameraFSM;
-    
+
     [Header("Camera Parameters")]
     public Camera mainCamera;
     public Camera worldCanvasCamera;
@@ -22,8 +22,11 @@ public class CameraManager : MonoBehaviour
     public float zoomMax;
     public float offsetZMin;
     public float offsetZMax;
+    public float cameraPitchMax = 89.0f;
+    public float cameraPitchMin = -89.0f;
     public Vector3 cameraOriginPos;
-    
+    public Vector3 cameraOriginRot;
+
     [Header("Camera GoToUI Parameters")]
     [Header("Camera Target")]
     public Transform cameraTarget;
@@ -39,14 +42,19 @@ public class CameraManager : MonoBehaviour
     public float cameraDisMax = 10f;
     [SerializeField]
     public float cameraDisMin = 3f;
-    
+    [SerializeField]
+    public float curDis = 0;
+    public float curCameraPitch;
     void Awake()
     {
+        cameraOriginPos = mainCamera.transform.position;
+        cameraOriginRot = mainCamera.transform.rotation.eulerAngles;
+
         _cameraFSM = new FSMStateMachine(gameObject);
         _cameraFSM.AddState(new GOToUICameraController(CameraStateMachineHelper.CameraGoToUIState));
         _cameraFSM.AddState(new MainCameraController(CameraStateMachineHelper.CameraNormalState));
         SetCameraController(CameraStateMachineHelper.CameraNormalState);
-        cameraOriginPos = mainCamera.transform.position;
+
     }
 
     void Update()
@@ -64,14 +72,8 @@ public class CameraManager : MonoBehaviour
         _cameraFSM.GotoState(cameraStateId);
     }
 
-    public void SetGoToUICameraControllerTarget(Transform target = null, float height = 0f)
+    public int GetCurCamState()
     {
-        if (target == null)
-        {
-            SetCameraController(CameraStateMachineHelper.CameraNormalState);
-            return;
-        }
-        SetCameraController(CameraStateMachineHelper.CameraGoToUIState);
-        _cameraFSM.eventCenter.Broadcast(CameraStateMachineHelper.ResetGoToUICameraTarget, target, height);
+        return _cameraFSM.currentStateID;
     }
 }

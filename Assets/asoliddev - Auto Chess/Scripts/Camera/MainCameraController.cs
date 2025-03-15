@@ -14,30 +14,35 @@ public class MainCameraController : StateBase
         _inputControls.GamePlay.CamMove.started += CameraMove;
         _inputControls.GamePlay.CamMove.canceled += CameraMove;
     }
-    
+
     Vector2 inputDir;
     float inputZoom;
     Vector3 oringinPos;
     private CameraManager _cameraManager;
     private InputControls _inputControls;
-    
+
+    Vector3 savePos;
+    Vector3 saveOrthographicSize;
     public override void DoOnEnter()
     {
         base.DoOnEnter();
 
         _inputControls.Enable();
-        _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
+        if (_cameraManager == null)
+            _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
         oringinPos = _cameraManager.cameraOriginPos;
-        
-        _cameraManager.mainCamera.transform.position = oringinPos;
-        _cameraManager.targetPos += _cameraManager.mainCamera.transform.position;
+        _cameraManager.mainCamera.orthographic = true;
+
+        _cameraManager.targetPos = oringinPos;
+        //_cameraManager.mainCamera.transform.position = oringinPos;
+        _cameraManager.mainCamera.transform.rotation = Quaternion.Euler(_cameraManager.cameraOriginRot);
+
     }
-    
+
     public override void DoOnExit()
     {
         base.DoOnExit();
         _inputControls.Disable();
-        _cameraManager = null;
     }
 
     public override void DoOnFixedUpdate()

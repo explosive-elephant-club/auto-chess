@@ -60,7 +60,7 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     /// <summary>
     /// 镜头
     /// </summary>
-    public CameraManager CameraManager;
+    public CameraManager cameraManager;
     /// <summary>
     /// 被选中的单位
     /// </summary>
@@ -220,7 +220,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
             {
                 tran.gameObject.layer = 9;
             }
-            CameraManager.SetGoToUICameraControllerTarget(pickedChampion.transform);
         }
 
 
@@ -284,16 +283,20 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     }
     public void OnUpdatePreparation()
     {
-        //监听鼠标点击来选择单位，并启动单位的拖拽操作
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (GamePlayController.Instance.cameraManager.GetCurCamState() == CameraStateMachineHelper.CameraNormalState)
         {
-            PickChampion();
-            GamePlayController.Instance.ownChampionManager.StartDrag();
+            //监听鼠标点击来选择单位，并启动单位的拖拽操作
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                PickChampion();
+                GamePlayController.Instance.ownChampionManager.StartDrag();
+            }
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                GamePlayController.Instance.ownChampionManager.StopDrag();
+            }
         }
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
-        {
-            GamePlayController.Instance.ownChampionManager.StopDrag();
-        }
+
     }
     public void OnLeavePreparation()
     {

@@ -25,11 +25,11 @@ public class UIController : CreateSingleton<UIController>, IGameStage
 
     protected override void InitSingleton()
     {
+        constructorAssembleController = ResourceManager.LoadGameObjectResource("UI/Controller/ConstructorAssembleController", canvasRoot).GetComponent<ConstructorAssembleController>();
         levelInfoController = ResourceManager.LoadGameObjectResource("UI/Controller/LevelInfoController", canvasRoot).GetComponent<LevelInfoController>();
         shopController = ResourceManager.LoadGameObjectResource("UI/Controller/ShopGUIController", canvasRoot).GetComponent<ShopGUIController>();
         inventoryController = ResourceManager.LoadGameObjectResource("UI/Controller/InventoryController", canvasRoot).GetComponent<InventoryController>();
         championInfoController = ResourceManager.LoadGameObjectResource("UI/Controller/ChampionInfoController", canvasRoot).GetComponent<ChampionInfoController>();
-        constructorAssembleController = ResourceManager.LoadGameObjectResource("UI/Controller/ConstructorAssembleController", canvasRoot).GetComponent<ConstructorAssembleController>();
     }
 
     /// <summary>

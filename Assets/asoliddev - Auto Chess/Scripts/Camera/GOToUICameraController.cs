@@ -22,20 +22,24 @@ public class GOToUICameraController : StateBase
     {
         base.DoOnEnter();
         _inputControls.Enable();
-        ResetCam();
-        StateMachine.eventCenter.AddListener<Transform, float>(CameraStateMachineHelper.ResetGoToUICameraTarget, ResetCam);
-        _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
+        if (_cameraManager == null)
+            _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
         _cameraTransform = _cameraManager.mainCamera.transform;
+
+        ResetCam(GamePlayController.Instance.pickedChampion.transform, 0);
+        _cameraManager.mainCamera.Reset();
+        _cameraManager.mainCamera.orthographic = false;
+        _cameraManager.mainCamera.fieldOfView = 90;
+
+        _cameraManager.mainCamera.ResetWorldToCameraMatrix();
     }
 
     public override void DoOnExit()
     {
         base.DoOnExit();
         _inputControls.Disable();
-        StateMachine.eventCenter.RemoveListener<Transform, float>(CameraStateMachineHelper.ResetGoToUICameraTarget, ResetCam);
-        _cameraManager = null;
     }
-    
+
     public override void DoOnUpdate()
     {
         base.DoOnUpdate();
@@ -50,19 +54,23 @@ public class GOToUICameraController : StateBase
         base.DoOnFixedUpdate();
         if (_cameraManager.cameraTarget != null && _lastInputDir.sqrMagnitude > 0.01f)
         {
-            _cameraTransform.RotateAround(_cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset, -_cameraManager.cameraTarget.up, _lastInputDir.x);
-            _cameraTransform.RotateAround(_cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset, _cameraTransform.right, _lastInputDir.y);
+            _cameraTransform.RotateAround(_cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset, Vector3.down, _lastInputDir.x);
+            if (_cameraManager.curCameraPitch + _lastInputDir.y > _cameraManager.cameraPitchMin && _cameraManager.curCameraPitch + _lastInputDir.y < _cameraManager.cameraPitchMax)
+                _cameraTransform.RotateAround(_cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset, _cameraTransform.right, _lastInputDir.y);
+
+            _cameraManager.curCameraPitch = _cameraTransform.localEulerAngles.x > 180 ? _cameraTransform.localEulerAngles.x - 360 : _cameraTransform.localEulerAngles.x;
         }
+        _cameraManager.curDis = (_cameraTransform.position - _realTargetPos).magnitude;
     }
-    
+
     public void UpdateDis(InputAction.CallbackContext context)
     {
         if (_cameraManager.cameraTarget == null) return;
         Vector3 dir = (_cameraTransform.position - _realTargetPos).normalized;
         _cameraManager.cameraDist -= context.ReadValue<float>() * _cameraManager.cameraDisMoveSpeed;
         _cameraManager.cameraDist = Mathf.Clamp(_cameraManager.cameraDist, _cameraManager.cameraDisMin, _cameraManager.cameraDisMax);
-        _cameraTransform.position = _realTargetPos + dir *  _cameraManager.cameraDist;
-        _cameraTransform.LookAt(_cameraManager.cameraTarget);
+        _cameraTransform.position = _realTargetPos + dir * _cameraManager.cameraDist;
+        //_cameraTransform.LookAt(_cameraManager.cameraTarget);
     }
 
     public void ResetCam(Transform _cameraTarget = null, float height = 0f)
@@ -73,7 +81,7 @@ public class GOToUICameraController : StateBase
             _realTargetPos = _cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset + Vector3.up * height;
             _cameraTransform.position = _realTargetPos;
             _cameraTransform.position += _cameraManager.cameraTarget.forward * _cameraManager.cameraDist;
-            _cameraTransform.LookAt(_cameraManager.cameraTarget);
+            _cameraTransform.LookAt(_cameraManager.cameraTarget.position + _cameraManager.cameraTargetOffset);
         }
     }
 }

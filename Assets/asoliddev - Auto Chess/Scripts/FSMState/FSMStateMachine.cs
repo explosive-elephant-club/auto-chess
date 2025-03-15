@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FSMStateMachine
 {
-    private Dictionary<int, StateBase> _states;
-    private int currentStateID;
+    public Dictionary<int, StateBase> _states;
+    public int currentStateID;
     public GameObject gameObject;
     public Transform transform => gameObject?.transform;
     public EventCenter eventCenter;
@@ -16,7 +16,7 @@ public class FSMStateMachine
         this.gameObject = gameObject;
         eventCenter = new EventCenter();
     }
-    
+
     public void AddState(StateBase state)
     {
         _states.Add(state.GetId(), state);
@@ -27,13 +27,14 @@ public class FSMStateMachine
     {
         _states.Remove(state.GetId());
     }
-    
-    
+
+
     public void GotoState(int stateID)
     {
-        if(stateID == currentStateID) return;
-        
-        
+        Debug.Log("GotoState " + stateID);
+        if (stateID == currentStateID) return;
+
+
         StateBase beforeState = GetState(currentStateID);
         if (beforeState != null)
         {
@@ -44,6 +45,7 @@ public class FSMStateMachine
         StateBase state = GetState(currentStateID);
         if (state != null)
         {
+            Debug.Log("DoOnEnter() state " + currentStateID);
             state.DoOnEnter();
         }
         else
@@ -53,8 +55,9 @@ public class FSMStateMachine
                 Debug.LogError("StateMachine: Can't find state of " + currentStateID);
             }
         }
+
     }
-    
+
     public void Update()
     {
         StateBase state = GetState(currentStateID);
@@ -63,7 +66,7 @@ public class FSMStateMachine
             state.DoOnUpdate();
         }
     }
-    
+
     public void FixedUpdate()
     {
         StateBase state = GetState(currentStateID);
@@ -72,7 +75,7 @@ public class FSMStateMachine
             state.DoOnFixedUpdate();
         }
     }
-    
+
     public StateBase GetState(int stateID)
     {
         if (stateID >= 0)
