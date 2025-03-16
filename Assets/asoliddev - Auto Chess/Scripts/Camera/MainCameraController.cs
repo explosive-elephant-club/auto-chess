@@ -11,8 +11,6 @@ public class MainCameraController : StateBase
         _inputControls = new();
         _inputControls.GamePlay.CamZoom.started += CameraZoom;
         _inputControls.GamePlay.CamZoom.canceled += CameraZoom;
-        _inputControls.GamePlay.CamMove.started += CameraMove;
-        _inputControls.GamePlay.CamMove.canceled += CameraMove;
     }
 
     Vector2 inputDir;
@@ -45,6 +43,11 @@ public class MainCameraController : StateBase
         _inputControls.Disable();
     }
 
+    public override void DoOnUpdate()
+    {
+        inputDir = _inputControls.GamePlay.CamMove.ReadValue<Vector2>();
+    }
+
     public override void DoOnFixedUpdate()
     {
         base.DoOnFixedUpdate();
@@ -75,11 +78,7 @@ public class MainCameraController : StateBase
         _cameraManager.mainCamera.orthographicSize = Mathf.Lerp(_cameraManager.mainCamera.orthographicSize, _cameraManager.targetZoom, _cameraManager.speed * Time.deltaTime);
         _cameraManager.worldCanvasCamera.transform.position = _cameraManager.mainCamera.transform.position;
     }
-
-    private void CameraMove(InputAction.CallbackContext context)
-    {
-        inputDir = context.ReadValue<Vector2>();
-    }
+    
 
     private void CameraZoom(InputAction.CallbackContext context)
     {
