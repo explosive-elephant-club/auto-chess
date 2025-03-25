@@ -4,22 +4,17 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
-public class MainCameraController : StateBase
+public class MainCameraController : CameraStateBase
 {
     public MainCameraController(int stateId) : base(stateId)
     {
-        _inputControls = new();
-        _inputControls.GamePlay.CamZoom.started += CameraZoom;
-        _inputControls.GamePlay.CamZoom.canceled += CameraZoom;
-        _inputControls.GamePlay.CamMove.started += CameraMove;
-        _inputControls.GamePlay.CamMove.canceled += CameraMove;
+        inputControls.GamePlay.CamZoom.started += CameraZoom;
+        inputControls.GamePlay.CamZoom.canceled += CameraZoom;
     }
 
     Vector2 inputDir;
     float inputZoom;
     Vector3 oringinPos;
-    private CameraManager _cameraManager;
-    private InputControls _inputControls;
 
     Vector3 savePos;
     Vector3 saveOrthographicSize;
@@ -27,22 +22,16 @@ public class MainCameraController : StateBase
     {
         base.DoOnEnter();
 
-        _inputControls.Enable();
-        if (_cameraManager == null)
-            _cameraManager = StateMachine.gameObject.GetComponent<CameraManager>();
-        oringinPos = _cameraManager.cameraOriginPos;
-        _cameraManager.mainCamera.orthographic = true;
-
-        _cameraManager.targetPos = oringinPos;
-        //_cameraManager.mainCamera.transform.position = oringinPos;
-        _cameraManager.mainCamera.transform.rotation = Quaternion.Euler(_cameraManager.cameraOriginRot);
-
+        oringinPos = CameraManager.cameraOriginPos;
+        CameraManager.mainCamera.orthographic = true;
+        CameraManager.targetPos = oringinPos;
+        //cameraManager.mainCamera.transform.position = oringinPos;
+        CameraManager.mainCamera.transform.rotation = Quaternion.Euler(CameraManager.cameraOriginRot);
     }
 
-    public override void DoOnExit()
+    public override void DoOnUpdate()
     {
-        base.DoOnExit();
-        _inputControls.Disable();
+        inputDir = inputControls.GamePlay.CamMove.ReadValue<Vector2>();
     }
 
     public override void DoOnFixedUpdate()
@@ -50,36 +39,32 @@ public class MainCameraController : StateBase
         base.DoOnFixedUpdate();
         if (inputDir.magnitude >= 0.05f)
         {
-            _cameraManager.targetPos = _cameraManager.mainCamera.transform.position;
-            _cameraManager.targetPos += Quaternion.AngleAxis(-45, Vector3.up) * new Vector3(inputDir.x, 0, inputDir.y);
+            CameraManager.targetPos = CameraManager.mainCamera.transform.position;
+            CameraManager.targetPos += Quaternion.AngleAxis(-45, Vector3.up) * new Vector3(inputDir.x, 0, inputDir.y);
         }
         else if (Mathf.Abs(inputZoom) > 0)
         {
-            _cameraManager.targetZoom = _cameraManager.mainCamera.orthographicSize + Mathf.Sign(inputZoom) * 4;
+            CameraManager.targetZoom = CameraManager.mainCamera.orthographicSize + Mathf.Sign(inputZoom) * 4;
             //target += new Vector3(0, Mathf.Sign(inputZoom) * 4, 0);
         }
-        Vector3 offset = _cameraManager.targetPos - oringinPos;
-        if (_cameraManager.offsetXMin > offset.x || _cameraManager.offsetXMax < offset.x)
+        Vector3 offset = CameraManager.targetPos - oringinPos;
+        if (CameraManager.offsetXMin > offset.x || CameraManager.offsetXMax < offset.x)
         {
-            _cameraManager.targetPos.x = _cameraManager.mainCamera.transform.position.x;
+            CameraManager.targetPos.x = CameraManager.mainCamera.transform.position.x;
         }
-        if (_cameraManager.zoomMin > _cameraManager.targetZoom || _cameraManager.zoomMax < _cameraManager.targetZoom)
+        if (CameraManager.zoomMin > CameraManager.targetZoom || CameraManager.zoomMax < CameraManager.targetZoom)
         {
-            _cameraManager.targetZoom = _cameraManager.mainCamera.orthographicSize;
+            CameraManager.targetZoom = CameraManager.mainCamera.orthographicSize;
         }
-        if (_cameraManager.offsetZMin > offset.z || _cameraManager.offsetZMax < offset.z)
+        if (CameraManager.offsetZMin > offset.z || CameraManager.offsetZMax < offset.z)
         {
-            _cameraManager.targetPos.z = _cameraManager.mainCamera.transform.position.z;
+            CameraManager.targetPos.z = CameraManager.mainCamera.transform.position.z;
         }
-        _cameraManager.mainCamera.transform.position = Vector3.Slerp(_cameraManager.mainCamera.transform.position, _cameraManager.targetPos, _cameraManager.speed * Time.deltaTime);
-        _cameraManager.mainCamera.orthographicSize = Mathf.Lerp(_cameraManager.mainCamera.orthographicSize, _cameraManager.targetZoom, _cameraManager.speed * Time.deltaTime);
-        _cameraManager.worldCanvasCamera.transform.position = _cameraManager.mainCamera.transform.position;
+        CameraManager.mainCamera.transform.position = Vector3.Slerp(CameraManager.mainCamera.transform.position, CameraManager.targetPos, CameraManager.speed * Time.deltaTime);
+        CameraManager.mainCamera.orthographicSize = Mathf.Lerp(CameraManager.mainCamera.orthographicSize, CameraManager.targetZoom, CameraManager.speed * Time.deltaTime);
+        CameraManager.worldCanvasCamera.transform.position = CameraManager.mainCamera.transform.position;
     }
-
-    private void CameraMove(InputAction.CallbackContext context)
-    {
-        inputDir = context.ReadValue<Vector2>();
-    }
+    
 
     private void CameraZoom(InputAction.CallbackContext context)
     {
