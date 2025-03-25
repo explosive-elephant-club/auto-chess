@@ -88,8 +88,11 @@ public class ConstructorTreeViewSlot : ContainerSlot
         {
             if (constructorSlot.slotTrans != null)
             {
-                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructorSlot.slotTrans);
-                SetSortingOrder(constructorSlot.slotTrans);
+
+                Vector3 offset = new Vector3(constructorSlot.slotType.offset.x, constructorSlot.slotType.offset.y, constructorSlot.slotType.offset.z);
+                Debug.Log(constructorSlot.slotType.name + "  " + constructorSlot.slotType.offset.y);
+                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructorSlot.slotTrans.position + offset);
+                //SetSortingOrder(constructorSlot.slotTrans);
             }
 
         }
@@ -98,8 +101,8 @@ public class ConstructorTreeViewSlot : ContainerSlot
             //如果没有槽位,但是有部件，则此UI位置跟随部件的位置
             if (constructor != null)
             {
-                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructor.transform);
-                SetSortingOrder(constructor.transform);
+                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructor.transform.position + new Vector3(0, 0.5f, 0));
+                //SetSortingOrder(constructor.transform);
             }
         }
         //如果存在父节点UI 用线连接父节点UI
@@ -144,9 +147,9 @@ public class ConstructorTreeViewSlot : ContainerSlot
     /// </summary>
     /// <param name="target">需要显示的目标</param>
     /// <returns>计算出UI的anchoredPosition</returns>
-    public Vector3 GetScreenPosition(Transform target)
+    public Vector3 GetScreenPosition(Vector3 pos)
     {
-        Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
+        Vector3 viewportPos = cam.WorldToViewportPoint(pos);
         RectTransform canvasRtm = controller.GetComponent<RectTransform>();
         Vector2 uguiPos = Vector2.zero;
         uguiPos.x = (viewportPos.x - .5f) * canvasRtm.rect.width * 1.2f;
@@ -341,6 +344,11 @@ public class ConstructorTreeViewSlot : ContainerSlot
     {
         //检查槽位和部件是否适配
         ConstructorType type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
+        Debug.Log("检查槽位和部件是否适配 " + type);
+        foreach (var t in constructorSlot.adaptTypes)
+        {
+            Debug.Log(t);
+        }
         if (constructorSlot.adaptTypes.Contains(type) && constructorSlot.isAble)
         {
             //如果已有部件，先移除
@@ -374,8 +382,8 @@ public class ConstructorTreeViewSlot : ContainerSlot
             removedData = parent.constructor.removeConstructor(constructorSlot);
             ClearSubSlot();
             constructor = null;
-            _imgConstructorIcon.gameObject.SetActive(false);
-            _imgSlotIcon.gameObject.SetActive(false);
+            _imgConstructorPanel.gameObject.SetActive(false);
+            _imgSlotPanel.gameObject.SetActive(false);
             ClearAllListener();
             Init(controller, parent, constructorSlot);
         }
@@ -420,10 +428,12 @@ public class ConstructorTreeViewSlot : ContainerSlot
             UIController.Instance.inventoryController.pointEnterInventorySlot.AttachConstructor(this);
             //AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
         }
-        else if (UIController.Instance.inventoryController._imgViewport == InputController.Instance.ui)
+        else if (InputController.Instance.ui == UIController.Instance.inventoryController._imgViewport.gameObject ||
+            InputController.Instance.ui == UIController.Instance.inventoryController._imgRecyclePanel.gameObject)
         {
             RemoveConstructor();
         }
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(false);
 
     }
     public void OnPointerDownEvent(PointerEventData eventData)
@@ -432,6 +442,7 @@ public class ConstructorTreeViewSlot : ContainerSlot
         draggedUI.Init(_imgConstructorIcon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(true);
     }
 
 

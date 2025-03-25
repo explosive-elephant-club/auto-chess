@@ -44,11 +44,14 @@ public class InventoryController : BaseControllerUI
     private Image _imgPickAllBtn;
     private Image _imgCancelAllBtn;
     public Image _imgViewport;
+    public Image _imgRecyclePanel;
+    public Image _imgSellPanel;
     private UICustomText _textName;
     private UICustomText _textType;
     private UICustomText _textCost;
     private UICustomText _textBonusTypeBar;
     private UICustomText _textSlotsBar;
+    private GridLayoutGroup _layoutGroupTypePick;
     //自动获取组件添加字典管理
     public override void AutoBindingUI()
     {
@@ -64,13 +67,17 @@ public class InventoryController : BaseControllerUI
         _imgPickAllBtn = transform.Find("BG/TypePick_Auto/PickAllBtn_Auto").GetComponent<Image>();
         _imgCancelAllBtn = transform.Find("BG/TypePick_Auto/CancelAllBtn_Auto").GetComponent<Image>();
         _imgViewport = transform.Find("BG/InventorySlots/Viewport_Auto").GetComponent<Image>();
+        _imgRecyclePanel = transform.Find("BG/RecyclePanel_Auto").GetComponent<Image>();
+        _imgSellPanel = transform.Find("BG/SellPanel_Auto").GetComponent<Image>();
         _textName = transform.Find("BG/Title/Name_Auto").GetComponent<UICustomText>();
         _textType = transform.Find("BG/Title/Type_Auto").GetComponent<UICustomText>();
         _textCost = transform.Find("BG/Title/Cost_Auto").GetComponent<UICustomText>();
         _textBonusTypeBar = transform.Find("BG/Title/BonusTypeBar_Auto").GetComponent<UICustomText>();
         _textSlotsBar = transform.Find("BG/Title/SlotsBar_Auto").GetComponent<UICustomText>();
+        _layoutGroupTypePick = transform.Find("BG/TypePick_Auto").GetComponent<GridLayoutGroup>();
     }
     #endregion
+
 
     public override void Awake()
     {
@@ -80,11 +87,12 @@ public class InventoryController : BaseControllerUI
         {
             inventorySlots.Add(child.gameObject.GetComponent<InventorySlot>());
         }
+        AddAllListener();
     }
 
     void Start()
     {
-        AddAllListener();
+
         UpdateUI();
     }
 
@@ -144,6 +152,7 @@ public class InventoryController : BaseControllerUI
         {
             SetUIActive(false);
         }
+        SetRecycleAndSellPanel(false);
         GetPickedConstructors();
         UpdateNewCount();
         UpdateInventorySlots();
@@ -184,6 +193,12 @@ public class InventoryController : BaseControllerUI
                 inventorySlots[i].Init(pickedConstructors[i]);
             }
         }
+    }
+
+    public void SetRecycleAndSellPanel(bool b)
+    {
+        _imgRecyclePanel.gameObject.SetActive(b);
+        _imgSellPanel.gameObject.SetActive(b);
     }
 
     public void AddConstructors(List<ConstructorBaseData> constructorBaseDatas)

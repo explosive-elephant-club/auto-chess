@@ -138,7 +138,7 @@ public class InventorySlot : ContainerSlot
                 slotInfoList[i].SetUIActive(true);
             }
         }
-        //_imgSlotsBar.gameObject.SetActive(slotInfoArray.Count > 0);
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(false);
     }
 
     public void OnPointerDownEvent(PointerEventData eventData)
@@ -147,6 +147,7 @@ public class InventorySlot : ContainerSlot
         draggedUI.Init(_imgIcon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(true);
     }
 
     public void OnPointerUpEvent(PointerEventData eventData)

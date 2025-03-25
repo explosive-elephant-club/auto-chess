@@ -135,7 +135,14 @@ public class ChampionAttribute
 
     public void RemoveLinear(float value, ValueModifySource valueModifySource)
     {
-        linearValue.Remove(new ModifyValue(value, valueModifySource));
+        foreach (var lv in linearValue)
+        {
+            if (lv.value == value && lv.valueModifySource == valueModifySource)
+            {
+                linearValue.Remove(lv);
+                break;
+            }
+        }
     }
 
     public void AddMultiple(float value, ValueModifySource valueModifySource)
@@ -145,7 +152,14 @@ public class ChampionAttribute
 
     public void RemoveMultiple(float value, ValueModifySource valueModifySource)
     {
-        multipleValue.Remove(new ModifyValue(value, valueModifySource));
+        foreach (var mv in multipleValue)
+        {
+            if (mv.value == value && mv.valueModifySource == valueModifySource)
+            {
+                multipleValue.Remove(mv);
+                break;
+            }
+        }
     }
 
     public float GetTrueValue(float externalValue = 0)

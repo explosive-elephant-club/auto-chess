@@ -34,6 +34,17 @@ namespace ExcelConfig
 		private string _icon;
 		public string icon { get { return _icon; } }
 
+		[Serializable]
+		public class offsetClass
+		{
+			public float x;
+			public float y;
+			public float z;
+		}
+		[SerializeField]
+		private offsetClass _offset;
+		public offsetClass offset { get { return _offset; } }
+
 		[SerializeField]
 		private string[] _adaptTypes;
 		public string[] adaptTypes { get { return _adaptTypes; } }
@@ -66,6 +77,19 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _c_name);
 			TryParse(sheet[row][column++], out _icon);
+			_offset = new offsetClass();
+			string rawoffset = sheet[row][column++];
+			string[] subsoffset = rawoffset.Split(',');
+			for (int i = 0; i < subsoffset.Length; ++i)
+			{
+				var strValue = subsoffset[i];
+				if (i == 0)
+					TryParse(strValue, out offset.x);
+				else if (i == 1)
+					TryParse(strValue, out offset.y);
+				else if (i == 2)
+					TryParse(strValue, out offset.z);
+			}
 			string[] _adaptTypesArray = sheet[row][column++].Split(',');
 			int _adaptTypesCount = _adaptTypesArray.Length;
 			_adaptTypes = new string[_adaptTypesCount];

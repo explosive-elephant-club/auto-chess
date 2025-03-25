@@ -31,7 +31,6 @@ public class FSMStateMachine
 
     public void GotoState(int stateID)
     {
-        Debug.Log("GotoState " + stateID);
         if (stateID == currentStateID) return;
 
 
@@ -45,7 +44,6 @@ public class FSMStateMachine
         StateBase state = GetState(currentStateID);
         if (state != null)
         {
-            Debug.Log("DoOnEnter() state " + currentStateID);
             state.DoOnEnter();
         }
         else
