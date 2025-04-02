@@ -23,6 +23,14 @@ namespace ExcelConfig
 		public string name { get { return _name; } }
 
 		[SerializeField]
+		private string _lang_CN;
+		public string lang_CN { get { return _lang_CN; } }
+
+		[SerializeField]
+		private string _icon;
+		public string icon { get { return _icon; } }
+
+		[SerializeField]
 		private float _cost;
 		public float cost { get { return _cost; } }
 
@@ -35,6 +43,8 @@ namespace ExcelConfig
 		public ConstructorMechType(List<List<string>> sheet, int row, int column)
 		{
 			TryParse(sheet[row][column++], out _name);
+			TryParse(sheet[row][column++], out _lang_CN);
+			TryParse(sheet[row][column++], out _icon);
 			TryParse(sheet[row][column++], out _cost);
 		}
 #endif

@@ -15,6 +15,8 @@ public class ChampionInfoController : BaseControllerUI
 
     public SkillSlot pointEnterSlot;
 
+    Dictionary<string, ChampionAttributeInfo> championAttributeInfos = new Dictionary<string, ChampionAttributeInfo>();
+
     ChampionController championController;
     ChampionAttributesController attributesController;
     SkillController skillController;
@@ -30,6 +32,10 @@ public class ChampionInfoController : BaseControllerUI
         foreach (Transform child in _layoutGroupDeactivatedSkilltContent.transform)
         {
             deactivatedSkillSlots.Add(child.gameObject.GetComponent<SkillSlot>());
+        }
+        foreach (var attributeInfo in _layoutGroupAttributesContent.transform.GetComponentsInChildren<ChampionAttributeInfo>())
+        {
+            championAttributeInfos.Add(attributeInfo.gameObject.name, attributeInfo);
         }
     }
 
@@ -70,7 +76,7 @@ public class ChampionInfoController : BaseControllerUI
             UpdateArmorBar();
             UpdateMechBar();
             UpdateManaBar();
-            UpdateTypesBar();
+            UpdateBonusBar();
             UpdateAttributeData();
             UpdateSkillSlot();
             GeneralMethod.ForceRefreshContentSizeFitterUpwards(_layoutGroupActivatedSkillContent.transform);
@@ -109,6 +115,20 @@ public class ChampionInfoController : BaseControllerUI
         _layoutGroupDeactivatedSkilltContent.gameObject.SetActive(false);
     }
 
+    public void OnEnterPreparation()
+    {
+        _layoutGroupActivatedSkillContent.GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
+        _layoutGroupDeactivatedSkilltContent.gameObject.SetActive(true);
+    }
+
+    public void OnUpdatePreparation()
+    {
+        foreach (var item in championAttributeInfos)
+        {
+            item.Value.UpdateUI();
+        }
+    }
+
     public void OnUpdateCombat()
     {
         if (championController != null)
@@ -118,12 +138,6 @@ public class ChampionInfoController : BaseControllerUI
             UpdateManaBar();
         }
 
-    }
-
-    public void OnEnterPreparation()
-    {
-        _layoutGroupActivatedSkillContent.GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
-        _layoutGroupDeactivatedSkilltContent.gameObject.SetActive(true);
     }
 
     public void UpdateArmorBar()
@@ -157,15 +171,15 @@ public class ChampionInfoController : BaseControllerUI
             attributesController.curMana / attributesController.maxMana.GetTrueValue();
     }
 
-    public void UpdateTypesBar()
+    public void UpdateBonusBar()
     {
         int i = 0;
         //iterate bonuses
-        foreach (KeyValuePair<ConstructorBonusType, int> m in GamePlayController.Instance.pickedChampion.bonus)
+        foreach (KeyValuePair<ConstructorBonus, int> m in GamePlayController.Instance.pickedChampion.manufacturerBonus)
         {
             _layoutGroupManufacturersContent.transform.GetChild(i).gameObject.SetActive(true);
             _layoutGroupManufacturersContent.transform.GetChild(i).gameObject.name = m.Key.name;
-            _layoutGroupManufacturersContent.transform.GetChild(i).GetComponent<TypeSlot>().Init(m.Key, m.Value, true);
+            _layoutGroupManufacturersContent.transform.GetChild(i).GetComponent<MFInfo>().Init(m.Key, m.Value, true);
             i++;
         }
         for (int k = i; k < _layoutGroupManufacturersContent.transform.childCount; k++)
@@ -173,10 +187,28 @@ public class ChampionInfoController : BaseControllerUI
             _layoutGroupManufacturersContent.transform.GetChild(k).gameObject.SetActive(false);
 
         }
+        i = 0;
+        foreach (KeyValuePair<ConstructorBonus, int> m in GamePlayController.Instance.pickedChampion.championManeger.featureBonus)
+        {
+            _layoutGroupFeaturesContent.transform.GetChild(i).gameObject.SetActive(true);
+            _layoutGroupFeaturesContent.transform.GetChild(i).gameObject.name = m.Key.name;
+            _layoutGroupFeaturesContent.transform.GetChild(i).GetComponent<MFInfo>().Init(m.Key, m.Value, true);
+            i++;
+        }
+        for (int k = i; k < _layoutGroupFeaturesContent.transform.childCount; k++)
+        {
+            _layoutGroupFeaturesContent.transform.GetChild(k).gameObject.SetActive(false);
+
+        }
     }
 
     public void UpdateAttributeData()
     {
+        foreach (var item in championAttributeInfos)
+        {
+            item.Value.Init(attributesController, item.Key);
+        }
+        /*
         _layoutGroupAttributesContent.transform.Find("Panel1/moveSpeed").GetComponent<ChampionAttributeInfo>().Init(attributesController.moveSpeed);
         _layoutGroupAttributesContent.transform.Find("Panel1/addRange").GetComponent<ChampionAttributeInfo>().Init(attributesController.addRange);
         _layoutGroupAttributesContent.transform.Find("Panel1/electricPower").GetComponent<ChampionAttributeInfo>().Init(attributesController.electricPower);
@@ -184,7 +216,7 @@ public class ChampionInfoController : BaseControllerUI
         _layoutGroupAttributesContent.transform.Find("Panel1/chargingDelay").GetComponent<ChampionAttributeInfo>().Init(attributesController.chargingDelay);
         _layoutGroupAttributesContent.transform.Find("Panel1/dodgeChange").GetComponent<ChampionAttributeInfo>().Init(attributesController.dodgeChange);
 
-        _layoutGroupAttributesContent.transform.Find("Panel2/critChange").GetComponent<ChampionAttributeInfo>().Init(attributesController.CritChange);
+        _layoutGroupAttributesContent.transform.Find("Panel2/critChange").GetComponent<ChampionAttributeInfo>().Init(attributesController.critChange);
         _layoutGroupAttributesContent.transform.Find("Panel2/critMultiple").GetComponent<ChampionAttributeInfo>().Init(attributesController.critMultiple);
         _layoutGroupAttributesContent.transform.Find("Panel2/armorRegeneration").GetComponent<ChampionAttributeInfo>().Init(attributesController.armorRegeneration);
         _layoutGroupAttributesContent.transform.Find("Panel2/manaRegeneration").GetComponent<ChampionAttributeInfo>().Init(attributesController.manaRegeneration);
@@ -202,6 +234,7 @@ public class ChampionInfoController : BaseControllerUI
         _layoutGroupAttributesContent.transform.Find("Panel4/iceDamageApplyRate").GetComponent<ChampionAttributeInfo>().Init(attributesController.iceDefenceRate);
         _layoutGroupAttributesContent.transform.Find("Panel4/lightingDamageApplyRate").GetComponent<ChampionAttributeInfo>().Init(attributesController.lightingDefenceRate);
         _layoutGroupAttributesContent.transform.Find("Panel4/acidDamageApplyRate").GetComponent<ChampionAttributeInfo>().Init(attributesController.acidDefenceRate);
+        */
     }
 
     public void UpdateSkillSlot()
@@ -229,6 +262,7 @@ public class ChampionInfoController : BaseControllerUI
 
     public void OnSkillSlotDragEnd(SkillSlot skillSlot)
     {
+
         if (pointEnterSlot == null)
             return;
 
@@ -243,17 +277,18 @@ public class ChampionInfoController : BaseControllerUI
             }
             else
             {
-                int index2 = deactivatedSkillSlots.IndexOf(pointEnterSlot);
+                int index2 = skillController.skillList.IndexOf(skillSlot.skill);
                 int index3 = skillController.skillList.IndexOf(pointEnterSlot.skill);
-
                 if (pointEnterSlot.skill.state == SkillState.CD)
                 {
+
+
                     skillController.RemoveActivedSkill(index1);
                     skillController.SwitchDeactivedSkill(index3, index2);
                 }
                 else
                 {
-                    skillController.AddActivedSkill(index1, index2);
+                    skillController.AddActivedSkill(index1, index3);
                     skillController.SwitchDeactivedSkill(index3, index2);
                 }
             }

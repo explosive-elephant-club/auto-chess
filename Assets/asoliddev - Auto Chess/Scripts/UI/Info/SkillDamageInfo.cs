@@ -27,7 +27,7 @@ public class SkillDamageInfo : ContainerInfo
     public void Init(ExcelConfig.SkillData.damageDataClass _damageInfo)
     {
         damageInfo = _damageInfo;
-        _textIconText.text = string.Format("<quad name=DamageType/Icon_{0} />", _damageInfo.type);
+        _textIconText.text = string.Format("<quad name=Icon/DamageType/Icon_{0} />", _damageInfo.type);
         _textTypeNameText.text = _damageInfo.type;
         string correctionText = _damageInfo.correction == 0 ? "" : string.Format("({0})", _damageInfo.correction);
         _textValue.text = string.Format("{0}{1}", _damageInfo.dmg, correctionText);

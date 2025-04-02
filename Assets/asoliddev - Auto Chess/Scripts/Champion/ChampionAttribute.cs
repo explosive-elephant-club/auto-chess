@@ -135,7 +135,14 @@ public class ChampionAttribute
 
     public void RemoveLinear(float value, ValueModifySource valueModifySource)
     {
-        linearValue.Remove(new ModifyValue(value, valueModifySource));
+        foreach (var lv in linearValue)
+        {
+            if (lv.value == value && lv.valueModifySource == valueModifySource)
+            {
+                linearValue.Remove(lv);
+                break;
+            }
+        }
     }
 
     public void AddMultiple(float value, ValueModifySource valueModifySource)
@@ -145,7 +152,14 @@ public class ChampionAttribute
 
     public void RemoveMultiple(float value, ValueModifySource valueModifySource)
     {
-        multipleValue.Remove(new ModifyValue(value, valueModifySource));
+        foreach (var mv in multipleValue)
+        {
+            if (mv.value == value && mv.valueModifySource == valueModifySource)
+            {
+                multipleValue.Remove(mv);
+                break;
+            }
+        }
     }
 
     public float GetTrueValue(float externalValue = 0)
@@ -166,19 +180,24 @@ public class ChampionAttribute
             return (baseValue + trueLinearValue) * trueMultipleValueValue;
     }
 
-    public float GetModifyValue()
+    public float GetConstructorModifyValue()
     {
         float trueLinearValue = 0;
         float trueMultipleValueValue = 1;
         foreach (ModifyValue modifyValue in linearValue)
         {
-            trueLinearValue += modifyValue.value;
+            if (modifyValue.valueModifySource == ValueModifySource.Constructor)
+                trueLinearValue += modifyValue.value;
         }
         foreach (ModifyValue modifyValue in multipleValue)
         {
-            trueMultipleValueValue *= modifyValue.value > -1 ? (1 + modifyValue.value) : 0;
+            if (modifyValue.valueModifySource == ValueModifySource.Constructor)
+                trueMultipleValueValue *= modifyValue.value > -1 ? (1 + modifyValue.value) : 0;
         }
-        return (baseValue + trueLinearValue) * trueMultipleValueValue - baseValue;
+        if (isNegative)
+            return 1 - (baseValue + trueLinearValue) * trueMultipleValueValue;
+        else
+            return (baseValue + trueLinearValue) * trueMultipleValueValue;
     }
 
     public float GetTrueValue(float max, float min = 0)
@@ -187,18 +206,34 @@ public class ChampionAttribute
         return Mathf.Min(max, Mathf.Max(min, noLimitValue));
     }
 
-    public string GetColor(float delta = 0)
+    public string GetColor(float delta)
     {
         string textColor = "white";
-        float n = delta == 0 ? GetModifyValue() : delta;
+        float n = delta;
         if (n != 0)
             if (isNegative)
             {
-                textColor = GetModifyValue() > 0 ? "red" : "green";
+                textColor = n > 0 ? "#FF7A7A" : "lime";
             }
             else
             {
-                textColor = GetModifyValue() < 0 ? "red" : "green";
+                textColor = n < 0 ? "#FF7A7A" : "lime";
+            }
+        return textColor;
+    }
+
+    public string GetColor()
+    {
+        string textColor = "white";
+        float n = GetTrueValue() - GetConstructorModifyValue();
+        if (n != 0)
+            if (isNegative)
+            {
+                textColor = n > 0 ? "#FF7A7A" : "lime";
+            }
+            else
+            {
+                textColor = n < 0 ? "#FF7A7A" : "lime";
             }
         return textColor;
     }

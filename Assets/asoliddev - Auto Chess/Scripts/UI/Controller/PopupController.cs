@@ -8,9 +8,9 @@ public class PopupController : BaseControllerUI
     public GameObject popupMask;
     public SkillPopup skillPopup;
     public ConstructorPopup constructorPopup;
-    public TypePopup typePopup;
+    public ManufacturerPopup manufacturerPopup;
     public AttributePopup attributePopup;
-    public ConstructorSlotPopup constructorSlotPopup;
+    public SlotPopup constructorSlotPopup;
     public Popup curPickedPopup;
     public List<Popup> nailedPopups = new List<Popup>();
 
@@ -23,8 +23,10 @@ public class PopupController : BaseControllerUI
     {
         base.Awake();
         constructorPopup = ResourceManager.LoadGameObjectResource("UI/Popup/ConstructorPopup", transform).GetComponent<ConstructorPopup>();
+        manufacturerPopup = ResourceManager.LoadGameObjectResource("UI/Popup/ManufacturerPopup", transform).GetComponent<ManufacturerPopup>();
         attributePopup = ResourceManager.LoadGameObjectResource("UI/Popup/AttributePopup", transform).GetComponent<AttributePopup>();
         skillPopup = ResourceManager.LoadGameObjectResource("UI/Popup/SkillPopup", transform).GetComponent<SkillPopup>();
+        constructorSlotPopup = ResourceManager.LoadGameObjectResource("UI/Popup/SlotPopup", transform).GetComponent<SlotPopup>();
     }
 
     // Update is called once per frame

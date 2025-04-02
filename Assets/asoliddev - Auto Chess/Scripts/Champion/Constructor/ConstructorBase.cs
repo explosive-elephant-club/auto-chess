@@ -58,6 +58,7 @@ public class ConstructorSlot
     {
         isAble = true;
         slotType = GameExcelConfig.Instance.constructorSlotTypesArray.Find(s => s.ID == slotDataID);
+        adaptTypes.Clear();
         //解析配置数据中的slotType.adaptTypes，将其转换为列表
         foreach (var t in slotType.adaptTypes)
         {
@@ -246,6 +247,7 @@ public class ConstructorBase : MonoBehaviour
         }
         //移除技能
         championController.skillController.RemoveSkill(this);
+        championController.skillController.UpdateSkillCapacity();
         UIController.Instance.championInfoController.UpdateUI();
     }
 
@@ -350,7 +352,6 @@ public class ConstructorBase : MonoBehaviour
         }
         DestroyImmediate(slot.constructorInstance.gameObject);
         slot.constructorInstance = null;
-        championController.skillController.UpdateSkillCapacity();
         return data;
     }
 
@@ -366,7 +367,6 @@ public class ConstructorBase : MonoBehaviour
             data.Add(c.constructorData);
             c.OnRemove();
         }
-        championController.skillController.UpdateSkillCapacity();
         DestroyImmediate(this.gameObject);
         return data;
     }

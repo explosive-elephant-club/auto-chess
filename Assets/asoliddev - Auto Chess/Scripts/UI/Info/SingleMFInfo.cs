@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class SingleMFInfo : ContainerInfo
 {
     Image icon;
-    public ConstructorBonusType constructorBonusType;
+    public ConstructorBonus ConstructorBonus;
     // Start is called before the first frame update
     public override void Awake()
     {
@@ -23,23 +23,23 @@ public class SingleMFInfo : ContainerInfo
 
     }
 
-    public void Init(ConstructorBonusType _constructorBonusType)
+    public void Init(ConstructorBonus _ConstructorBonus)
     {
-        constructorBonusType = _constructorBonusType;
-        icon.sprite = Resources.Load<Sprite>(constructorBonusType.icon);
+        ConstructorBonus = _ConstructorBonus;
+        icon.sprite = ResourceManager.LoadResource<Sprite>(ConstructorBonus.icon);
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
     }
 
     public void OnPointerEnterEvent(PointerEventData eventData)
     {
-        UIController.Instance.popupController.typePopup.Show
-            (constructorBonusType, 1, this.gameObject, Vector3.right);
+        UIController.Instance.popupController.manufacturerPopup.Show
+            (ConstructorBonus, 1, this.gameObject, Vector3.right);
 
     }
 
     public void OnPointerExitEvent(PointerEventData eventData)
     {
-        UIController.Instance.popupController.typePopup.Clear();
+        UIController.Instance.popupController.manufacturerPopup.Clear();
     }
 }

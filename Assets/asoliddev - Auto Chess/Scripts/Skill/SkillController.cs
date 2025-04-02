@@ -318,12 +318,17 @@ public class SkillController
     /// <param name="_constructor">拥有此技能的部件</param>
     public void RemoveSkill(ConstructorBase _constructor)
     {
+        List<Skill> removingSkillList = new List<Skill>();
         for (int i = 0; i < skillList.Count; i++)
         {
             if (skillList[i].constructor == _constructor)
             {
-                RemoveSkill(skillList[i]);
+                removingSkillList.Add(skillList[i]);
             }
+        }
+        foreach (Skill s in removingSkillList)
+        {
+            RemoveSkill(s);
         }
     }
     /// <summary>

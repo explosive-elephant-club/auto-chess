@@ -113,14 +113,14 @@ public class InventorySlot : ContainerSlot
 
     public void UpdateMFInfo()
     {
-        List<ConstructorBonusType> types = GamePlayController.Instance.GetAllChampionTypes(inventoryConstructor.constructorBaseData);
-
+        List<ConstructorBonus> bonus = GamePlayController.Instance.GetChampionFeatureBonus(inventoryConstructor.constructorBaseData);
+        bonus.Add(GamePlayController.Instance.GetChampionManufacturerBonus(inventoryConstructor.constructorBaseData));
         for (int i = 0; i < singleMFInfoList.Count; i++)
         {
             singleMFInfoList[i].SetUIActive(false);
-            if (i < types.Count && types[i] != null)
+            if (i < bonus.Count && bonus[i] != null)
             {
-                singleMFInfoList[i].Init(types[i]);
+                singleMFInfoList[i].Init(bonus[i]);
                 singleMFInfoList[i].ClearAllListener();
                 singleMFInfoList[i].SetUIActive(true);
             }
@@ -138,7 +138,7 @@ public class InventorySlot : ContainerSlot
                 slotInfoList[i].SetUIActive(true);
             }
         }
-        //_imgSlotsBar.gameObject.SetActive(slotInfoArray.Count > 0);
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(false);
     }
 
     public void OnPointerDownEvent(PointerEventData eventData)
@@ -147,6 +147,7 @@ public class InventorySlot : ContainerSlot
         draggedUI.Init(_imgIcon.sprite, gameObject);
         draggedUI.transform.position = transform.position;
         draggedUI.OnPointerDown(eventData);
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(true);
     }
 
     public void OnPointerUpEvent(PointerEventData eventData)

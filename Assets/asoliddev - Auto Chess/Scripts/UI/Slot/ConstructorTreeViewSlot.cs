@@ -8,30 +8,14 @@ using ExcelConfig;
 using UnityEngine.EventSystems;
 using UnityEditor;
 using System;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// 部件槽位UI
 /// </summary>
-public class ConstructorTreeViewSlot : MonoBehaviour
+public class ConstructorTreeViewSlot : ContainerSlot
 {
-    /// <summary>
-    /// 部件图标
-    /// </summary>
-    public Image constructorIcon;
-    /// <summary>
-    /// 槽位图标
-    /// </summary>
-    public Image slotIcon;
-    /// <summary>
-    /// 空背景
-    /// </summary>
-    public Image bgIMG;
-    /// <summary>
-    /// 选中框
-    /// </summary>
-    public Image pickedFrame;
     Camera cam;
-    RectTransform screenCanvasRectTransform;
 
     /// <summary>
     /// 槽位连接线图片实体
@@ -65,22 +49,36 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     /// 父节点
     /// </summary>
     public ConstructorTreeViewSlot parent;
-    /// <summary>
-    /// 信息显示UI
-    /// </summary>
-    ConstructorTreeViewInfo constructorTreeViewInfo;
+
+    Canvas canvas;
+
+    #region 自动绑定
+    private Image _imgSlotPanel;
+    private Image _imgSlotIcon;
+    private Image _imgConstructorPanel;
+    private Image _imgPickedFrame;
+    private Image _imgConstructorIcon;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
+    {
+        _imgSlotPanel = transform.Find("SlotPanel_Auto").GetComponent<Image>();
+        _imgSlotIcon = transform.Find("SlotPanel_Auto/SlotIcon_Auto").GetComponent<Image>();
+        _imgConstructorPanel = transform.Find("ConstructorPanel_Auto").GetComponent<Image>();
+        _imgPickedFrame = transform.Find("ConstructorPanel_Auto/PickedFrame_Auto").GetComponent<Image>();
+        _imgConstructorIcon = transform.Find("ConstructorPanel_Auto/ConstructorIcon_Auto").GetComponent<Image>();
+    }
+    #endregion
 
 
     // Start is called before the first frame update
-    public void Awake()
+    public override void Awake()
     {
-        cam = GameObject.Find("3DToUICamera").GetComponent<Camera>();
-        screenCanvasRectTransform = GameObject.Find("ScreenCanvas").GetComponent<RectTransform>();
-        constructorTreeViewInfo = transform.Find("ConstructorInfo").GetComponent<ConstructorTreeViewInfo>();
+        base.Awake();
+        cam = GamePlayController.Instance.cameraManager.mainCamera;
     }
     void Start()
     {
-        pickedFrame.gameObject.SetActive(false);
+        SetPickedFrame(false);
     }
 
     private void Update()
@@ -89,14 +87,22 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         if (constructorSlot != null)
         {
             if (constructorSlot.slotTrans != null)
-                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructorSlot.slotTrans);
+            {
+
+                Vector3 offset = new Vector3(constructorSlot.slotType.offset.x, constructorSlot.slotType.offset.y, constructorSlot.slotType.offset.z);
+                Debug.Log(constructorSlot.slotType.name + "  " + constructorSlot.slotType.offset.y);
+                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructorSlot.slotTrans.position + offset);
+                //SetSortingOrder(constructorSlot.slotTrans);
+            }
+
         }
         else
         {
             //如果没有槽位,但是有部件，则此UI位置跟随部件的位置
             if (constructor != null)
             {
-                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructor.transform);
+                GetComponent<RectTransform>().anchoredPosition = GetScreenPosition(constructor.transform.position + new Vector3(0, 0.5f, 0));
+                //SetSortingOrder(constructor.transform);
             }
         }
         //如果存在父节点UI 用线连接父节点UI
@@ -129,7 +135,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         float distance = Vector2.Distance(endPoint, startPoint);
 
         //设置sizeDelta使其适应距离长度
-        lineImage.rectTransform.sizeDelta = new Vector2(0.5f, distance / 2);
+        lineImage.rectTransform.sizeDelta = new Vector2(2f, distance);
 
         //设置位置
         dir = endPoint + startPoint;
@@ -141,14 +147,31 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     /// </summary>
     /// <param name="target">需要显示的目标</param>
     /// <returns>计算出UI的anchoredPosition</returns>
-    public Vector3 GetScreenPosition(Transform target)
+    public Vector3 GetScreenPosition(Vector3 pos)
     {
-        Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
+        Vector3 viewportPos = cam.WorldToViewportPoint(pos);
         RectTransform canvasRtm = controller.GetComponent<RectTransform>();
         Vector2 uguiPos = Vector2.zero;
         uguiPos.x = (viewportPos.x - .5f) * canvasRtm.rect.width * 1.2f;
         uguiPos.y = (viewportPos.y - .5f) * canvasRtm.rect.height * 1.2f;
         return uguiPos;
+    }
+
+    /// <summary>
+    /// 根据部件与相机的距离，修改SortingOrder，越远越后
+    /// </summary>
+    /// <param name="target">需要显示的目标</param>
+    public void SetSortingOrder(Transform target)
+    {
+        float dis = (target.position - cam.transform.position).magnitude;
+        int order = (int)(1000 - dis * 100);
+        Canvas canvas = GetComponent<Canvas>();
+        if (canvas == null)
+        {
+            canvas = gameObject.AddComponent<Canvas>();
+        }
+        canvas.overrideSorting = true;
+        canvas.sortingOrder = order;
     }
 
     /// <summary>
@@ -166,32 +189,32 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             constructor = constructorSlot.constructorInstance;
 
         //绑定鼠标事件
-        constructorTreeViewInfo.Init(this);
-        constructorTreeViewInfo.onPointerEnterEvent.AddListener(constructorTreeViewInfo.OnPointerEnterEvent);
-        constructorTreeViewInfo.onPointerExitEvent.AddListener(constructorTreeViewInfo.OnPointerExitEvent);
+        ClearAllListener();
+        onPointerEnterEvent.AddListener(OnPointerEnterEvent);
+        onPointerExitEvent.AddListener(OnPointerExitEvent);
 
-        //如果有部件 就显示部件相关UI
+        LoadIcon();
+        //如果有部件 只显示部件
         if (constructor != null)
         {
-            constructorTreeViewInfo.onPointerDownEvent.AddListener(constructorTreeViewInfo.OnPointerDownEvent);
-            constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
-            constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
+            onPointerDownEvent.AddListener(OnPointerDownEvent);
+            onPointerUpEvent.AddListener(OnPointerUpEvent);
+            onDragEvent.AddListener(OnDragEvent);
 
-            bgIMG.gameObject.SetActive(true);
-            bgIMG.color = GameConfig.Instance.levelColors[constructor.constructorData.level - 1];
-            LoadIcon();
-            slotIcon.gameObject.SetActive(false);
+            _imgConstructorPanel.gameObject.SetActive(true);
+            _imgSlotPanel.gameObject.SetActive(false);
+            _imgConstructorPanel.color = GameConfig.Instance.levelColors[constructor.constructorData.level - 1];
+
             if (constructor.slots.Count > 0)
             {
                 ExpandSubSlot();
             }
         }
-        //如果无部件 就不显示
+        //如果无部件 只显示槽位
         else
         {
-            bgIMG.gameObject.SetActive(false);
-            constructorIcon.gameObject.SetActive(false);
-            slotIcon.gameObject.SetActive(true);
+            _imgConstructorPanel.gameObject.SetActive(false);
+            _imgSlotPanel.gameObject.SetActive(true);
         }
 
         //如果有父节点就实例化线预制体
@@ -199,7 +222,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         {
             if (lineImage == null)
             {
-                lineImage = Instantiate(linePrefab, controller.lineLayer).GetComponent<Image>();
+                lineImage = controller.InstantiateLine();
             }
             else
             {
@@ -218,16 +241,17 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         controller = _controller;
         constructor = _constructor;
 
-        constructorTreeViewInfo.Init(this);
-        constructorTreeViewInfo.onPointerEnterEvent.AddListener(constructorTreeViewInfo.OnPointerEnterEvent);
-        constructorTreeViewInfo.onPointerExitEvent.AddListener(constructorTreeViewInfo.OnPointerExitEvent);
 
-        constructorTreeViewInfo.onPointerDownEvent.AddListener(constructorTreeViewInfo.OnPointerDownEvent);
-        constructorTreeViewInfo.onPointerUpEvent.AddListener(constructorTreeViewInfo.OnPointerUpEvent);
-        constructorTreeViewInfo.onDragEvent.AddListener(constructorTreeViewInfo.OnDragEvent);
+        onPointerEnterEvent.AddListener(OnPointerEnterEvent);
+        onPointerExitEvent.AddListener(OnPointerExitEvent);
 
-        bgIMG.gameObject.SetActive(true);
-        bgIMG.color = GameConfig.Instance.levelColors[constructor.constructorData.level - 1];
+        onPointerDownEvent.AddListener(OnPointerDownEvent);
+        onPointerUpEvent.AddListener(OnPointerUpEvent);
+        onDragEvent.AddListener(OnDragEvent);
+
+        _imgConstructorPanel.gameObject.SetActive(true);
+        _imgSlotPanel.gameObject.SetActive(false);
+        _imgConstructorPanel.color = GameConfig.Instance.levelColors[constructor.constructorData.level - 1];
         LoadIcon();
         //遍历并递归部件树形结构
         if (constructor.slots.Count > 0)
@@ -241,9 +265,15 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     /// </summary>
     public void LoadIcon()
     {
-        constructorIcon.gameObject.SetActive(true);
-        Sprite _icon = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructor.constructorData));
-        constructorIcon.sprite = _icon;
+        if (constructor != null)
+        {
+            _imgConstructorIcon.sprite = Resources.Load<Sprite>(GamePlayController.Instance.GetConstructorIconPath(constructor.constructorData));
+        }
+        else
+        {
+            _imgSlotIcon.sprite = ResourceManager.LoadResource<Sprite>(constructorSlot.slotType.icon);
+        }
+
     }
 
     /// <summary>
@@ -258,9 +288,8 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             {
                 //从对象池取出空白子节点
                 GameObject obj = controller.NewConstructorSlot();
-                obj.transform.SetParent(controller.constructorPanel.transform);
-                //obj.transform.SetParent(subTab);
                 ConstructorTreeViewSlot treeViewSlot = obj.GetComponent<ConstructorTreeViewSlot>();
+
                 //初始化子节点 开启下一轮的遍历
                 treeViewSlot.Init(controller, this, s);
                 children.Add(treeViewSlot);
@@ -292,9 +321,9 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         constructorSlot = null;
         constructor = null;
         parent = null;
-        constructorIcon.gameObject.SetActive(false);
-        slotIcon.gameObject.SetActive(false);
-        constructorTreeViewInfo.ClearAllListener();
+        _imgConstructorPanel.gameObject.SetActive(false);
+        _imgSlotPanel.gameObject.SetActive(false);
+        ClearAllListener();
     }
 
     /// <summary>
@@ -302,7 +331,7 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     /// </summary>
     public void Recycling()
     {
-        transform.SetParent(controller.DisableSlotsParent);
+        controller.RecyclingConstructorSlot(this);
         lineImage.gameObject.SetActive(false);
     }
 
@@ -315,6 +344,11 @@ public class ConstructorTreeViewSlot : MonoBehaviour
     {
         //检查槽位和部件是否适配
         ConstructorType type = (ConstructorType)Enum.Parse(typeof(ConstructorType), constructorData.type);
+        Debug.Log("检查槽位和部件是否适配 " + type);
+        foreach (var t in constructorSlot.adaptTypes)
+        {
+            Debug.Log(t);
+        }
         if (constructorSlot.adaptTypes.Contains(type) && constructorSlot.isAble)
         {
             //如果已有部件，先移除
@@ -348,9 +382,9 @@ public class ConstructorTreeViewSlot : MonoBehaviour
             removedData = parent.constructor.removeConstructor(constructorSlot);
             ClearSubSlot();
             constructor = null;
-            constructorIcon.gameObject.SetActive(false);
-            slotIcon.gameObject.SetActive(false);
-            constructorTreeViewInfo.ClearAllListener();
+            _imgConstructorPanel.gameObject.SetActive(false);
+            _imgSlotPanel.gameObject.SetActive(false);
+            ClearAllListener();
             Init(controller, parent, constructorSlot);
         }
 
@@ -376,20 +410,68 @@ public class ConstructorTreeViewSlot : MonoBehaviour
         }
     }
 
-    /*
-    public IEnumerator UpdateRectSize()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void SetPickedFrame(bool isActive)
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(subTabRect);
-        yield return new WaitForEndOfFrame();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(slotRect);
-        yield return new WaitForEndOfFrame();
-        if (parent != null)
-        {
-            parent.UpdateRectSize();
-        }
+        _imgPickedFrame.gameObject.SetActive(isActive);
     }
-    
 
-    
-     */
+    public void OnPointerUpEvent(PointerEventData eventData)
+    {
+        _imgConstructorIcon.gameObject.SetActive(true);
+        draggedUI.OnPointerUp(eventData);
+        if (UIController.Instance.inventoryController.pointEnterInventorySlot != null)
+        {
+            UIController.Instance.inventoryController.pointEnterInventorySlot.AttachConstructor(this);
+            //AttachConstructor(UIController.Instance.inventoryController.pointEnterInventorySlot.constructorData);
+        }
+        else if (InputController.Instance.ui == UIController.Instance.inventoryController._imgViewport.gameObject ||
+            InputController.Instance.ui == UIController.Instance.inventoryController._imgRecyclePanel.gameObject)
+        {
+            RemoveConstructor();
+        }
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(false);
+
+    }
+    public void OnPointerDownEvent(PointerEventData eventData)
+    {
+        _imgConstructorIcon.gameObject.SetActive(false);
+        draggedUI.Init(_imgConstructorIcon.sprite, gameObject);
+        draggedUI.transform.position = transform.position;
+        draggedUI.OnPointerDown(eventData);
+        UIController.Instance.inventoryController.SetRecycleAndSellPanel(true);
+    }
+
+
+    public void OnDragEvent(PointerEventData eventData)
+    {
+        draggedUI.OnDrag(eventData);
+    }
+
+    public void OnPointerEnterEvent(PointerEventData eventData)
+    {
+
+        controller.pointEnterTreeViewSlot = this;
+        if (constructor != null)
+        {
+            UIController.Instance.popupController.constructorPopup.Show
+                (constructor, gameObject, Vector3.left);
+        }
+        else
+        {
+            UIController.Instance.popupController.constructorSlotPopup.Show
+                           (constructorSlot.slotType, gameObject, Vector3.left);
+        }
+
+    }
+
+    public void OnPointerExitEvent(PointerEventData eventData)
+    {
+        controller.pointEnterTreeViewSlot = null;
+        UIController.Instance.popupController.constructorPopup.Clear();
+        UIController.Instance.popupController.constructorSlotPopup.Clear();
+    }
 }

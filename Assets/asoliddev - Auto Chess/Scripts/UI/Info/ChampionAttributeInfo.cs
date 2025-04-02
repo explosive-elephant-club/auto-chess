@@ -7,10 +7,13 @@ using UnityEngine.Events;
 using ExcelConfig;
 using UnityEngine.EventSystems;
 using Game;
+using General;
 
 public class ChampionAttributeInfo : ContainerInfo
 {
     ChampionAttribute attribute;
+
+    public float constructorDelta = 0;
     #region 自动绑定
     private UICustomText _textIconText;
     private UICustomText _textValueText;
@@ -31,23 +34,30 @@ public class ChampionAttributeInfo : ContainerInfo
     {
         Clear();
         attribute = _attribute;
-        _textIconText.text = string.Format("<quad name=Attributes/Icon_{0} />", attribute.attributeName);
-        switch (attribute.attributeFormat)
-        {
-            case AttributeFormat.Int:
-                _textValueText.text = string.Format("{0:G}", attribute.GetTrueValue());
-                break;
-            case AttributeFormat.Float2:
-                _textValueText.text = string.Format("{0:G}", attribute.GetTrueValue());
-                break;
-            case AttributeFormat.Percentage:
-                _textValueText.text = string.Format("{0:P0}", attribute.GetTrueValue());
-                break;
-        }
+        _textIconText.text = string.Format("<quad name=Icon/Attributes/Icon_{0} />", attribute.attributeName);
+        constructorDelta = 0;
 
         ClearAllListener();
         onPointerEnterEvent.AddListener(OnPointerEnterEvent);
         onPointerExitEvent.AddListener(OnPointerExitEvent);
+
+    }
+
+    public void Init(ChampionAttributesController attributesController, string attributeName)
+    {
+        ChampionAttribute attribute = (ChampionAttribute)GeneralMethod.GetValueByName(attributesController, attributeName);
+        Init(attribute);
+    }
+
+    public void UpdateUI()
+    {
+        if (attribute != null)
+        {
+            if (constructorDelta == 0)
+                UpdateValueTextOnCambat();
+            else
+                UpdateValueTextOnAssemble(constructorDelta);
+        }
 
     }
 
@@ -57,13 +67,13 @@ public class ChampionAttributeInfo : ContainerInfo
         switch (attribute.attributeFormat)
         {
             case AttributeFormat.Int:
-                _textValueText.text = string.Format("<color = {0}>{1:G}</color>", textColor, attribute.GetTrueValue());
+                _textValueText.text = string.Format("<color={0}>{1:G}</color>", textColor, attribute.GetTrueValue());
                 break;
             case AttributeFormat.Float2:
-                _textValueText.text = string.Format("<color = {0}>{1:G}</color>", textColor, attribute.GetTrueValue());
+                _textValueText.text = string.Format("<color={0}>{1:G}</color>", textColor, attribute.GetTrueValue());
                 break;
             case AttributeFormat.Percentage:
-                _textValueText.text = string.Format("<color = {0}>{1:P0}</color>%", textColor, attribute.GetTrueValue());
+                _textValueText.text = string.Format("<color={0}>{1:P0}</color>", textColor, attribute.GetTrueValue());
                 break;
         }
     }

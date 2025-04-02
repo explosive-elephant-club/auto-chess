@@ -10,15 +10,11 @@ using UnityEngine;
 public class UICustomTextInspector : UnityEditor.UI.TextEditor
 {
     SerializedProperty _isUseMaxWidth;
-    SerializedProperty _shadowPerFontSize;
-    SerializedProperty _outlinePerFontSize;
     
     protected override void OnEnable()
     {
         base.OnEnable();
         _isUseMaxWidth = serializedObject.FindProperty("isUseMaxWidth");
-        _shadowPerFontSize = serializedObject.FindProperty("_shadowPerFontSize");
-        _outlinePerFontSize = serializedObject.FindProperty("_outlinePerFontSize");
     }
 
     public override void OnInspectorGUI()
@@ -30,6 +26,7 @@ public class UICustomTextInspector : UnityEditor.UI.TextEditor
         }
         EditorGUILayout.PropertyField(serializedObject.FindProperty("outlinePerFontSize"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("shadowPerFontSize"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("isUseLink"));
         serializedObject.ApplyModifiedProperties();
 
         base.OnInspectorGUI();

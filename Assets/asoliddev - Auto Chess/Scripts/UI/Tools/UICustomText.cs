@@ -50,6 +50,8 @@ namespace Game
         private const float _baseSize = .083f;
         public bool isUseMaxWidth;
         public float maxWidth;
+        [Header("需要使用超链接时开启,但是会屏蔽后面的点击事件")]
+        public bool isUseLink;
         private static readonly StringBuilder TextBuilder = new StringBuilder();
 
         protected bool ShouldFlip = false;
@@ -89,6 +91,7 @@ namespace Game
             GetOutputText();
             CheckMaxWidth();
             CheckOutlineAndShadow();
+            raycastTarget = isUseLink;
             //Debug.Log("SetVerticesDirty");
         }
 

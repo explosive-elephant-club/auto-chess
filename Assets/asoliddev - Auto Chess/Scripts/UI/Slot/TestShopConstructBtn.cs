@@ -62,15 +62,16 @@ public class TestShopConstructBtn : MonoBehaviour
 
     public void UpdateType()
     {
-        List<ConstructorBonusType> types = GamePlayController.Instance.GetAllChampionTypes(constructorData);
+        List<ConstructorBonus> bonus = GamePlayController.Instance.GetChampionFeatureBonus(constructorData);
+        bonus.Add(GamePlayController.Instance.GetChampionManufacturerBonus(constructorData));
 
         for (int i = 0; i < typeIconArray.Length; i++)
         {
             typeIconArray[i].SetActive(false);
-            if (i < types.Count && types[i] != null)
+            if (i < bonus.Count && bonus[i] != null)
             {
                 typeIconArray[i].SetActive(true);
-                typeIconArray[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(types[i].icon);
+                typeIconArray[i].GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(bonus[i].icon);
             }
         }
     }

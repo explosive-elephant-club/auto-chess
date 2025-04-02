@@ -31,7 +31,7 @@ public class ChampionAttributesController
     //受击命中率 闪避率=1-受击命中率 hitRate*-0.3=闪避率+30%
     public ChampionAttribute dodgeChange;
     //非暴击率 暴击率=1-非暴击率 nonCritChange*-0.3=暴击率+30%
-    public ChampionAttribute CritChange;
+    public ChampionAttribute critChange;
     //暴击倍数
     public ChampionAttribute critMultiple;
 
@@ -97,7 +97,7 @@ public class ChampionAttributesController
         chargingDelay = new ChampionAttribute(2, "ChargingDelay", false, AttributeFormat.Float2);
 
         dodgeChange = new ChampionAttribute(1, "DodgeChange", true, AttributeFormat.Percentage);
-        CritChange = new ChampionAttribute(1, "CritChange", true, AttributeFormat.Percentage);
+        critChange = new ChampionAttribute(1, "CritChange", true, AttributeFormat.Percentage);
         critMultiple = new ChampionAttribute(1.5f, "CritMultiple", false, AttributeFormat.Float2);
 
         armorRegeneration = new ChampionAttribute(1, "ArmorRegeneration", false, AttributeFormat.Float2);
@@ -139,7 +139,7 @@ public class ChampionAttributesController
     public bool CritCheck()
     {
         float randomValue = Random.Range(0, 1f);
-        return randomValue <= CritChange.GetTrueValue();
+        return randomValue <= critChange.GetTrueValue();
     }
 
     public void Regenerate()

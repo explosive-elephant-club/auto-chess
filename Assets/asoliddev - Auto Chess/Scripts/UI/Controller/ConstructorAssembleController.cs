@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
 using UnityEngine.UI;
+using Game;
 
 /// <summary>
 /// 部件组装管理器
@@ -10,10 +11,7 @@ using UnityEngine.UI;
 public class ConstructorAssembleController : BaseControllerUI
 {
     public bool isEditable = true;
-    /// <summary>
-    ///组件槽位UI预制体
-    /// </summary>
-    public GameObject constructorSlotPrefab;
+
     /// <summary>
     ///根节点（底盘）
     /// </summary>
@@ -22,67 +20,50 @@ public class ConstructorAssembleController : BaseControllerUI
     /// 鼠标悬停的组件槽位UI
     /// </summary>
     public ConstructorTreeViewSlot pointEnterTreeViewSlot;
-    /// <summary>
-    /// 此UI的panel节点
-    /// </summary>
-    public GameObject constructorPanel;
-    /// <summary>
-    ///视角滑块
-    /// </summary>
-    public Slider pitchSlider; public Slider yawSlider;
-    /// <summary>
-    ///缩放按钮
-    /// </summary>
-    public Button zoomInBtn; public Button zoomOutBtn;
-    /// <summary>
-    ///编辑模式开关
-    /// </summary>
-    public Toggle editToggle;
-    /// <summary>
-    ///预设缩放等级
-    /// </summary>
-    float[] zoomValues = { 12f, 15f, 18f, 20f, 24f };
-    int zoomIndex = 2;
-    public Text zoomValueText;
 
-    /// <summary>
-    /// 展开UI Panel
-    /// </summary>
-    public GameObject expandPanel;
-    /// <summary>
-    /// 展开按钮
-    /// </summary>
-    public Button expandBtn;
-    /// <summary>
-    /// 关闭按钮
-    /// </summary>
-    public Button closeBtn;
+    CameraManager camController;
 
-    GOToUICameraController camController;
-
-    //存放未激活的上级节点 子节点是对象池以供复用
-    [HideInInspector]
-    public Transform DisableSlotsParent;
-    [HideInInspector]
-    public Transform lineLayer;
     //当前选中的槽位
     public ConstructorTreeViewSlot pickedSlot;
 
-    // Start is called before the first frame update
-    public override void Awake()
-    {
-        base.Awake();
-        Init();
-        DisableSlotsParent = constructorPanel.transform.Find("DisableSlots");
-        lineLayer = constructorPanel.transform.Find("LineLayer");
-    }
-
     #region 自动绑定
-
+    private Button _btnCloseButton;
+    private Button _btnSwitchUIButton;
+    private Button _btnExpandButton;
+    private Image _imgExpandPanel;
+    private Image _imgConstructorPanel;
+    private Image _imgDisableSlots;
+    private Image _imgLineLayer;
+    private Image _imgCloseButton;
+    private Image _imgSwitchUIButton;
+    private Image _imgExpandButton;
+    private UICustomText _textOpenText;
+    private UICustomText _textCloseText;
+    //自动获取组件添加字典管理
+    public override void AutoBindingUI()
+    {
+        _btnCloseButton = transform.Find("ExpandPanel_Auto/CloseButton_Auto").GetComponent<Button>();
+        _btnSwitchUIButton = transform.Find("ExpandPanel_Auto/SwitchUIButton_Auto").GetComponent<Button>();
+        _btnExpandButton = transform.Find("ExpandButton_Auto").GetComponent<Button>();
+        _imgExpandPanel = transform.Find("ExpandPanel_Auto").GetComponent<Image>();
+        _imgConstructorPanel = transform.Find("ExpandPanel_Auto/ConstructorPanel_Auto").GetComponent<Image>();
+        _imgDisableSlots = transform.Find("ExpandPanel_Auto/ConstructorPanel_Auto/DisableSlots_Auto").GetComponent<Image>();
+        _imgLineLayer = transform.Find("ExpandPanel_Auto/ConstructorPanel_Auto/LineLayer_Auto").GetComponent<Image>();
+        _imgCloseButton = transform.Find("ExpandPanel_Auto/CloseButton_Auto").GetComponent<Image>();
+        _imgSwitchUIButton = transform.Find("ExpandPanel_Auto/SwitchUIButton_Auto").GetComponent<Image>();
+        _imgExpandButton = transform.Find("ExpandButton_Auto").GetComponent<Image>();
+        _textOpenText = transform.Find("ExpandPanel_Auto/SwitchUIButton_Auto/OpenText_Auto").GetComponent<UICustomText>();
+        _textCloseText = transform.Find("ExpandPanel_Auto/SwitchUIButton_Auto/CloseText_Auto").GetComponent<UICustomText>();
+    }
     #endregion
+
+
+
+
+
     private void Start()
     {
-        camController = GamePlayController.Instance._GOToUICameraController;
+        camController = GamePlayController.Instance.cameraManager;
         AddAllListener();
         SetUIActive(false);
     }
@@ -92,61 +73,31 @@ public class ConstructorAssembleController : BaseControllerUI
     /// </summary>
     void AddAllListener()
     {
-        //控制相机视角
-        pitchSlider.onValueChanged.AddListener(UpdatePitchSlider);
-        yawSlider.onValueChanged.AddListener(UpdateYawSlider);
-        //控制缩放
-        zoomInBtn.onClick.AddListener(ZoomInBtnClick);
-        zoomOutBtn.onClick.AddListener(ZoomOutBtnClick);
         //切换编辑模式
-        editToggle.onValueChanged.AddListener(editToggleClick);
+        _btnSwitchUIButton.onClick.AddListener(switchUI);
         //打开扩展
-        expandBtn.onClick.AddListener(Expand);
+        _btnExpandButton.onClick.AddListener(Expand);
         //关闭UI
-        closeBtn.onClick.AddListener(Close);
+        _btnCloseButton.onClick.AddListener(Close);
     }
 
-    void UpdatePitchSlider(float value)
+    void switchUI()
     {
-        //camController.UpdatePitch(value);
-    }
-    void UpdateYawSlider(float value)
-    {
-        //camController.UpdateYaw(value);
-    }
-    void ZoomInBtnClick()
-    {
-        if (zoomIndex < zoomValues.Length - 1)
-        {
-            zoomIndex++;
-            //camController.UpdateZoom(zoomValues[zoomIndex]);
-            zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
-        }
-    }
-    void ZoomOutBtnClick()
-    {
-        if (zoomIndex > 0)
-        {
-            zoomIndex--;
-            //camController.UpdateZoom(zoomValues[zoomIndex]);
-            zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
-        }
-    }
-    void editToggleClick(bool value)
-    {
-        isEditable = value;
+        isEditable = !isEditable;
         RefreshConstructorPanel();
     }
 
     void Expand()
     {
         isExpand = true;
+        camController.SetCameraController(CameraStateMachineHelper.CameraGoToUIState);
         UpdateUI();
     }
 
     void Close()
     {
         isExpand = false;
+        camController.SetCameraController(CameraStateMachineHelper.CameraNormalState);
         UpdateUI();
     }
 
@@ -162,26 +113,18 @@ public class ConstructorAssembleController : BaseControllerUI
         //判断是否有选中的单位
         if (GamePlayController.Instance.pickedChampion != null)
         {
+
             //判断是否展开UI，并设置默认视角和缩放
             if (isExpand)
             {
-                expandPanel.SetActive(true);
-                expandBtn.gameObject.SetActive(false);
-
-                pitchSlider.value = 0.5f;
-                UpdatePitchSlider(0.5f);
-                yawSlider.value = 0.5f;
-                UpdateYawSlider(0.5f);
-                zoomIndex = 2;
-                //camController.UpdateZoom(zoomValues[zoomIndex]);
-                zoomValueText.text = (zoomValues[2] / zoomValues[zoomIndex]).ToString("0.00");
-                editToggle.isOn = isEditable;
+                _imgExpandPanel.gameObject.SetActive(true);
+                _btnExpandButton.gameObject.SetActive(false);
                 RefreshConstructorPanel();
             }
             else
             {
-                expandPanel.SetActive(false);
-                expandBtn.gameObject.SetActive(true);
+                _imgExpandPanel.gameObject.SetActive(false);
+                _btnExpandButton.gameObject.SetActive(true);
             }
             SetUIActive(true);
         }
@@ -196,7 +139,9 @@ public class ConstructorAssembleController : BaseControllerUI
     /// </summary>
     void RefreshConstructorPanel()
     {
-        constructorPanel.SetActive(isEditable);
+        _imgConstructorPanel.gameObject.SetActive(isEditable);
+        _textOpenText.gameObject.SetActive(!isEditable);
+        _textCloseText.gameObject.SetActive(isEditable);
         if (isEditable)
         {
             ConstructorBase chassisConstructor = GamePlayController.Instance.pickedChampion.GetChassisConstructor();
@@ -223,13 +168,26 @@ public class ConstructorAssembleController : BaseControllerUI
     /// <returns></returns>
     public GameObject NewConstructorSlot()
     {
-        if (DisableSlotsParent.childCount > 0)
+        GameObject instance;
+        if (_imgDisableSlots.transform.childCount > 0)
         {
-            return DisableSlotsParent.GetChild(0).gameObject;
+            instance = _imgDisableSlots.transform.GetChild(0).gameObject;
+            instance.transform.parent = _imgConstructorPanel.transform;
+            return instance;
         }
         //如果对象池没有多余的 实例化新槽位
-        GameObject instance = Instantiate(constructorSlotPrefab, DisableSlotsParent);
+        instance = ResourceManager.LoadGameObjectResource("UI/Slot/ConstructorAssembleSlot", _imgConstructorPanel.transform);
+
         return instance;
+    }
+
+    /// <summary>
+    /// 回收部件槽UI
+    /// </summary>
+    /// <returns></returns>
+    public void RecyclingConstructorSlot(ConstructorTreeViewSlot slot)
+    {
+        slot.transform.parent = _imgDisableSlots.transform;
     }
 
     /// <summary>
@@ -241,7 +199,7 @@ public class ConstructorAssembleController : BaseControllerUI
         chassisSlot.FindPickedSlot(slot);
         if (pickedSlot != null)
         {
-            pickedSlot.pickedFrame.gameObject.SetActive(true);
+            pickedSlot.SetPickedFrame(true);
         }
     }
 
@@ -252,8 +210,17 @@ public class ConstructorAssembleController : BaseControllerUI
     {
         if (pickedSlot != null)
         {
-            pickedSlot.pickedFrame.gameObject.SetActive(false);
+            pickedSlot.SetPickedFrame(false);
             pickedSlot = null;
         }
+    }
+
+    /// <summary>
+    /// 实例化line
+    /// </summary>
+    /// <returns></returns>
+    public Image InstantiateLine()
+    {
+        return ResourceManager.LoadGameObjectResource("UI/Others/Line", _imgLineLayer.transform).GetComponent<Image>();
     }
 }

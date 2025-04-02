@@ -56,14 +56,11 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     /// 敌人单位管理器
     /// </summary>
     public ChampionManager oponentChampionManager;
+
     /// <summary>
-    /// 主镜头控制
+    /// 镜头
     /// </summary>
-    public MainCameraController mainCameraController;
-    /// <summary>
-    /// 单位组装视角镜头控制
-    /// </summary>
-    public GOToUICameraController _GOToUICameraController;
+    public CameraManager cameraManager;
     /// <summary>
     /// 被选中的单位
     /// </summary>
@@ -142,15 +139,18 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
 
 
     /// <summary>
-    /// 获取单位的羁绊buff
+    /// 获取单位的羁绊
     /// </summary>
     /// <param name="constructorData">单位数据</param>
-    public List<ConstructorBonusType> GetAllChampionTypes(ConstructorBaseData constructorData)
+    public ConstructorBonus GetChampionManufacturerBonus(ConstructorBaseData constructorData)
     {
-        List<ConstructorBonusType> types = new List<ConstructorBonusType>();
-        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property1));
-        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property2));
-        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonusType>(constructorData.property3));
+        return GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonus>(constructorData.property1);
+    }
+    public List<ConstructorBonus> GetChampionFeatureBonus(ConstructorBaseData constructorData)
+    {
+        List<ConstructorBonus> types = new List<ConstructorBonus>();
+        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonus>(constructorData.property2));
+        types.Add(GameExcelConfig.Instance._eeDataManager.Get<ConstructorBonus>(constructorData.property3));
         return types;
     }
 
@@ -220,7 +220,6 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
             {
                 tran.gameObject.layer = 9;
             }
-            _GOToUICameraController.ResetCam(pickedChampion.transform);
         }
 
 
@@ -284,16 +283,20 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     }
     public void OnUpdatePreparation()
     {
-        //监听鼠标点击来选择单位，并启动单位的拖拽操作
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (GamePlayController.Instance.cameraManager.GetCurCamState() == CameraStateMachineHelper.CameraNormalState)
         {
-            PickChampion();
-            GamePlayController.Instance.ownChampionManager.StartDrag();
+            //监听鼠标点击来选择单位，并启动单位的拖拽操作
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                PickChampion();
+                GamePlayController.Instance.ownChampionManager.StartDrag();
+            }
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                GamePlayController.Instance.ownChampionManager.StopDrag();
+            }
         }
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
-        {
-            GamePlayController.Instance.ownChampionManager.StopDrag();
-        }
+
     }
     public void OnLeavePreparation()
     {
@@ -304,12 +307,12 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     public void OnEnterCombat()
     {
     }
-    
+
     public void OnUpdateCombat()
     {
         //更新时间
         timer += Time.deltaTime;
-        
+
 
         //如果计时器到达最大战斗时长，重新进入准备阶段
         if (timer > GameConfig.Instance.combatStageDuration)

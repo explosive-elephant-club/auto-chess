@@ -52,6 +52,8 @@ public class ValueOperation
             case "*":
                 operate = new UnityAction(() =>
                 {
+                    Debug.Log(valueName + " " + value);
+                    Debug.Log(_valueModifySource);
                     attribute.AddMultiple(value, _valueModifySource);
                 });
                 reset = new UnityAction(() =>

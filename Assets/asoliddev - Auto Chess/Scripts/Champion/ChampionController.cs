@@ -10,7 +10,7 @@ using ExcelConfig;
 using System.Linq;
 
 public enum FindTargetMode { AnyInRange, Nearest, Farthest }
-
+public enum ChampionBonusProperty { Manufacturer, Feature }
 /// <summary>
 /// Controls a single champion movement and combat
 /// </summary>
@@ -58,14 +58,18 @@ public class ChampionController : MonoBehaviour, IGameStage
     public SkillController skillController;
 
     /// <summary>
-    /// 羁绊增益字典
+    /// 厂商增益字典
     /// </summary>
-    public Dictionary<ConstructorBonusType, int> bonus;
+    public Dictionary<ConstructorBonus, int> manufacturerBonus;
     /// <summary>
-    /// 羁绊增益buff
+    /// 厂商增益buff
     /// </summary>
-    public List<int> bonusBuffList;
+    public List<int> manufacturerBonusBuffList;
 
+    /// <summary>
+    /// 特性增益buff
+    /// </summary>
+    public List<ConstructorBonus> featureBonus;
 
     private bool _isDragged = false;
 
@@ -453,37 +457,43 @@ public class ChampionController : MonoBehaviour, IGameStage
     public void CalculateBonuses()
     {
         //init dictionary
-        bonus = new Dictionary<ConstructorBonusType, int>();
+        manufacturerBonus = new Dictionary<ConstructorBonus, int>();
+        featureBonus = new List<ConstructorBonus>();
 
-        List<ConstructorBonusType> types = new List<ConstructorBonusType>();
         foreach (ConstructorBase constructor in constructors)
         {
-            types = GamePlayController.Instance.GetAllChampionTypes(constructor.constructorData);
-            foreach (ConstructorBonusType t in types)
-            {
-                if (t != null)
+            ConstructorBonus mb = GamePlayController.Instance.GetChampionManufacturerBonus(constructor.constructorData);
+            if (mb != null)
+                if (manufacturerBonus.ContainsKey(mb))
                 {
-                    if (bonus.ContainsKey(t))
-                    {
-                        int cCount = 0;
-                        bonus.TryGetValue(t, out cCount);
-                        cCount++;
-                        bonus[t] = cCount;
+                    int cCount = 0;
+                    manufacturerBonus.TryGetValue(mb, out cCount);
+                    cCount++;
+                    manufacturerBonus[mb] = cCount;
 
-                    }
-                    else
-                    {
-                        bonus.Add(t, 1);
-                    }
                 }
+                else
+                {
+                    manufacturerBonus.Add(mb, 1);
+                }
+
+            List<ConstructorBonus> fbs = GamePlayController.Instance.GetChampionFeatureBonus(constructor.constructorData);
+            foreach (var fb in fbs)
+            {
+                if (fb != null)
+                    if (!featureBonus.Contains(fb))
+                    {
+                        featureBonus.Add(fb);
+                    }
             }
+
         }
 
-        bonusBuffList.Clear();
-        foreach (KeyValuePair<ConstructorBonusType, int> m in bonus)
+        manufacturerBonusBuffList.Clear();
+        foreach (KeyValuePair<ConstructorBonus, int> m in manufacturerBonus)
         {
             int buffID = 0;
-            foreach (ConstructorBonusType.BonusClass b in m.Key.Bonus)
+            foreach (ConstructorBonus.BonusClass b in m.Key.Bonus)
             {
                 if (m.Value >= b.count)
                 {
@@ -498,10 +508,12 @@ public class ChampionController : MonoBehaviour, IGameStage
             //have enough champions to get bonus
             if (buffID != 0)
             {
-                bonusBuffList.Add(buffID);
+                manufacturerBonusBuffList.Add(buffID);
             }
         }
+        championManeger.CalculateAllFeatureBonuses();
     }
+
 
     /// <summary>
     /// 计算单位的价值
@@ -575,7 +587,11 @@ public class ChampionController : MonoBehaviour, IGameStage
         }
 
         //添加羁绊Buff
-        foreach (int b in bonusBuffList)
+        foreach (int b in manufacturerBonusBuffList)
+        {
+            buffController.AddBuff(b, this);
+        }
+        foreach (int b in championManeger.featureBonusBuffList)
         {
             buffController.AddBuff(b, this);
         }
