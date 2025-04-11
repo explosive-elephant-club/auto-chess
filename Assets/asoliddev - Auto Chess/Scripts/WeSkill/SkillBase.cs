@@ -23,12 +23,21 @@ namespace WeSkill
         public SkillTargetSelectorType SkillTargetSelectorType;
     }
 
-    public class SkillBase
+    public class SkillBase : IState
     {
         private SkillData _skillCfg;
         private BaseSkillContext _skillContext;
         private Animator _animator;
 
+        public void InitState(BlackBoard blackBoard)
+        {
+            var a = blackBoard as ChampionBlackBoard;
+        }
+        public StateExeResult ExeState()
+        {
+            return StateExeResult.Done;
+        }
+        
         public void Init(SkillData skillData, Animator animator)
         {
             _skillCfg = skillData;
@@ -38,8 +47,6 @@ namespace WeSkill
 
             };
         }
-
-        
         
         private void LoadEffect()
         {
