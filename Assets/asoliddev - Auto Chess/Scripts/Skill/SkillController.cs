@@ -15,27 +15,30 @@ public class SkillController
     /// <summary>
     /// 拥有的所有技能
     /// </summary>
-    public List<Skill> skillList = new List<Skill>();
+    public List<ISkillState> skillList = new ();
     /// <summary>
     /// 已激活的技能
     /// </summary>
-    public List<Skill> activedSkillList = new List<Skill>();
+    public List<ISkillState> activedSkillList = new ();
+    
+    private SkillExeProcess _skillExeProcess;
+    
     /// <summary>
     /// 当前正在使用的技能索引
     /// </summary>
-    public int curSkillIndex = -1;
-    /// <summary>
-    /// 单个技能释放后的延迟
-    /// </summary>
-    public float curCastDelay = 0;
-    /// <summary>
-    /// 整个技能链条释放后的延迟
-    /// </summary>
-    public float curChargingDelay = 0;
-    /// <summary>
-    /// 当前的延迟
-    /// </summary>
-    public float cdTimer = 0;
+    private int _curSkillIndex;
+    // /// <summary>
+    // /// 单个技能释放后的延迟(单个技能的冷却时间)
+    // /// </summary>
+    // public float curCastDelay = 0;
+    // /// <summary>
+    // /// 整个技能链条释放后的延迟
+    // /// </summary>
+    // public float curChargingDelay = 0;
+    // /// <summary>
+    // /// 当前的延迟
+    // /// </summary>
+    // public float cdTimer = 0;
     /// <summary>
     /// 当前护盾技能
     /// </summary>
@@ -46,6 +49,7 @@ public class SkillController
     public SkillController(ChampionController _championController)
     {
         championController = _championController;
+        _skillExeProcess = new SkillExeProcess();
     }
 
     /// <summary>
@@ -76,14 +80,21 @@ public class SkillController
     public void OnEnterCombat()
     {
         //重置当前技能索引
-        curSkillIndex = -1;
-        //战斗开始时的技能充能时间
-        curChargingDelay = GetSkillChargingDelay();
+        _curSkillIndex = 0;
+        //战斗开始时的技能链充能时间
+        foreach (var skill in activedSkillList)
+        {
+            if(skill != null)
+                _usedSkillList.Add(skill);
+        }
+        StartSkillChainCd();
     }
 
-    public void OnUpdateCombat()
+    
+    public void Tick(out bool needFindTarget)
     {
-        if (cdTimer > 0)
+        needFindTarget = false;
+        /*if (cdTimer > 0)
         {
             cdTimer -= Time.deltaTime;
         }
@@ -92,34 +103,100 @@ public class SkillController
             if (activedSkillList[curSkillIndex].state == SkillState.Casting)
             {
                 activedSkillList[curSkillIndex].OnCastingUpdateFunc();
-            }
+            }*/
+        _skillExeProcess.ExecuteSkill();
+        switch (_skillExeProcess.GetCurState())
+        {
+            case ProcessExeState.Done:
+            case ProcessExeState.None:
+                var nextSkill = GetNextSkillState();
+                if (nextSkill != null)
+                {
+                    needFindTarget = nextSkill.HaveTargetInRange();
+                    _skillExeProcess.SetCurSkill(nextSkill);
+                }
+                break;
+            case ProcessExeState.Ing:
+                break;
+        }
     }
 
-    /// <summary>
-    /// 获取单个技能释放延迟
-    /// </summary>
-    /// <param name="skill">技能</param>
-    /// <returns>延迟</returns>
-    float GetSkillCastDelay(Skill skill)
+    public void TickSellSkill()
     {
-        float cd = championController.attributesController.castDelay.GetTrueValue(skill.skillData.castDelay);
-        if (cd > 0)
-            return cd;
-        else
-            return 0;
+        _skillExeProcess.ExecuteSellSkill();
     }
+
+    public void TickSkillCd()
+    {
+        foreach (var skill in activedSkillList)
+        {
+            if(skill == null) continue;
+            skill.TickCd();
+        }
+    }
+
+    private ISkillState GetNextSkillState()
+    {
+        var index = _curSkillIndex;
+        for (int i = 0; i < activedSkillList.Count; i++)
+        {
+            index = ++index % activedSkillList.Count;
+            if(activedSkillList[index] == null) continue;
+            if (activedSkillList[index].IsPrepared())
+            {
+                if(index <= _curSkillIndex)
+                    StartSkillChainCd();
+                _curSkillIndex = index;
+                return activedSkillList[index];
+            }
+        }
+        return null;
+    }
+
+    public ISkillState GetNextActiveSkillState()
+    {
+        return _curSkillIndex < 0 ? null : activedSkillList[_curSkillIndex];
+    }
+    
+    public bool CheckIsLastSkill()
+    {
+        var index = _curSkillIndex;
+        foreach (var _ in activedSkillList)
+        {
+            index = ++index % activedSkillList.Count;
+            if(activedSkillList[index] == null) continue;
+            if (activedSkillList[index].IsPrepared())
+            {
+                if(index <= _curSkillIndex)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private void StartSkillChainCd()
+    {
+        var chainCd = GetSkillChargingDelay();
+        foreach (var skill in activedSkillList)
+        {
+            if(skill == null) continue;
+            skill.StartSkillChainCdCutDown(chainCd);
+        }
+    }
+
     /// <summary>
     /// 获取整个技能链释放延迟
     /// </summary>
     /// <returns>延迟</returns>
+    private List<ISkillState> _usedSkillList = new();
     float GetSkillChargingDelay()
     {
         float cd = 0;
-        foreach (var s in activedSkillList)
+        foreach (var s in _usedSkillList)
         {
-            if (s != null)
-                cd += s.skillData.chargingDelay;
+            cd += s.GetSkillChargingDelay();
         }
+        _usedSkillList.Clear();
         championController.attributesController.chargingDelay.GetTrueValue(cd);
         if (cd > 0)
             return cd;
@@ -127,33 +204,11 @@ public class SkillController
             return 0;
     }
 
-    /// <summary>
-    /// 获取下一个技能索引
-    /// </summary>
-    public int GetNextSkillIndex()
+    public void AddUsedSkill(ISkillState skill)
     {
-        return (curSkillIndex + 1) % activedSkillList.Count;
+        _usedSkillList.Add(skill);
     }
-    /// <summary>
-    /// 获取拥有下一个技能的部件
-    /// </summary>
-    public ConstructorBase GetNextSkillConstructor()
-    {
-        if (activedSkillList[GetNextSkillIndex()] != null)
-            return activedSkillList[GetNextSkillIndex()].constructor;
-        else
-            return null;
-    }
-
-    public bool IsAllNull()
-    {
-        foreach (var s in activedSkillList)
-        {
-            if (s != null)
-                return false;
-        }
-        return true;
-    }
+    
 
     /// <summary>
     /// 是否正在持续施法
@@ -161,129 +216,17 @@ public class SkillController
     /// <returns></returns>
     public bool isCasting()
     {
-        if (curSkillIndex != -1 && activedSkillList[curSkillIndex] != null)//等待持续施法
+        if (_curSkillIndex != -1 && activedSkillList[_curSkillIndex] != null)//等待持续施法
         {
-            if (activedSkillList[curSkillIndex].state == SkillState.Casting)
+            if (activedSkillList[_curSkillIndex].ExeState() == SkillExeResult.Ing)
             {
                 return true;
             }
         }
         return false;
     }
-    /// <summary>
-    /// 跳过下一个空技能
-    /// </summary>
-    public void SkipEmptySkill()
-    {
-        curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
-        if (GetNextSkillIndex() == 0)//一轮释放完毕
-        {
-            if (curCastDelay < curChargingDelay)
-            {
-                curCastDelay = curChargingDelay;
-                cdTimer = curChargingDelay;
-            }
-        }
-    }
 
-    /// <summary>
-    /// 尝试释放技能
-    /// </summary>
-    public void TryCastSkill()
-    {
-        //检查冷却时间 是否为 0，如果不为0，则不能释放技能
-        if (cdTimer <= 0)
-        {
-            //检查技能是否准备就绪
-            if (activedSkillList[GetNextSkillIndex()].IsPrepared())
-            {
-                //应用技能装饰器附加效果
-                foreach (var d in activedSkillList[GetNextSkillIndex()].skillDecorators)
-                {
-                    if (!d.hasDecorated)
-                    {
-                        d.Decorate(activedSkillList[GetNextSkillIndex()]);
-                    }
-                }
-                //释放
-                activedSkillList[GetNextSkillIndex()].CastFunc();
-                //处理单个技能释放完毕后的充能时间
-                curCastDelay = GetSkillCastDelay(activedSkillList[GetNextSkillIndex()]);
-                cdTimer = curCastDelay;
-            }
-            //切换到下一个技能
-            curSkillIndex = (curSkillIndex + 1) % activedSkillList.Count;
-            //处理整轮技能链释放完毕后的充能时间
-            if (GetNextSkillIndex() == 0)
-            {
-                if (curCastDelay < curChargingDelay)
-                {
-                    curCastDelay = curChargingDelay;
-                    cdTimer = curChargingDelay;
-                }
-            }
-
-
-        }
-    }
-
-    bool HasNextPreparedSkill()
-    {
-        int index = curSkillIndex;
-        for (int i = 1; i < activedSkillList.Count; i++)
-        {
-            index = (index + i) % activedSkillList.Count;
-            if (activedSkillList[index] != null)
-            {
-                if (activedSkillList[index].IsAvailable())
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void ApplySkillDecorator(Skill skill)
-    {
-        foreach (var d in skill.skillDecorators)
-        {
-            if (!d.hasDecorated)
-            {
-                skill = d.Decorate(skill);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 获取下一个不为null的可用技能
-    /// </summary>
-    /// <returns></returns>
-    public Skill GetNextAvailableSkill()
-    {
-        int index = GetNextSkillIndex();
-        for (int i = 0; i < activedSkillList.Count; i++)
-        {
-            index = (index + i) % activedSkillList.Count;
-            if (activedSkillList[index] != null)
-            {
-                if (activedSkillList[index].countRemain > 0 || activedSkillList[index].countRemain == -1)
-                {
-                    return activedSkillList[index];
-                }
-            }
-        }
-        return null;
-    }
-    /// <summary>
-    /// 获取下一个技能
-    /// </summary>
-    /// <returns></returns>
-    public Skill GetNextSkill()
-    {
-        return activedSkillList[GetNextSkillIndex()];
-    }
-
+    #region UI操作相关
     /// <summary>
     /// 添加技能 
     /// </summary>
@@ -300,8 +243,8 @@ public class SkillController
     /// <param name="_constructor">拥有此技能的部件</param>
     public void AddSkill(SkillData skillData, ConstructorBase _constructor)
     {
-        Skill skill = new Skill();
-        skill.Init(skillData, championController, _constructor);
+        // Skill skill = new Skill();
+        // skill.Init(skillData, championController, _constructor);
         /*foreach (var d in skill.skillDecorators)
         {
             if (!d.hasDecorated)
@@ -309,7 +252,8 @@ public class SkillController
                 skill = d.Decorate(skill);
             }
         }*/
-
+        var skill = SkillFactory.Create(skillData, championController, _constructor);
+        skill.ResetSkillContext(true);
         skillList.Add(skill);
     }
     /// <summary>
@@ -318,24 +262,19 @@ public class SkillController
     /// <param name="_constructor">拥有此技能的部件</param>
     public void RemoveSkill(ConstructorBase _constructor)
     {
-        List<Skill> removingSkillList = new List<Skill>();
-        for (int i = 0; i < skillList.Count; i++)
+        for (int i = skillList.Count - 1; i >= 0; i--)
         {
-            if (skillList[i].constructor == _constructor)
+            if (skillList[i].GetConstructor() == _constructor)
             {
-                removingSkillList.Add(skillList[i]);
+                RemoveSkill(skillList[i]);
             }
-        }
-        foreach (Skill s in removingSkillList)
-        {
-            RemoveSkill(s);
         }
     }
     /// <summary>
     /// 移除技能
     /// </summary>
     /// <param name="skill">被移除的技能</param>
-    public void RemoveSkill(Skill skill)
+    public void RemoveSkill(ISkillState skill)
     {
         if (activedSkillList.Contains(skill))
             RemoveActivedSkill(activedSkillList.IndexOf(skill));
@@ -348,10 +287,9 @@ public class SkillController
     /// <param name="index2">技能2在列表中的位置</param>
     public void SwitchDeactivedSkill(int index1, int index2)
     {
-        Skill tempSkill = skillList[index1];
-        skillList[index1] = skillList[index2];
-        skillList[index2] = tempSkill;
+        (skillList[index1], skillList[index2]) = (skillList[index2], skillList[index1]);
     }
+    
     /// <summary>
     /// UI操作 交换两个被激活的技能
     /// </summary>
@@ -359,9 +297,7 @@ public class SkillController
     /// <param name="index2">技能2在列表中的位置</param>
     public void SwitchActivedSkill(int index1, int index2)
     {
-        Skill tempSkill = activedSkillList[index1];
-        activedSkillList[index1] = activedSkillList[index2];
-        activedSkillList[index2] = tempSkill;
+        (activedSkillList[index1], activedSkillList[index2]) = (activedSkillList[index2], activedSkillList[index1]);
     }
     /// <summary>
     /// UI操作 添加一个激活的技能
@@ -372,10 +308,10 @@ public class SkillController
     {
         if (activedSkillList[addIndex] != null)
         {
-            activedSkillList[addIndex].state = SkillState.Disable;
+            activedSkillList[addIndex].GetContext().State = SkillState.Disable;
         }
         activedSkillList[addIndex] = skillList[sourceIndex];
-        activedSkillList[addIndex].state = SkillState.CD;
+        activedSkillList[addIndex].GetContext().State = SkillState.Activied;
     }
     /// <summary>
     /// UI操作 添加一个激活的技能
@@ -392,7 +328,7 @@ public class SkillController
         }
         foreach (var s in skillList)
         {
-            if (s.skillData.ID == skillID && s.state == SkillState.Disable)
+            if (s.GetSkillCfg().ID == skillID && s.GetContext().State == SkillState.Disable)
                 skillIndex = skillList.IndexOf(s);
         }
         if (activedIndex == -1 || skillIndex == -1)
@@ -405,7 +341,7 @@ public class SkillController
     /// <param name="index">技能在列表中的位置</param>
     public void RemoveActivedSkill(int index)
     {
-        activedSkillList[index].state = SkillState.Disable;
+        activedSkillList[index].GetContext().State = SkillState.Disable;
         activedSkillList[index] = null;
     }
     /// <summary>
@@ -416,7 +352,8 @@ public class SkillController
         foreach (var s in activedSkillList)
         {
             if (s != null)
-                s.ResetFunc();
+                s.ResetSkillContext(true);
         }
     }
+    #endregion
 }

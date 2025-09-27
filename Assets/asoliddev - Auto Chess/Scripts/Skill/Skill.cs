@@ -12,8 +12,7 @@ using UnityEngine.Events;
 public enum SkillState
 {
     Disable,
-    Casting,
-    CD
+    Activied,
 }
 /// <summary>
 /// 技能的全部数据和行为
@@ -276,7 +275,7 @@ public class Skill
     /// </summary>
     public virtual void Cast()
     {
-        state = SkillState.Casting;
+        // state = SkillState.Casting;
         owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
         //重置计时器和计数器
         curTime = 0;
@@ -349,8 +348,8 @@ public class Skill
         curCastPointIndex = (curCastPointIndex + 1) % constructor.skillCastPoints.Length;
 
         SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
-        skillEffect.Init(this, selectorResult.targets[0].transform);
-        effectInstances.Add(skillEffect);
+        // skillEffect.Init(this, selectorResult.targets[0].transform);
+        // effectInstances.Add(skillEffect);
     }
 
     /// <summary>
@@ -424,7 +423,7 @@ public class Skill
     /// </summary>
     public virtual void OnFinish()
     {
-        state = SkillState.CD;
+        // state = SkillState.CD;
         PlayEndAnimFunc();
     }
     /// <summary>
@@ -432,7 +431,7 @@ public class Skill
     /// </summary>
     public virtual void Reset()
     {
-        state = SkillState.CD;
+        // state = SkillState.CD;
         curTime = 0;
         curIntervalTime = 0;
         curEffectCount = 0;

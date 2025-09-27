@@ -40,7 +40,7 @@ public class BaseMoveState : State
     void CheckSkillTarget()
     {
         Debug.Log("CheckSkillTarget");
-        if (championController.skillController.GetNextAvailableSkill() != null)
+        if (championController.skillController.GetNextActiveSkillState() != null)
         {
             var c = championController.FindTarget(championController.GetNextAvailableSkillDistance(), FindTargetMode.AnyInRange);
             if (c != null)

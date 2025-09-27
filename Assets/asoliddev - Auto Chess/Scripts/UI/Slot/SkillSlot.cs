@@ -10,9 +10,8 @@ using Game;
 
 public class SkillSlot : ContainerSlot
 {
-    public Skill skill;
+    public ISkillState skill;
     public bool isActivated;
-    public SkillState skillState;
 
     #region 自动绑定
 	private Image _imgPickTip;
@@ -36,15 +35,11 @@ public class SkillSlot : ContainerSlot
 
     private void Update()
     {
-        if (skill != null)
-        {
-            skillState = skill.state;
-        }
         UpdateCDMask();
         UpdateCount();
     }
 
-    public void Init(Skill _skill, bool _isActivated)
+    public void Init(ISkillState _skill, bool _isActivated)
     {
         Clear();
         skill = _skill;
@@ -54,27 +49,24 @@ public class SkillSlot : ContainerSlot
         onPointerExitEvent.AddListener(OnPointerExitEvent);
         if (_skill != null)
         {
-            if (!isActivated && skill.state != SkillState.Disable)
-            {
-                _imgDefBG.gameObject.SetActive(false);
-                return;
-            }
-
+            // if (!isActivated)
+            // {
+            //     _imgDefBG.gameObject.SetActive(false);
+            //     return;
+            // }
 
             onPointerDownEvent.AddListener(OnPointerDownEvent);
             onPointerUpEvent.AddListener(OnPointerUpEvent);
             onDragEvent.AddListener(OnDragEvent);
             _imgIcon.gameObject.SetActive(true);
-            _imgIcon.sprite = ResourceManager.LoadResource<Sprite>(skill.skillData.icon);
-
-            _imgDefBG.color = GameConfig.Instance.levelColors[skill.constructor.constructorData.level - 1];
+            _imgIcon.sprite = ResourceManager.LoadResource<Sprite>(skill.GetSkillCfg().icon);
+            _imgDefBG.color = GameConfig.Instance.levelColors[skill.GetConstructor().Level - 1];
             _imgDefBG.gameObject.SetActive(true);
         }
         else
         {
             _imgDefBG.gameObject.SetActive(false);
         }
-
     }
 
     public void ConstructorPopupInit(SkillData _skillData, ConstructorBaseData constructorBaseData)
@@ -97,25 +89,16 @@ public class SkillSlot : ContainerSlot
         }
         if (GamePlayController.Instance.currentGameStage == GameStage.Combat)
         {
-            if (skill.skillController.GetNextSkill() == null)
+            if (skill.GetContext().CdCutDown > 0)
             {
-                _imgPickTip.gameObject.SetActive(false);
-                _imgCDMask.fillAmount = 1;
+                _imgPickTip.gameObject.SetActive(true);
+                _imgCDMask.fillAmount = skill.GetContext().CdCutDown / skill.GetContext().CurAllCutDown;
             }
             else
             {
-                if (skill.skillController.GetNextSkill() == skill && skill.IsAvailable())
-                {
-                    _imgPickTip.gameObject.SetActive(true);
-                    _imgCDMask.fillAmount = skill.skillController.cdTimer / skill.skillController.curCastDelay;
-                }
-                else
-                {
-                    _imgPickTip.gameObject.SetActive(false);
-                    _imgCDMask.fillAmount = 1;
-                }
+                _imgPickTip.gameObject.SetActive(false);
+                _imgCDMask.fillAmount = 0;
             }
-
         }
         else
         {
@@ -126,7 +109,11 @@ public class SkillSlot : ContainerSlot
 
     public void UpdateCount()
     {
-        if (skill == null || skill.skillData.usableCount == -1)
+        if(skill == null) return;
+        
+        var context = skill.GetContext();
+        var cfg = skill.GetSkillCfg();
+        if (cfg.usableCount == -1)
         {
             _textCount.gameObject.SetActive(false);
             return;
@@ -135,21 +122,20 @@ public class SkillSlot : ContainerSlot
         if (isActivated)
         {
             _textCount.gameObject.SetActive(true);
-            _textCount.text = skill.countRemain.ToString();
+            _textCount.text = context.CountRemain.ToString();
 
         }
         else
         {
-            if (skill.state != SkillState.Disable)
+            if (!skill.IsPrepared())
             {
                 _textCount.gameObject.SetActive(false);
             }
             else
             {
                 _textCount.gameObject.SetActive(true);
-                _textCount.text = skill.countRemain.ToString();
+                _textCount.text = context.CountRemain.ToString();
             }
-
         }
 
     }

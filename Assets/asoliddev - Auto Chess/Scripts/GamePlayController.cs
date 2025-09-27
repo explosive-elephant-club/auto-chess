@@ -177,15 +177,15 @@ public class GamePlayController : CreateSingleton<GamePlayController>, IGameStag
     /// <param name="gameStageClass">实现IGameStage的类</param>
     public void RemoveStageListener(IGameStage gameStageClass)
     {
-        gameStageEventCenter.AddListener("OnEnterPreparation", gameStageClass.OnEnterPreparation);
-        gameStageEventCenter.AddListener("OnEnterCombat", gameStageClass.OnEnterCombat);
-        gameStageEventCenter.AddListener("OnEnterLoss", gameStageClass.OnEnterLoss);
-        gameStageEventCenter.AddListener("OnUpdatePreparation", gameStageClass.OnUpdatePreparation);
-        gameStageEventCenter.AddListener("OnUpdateCombat", gameStageClass.OnUpdateCombat);
-        gameStageEventCenter.AddListener("OnUpdateLoss", gameStageClass.OnUpdateLoss);
-        gameStageEventCenter.AddListener("OnLeavePreparation", gameStageClass.OnLeavePreparation);
-        gameStageEventCenter.AddListener("OnLeaveCombat", gameStageClass.OnLeaveCombat);
-        gameStageEventCenter.AddListener("OnLeaveLoss", gameStageClass.OnLeaveLoss);
+        gameStageEventCenter.RemoveListener("OnEnterPreparation", gameStageClass.OnEnterPreparation);
+        gameStageEventCenter.RemoveListener("OnEnterCombat", gameStageClass.OnEnterCombat);
+        gameStageEventCenter.RemoveListener("OnEnterLoss", gameStageClass.OnEnterLoss);
+        gameStageEventCenter.RemoveListener("OnUpdatePreparation", gameStageClass.OnUpdatePreparation);
+        gameStageEventCenter.RemoveListener("OnUpdateCombat", gameStageClass.OnUpdateCombat);
+        gameStageEventCenter.RemoveListener("OnUpdateLoss", gameStageClass.OnUpdateLoss);
+        gameStageEventCenter.RemoveListener("OnLeavePreparation", gameStageClass.OnLeavePreparation);
+        gameStageEventCenter.RemoveListener("OnLeaveCombat", gameStageClass.OnLeaveCombat);
+        gameStageEventCenter.RemoveListener("OnLeaveLoss", gameStageClass.OnLeaveLoss);
     }
 
     /// <summary>

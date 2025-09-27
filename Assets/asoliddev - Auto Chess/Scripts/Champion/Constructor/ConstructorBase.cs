@@ -132,6 +132,7 @@ public class ConstructorBase : MonoBehaviour
     public Renderer[] renderers;
 
     public int cost;
+    public int Level => constructorData.level;
 
     private void OnEnable()
     {

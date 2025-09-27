@@ -46,7 +46,7 @@ public class SkillEffect : MonoBehaviour
         skill = _skill;
         target = _target;
         curTime = 0;
-        duration = skill.skillData.duration;
+        // duration = skill.GetSkillCfg().duration;
         hits = new List<ChampionController>();
     }
 

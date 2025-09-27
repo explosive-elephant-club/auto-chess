@@ -95,12 +95,11 @@ public class ChampionInfoController : BaseControllerUI
         pointEnterSlot = skillSlot;
         if (pointEnterSlot.skill != null)
         {
-            if (!pointEnterSlot.isActivated && pointEnterSlot.skill.state != SkillState.Disable)
+            if (!pointEnterSlot.isActivated && pointEnterSlot.skill.GetContext().State != SkillState.Disable)
                 return;
             UIController.Instance.popupController.skillPopup.Show
-                (pointEnterSlot.skill.skillData, pointEnterSlot.gameObject, Vector3.right);
+                (pointEnterSlot.skill.GetSkillCfg(), pointEnterSlot.gameObject, Vector3.right);
         }
-
     }
 
     public void OnPointLeaveSlot()
@@ -279,10 +278,8 @@ public class ChampionInfoController : BaseControllerUI
             {
                 int index2 = skillController.skillList.IndexOf(skillSlot.skill);
                 int index3 = skillController.skillList.IndexOf(pointEnterSlot.skill);
-                if (pointEnterSlot.skill.state == SkillState.CD)
+                if (pointEnterSlot.skill.GetContext().State == SkillState.Activied)
                 {
-
-
                     skillController.RemoveActivedSkill(index1);
                     skillController.SwitchDeactivedSkill(index3, index2);
                 }

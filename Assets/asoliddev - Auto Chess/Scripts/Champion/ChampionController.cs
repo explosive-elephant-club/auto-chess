@@ -254,14 +254,12 @@ public class ChampionController : MonoBehaviour, IGameStage
     /// 逐渐旋转到面向目标的方向
     /// </summary>
     /// <returns>是否正对目标</returns>
-    public bool TurnToTarget()
+    public bool TurnToTarget(ConstructorBase skillConstructor)
     {
         //需要朝向目标的方向
         Vector3 dir = target.transform.position - transform.position;
         dir.y = 0;
         Quaternion q = Quaternion.LookRotation(dir);
-
-        ConstructorBase skillConstructor = skillController.GetNextSkillConstructor();
         float rotationSpeed = 8f * Time.deltaTime;
 
         //判断拥有下一个释放的技能部件是否有底座可以旋转
@@ -286,7 +284,7 @@ public class ChampionController : MonoBehaviour, IGameStage
     /// <returns></returns>
     public ChampionController FindNextAvailableSkillTarget()
     {
-        Skill skill = skillController.GetNextAvailableSkill();
+        ISkillState skill = skillController.GetNextActiveSkillState();
         if (skill != null)
         {
             ChampionController c = skill.FindAvailableTarget();
@@ -334,7 +332,7 @@ public class ChampionController : MonoBehaviour, IGameStage
     /// <returns></returns>
     public int GetNextAvailableSkillDistance()
     {
-        return (int)attributesController.addRange.GetTrueValue() + skillController.GetNextAvailableSkill().skillData.distance;
+        return (int)attributesController.addRange.GetTrueValue() + skillController.GetNextActiveSkillState().GetSkillCfg().distance;
     }
 
     /// <summary>
@@ -343,7 +341,7 @@ public class ChampionController : MonoBehaviour, IGameStage
     /// <returns></returns>
     public bool IsTargetInAttackRange()
     {
-        if (target == null || target.isDead || skillController.GetNextAvailableSkill() == null)
+        if (target == null || target.isDead || skillController.GetNextActiveSkillState() == null)
             return false;
         return Vector3.Distance(transform.position, target.transform.position) <= GetNextAvailableSkillDistance();
     }
@@ -609,10 +607,13 @@ public class ChampionController : MonoBehaviour, IGameStage
 
             //子管理器驱动
             if (container.containerType == ContainerType.Battle)
+            {
                 AIActionFsm.curState.OnUpdate();
-            buffController.OnUpdateCombat();
-            skillController.OnUpdateCombat();
-
+                // buff属于战斗时全局更新
+                buffController.OnUpdateCombat();
+                skillController.TickSellSkill();
+                skillController.TickSkillCd();
+            }
             //DebugPrint("fireResistance layer:" + attributesController.fireResistance.curLayer);
             //DebugPrint("fireResistance Value:" + attributesController.fireResistance.curValue);
         }
