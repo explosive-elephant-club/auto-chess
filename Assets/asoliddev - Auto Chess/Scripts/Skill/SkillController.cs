@@ -210,21 +210,21 @@ public class SkillController
     }
     
 
-    /// <summary>
-    /// 是否正在持续施法
-    /// </summary>
-    /// <returns></returns>
-    public bool isCasting()
-    {
-        if (_curSkillIndex != -1 && activedSkillList[_curSkillIndex] != null)//等待持续施法
-        {
-            if (activedSkillList[_curSkillIndex].ExeState() == SkillExeResult.Ing)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    // /// <summary>
+    // /// 是否正在持续施法
+    // /// </summary>
+    // /// <returns></returns>
+    // public bool isCasting()
+    // {
+    //     if (_curSkillIndex != -1 && activedSkillList[_curSkillIndex] != null)//等待持续施法
+    //     {
+    //         if (activedSkillList[_curSkillIndex].ExeState() == SkillExeResult.Ing)
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     #region UI操作相关
     /// <summary>
