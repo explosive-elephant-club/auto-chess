@@ -158,6 +158,7 @@ public class SkillController
         return _curSkillIndex < 0 ? null : activedSkillList[_curSkillIndex];
     }
     
+    // 这里有个问题，如果没蓝了，即使是最后一个技能，也会返回false, 走充能时间，而不是技能链CD
     public bool CheckIsLastSkill()
     {
         var index = _curSkillIndex;

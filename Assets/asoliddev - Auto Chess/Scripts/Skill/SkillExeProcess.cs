@@ -1,16 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ExcelConfig;
 using UnityEngine;
 
 /// <summary>
 /// 技能执行器
 /// 把技能的数据和行为解耦
+/// 后续需要做的事情：
+/// 主执行器作为一个概念，每个技能在释放阶段(寻敌，释放动作)都需要占用，占用时不能直接执行下一个技能
+/// 脱手技能实际为持续释放时不占用主执行器，主执行器继续释放下一个技能
 /// </summary>
 public class SkillExeProcess
 {
     private SingleSkillExeProcess _globalProcess;
     private System.Action _sellSkill;
     private Stack<SingleSkillExeProcess> _skillPool = new();
+    public bool GlobalProcessIsUsing;
     public SkillExeProcess()
     {
         InitProcess();
@@ -89,8 +94,10 @@ public class SingleSkillExeProcess
         _skillExeContext = new SkillExeContext();
     }
 
-    public void InitSkill(ISkillState skill)
+    public void InitSkill(ISkillState skill, bool isGlobalProcess = false)
     {
+        
+        
         _skill = skill;
         _skill.ResetSkillContext();
         _skillExeContext.Init(_skill);
@@ -176,7 +183,7 @@ public class SkillExeContext
     /// 目前技能特效生成点
     /// </summary>
     private int _curCastPointIndex;
-    private readonly List<SkillEffect> _effectInstances = new List<SkillEffect>();
+    private readonly List<SkillInstance> _effectInstances = new ();
     
     private ISkillState _skillState;
     private SkillExeResult _skillExeResult;
@@ -184,6 +191,10 @@ public class SkillExeContext
     private SkillData _skillCfg;
     private ChampionController _owner;
     private ConstructorBase _constructor;
+    private SkillHelper.SkillLogicData _logicData;
+    public SkillHelper.SkillLogicData LogicData => _logicData;
+    // 技能移动速度
+    private float _moveSpeed;
     public void Init(ISkillState skillState)
     {
         _skillState = skillState;
@@ -192,6 +203,7 @@ public class SkillExeContext
         _skillCfg = skillState.GetSkillCfg();
         _owner = skillState.GetOwner();
         _constructor = skillState.GetConstructor();
+        _logicData = SkillHelper.AllLogicDataDic[(SkillHelper.SkillAttackType)_skillCfg.AttackType];
         
         _curDurationTime = 0;
         _curIntervalTime = 0;
@@ -245,6 +257,10 @@ public class SkillExeContext
                 break;
             case SkillExeResult.Ing:
                 OnCastingUpdate();
+                foreach (var instance in _effectInstances)
+                {
+                    instance.UpDateSkill();
+                }
                 break;
             case SkillExeResult.ChargeEnergy:
                 if(!_skillState.IsStartCd())
@@ -323,14 +339,16 @@ public class SkillExeContext
     protected virtual void InstanceEffect()
     {
         var obj = GameObject.Instantiate(_effectPrefab);
-        if (false)//_skillContext.isFollowMe)
-            obj.transform.parent = GetCastPoint();
+        // if (false)_skillContext.isFollowMe)
+            // obj.transform.parent = GetCastPoint();
         obj.transform.position = GetCastPoint().position;
         obj.transform.rotation = GetCastPoint().rotation;
         _curCastPointIndex = (_curCastPointIndex + 1) % _constructor.skillCastPoints.Length;
-        SkillEffect skillEffect = obj.GetComponent<SkillEffect>();
-        // skillEffect.Init(this, _selectorResult.targets[0].transform);
-        _effectInstances.Add(skillEffect);
+        var com = obj.GetComponent<SkillInstance>();
+        if(com == null)
+            com = obj.AddComponent<SkillInstance>();
+        com.Init(this, _owner.transform, _skillState.GetTargetList()[0].transform);
+        _effectInstances.Add(com);
     }
 
     /// <summary>
