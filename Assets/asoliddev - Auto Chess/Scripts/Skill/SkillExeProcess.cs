@@ -96,8 +96,6 @@ public class SingleSkillExeProcess
 
     public void InitSkill(ISkillState skill, bool isGlobalProcess = false)
     {
-        
-        
         _skill = skill;
         _skill.ResetSkillContext();
         _skillExeContext.Init(_skill);
@@ -278,6 +276,13 @@ public class SkillExeContext
     {
     }
     #region 技能释放相关
+
+    public Transform ReGetTarget()
+    {
+        _skillState.HaveTargetInRange();
+        var list = _skillState.GetTargetList();
+        return list.Count == 0 ? null : list[0].transform;
+    }
     protected virtual void Cast()
     {
         _owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
@@ -321,7 +326,9 @@ public class SkillExeContext
         var targetList = _skillState.GetTargetList();
         if (targetList == null || targetList.Count == 0)
             return;
-        InstantiateEmitInstance(GetCastPoint().position, GetCastPoint().rotation, 1.5f);
+        var position = _logicData.IsCreateInSelf ? _owner.transform.position : GetCastPoint().position;
+        var rotation = _logicData.IsCreateInSelf ? _owner.transform.rotation : GetCastPoint().rotation;
+        InstantiateEmitInstance(position, rotation, 1.5f);
         _curCastPointIndex = (_curCastPointIndex + 1) % _constructor.skillCastPoints.Length;
         foreach (ChampionController C in targetList)
         {
@@ -339,10 +346,8 @@ public class SkillExeContext
     protected virtual void InstanceEffect()
     {
         var obj = GameObject.Instantiate(_effectPrefab);
-        // if (false)_skillContext.isFollowMe)
-            // obj.transform.parent = GetCastPoint();
-        obj.transform.position = GetCastPoint().position;
-        obj.transform.rotation = GetCastPoint().rotation;
+        obj.transform.position = _logicData.IsCreateInSelf ? _owner.transform.position : GetCastPoint().position;
+        obj.transform.rotation = _logicData.IsCreateInSelf ? _owner.transform.rotation : GetCastPoint().rotation;
         _curCastPointIndex = (_curCastPointIndex + 1) % _constructor.skillCastPoints.Length;
         var com = obj.GetComponent<SkillInstance>();
         if(com == null)

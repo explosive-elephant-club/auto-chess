@@ -196,6 +196,10 @@ public static class SkillHelper
     {
         public MoveLogic MoveLogic;
         public DamageLogic DamageLogic;
+        /// <summary>
+        /// 是否以自身中心为生成点
+        /// </summary>
+        public bool IsCreateInSelf;
     }
 
     /// <summary>
@@ -217,7 +221,7 @@ public static class SkillHelper
         },
         {
             SkillAttackType.OrbitAroundTrajectory,
-            new SkillLogicData() { MoveLogic = MoveLogic.FollowSelfAndTurnAround, DamageLogic = DamageLogic.Normal }
+            new SkillLogicData() { MoveLogic = MoveLogic.FollowSelfAndTurnAround, DamageLogic = DamageLogic.Normal, IsCreateInSelf = true, }
         },
         {
             SkillAttackType.TrajectoryOfRocket,

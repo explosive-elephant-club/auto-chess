@@ -16,7 +16,7 @@ public class SkillTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             var obj = GameObject.Instantiate(skillPrefab);
-            obj.transform.SkillMove(moveLogic, Target.transform);
+            // obj.transform.SkillMove(moveLogic, null, Target.transform, out var isPathMove);
             Destroy(obj, duration);
         }
     }

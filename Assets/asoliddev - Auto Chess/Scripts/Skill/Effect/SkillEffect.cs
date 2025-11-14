@@ -96,36 +96,36 @@ public class SkillEffect : MonoBehaviour
     /// <param name="hit">碰撞对象</param>
     protected virtual void OnTriggerEnter(Collider hit)
     {
-        if (hit.tag == "SkillEffectCol")
-            return;
-        //如果碰撞到护盾，调用 OnCollideShieldBegin(hit) 并中止技能
-        if (hit.tag == "Shield")
-        {
-            InterceptShieldEffect shieldEffect = hit.GetComponentInParent<InterceptShieldEffect>();
-            if (shieldEffect.skill.owner.team != skill.owner.team)
-            {
-                OnCollideShieldBegin(hit);
-                return;
-            }
-        }
-        ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
-        if (c == null)
-            return;
-        //如果碰撞到敌人/队友，则调用 OnCollideChampionBegin(c, pos)
-        if (skill.skillTargetType == SkillTargetType.Teammate)
-        {
-            if (c.team == skill.owner.team)
-            {
-                OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
-            }
-        }
-        else if (skill.skillTargetType == SkillTargetType.Enemy)
-        {
-            if (c.team != skill.owner.team)
-            {
-                OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
-            }
-        }
+        // if (hit.tag == "SkillEffectCol")
+        //     return;
+        // //如果碰撞到护盾，调用 OnCollideShieldBegin(hit) 并中止技能
+        // if (hit.tag == "Shield")
+        // {
+        //     InterceptShieldEffect shieldEffect = hit.GetComponentInParent<InterceptShieldEffect>();
+        //     if (shieldEffect.skill.owner.team != skill.owner.team)
+        //     {
+        //         OnCollideShieldBegin(hit);
+        //         return;
+        //     }
+        // }
+        // ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
+        // if (c == null)
+        //     return;
+        // //如果碰撞到敌人/队友，则调用 OnCollideChampionBegin(c, pos)
+        // if (skill.skillTargetType == SkillTargetType.Teammate)
+        // {
+        //     if (c.team == skill.owner.team)
+        //     {
+        //         OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
+        //     }
+        // }
+        // else if (skill.skillTargetType == SkillTargetType.Enemy)
+        // {
+        //     if (c.team != skill.owner.team)
+        //     {
+        //         OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
+        //     }
+        // }
     }
     /// <summary>
     /// 碰撞检测结束
@@ -133,24 +133,24 @@ public class SkillEffect : MonoBehaviour
     /// <param name="hit">碰撞对象</param>
     protected virtual void OnTriggerExit(Collider hit)
     {
-        ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
-        if (c == null)
-            return;
-        //如果碰撞离开敌人/队友，则调用 OnCollideChampionEnd(c, pos)
-        if (skill.skillTargetType == SkillTargetType.Teammate)
-        {
-            if (c.team == skill.owner.team)
-            {
-                OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
-            }
-        }
-        else if (skill.skillTargetType == SkillTargetType.Enemy)
-        {
-            if (c.team != skill.owner.team)
-            {
-                OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
-            }
-        }
+        // ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
+        // if (c == null)
+        //     return;
+        // //如果碰撞离开敌人/队友，则调用 OnCollideChampionEnd(c, pos)
+        // if (skill.skillTargetType == SkillTargetType.Teammate)
+        // {
+        //     if (c.team == skill.owner.team)
+        //     {
+        //         OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
+        //     }
+        // }
+        // else if (skill.skillTargetType == SkillTargetType.Enemy)
+        // {
+        //     if (c.team != skill.owner.team)
+        //     {
+        //         OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
+        //     }
+        // }
     }
     /// <summary>
     /// 技能被护盾拦截时

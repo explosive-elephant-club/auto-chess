@@ -8,22 +8,21 @@ public class SkillInstance : MonoBehaviour
     private SkillHelper.DamageLogic damageLogic;
     [SerializeField]
     private Transform self;
-    [SerializeField]
-    private Transform target;
-    
+
     private SkillExeContext _skillExeContext;
     public void Init(SkillExeContext skillExeContext, Transform self, Transform target)
     {
         var collider = gameObject.GetComponent<Collider>();
+        var ttt = gameObject.GetComponent<SkillEffect>();
+        if (ttt != null) ttt.enabled = false;
         if(collider == null)
         {
             Debug.LogError($"{gameObject.name} has no collider!");
             return;
         }
         this.self = self;
-        this.target = target;
         this._skillExeContext = skillExeContext;
-        _isPathMove = false;
+        transform.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out _isPathMove);
     }
 
     /// <summary>
@@ -34,8 +33,7 @@ public class SkillInstance : MonoBehaviour
     {
         if (!_isPathMove)
         {
-            transform.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out var isPathMove);
-            _isPathMove = isPathMove;
+            transform.SkillMove(_skillExeContext.LogicData.MoveLogic, self, _skillExeContext.ReGetTarget, out _isPathMove);
         }
     }
     
