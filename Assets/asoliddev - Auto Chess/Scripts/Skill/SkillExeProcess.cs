@@ -43,7 +43,7 @@ public class SkillExeProcess
         if(skill == null) return;
         if (skill.CheckIsSellSkill())
         {
-            _globalProcess.InitSkill(skill);
+            _globalProcess.InitSkill(skill, true);
         }
         else
         {
@@ -94,15 +94,16 @@ public class SingleSkillExeProcess
         _skillExeContext = new SkillExeContext();
     }
 
+    private bool _isGlobalProcess;
     public void InitSkill(ISkillState skill, bool isGlobalProcess = false)
     {
         _skill = skill;
+        this._isGlobalProcess = isGlobalProcess;
         _skill.ResetSkillContext();
-        _skillExeContext.Init(_skill);
+        _skillExeContext.Init(_skill, _isGlobalProcess);
         if(_isSellSkill)
             _skillExeProcess.RegisterSellSkill(InvokeSkill);
         _state = _skill.HaveTargetInRange() ? ProcessExeState.Ing : ProcessExeState.FindTarget;
-
     }
 
     private void InvokeSkill()
@@ -184,6 +185,7 @@ public class SkillExeContext
     private readonly List<SkillInstance> _effectInstances = new ();
     
     private ISkillState _skillState;
+    private bool _isRunInGlobalProcess;
     private SkillExeResult _skillExeResult;
     private SkillContext _skillContext;
     private SkillData _skillCfg;
@@ -193,9 +195,10 @@ public class SkillExeContext
     public SkillHelper.SkillLogicData LogicData => _logicData;
     // 技能移动速度
     private float _moveSpeed;
-    public void Init(ISkillState skillState)
+    public void Init(ISkillState skillState, bool isRunInGlobalProcess = false)
     {
         _skillState = skillState;
+        _isRunInGlobalProcess = isRunInGlobalProcess;
         _skillExeResult = SkillExeResult.None;
         _skillContext = skillState.GetContext();
         _skillCfg = skillState.GetSkillCfg();
@@ -275,13 +278,23 @@ public class SkillExeContext
     public void Release()
     {
     }
+    
     #region 技能释放相关
-
     public Transform ReGetTarget()
     {
         _skillState.HaveTargetInRange();
         var list = _skillState.GetTargetList();
-        return list.Count == 0 ? null : list[0].transform;
+        var result = list.Count > 0 ? list[0].transform : null;
+        if (result == null && _isRunInGlobalProcess)
+        {
+            OnFinish();
+        }
+        return result;
+    }
+
+    public float GetMoveSpeed()
+    {
+        return _skillCfg.MoveSpeed;
     }
     protected virtual void Cast()
     {
@@ -402,15 +415,21 @@ public class SkillExeContext
             OnFinish();
         }
     }
+
+    private bool _canFinish;
+    public void SetCanFinish(bool canFinish)
+    {
+        _canFinish = canFinish;
+    }
     /// <summary>
     /// 根据技能总持续时间或目标状态（例如目标死亡）判断是否结束技能施放
     /// </summary>
     /// <returns></returns>
     protected virtual bool IsFinish()
     {
-        var list = _skillState.GetTargetList();
-        return (_curDurationTime >= _skillCfg.duration + _skillCfg.delay) ||
-               (list[0] != null && list[0].isDead);
+        // var list = _skillState.GetTargetList();
+        return _canFinish && (_curDurationTime >= _skillCfg.duration + _skillCfg.delay);// ||
+               //(list[0] != null && list[0].isDead);
     }
     /// <summary>
     /// 销毁所有已生成的技能特效实例

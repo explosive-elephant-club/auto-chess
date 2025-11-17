@@ -8,8 +8,16 @@ public class SkillInstance : MonoBehaviour
     private SkillHelper.DamageLogic damageLogic;
     [SerializeField]
     private Transform self;
-
+    [SerializeField] 
+    private Transform scalePart;
+    [SerializeField] 
+    [Header("发射出去类弹道, 这类技能弹道的最大飞行(移动时间)")]
+    private float maxDuration = 5f;
+    [SerializeField] 
+    private bool haveDurationPath;
+    
     private SkillExeContext _skillExeContext;
+    public SkillExeContext SkillExeContext => _skillExeContext;
     public void Init(SkillExeContext skillExeContext, Transform self, Transform target)
     {
         var collider = gameObject.GetComponent<Collider>();
@@ -20,20 +28,33 @@ public class SkillInstance : MonoBehaviour
             Debug.LogError($"{gameObject.name} has no collider!");
             return;
         }
+        if(scalePart == null)
+            scalePart = transform;
         this.self = self;
         this._skillExeContext = skillExeContext;
-        transform.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out _isPathMove);
+        haveDurationPath = this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out _isPathMove);
+        _skillExeContext.SetCanFinish(!haveDurationPath);
     }
-
+    
     /// <summary>
     /// 如果是路径类的移动,比如火箭弹,需要用dotween做路径动画,即不用每次tick更新移动位置,而是用路径动画来驱动
     /// </summary>
     private bool _isPathMove;
+    private float _duration;
     public void UpDateSkill()
     {
         if (!_isPathMove)
         {
-            transform.SkillMove(_skillExeContext.LogicData.MoveLogic, self, _skillExeContext.ReGetTarget, out _isPathMove);
+            this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, _skillExeContext.ReGetTarget, out _isPathMove);
+        }
+
+        if (haveDurationPath)
+        {
+            _duration += Time.deltaTime;
+            if (_duration >= maxDuration)
+            {
+                _skillExeContext.SetCanFinish(true);
+            }
         }
     }
     
@@ -107,5 +128,6 @@ public class SkillInstance : MonoBehaviour
 
     public void DestroySelf()
     {
+        Destroy(transform.gameObject);
     }
 }
