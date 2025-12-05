@@ -355,6 +355,8 @@ public class SkillController
             if (s != null)
                 s.ResetSkillContext(true);
         }
+
+        _skillExeProcess.Reset();
     }
     #endregion
 }

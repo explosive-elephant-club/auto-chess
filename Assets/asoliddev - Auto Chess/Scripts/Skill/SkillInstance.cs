@@ -41,8 +41,13 @@ public class SkillInstance : MonoBehaviour
     /// </summary>
     private bool _isPathMove;
     private float _duration;
+    /// <summary>
+    /// 做非匀速运动时，可以用这个时间来做参考
+    /// </summary>
+    public float Duration => _duration;
     public void UpDateSkill()
     {
+        _duration += Time.deltaTime;
         if (!_isPathMove)
         {
             this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, _skillExeContext.ReGetTarget, out _isPathMove);
@@ -50,7 +55,6 @@ public class SkillInstance : MonoBehaviour
 
         if (haveDurationPath)
         {
-            _duration += Time.deltaTime;
             if (_duration >= maxDuration)
             {
                 _skillExeContext.SetCanFinish(true);
@@ -130,4 +134,9 @@ public class SkillInstance : MonoBehaviour
     {
         Destroy(transform.gameObject);
     }
+    
+    
+    #region 移动时使用的参数
+    public bool MoveParam1; 
+    #endregion
 }

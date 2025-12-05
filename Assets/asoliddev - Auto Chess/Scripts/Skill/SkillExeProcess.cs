@@ -14,6 +14,7 @@ public class SkillExeProcess
 {
     private SingleSkillExeProcess _globalProcess;
     private System.Action _sellSkill;
+    private System.Action _sellSkillReset;
     private Stack<SingleSkillExeProcess> _skillPool = new();
     public bool GlobalProcessIsUsing;
     public SkillExeProcess()
@@ -28,14 +29,16 @@ public class SkillExeProcess
         _globalProcess = new(this);
     }
 
-    public void RegisterSellSkill(System.Action sellSkill)
+    public void RegisterSellSkill(System.Action reset, System.Action sellSkill)
     {
         _sellSkill += sellSkill;
+        _sellSkillReset += reset;
     }
     
-    public void UnRegisterSellSkill(System.Action sellSkill)
+    public void UnRegisterSellSkill(System.Action reset, System.Action sellSkill)
     {
         _sellSkill -= sellSkill;
+        _sellSkillReset -= reset;
     }
 
     public void SetCurSkill(ISkillState skill)
@@ -77,6 +80,12 @@ public class SkillExeProcess
     {
         return _globalProcess.GetCurState();
     }
+
+    public void Reset()
+    {
+        _sellSkillReset?.Invoke();
+        _globalProcess.Reset();
+    }
 }
 
 public class SingleSkillExeProcess
@@ -102,7 +111,7 @@ public class SingleSkillExeProcess
         _skill.ResetSkillContext();
         _skillExeContext.Init(_skill, _isGlobalProcess);
         if(_isSellSkill)
-            _skillExeProcess.RegisterSellSkill(InvokeSkill);
+            _skillExeProcess.RegisterSellSkill(Reset, InvokeSkill);
         _state = _skill.HaveTargetInRange() ? ProcessExeState.Ing : ProcessExeState.FindTarget;
     }
 
@@ -142,10 +151,15 @@ public class SingleSkillExeProcess
     {
         if (_isSellSkill)
         {
-            _skillExeProcess.UnRegisterSellSkill(InvokeSkill);
+            _skillExeProcess.UnRegisterSellSkill(Reset, InvokeSkill);
             _skillExeProcess.ReturnToPool(this);
             _skillExeContext.Release();
         }
+    }
+
+    public void Reset()
+    {
+        OnSkillEnd();
     }
 }
 
@@ -277,6 +291,7 @@ public class SkillExeContext
     
     public void Release()
     {
+        DestroyEffect();
     }
     
     #region 技能释放相关

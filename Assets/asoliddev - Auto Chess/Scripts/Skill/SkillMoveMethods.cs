@@ -22,7 +22,9 @@ public static class SkillMoveMethods
                 UpAndFindToTarget(instance);
                 return true;
             case SkillHelper.MoveLogic.DurationSweep:
-                DurationSweep(instance);
+                DurationSweep(instance, self);
+                instance.transform.localScale = Vector3.one * 20;
+                return true;
                 break;
             case SkillHelper.MoveLogic.OnlyEffect:
                 break;
@@ -57,7 +59,7 @@ public static class SkillMoveMethods
                 UpAndFindToTarget(instance);
                 break;
             case SkillHelper.MoveLogic.DurationSweep:
-                DurationSweep(instance);
+                DurationSweep(instance, self);
                 break;
             case SkillHelper.MoveLogic.OnlyEffect:
                 break;
@@ -75,10 +77,32 @@ public static class SkillMoveMethods
         Debug.LogError("ParabolaAndRebound");
     }
 
-    private static void DurationSweep(SkillInstance instance)
+    private static void DurationSweep(SkillInstance instance, Transform self)
     {
-        Debug.LogError("DurationSweep");
+        var transform = instance.transform;
+        transform.position = self.position;
 
+        // 计算每帧应旋转的角度
+        float rotationSpeed = instance.SkillExeContext.GetMoveSpeed() * Time.deltaTime;
+        float currentAngle = transform.rotation.eulerAngles.y; // 获取当前的旋转角度
+
+        // 应用旋转
+        if (instance.MoveParam1)
+        {
+            transform.Rotate(Vector3.up, rotationSpeed);
+            if (currentAngle >= 30)
+            {
+                instance.MoveParam1 = false; // 到达最大角度后反转方向
+            }
+        }
+        else
+        {
+            transform.Rotate(Vector3.up, -rotationSpeed);
+            if (currentAngle <= -30)
+            {
+                instance.MoveParam1 = true; // 到达最小角度后反转方向
+            }
+        }
     }
 
     private static void UpAndFindToTarget(SkillInstance instance)
