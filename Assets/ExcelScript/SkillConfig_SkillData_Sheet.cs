@@ -153,6 +153,14 @@ namespace ExcelConfig
 		private string _icon;
 		public string icon { get { return _icon; } }
 
+		[SerializeField]
+		private int _AttackType;
+		public int AttackType { get { return _AttackType; } }
+
+		[SerializeField]
+		private float _MoveSpeed;
+		public float MoveSpeed { get { return _MoveSpeed; } }
+
 
 		public SkillData()
 		{
@@ -248,6 +256,8 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _hitFXPrefab);
 			TryParse(sheet[row][column++], out _hexEffectPrefab);
 			TryParse(sheet[row][column++], out _icon);
+			TryParse(sheet[row][column++], out _AttackType);
+			TryParse(sheet[row][column++], out _MoveSpeed);
 		}
 #endif
 		public override void OnAfterSerialized()
