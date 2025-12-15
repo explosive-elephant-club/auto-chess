@@ -190,12 +190,17 @@ public static class SkillHelper
         /// 持续时间结束后触发一次范围伤害
         /// </summary>
         DurationAfterDamage = 2,
+        /// <summary>
+        /// 护盾类型
+        /// </summary>
+        Shield = 3,
     }
     
     public struct SkillLogicData
     {
         public MoveLogic MoveLogic;
         public DamageLogic DamageLogic;
+        public bool DestroyOnColliderShield;
         /// <summary>
         /// 是否以自身中心为生成点
         /// </summary>
@@ -213,7 +218,7 @@ public static class SkillHelper
         },
         {
             SkillAttackType.WaveformDynamicTrajectory,
-            new SkillLogicData() { MoveLogic = MoveLogic.MoveAndScale, DamageLogic = DamageLogic.Normal }
+            new SkillLogicData() { MoveLogic = MoveLogic.MoveAndScale, DamageLogic = DamageLogic.Normal, DestroyOnColliderShield = true }
         },
         {
             SkillAttackType.RangeTrajectory,
@@ -233,7 +238,7 @@ public static class SkillHelper
         },
         {
             SkillAttackType.InstantaneousTrajectoryOfLaser,
-            new SkillLogicData() { MoveLogic = MoveLogic.OnlyEffect, DamageLogic = DamageLogic.OnlyCollision }
+            new SkillLogicData() { MoveLogic = MoveLogic.OnlyEffect, DamageLogic = DamageLogic.OnlyCollision, DestroyOnColliderShield = true }
         },
         {
             SkillAttackType.TrajectoryOfProjectile,
@@ -241,11 +246,11 @@ public static class SkillHelper
         },
         {
             SkillAttackType.TheBulletRicocheted,
-            new SkillLogicData() { MoveLogic = MoveLogic.MoveForward, DamageLogic = DamageLogic.OnlyCollision }
+            new SkillLogicData() { MoveLogic = MoveLogic.MoveForward, DamageLogic = DamageLogic.OnlyCollision, DestroyOnColliderShield = true }
         },
         {
             SkillAttackType.BulletLinearTrajectory,
-            new SkillLogicData() { MoveLogic = MoveLogic.MoveForward, DamageLogic = DamageLogic.OnlyCollision }
+            new SkillLogicData() { MoveLogic = MoveLogic.MoveForward, DamageLogic = DamageLogic.OnlyCollision, DestroyOnColliderShield = true }
         },
     };
 

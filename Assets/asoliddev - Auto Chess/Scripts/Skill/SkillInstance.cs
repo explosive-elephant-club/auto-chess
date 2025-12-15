@@ -1,11 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SkillInstance : MonoBehaviour
 {
-    [SerializeField]
-    private SkillHelper.MoveLogic moveLogic;
-    [SerializeField]
-    private SkillHelper.DamageLogic damageLogic;
     [SerializeField]
     private Transform self;
     [SerializeField] 
@@ -32,6 +29,8 @@ public class SkillInstance : MonoBehaviour
             scalePart = transform;
         this.self = self;
         this._skillExeContext = skillExeContext;
+        _lastDamageTime ??= new();
+        _lastDamageTime.Clear();
         haveDurationPath = this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out _isPathMove);
         _skillExeContext.SetCanFinish(!haveDurationPath);
     }
@@ -61,82 +60,67 @@ public class SkillInstance : MonoBehaviour
             }
         }
     }
-    
+
+    #region 伤害相关
+    private Dictionary<int, float> _lastDamageTime;
+    public float GetDamageTimeInterval(int instanceId)
+    {
+        return _lastDamageTime.GetValueOrDefault(instanceId, -1) - _duration;
+    }
+    public void SetLastDamageTime(int instanceId)
+    {
+        _lastDamageTime[instanceId] = _duration;
+    }
     /// <summary>
     /// 碰撞检测开始
     /// </summary>
     /// <param name="hit">碰撞对象</param>
     protected virtual void OnTriggerEnter(Collider hit)
     {
-        if (hit.tag == "SkillEffectCol")
+        if (hit.CompareTag("SkillEffectCol"))
             return;
-        // //如果碰撞到护盾，调用 OnCollideShieldBegin(hit) 并中止技能
-        // if (hit.tag == "Shield")
-        // {
-        //     InterceptShieldEffect shieldEffect = hit.GetComponentInParent<InterceptShieldEffect>();
-        //     if (shieldEffect.skill.owner.team != skill.owner.team)
-        //     {
-        //         OnCollideShieldBegin(hit);
-        //         return;
-        //     }
-        // }
-        // ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
-        // if (c == null)
-        //     return;
-        // //如果碰撞到敌人/队友，则调用 OnCollideChampionBegin(c, pos)
-        // if (skill.skillTargetType == SkillTargetType.Teammate)
-        // {
-        //     if (c.team == skill.owner.team)
-        //     {
-        //         OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
-        //     }
-        // }
-        // else if (skill.skillTargetType == SkillTargetType.Enemy)
-        // {
-        //     if (c.team != skill.owner.team)
-        //     {
-        //         OnCollideChampionBegin(c, hit.bounds.ClosestPoint(transform.position));
-        //     }
-        // }
+        // if (hit.CompareTag("floor"))
+            // MoveParam2 = true;
+        this.SkillDamage(_skillExeContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Enter);
     }
 
     protected virtual void OnTriggerStay(Collider hit)
     {
-        
+        var id = hit.GetHashCode();
+        if (!_lastDamageTime.ContainsKey(id))
+        {
+            
+        }
+        this.SkillDamage(_skillExeContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Stay);
     }
+    
     /// <summary>
     /// 碰撞检测结束
     /// </summary>
     /// <param name="hit">碰撞对象</param>
     protected virtual void OnTriggerExit(Collider hit)
     {
+        // if (hit.CompareTag("floor"))
+            // MoveParam2 = false;
         ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
         if (c == null)
             return;
-        //如果碰撞离开敌人/队友，则调用 OnCollideChampionEnd(c, pos)
-        // if (skill.skillTargetType == SkillTargetType.Teammate)
-        // {
-        //     if (c.team == skill.owner.team)
-        //     {
-        //         OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
-        //     }
-        // }
-        // else if (skill.skillTargetType == SkillTargetType.Enemy)
-        // {
-        //     if (c.team != skill.owner.team)
-        //     {
-        //         OnCollideChampionEnd(c, hit.bounds.ClosestPoint(transform.position));
-        //     }
-        // }
+        this.SkillDamage(_skillExeContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Exit);
     }
+    #endregion
 
     public void DestroySelf()
     {
+        if(_lastDamageTime  != null)
+            _lastDamageTime.Clear();
         Destroy(transform.gameObject);
     }
     
     
     #region 移动时使用的参数
-    public bool MoveParam1; 
+    [HideInInspector]
+    public bool MoveParam1;
+    [HideInInspector]
+    public bool MoveParam2;
     #endregion
 }

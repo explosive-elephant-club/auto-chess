@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 public static class SkillMoveMethods
 {
@@ -10,7 +11,10 @@ public static class SkillMoveMethods
             case SkillHelper.MoveLogic.None:
                 break;
             case SkillHelper.MoveLogic.MoveAndScale:
-                MoveAndScale(instance);
+                isPathMove  = true;
+                UpAndFindToTarget(instance, self, target);
+                
+                // MoveAndScale(instance);
                 return true;
             case SkillHelper.MoveLogic.FollowSelfAndTurnToTarget:
                 FollowSelfAndTurnToTarget(instance, self, target);
@@ -19,11 +23,12 @@ public static class SkillMoveMethods
                 FollowSelfAndTurnAround(instance, self);
                 break;
             case SkillHelper.MoveLogic.UpAndFindToTarget:
-                UpAndFindToTarget(instance);
+                isPathMove  = true;
+                UpAndFindToTarget(instance, self, target);
                 return true;
             case SkillHelper.MoveLogic.DurationSweep:
                 DurationSweep(instance, self);
-                instance.transform.localScale = Vector3.one * 20;
+                // instance.transform.localScale = Vector3.one * 20;
                 return true;
                 break;
             case SkillHelper.MoveLogic.OnlyEffect:
@@ -47,7 +52,9 @@ public static class SkillMoveMethods
             case SkillHelper.MoveLogic.None:
                 break;
             case SkillHelper.MoveLogic.MoveAndScale:
-                MoveAndScale(instance);
+                UpAndFindToTarget(instance, self, getTargetFunc());
+                
+                // MoveAndScale(instance);
                 break;
             case SkillHelper.MoveLogic.FollowSelfAndTurnToTarget:
                 FollowSelfAndTurnToTarget(instance, self, getTargetFunc());
@@ -56,7 +63,7 @@ public static class SkillMoveMethods
                 FollowSelfAndTurnAround(instance, self);
                 break;
             case SkillHelper.MoveLogic.UpAndFindToTarget:
-                UpAndFindToTarget(instance);
+                UpAndFindToTarget(instance, self, getTargetFunc());
                 break;
             case SkillHelper.MoveLogic.DurationSweep:
                 DurationSweep(instance, self);
@@ -105,9 +112,37 @@ public static class SkillMoveMethods
         }
     }
 
-    private static void UpAndFindToTarget(SkillInstance instance)
+    private static void UpAndFindToTarget(SkillInstance instance, Transform self, Transform target)
     {
-        Debug.LogError("UpAndFindToTarget");
+        var transform = instance.transform;
+        // 随机生成向上移动的目标高度
+        float randomHeight = Random.Range(3f, 7f); // 例如，随机高度在3到7米之间
+        // 随机生成一个水平方向的偏移
+        float randomHorizontalOffset = Random.Range(-3f, 3f); // 例如，水平方向偏移在-3到3米之间
+        // 使用对象的本地坐标系来计算水平偏移
+        Vector3 randomTargetPosition =
+            transform.position + self.right * randomHorizontalOffset + self.up * randomHeight;
+        
+        transform.forward = randomTargetPosition - transform.position;
+        // 向上移动
+        transform.DOMove(randomTargetPosition, 0.5f).SetEase(Ease.InSine).OnComplete(() =>
+        {
+            transform.LookAt(target);
+            // 计算平滑转向路径
+            Vector3 start = transform.position;
+            Vector3 end = target.position;
+            Vector3 controlPoint1 = start + Vector3.up * 5f; // 第一个控制点，可以调整
+            Vector3 controlPoint2 = (start + end) / 2f + Vector3.up * 2f; // 第二个控制点，可以调整
+
+            // 使用贝塞尔曲线计算转向路径
+            Vector3[] turnPath = new Vector3[5]; // 计算5个点，可以根据需要调整
+            for (int i = 0; i < turnPath.Length; i++)
+            {
+                float t = (float)i / (turnPath.Length - 1); // 归一化时间
+                turnPath[i] = CalculateCubicBezierPoint(start, controlPoint1, controlPoint2, end, t);
+            }
+            transform.DOPath(turnPath, 1f, PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InSine);
+        });
     }
 
     private static void FollowSelfAndTurnAround(SkillInstance instance, Transform self)
@@ -145,4 +180,23 @@ public static class SkillMoveMethods
         var transform = instance.transform;
         transform.position += transform.forward.normalized * Time.deltaTime * instance.SkillExeContext.GetMoveSpeed();
     }
+
+
+    #region 曲线计算相关
+    private static Vector3 CalculateCubicBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+    {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float ttt = tt * t;
+
+        Vector3 p = uuu * p0; //first term
+        p += 3 * uu * t * p1; //second term
+        p += 3 * u * tt * p2; //third term
+        p += ttt * p3; //fourth term
+
+        return p;
+    }
+    #endregion
 }

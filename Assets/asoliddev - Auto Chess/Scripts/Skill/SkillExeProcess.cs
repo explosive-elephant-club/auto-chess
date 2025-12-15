@@ -207,6 +207,8 @@ public class SkillExeContext
     private ConstructorBase _constructor;
     private SkillHelper.SkillLogicData _logicData;
     public SkillHelper.SkillLogicData LogicData => _logicData;
+    public SkillTargetType SkillTargetType => _skillContext.SkillTargetType;
+    public ChampionTeam Team => _owner.team;
     // 技能移动速度
     private float _moveSpeed;
     public void Init(ISkillState skillState, bool isRunInGlobalProcess = false)
@@ -367,6 +369,14 @@ public class SkillExeContext
                 AddDMGToTarget(C);
             }
         }
+    }
+
+    public void SkillHitEffect(Collider c, ChampionController target, bool onlyEffect = false)
+    {
+        InstantiateHitInstance(c.bounds.ClosestPoint(target.transform.position), Quaternion.FromToRotation(Vector3.up, Vector3.zero), 1.5f);
+        if(onlyEffect) return;
+        AddBuffToTarget(target);
+        AddDMGToTarget(target);
     }
     /// <summary>
     /// 创建技能投射物特效实例
