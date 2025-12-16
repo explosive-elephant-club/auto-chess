@@ -18,7 +18,6 @@ public static class SkillDamageMethods
             if (shieldInstance.SkillExeContext.Team != instance.SkillExeContext.Team)
             {
                 instance.SkillExeContext.SkillHitEffect(target, target.GetComponent<ChampionController>(), true);
-                instance.SkillExeContext.SetCanFinish(true);
                 return;
             }
         }

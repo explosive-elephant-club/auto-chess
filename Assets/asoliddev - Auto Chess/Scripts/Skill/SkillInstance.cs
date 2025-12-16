@@ -10,11 +10,11 @@ public class SkillInstance : MonoBehaviour
     [SerializeField] 
     [Header("发射出去类弹道, 这类技能弹道的最大飞行(移动时间)")]
     private float maxDuration = 5f;
-    [SerializeField] 
-    private bool haveDurationPath;
     
     private SkillExeContext _skillExeContext;
     public SkillExeContext SkillExeContext => _skillExeContext;
+
+    private bool _isDamageDestroySkill;
     public void Init(SkillExeContext skillExeContext, Transform self, Transform target)
     {
         var collider = gameObject.GetComponent<Collider>();
@@ -25,14 +25,20 @@ public class SkillInstance : MonoBehaviour
             Debug.LogError($"{gameObject.name} has no collider!");
             return;
         }
+
+        _duration = 0;
         if(scalePart == null)
             scalePart = transform;
         this.self = self;
         this._skillExeContext = skillExeContext;
         _lastDamageTime ??= new();
         _lastDamageTime.Clear();
-        haveDurationPath = this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out _isPathMove);
-        _skillExeContext.SetCanFinish(!haveDurationPath);
+
+        _isDamageDestroySkill = SkillHelper.CheckIsDamageDestroySkill(skillExeContext.AttackType);
+        this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out _isPathMove);
+        
+        if(_isDamageDestroySkill)
+            _skillExeContext.SetCanFinish(false);
     }
     
     /// <summary>
@@ -52,12 +58,9 @@ public class SkillInstance : MonoBehaviour
             this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, _skillExeContext.ReGetTarget, out _isPathMove);
         }
 
-        if (haveDurationPath)
+        if (_isDamageDestroySkill && _duration >= maxDuration)
         {
-            if (_duration >= maxDuration)
-            {
-                _skillExeContext.SetCanFinish(true);
-            }
+            _skillExeContext.SetCanFinish(true);
         }
     }
 

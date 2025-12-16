@@ -30,6 +30,7 @@ public enum SkillExeResult
     None,
     ChargeEnergy, // 充能
     Prepare, // 准备(寻敌 -> 检测蓝量)
+    Casting, // 释放技能(释放动作中)
     Ing,  // 执行中
     Done, // 结束
     Fail  // 失败
@@ -42,6 +43,7 @@ public enum ProcessExeState
 {
     None,
     FindTarget,  //寻找目标
+    Casting,     //释放技能(释放动作中)
     Ing,         //执行中  
     Done,        //结束
 }
@@ -262,6 +264,29 @@ public static class SkillHelper
     public static string GetVFXPath(int skillID)
     {
         return $"Prefab/Projectile/Skill/{skillID}/";
+    }
+
+    
+    /// <summary>
+    /// 根据传入的技能类型,判断是伤害后消失(结束) 还是持续时间结束消失(结束)
+    /// true => 伤害后结束
+    /// false => 持续时间结束结束
+    /// </summary>
+    /// <returns></returns>
+    public static bool CheckIsDamageDestroySkill(SkillAttackType type)
+    {
+        return type is SkillAttackType.TheBulletRicocheted or SkillAttackType.TrajectoryOfRocket
+            or SkillAttackType.BulletLinearTrajectory;
+    }
+    
+    /// <summary>
+    /// 根据传入的技能类型,判断是否需要持续施法
+    /// true => 需要持续施法 false => 不需要持续施法
+    /// </summary>
+    /// <returns></returns>
+    public static bool CheckIsNeedContinuousCasting(SkillAttackType type)
+    {
+        return false;
     }
 }
 
