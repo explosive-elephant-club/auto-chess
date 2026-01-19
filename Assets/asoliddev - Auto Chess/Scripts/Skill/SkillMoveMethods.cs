@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using UnityEngine;
 
 public static class SkillMoveMethods
@@ -93,55 +93,119 @@ public static class SkillMoveMethods
         float rotationSpeed = instance.SkillExeContext.GetMoveSpeed() * Time.deltaTime;
         float currentAngle = transform.rotation.eulerAngles.y; // 获取当前的旋转角度
 
-        // 应用旋转
-        if (instance.MoveParam1)
+        // 获取移动上下文（如果可用）
+        var moveContext = instance.MoveContext;
+        float maxSweepAngle = moveContext?.SweepMaxAngle ?? SkillConstants.DEFAULT_SWEEP_MAX_ANGLE;
+
+        // 应用旋转 - 使用 MoveContext 或回退到旧的 MoveParam1
+        bool sweepPositive = moveContext?.SweepDirectionPositive ?? instance.MoveParam1;
+        
+        if (sweepPositive)
         {
             transform.Rotate(Vector3.up, rotationSpeed);
-            if (currentAngle >= 30)
+            if (currentAngle >= maxSweepAngle)
             {
-                instance.MoveParam1 = false; // 到达最大角度后反转方向
+                // 使用新的语义化属性
+                if (moveContext != null)
+                    moveContext.SweepDirectionPositive = false;
+                else
+                    instance.MoveParam1 = false;
             }
         }
         else
         {
             transform.Rotate(Vector3.up, -rotationSpeed);
-            if (currentAngle <= -30)
+            if (currentAngle <= -maxSweepAngle)
             {
-                instance.MoveParam1 = true; // 到达最小角度后反转方向
+                // 使用新的语义化属性
+                if (moveContext != null)
+                    moveContext.SweepDirectionPositive = true;
+                else
+                    instance.MoveParam1 = true;
             }
+        }
+        
+        // 更新扫射角度记录
+        if (moveContext != null)
+        {
+            moveContext.SweepAngle = currentAngle;
         }
     }
 
     private static void UpAndFindToTarget(SkillInstance instance, Transform self, Transform target)
     {
         var transform = instance.transform;
-        // 随机生成向上移动的目标高度
-        float randomHeight = Random.Range(3f, 7f); // 例如，随机高度在3到7米之间
-        // 随机生成一个水平方向的偏移
-        float randomHorizontalOffset = Random.Range(-3f, 3f); // 例如，水平方向偏移在-3到3米之间
+        var moveContext = instance.MoveContext;
+        
+        // 使用 MoveContext 缓存随机值，避免每帧重新生成
+        float randomHeight;
+        float randomHorizontalOffset;
+        
+        if (moveContext != null && moveContext.RandomHeight == 0)
+        {
+            // 首次调用，生成随机值并缓存
+            randomHeight = Random.Range(SkillConstants.ROCKET_MIN_HEIGHT, SkillConstants.ROCKET_MAX_HEIGHT);
+            randomHorizontalOffset = Random.Range(SkillConstants.ROCKET_MIN_HORIZONTAL_OFFSET, SkillConstants.ROCKET_MAX_HORIZONTAL_OFFSET);
+            moveContext.RandomHeight = randomHeight;
+            moveContext.RandomHorizontalOffset = randomHorizontalOffset;
+        }
+        else if (moveContext != null)
+        {
+            // 使用缓存的随机值
+            randomHeight = moveContext.RandomHeight;
+            randomHorizontalOffset = moveContext.RandomHorizontalOffset;
+        }
+        else
+        {
+            // 回退到旧行为
+            randomHeight = Random.Range(SkillConstants.ROCKET_MIN_HEIGHT, SkillConstants.ROCKET_MAX_HEIGHT);
+            randomHorizontalOffset = Random.Range(SkillConstants.ROCKET_MIN_HORIZONTAL_OFFSET, SkillConstants.ROCKET_MAX_HORIZONTAL_OFFSET);
+        }
+        
         // 使用对象的本地坐标系来计算水平偏移
         Vector3 randomTargetPosition =
             transform.position + self.right * randomHorizontalOffset + self.up * randomHeight;
         
         transform.forward = randomTargetPosition - transform.position;
-        // 向上移动
-        transform.DOMove(randomTargetPosition, 0.5f).SetEase(Ease.InSine).OnComplete(() =>
+        
+        // 记录起始位置
+        if (moveContext != null)
         {
+            moveContext.StartPosition = transform.position;
+            moveContext.EndPosition = target.position;
+        }
+        
+        // 向上移动
+        transform.DOMove(randomTargetPosition, SkillConstants.ROCKET_RISE_DURATION).SetEase(Ease.InSine).OnComplete(() =>
+        {
+            // 标记上升阶段完成
+            if (moveContext != null)
+            {
+                moveContext.IsRiseComplete = true;
+            }
+            
             transform.LookAt(target);
             // 计算平滑转向路径
             Vector3 start = transform.position;
             Vector3 end = target.position;
-            Vector3 controlPoint1 = start + Vector3.up * 5f; // 第一个控制点，可以调整
-            Vector3 controlPoint2 = (start + end) / 2f + Vector3.up * 2f; // 第二个控制点，可以调整
+            Vector3 controlPoint1 = start + Vector3.up * SkillConstants.BEZIER_CONTROL_POINT_1_HEIGHT;
+            Vector3 controlPoint2 = (start + end) / 2f + Vector3.up * SkillConstants.BEZIER_CONTROL_POINT_2_HEIGHT;
 
             // 使用贝塞尔曲线计算转向路径
-            Vector3[] turnPath = new Vector3[5]; // 计算5个点，可以根据需要调整
+            Vector3[] turnPath = new Vector3[SkillConstants.BEZIER_SAMPLE_POINTS];
             for (int i = 0; i < turnPath.Length; i++)
             {
                 float t = (float)i / (turnPath.Length - 1); // 归一化时间
                 turnPath[i] = CalculateCubicBezierPoint(start, controlPoint1, controlPoint2, end, t);
             }
-            transform.DOPath(turnPath, 1f, PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InSine);
+            transform.DOPath(turnPath, SkillConstants.ROCKET_TRACK_DURATION, PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InSine).OnComplete(() =>
+            {
+                // 标记路径完成
+                if (moveContext != null)
+                {
+                    moveContext.IsPathComplete = true;
+                }
+            });
         });
     }
 
@@ -149,10 +213,22 @@ public static class SkillMoveMethods
     {
         var transform = instance.transform;
         transform.position = self.position;
+        
         // 计算每帧应旋转的角度
         float rotationThisFrame = instance.SkillExeContext.GetMoveSpeed() * Time.deltaTime;
+        
         // 应用旋转
         transform.Rotate(Vector3.up, rotationThisFrame);
+        
+        // 更新移动上下文中的环绕角度
+        var moveContext = instance.MoveContext;
+        if (moveContext != null)
+        {
+            moveContext.OrbitAngle += rotationThisFrame;
+            // 保持角度在 0-360 范围内
+            if (moveContext.OrbitAngle >= SkillConstants.FULL_ROTATION_ANGLE)
+                moveContext.OrbitAngle -= SkillConstants.FULL_ROTATION_ANGLE;
+        }
     }
 
     private static void FollowSelfAndTurnToTarget(SkillInstance instance, Transform self, Transform target)

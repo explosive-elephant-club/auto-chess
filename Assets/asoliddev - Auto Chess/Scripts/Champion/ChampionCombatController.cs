@@ -22,12 +22,12 @@ public class ChampionCombatController
             return;
         buffController.eventCenter.Broadcast(BuffActiveMode.BeforeAttack.ToString());
 
-        if (_target.skillController.curVoidShieldEffect != null)
-        {
-            _target.skillController.curVoidShieldEffect.OnGotHit(championController, damages);
-            buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
-            return;
-        }
+        // if (_target.skillController.curVoidShieldEffect != null)
+        // {
+        //     _target.skillController.curVoidShieldEffect.OnGotHit(championController, damages);
+        //     buffController.eventCenter.Broadcast(BuffActiveMode.AfterAttack.ToString());
+        //     return;
+        // }
 
         float crit = 1;
         if (attributesController.CritCheck())

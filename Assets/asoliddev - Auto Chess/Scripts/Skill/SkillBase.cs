@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ExcelConfig;
 using UnityEngine;
@@ -14,13 +14,17 @@ public class SkillBase : ISkillState
     /// </summary>
     private readonly ChampionController _owner;
     /// <summary>
-    /// 目标选择器
+    /// 统一目标查找器（替代原有的 SkillTargetsSelector）
     /// </summary>
-    private readonly SkillTargetsSelector _targetsSelector;
+    private readonly SkillTargetFinder _targetFinder;
     /// <summary>
-    /// 被选中的目标
+    /// 运行时数据（用于目标查找）
     /// </summary>
-    private SelectorResult _selectorResult;
+    private readonly SkillRuntime _runtime;
+    /// <summary>
+    /// 被选中的目标结果
+    /// </summary>
+    private TargetResult _targetResult;
     private bool _isStartCd;
     #endregion
     
@@ -28,9 +32,9 @@ public class SkillBase : ISkillState
     {
         _skillCfg = skillData;
         _skillContext = new SkillContext();
-        _targetsSelector = new SkillTargetsSelector();  
-        //目标选择器加载
-        _selectorResult = new SelectorResult();
+        _targetFinder = new SkillTargetFinder();
+        _runtime = new SkillRuntime();
+        _targetResult = new TargetResult();
         _constructor = constructor;
         _owner = championController;
     }
@@ -98,32 +102,33 @@ public class SkillBase : ISkillState
     /// <returns></returns>
     public bool HaveTargetInRange()
     {
-        //判断是否成功找到目标
-        return IsFindTarget();
+        // 使用统一的目标查找器
+        return FindAndCacheTargets();
     }
+    
     /// <summary>
-    /// 用于检查是否能找到目标，同时将查找到的目标列表保存到selectorResult中
+    /// 用于检查是否能找到目标，同时将查找到的目标列表缓存
+    /// 使用新的 SkillTargetFinder 统一目标查找逻辑
     /// </summary>
     /// <returns></returns>
-    private bool IsFindTarget()
+    private bool FindAndCacheTargets()
     {
-        if (_skillContext.SkillTargetType != SkillTargetType.Self)
+        // 确保运行时数据已初始化（用于目标查找）
+        EnsureRuntimeInitialized();
+        
+        // 使用统一的目标查找器
+        _targetResult = _targetFinder.FindTargets(_runtime, false);
+        return _targetResult.HasValidTarget;
+    }
+    
+    /// <summary>
+    /// 确保运行时数据已初始化
+    /// </summary>
+    private void EnsureRuntimeInitialized()
+    {
+        if (_runtime.SkillState == null)
         {
-            ChampionManager manager = _targetsSelector.FindTargetsManagerByType(_skillContext.SkillTargetType, _owner.team);
-            ChampionController c = _targetsSelector.FindTargetBySelectorType(_skillContext.SkillTargetSelectorType, manager, _owner, _skillCfg.distance);
-
-            if (c == null)
-            {
-                return false;
-            }
-
-            _selectorResult = _targetsSelector.FindTargetByRange(c, _skillContext.SkillRangeSelectorType, _skillCfg.range, _owner.team);
-            return true;
-        }
-        else
-        {
-            _selectorResult = new SelectorResult(new List<ChampionController>() { _owner }, Vector3.zero);
-            return true;
+            _runtime.Initialize(this);
         }
     }
 
@@ -160,25 +165,13 @@ public class SkillBase : ISkillState
     
     /// <summary>
     /// 根据技能目标类型，利用目标选择器查找目标
+    /// 使用统一的 SkillTargetFinder
     /// </summary>
     /// <returns></returns>
     public virtual ChampionController FindAvailableTarget()
     {
-        if (_skillContext.SkillTargetType != SkillTargetType.Self)
-        {
-            ChampionManager manager = _targetsSelector.FindTargetsManagerByType(_skillContext.SkillTargetType, _owner.team);
-            ChampionController c = _targetsSelector.FindTargetBySelectorType(_skillContext.SkillTargetSelectorType, manager, _owner, 60);
-            if (c == null)
-            {
-                return null;
-            }
-            SelectorResult _selectorResult = _targetsSelector.FindTargetByRange(c, _skillContext.SkillRangeSelectorType, _skillCfg.range, _owner.team);
-            return _selectorResult.targets[0];
-        }
-        else
-        {
-            return _owner;
-        }
+        EnsureRuntimeInitialized();
+        return _targetFinder.FindAvailableTarget(_runtime, true);
     }
 
     public virtual ChampionController GetOwner()
@@ -203,7 +196,16 @@ public class SkillBase : ISkillState
 
     public List<ChampionController> GetTargetList()
     {
-        return _selectorResult?.targets;
+        return _targetResult?.Targets;
+    }
+    
+    /// <summary>
+    /// 获取技能运行时数据（用于新的技能系统）
+    /// </summary>
+    public SkillRuntime GetRuntime()
+    {
+        EnsureRuntimeInitialized();
+        return _runtime;
     }
     #endregion
 }
