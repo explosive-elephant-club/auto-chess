@@ -58,9 +58,9 @@ public class SkillExeProcess
         _sellSkill?.Invoke();
     }
 
-    public ProcessExeState GetCurState()
+    public SkillPhase GetCurState()
     {
-        return _globalProcess?.GetCurState() ?? ProcessExeState.None;
+        return _globalProcess?.GetCurState() ?? SkillPhase.Idle;
     }
 
     public void Reset()
@@ -78,7 +78,7 @@ public class SingleSkillExeProcess
     private ISkillState _skill;
     private readonly SkillRuntime _runtime;
     private readonly SkillStateMachine _stateMachine;
-    private ProcessExeState _state;
+    private SkillPhase _state;
     private bool _isInSellCast;
     
     public SingleSkillExeProcess(SkillExeProcess skillExeProcess)
@@ -94,7 +94,7 @@ public class SingleSkillExeProcess
         _skill.ResetSkillContext();
         _stateMachine.Initialize(_skill);
         _isInSellCast = false;
-        _state = _skill.HaveTargetInRange() ? ProcessExeState.Casting : ProcessExeState.FindTarget;
+        _state = _skill.HaveTargetInRange() ? SkillPhase.Casting : SkillPhase.FindingTarget;
     }
 
     private void InvokeSkill()
@@ -102,21 +102,21 @@ public class SingleSkillExeProcess
         TickSkill();
     }
 
-    public ProcessExeState TickSkill()
+    public SkillPhase TickSkill()
     {
         switch (_state)
         {
-            case ProcessExeState.FindTarget:
+            case SkillPhase.FindingTarget:
                 if (_skill.HaveTargetInRange())
                 {
-                    _state = ProcessExeState.Casting;
+                    _state = SkillPhase.Casting;
                 }
                 break;
-            case ProcessExeState.Casting:
+            case SkillPhase.Casting:
                 var castResult = _stateMachine.Tick();
-                if (castResult == SkillExeResult.Ing)
+                if (castResult == SkillPhase.Executing)
                 {
-                    _state = ProcessExeState.Ing;
+                    _state = SkillPhase.Executing;
                     if (_skill.CheckIsSellSkill())
                     {
                         _skillExeProcess.SetToSellCast();
@@ -124,15 +124,15 @@ public class SingleSkillExeProcess
                         _isInSellCast = true;
                     }
                 }
-                else if (castResult == SkillExeResult.Fail)
+                else if (castResult == SkillPhase.Failed)
                 {
                     OnSkillEnd();
                 }
                 break;
-            case ProcessExeState.Ing:
+            case SkillPhase.Executing:
                 var result = _stateMachine.Tick();
-                _state = result is SkillExeResult.Done or SkillExeResult.Fail ? ProcessExeState.Done : ProcessExeState.Ing;
-                if (_state == ProcessExeState.Done)
+                _state = result is SkillPhase.Finished or SkillPhase.Failed ? SkillPhase.Finished : SkillPhase.Executing;
+                if (_state == SkillPhase.Finished)
                 {
                     OnSkillEnd();
                 }
@@ -141,7 +141,7 @@ public class SingleSkillExeProcess
         return _state;
     }
 
-    public ProcessExeState GetCurState()
+    public SkillPhase GetCurState()
     {
         return _state;
     }

@@ -107,8 +107,8 @@ public class SkillController
         _skillExeProcess.ExecuteSkill();
         switch (_skillExeProcess.GetCurState())
         {
-            case ProcessExeState.Done:
-            case ProcessExeState.None:
+            case SkillPhase.Finished:
+            case SkillPhase.Idle:
                 var nextSkill = GetNextSkillState();
                 if (nextSkill != null)
                 {
@@ -116,7 +116,7 @@ public class SkillController
                     _skillExeProcess.SetCurSkill(nextSkill);
                 }
                 break;
-            case ProcessExeState.Ing:
+            case SkillPhase.Executing:
                 break;
         }
     }
