@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public static class SkillDamageMethods
 {
@@ -66,7 +66,7 @@ public static class SkillDamageMethods
         else if (colliderType == ColliderType.Stay)
         {
             var interval = instance.GetDamageTimeInterval(target.GetInstanceID());
-            if (interval > 1)
+            if (interval > SkillConstants.DAMAGE_INTERVAL)
             {
                 instance.SetLastDamageTime(target.GetInstanceID());
                 instance.SkillExeContext.SkillHitEffect(target, championController);   

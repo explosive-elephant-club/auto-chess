@@ -233,29 +233,29 @@ public class SkillTargetsSelector
         }
         return tempResult;
     }
-    /// <summary>
-    /// 选择目标
-    /// </summary>
-    /// <param name="skill">技能</param>
-    /// <returns>选择的结果</returns>
-    public SelectorResult FindTargets(Skill skill)
-    {
-        //如果技能目标不是自己
-        if (skill.skillTargetType != SkillTargetType.Self)
-        {
-            //先确定管理器
-            ChampionManager manager = FindTargetsManagerByType(skill.skillTargetType, skill.owner.team);
-            //然后通过管理器筛选目标
-            ChampionController c = FindTargetBySelectorType(skill.skillTargetSelectorType, manager, skill.owner, skill.skillData.distance);
-            if (c == null)
-                return null;
-            //扩展到范围的所有目标
-            return FindTargetByRange(c, skill.skillRangeSelectorType, skill.skillData.range, skill.owner.team);
-        }
-        //如果技能目标是自己，则直接返回自己
-        else
-        {
-            return new SelectorResult(new List<ChampionController>() { skill.owner }, Vector3.zero);
-        }
-    }
+    // /// <summary>
+    // /// 选择目标
+    // /// </summary>
+    // /// <param name="skill">技能</param>
+    // /// <returns>选择的结果</returns>
+    // public SelectorResult FindTargets(Skill skill)
+    // {
+    //     //如果技能目标不是自己
+    //     if (skill.skillTargetType != SkillTargetType.Self)
+    //     {
+    //         //先确定管理器
+    //         ChampionManager manager = FindTargetsManagerByType(skill.skillTargetType, skill.owner.team);
+    //         //然后通过管理器筛选目标
+    //         ChampionController c = FindTargetBySelectorType(skill.skillTargetSelectorType, manager, skill.owner, skill.skillData.distance);
+    //         if (c == null)
+    //             return null;
+    //         //扩展到范围的所有目标
+    //         return FindTargetByRange(c, skill.skillRangeSelectorType, skill.skillData.range, skill.owner.team);
+    //     }
+    //     //如果技能目标是自己，则直接返回自己
+    //     else
+    //     {
+    //         return new SelectorResult(new List<ChampionController>() { skill.owner }, Vector3.zero);
+    //     }
+    // }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillInstance : MonoBehaviour
@@ -11,15 +11,20 @@ public class SkillInstance : MonoBehaviour
     [Header("发射出去类弹道, 这类技能弹道的最大飞行(移动时间)")]
     private float maxDuration = 5f;
     
-    private SkillExeContext _skillExeContext;
-    public SkillExeContext SkillExeContext => _skillExeContext;
+    private ISkillExecutionContext _executionContext;
+    public ISkillExecutionContext SkillExeContext => _executionContext;
+
+    /// <summary>
+    /// 新的移动上下文，替代 MoveParam1/MoveParam2
+    /// </summary>
+    private SkillMoveContext _moveContext;
+    public SkillMoveContext MoveContext => _moveContext;
 
     private bool _isDamageDestroySkill;
-    public void Init(SkillExeContext skillExeContext, Transform self, Transform target)
+    
+    public void Init(ISkillExecutionContext executionContext, Transform self, Transform target)
     {
         var collider = gameObject.GetComponent<Collider>();
-        var ttt = gameObject.GetComponent<SkillEffect>();
-        if (ttt != null) ttt.enabled = false;
         if(collider == null)
         {
             Debug.LogError($"{gameObject.name} has no collider!");
@@ -30,15 +35,22 @@ public class SkillInstance : MonoBehaviour
         if(scalePart == null)
             scalePart = transform;
         this.self = self;
-        this._skillExeContext = skillExeContext;
+        this._executionContext = executionContext;
         _lastDamageTime ??= new();
         _lastDamageTime.Clear();
 
-        _isDamageDestroySkill = SkillHelper.CheckIsDamageDestroySkill(skillExeContext.AttackType);
-        this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, target, out _isPathMove);
+        // 初始化移动上下文
+        _moveContext ??= new SkillMoveContext();
+        _moveContext.Initialize(transform, self, target, executionContext.GetMoveSpeed());
+
+        _isDamageDestroySkill = SkillHelper.CheckIsDamageDestroySkill(executionContext.AttackType);
+        this.SkillMove(_executionContext.LogicData.MoveLogic, self, target, out _isPathMove);
+        
+        // 同步路径移动标记
+        _moveContext.IsPathMove = _isPathMove;
         
         if(_isDamageDestroySkill)
-            _skillExeContext.SetCanFinish(false);
+            _executionContext.SetCanFinish(false);
     }
     
     /// <summary>
@@ -50,17 +62,31 @@ public class SkillInstance : MonoBehaviour
     /// 做非匀速运动时，可以用这个时间来做参考
     /// </summary>
     public float Duration => _duration;
+    
     public void UpDateSkill()
     {
         _duration += Time.deltaTime;
+        
+        // 同步移动上下文的持续时间
+        if (_moveContext != null)
+        {
+            _moveContext.UpdateDuration(Time.deltaTime);
+        }
+        
         if (!_isPathMove)
         {
-            this.SkillMove(_skillExeContext.LogicData.MoveLogic, self, _skillExeContext.ReGetTarget, out _isPathMove);
+            this.SkillMove(_executionContext.LogicData.MoveLogic, self, _executionContext.ReGetTarget, out _isPathMove);
+            
+            // 同步路径移动标记
+            if (_moveContext != null)
+            {
+                _moveContext.IsPathMove = _isPathMove;
+            }
         }
 
         if (_isDamageDestroySkill && _duration >= maxDuration)
         {
-            _skillExeContext.SetCanFinish(true);
+            _executionContext.SetCanFinish(true);
         }
     }
 
@@ -82,9 +108,7 @@ public class SkillInstance : MonoBehaviour
     {
         if (hit.CompareTag("SkillEffectCol"))
             return;
-        // if (hit.CompareTag("floor"))
-            // MoveParam2 = true;
-        this.SkillDamage(_skillExeContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Enter);
+        this.SkillDamage(_executionContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Enter);
     }
 
     protected virtual void OnTriggerStay(Collider hit)
@@ -94,7 +118,7 @@ public class SkillInstance : MonoBehaviour
         {
             
         }
-        this.SkillDamage(_skillExeContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Stay);
+        this.SkillDamage(_executionContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Stay);
     }
     
     /// <summary>
@@ -103,12 +127,10 @@ public class SkillInstance : MonoBehaviour
     /// <param name="hit">碰撞对象</param>
     protected virtual void OnTriggerExit(Collider hit)
     {
-        // if (hit.CompareTag("floor"))
-            // MoveParam2 = false;
         ChampionController c = hit.gameObject.GetComponentInParent<ChampionController>();
         if (c == null)
             return;
-        this.SkillDamage(_skillExeContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Exit);
+        this.SkillDamage(_executionContext.LogicData.DamageLogic, self, hit, SkillDamageMethods.ColliderType.Exit);
     }
     #endregion
 
@@ -121,9 +143,34 @@ public class SkillInstance : MonoBehaviour
     
     
     #region 移动时使用的参数
+    /// <summary>
+    /// 旧的移动参数1（保留用于向后兼容）
+    /// 新代码应使用 MoveContext.SweepDirectionPositive 等有语义的属性
+    /// </summary>
     [HideInInspector]
-    public bool MoveParam1;
+    public bool MoveParam1
+    {
+        get => _moveContext?.SweepDirectionPositive ?? false;
+        set
+        {
+            if (_moveContext != null)
+                _moveContext.SweepDirectionPositive = value;
+        }
+    }
+    
+    /// <summary>
+    /// 旧的移动参数2（保留用于向后兼容）
+    /// 新代码应使用 MoveContext.HasLanded 等有语义的属性
+    /// </summary>
     [HideInInspector]
-    public bool MoveParam2;
+    public bool MoveParam2
+    {
+        get => _moveContext?.HasLanded ?? false;
+        set
+        {
+            if (_moveContext != null)
+                _moveContext.HasLanded = value;
+        }
+    }
     #endregion
 }

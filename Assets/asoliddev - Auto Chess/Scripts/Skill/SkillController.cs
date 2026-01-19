@@ -40,9 +40,9 @@ public class SkillController
     // /// </summary>
     // public float cdTimer = 0;
     /// <summary>
-    /// 当前护盾技能
-    /// </summary>
-    public VoidShieldEffect curVoidShieldEffect;
+    // /// 当前护盾技能
+    // /// </summary>
+    // public VoidShieldEffect curVoidShieldEffect;
 
     ChampionController championController;
 
