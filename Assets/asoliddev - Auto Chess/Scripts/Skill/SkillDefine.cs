@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ExcelConfig;
 
@@ -23,7 +23,52 @@ public interface ISkillState
 }
 
 /// <summary>
-/// 技能执行结果
+/// 描述技能当前的状态（UI用）
+/// </summary>
+public enum SkillState
+{
+    Disable,
+    Activied,
+}
+
+/// <summary>
+/// 统一的技能执行阶段枚举
+/// 替代原有的 SkillState、SkillExeResult、ProcessExeState
+/// </summary>
+public enum SkillPhase
+{
+    /// <summary>
+    /// 空闲/未激活
+    /// </summary>
+    Idle,
+    /// <summary>
+    /// 等待CD
+    /// </summary>
+    WaitingCD,
+    /// <summary>
+    /// 寻找目标
+    /// </summary>
+    FindingTarget,
+    /// <summary>
+    /// 施法动作中
+    /// </summary>
+    Casting,
+    /// <summary>
+    /// 效果执行中（脱手后）
+    /// </summary>
+    Executing,
+    /// <summary>
+    /// 本次释放完成
+    /// </summary>
+    Finished,
+    /// <summary>
+    /// 释放失败
+    /// </summary>
+    Failed
+}
+
+/// <summary>
+/// 技能执行结果 - 保留用于向后兼容，内部映射到 SkillPhase
 /// </summary>
 public enum SkillExeResult
 {
@@ -36,7 +81,7 @@ public enum SkillExeResult
 }
 
 /// <summary>
-/// 技能执行器状态
+/// 技能执行器状态 - 保留用于向后兼容，内部映射到 SkillPhase
 /// </summary>
 public enum ProcessExeState
 {
@@ -44,6 +89,82 @@ public enum ProcessExeState
     FindTarget,  //寻找目标
     Ing,         //执行中  
     Done,        //结束
+}
+
+/// <summary>
+/// 技能阶段转换辅助类
+/// </summary>
+public static class SkillPhaseHelper
+{
+    /// <summary>
+    /// 将 SkillExeResult 转换为 SkillPhase
+    /// </summary>
+    public static SkillPhase ToPhase(this SkillExeResult result)
+    {
+        return result switch
+        {
+            SkillExeResult.None => SkillPhase.Idle,
+            SkillExeResult.ChargeEnergy => SkillPhase.WaitingCD,
+            SkillExeResult.Prepare => SkillPhase.FindingTarget,
+            SkillExeResult.Casting => SkillPhase.Casting,
+            SkillExeResult.Ing => SkillPhase.Executing,
+            SkillExeResult.Done => SkillPhase.Finished,
+            SkillExeResult.Fail => SkillPhase.Failed,
+            _ => SkillPhase.Idle
+        };
+    }
+
+    /// <summary>
+    /// 将 ProcessExeState 转换为 SkillPhase
+    /// </summary>
+    public static SkillPhase ToPhase(this ProcessExeState state)
+    {
+        return state switch
+        {
+            ProcessExeState.None => SkillPhase.Idle,
+            ProcessExeState.FindTarget => SkillPhase.FindingTarget,
+            ProcessExeState.Casting => SkillPhase.Casting,
+            ProcessExeState.Ing => SkillPhase.Executing,
+            ProcessExeState.Done => SkillPhase.Finished,
+            _ => SkillPhase.Idle
+        };
+    }
+
+    /// <summary>
+    /// 将 SkillPhase 转换为 SkillExeResult
+    /// </summary>
+    public static SkillExeResult ToExeResult(this SkillPhase phase)
+    {
+        return phase switch
+        {
+            SkillPhase.Idle => SkillExeResult.None,
+            SkillPhase.WaitingCD => SkillExeResult.ChargeEnergy,
+            SkillPhase.FindingTarget => SkillExeResult.Prepare,
+            SkillPhase.Casting => SkillExeResult.Casting,
+            SkillPhase.Executing => SkillExeResult.Ing,
+            SkillPhase.Finished => SkillExeResult.Done,
+            SkillPhase.Failed => SkillExeResult.Fail,
+            _ => SkillExeResult.None
+        };
+    }
+
+    /// <summary>
+    /// 将 SkillPhase 转换为 ProcessExeState
+    /// </summary>
+    public static ProcessExeState ToProcessState(this SkillPhase phase)
+    {
+        return phase switch
+        {
+            SkillPhase.Idle => ProcessExeState.None,
+            SkillPhase.WaitingCD => ProcessExeState.None,
+            SkillPhase.FindingTarget => ProcessExeState.FindTarget,
+            SkillPhase.Casting => ProcessExeState.Casting,
+            SkillPhase.Executing => ProcessExeState.Ing,
+            SkillPhase.Finished => ProcessExeState.Done,
+            SkillPhase.Failed => ProcessExeState.Done,
+            _ => ProcessExeState.None
+        };
+    }
 }
 
 /// <summary>
@@ -262,6 +383,31 @@ public static class SkillHelper
     public static string GetVFXPath(int skillID)
     {
         return $"Prefab/Projectile/Skill/{skillID}/";
+    }
+
+    
+    /// <summary>
+    /// 根据传入的技能类型,判断是伤害后消失(结束) 还是持续时间结束消失(结束)
+    /// true => 伤害后结束
+    /// false => 持续时间结束结束
+    /// </summary>
+    /// <returns></returns>
+    public static bool CheckIsDamageDestroySkill(SkillAttackType type)
+    {
+        //测试代码
+        return true;
+        return type is SkillAttackType.TheBulletRicocheted or SkillAttackType.TrajectoryOfRocket
+            or SkillAttackType.BulletLinearTrajectory;
+    }
+    
+    /// <summary>
+    /// 根据传入的技能类型,判断是否需要持续施法
+    /// true => 需要持续施法 false => 不需要持续施法
+    /// </summary>
+    /// <returns></returns>
+    public static bool CheckIsNeedContinuousCasting(SkillAttackType type)
+    {
+        return false;
     }
 }
 

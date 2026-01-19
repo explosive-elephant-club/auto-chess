@@ -7,14 +7,6 @@ using System.Linq;
 using UnityEngine.Events;
 
 /// <summary>
-/// 描述技能当前的状态
-/// </summary>
-public enum SkillState
-{
-    Disable,
-    Activied,
-}
-/// <summary>
 /// 技能的全部数据和行为
 /// </summary>
 public class Skill
