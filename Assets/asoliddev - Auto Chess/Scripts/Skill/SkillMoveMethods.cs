@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class SkillMoveMethods
 {
-    public static bool SkillMove(this SkillInstance instance, SkillHelper.MoveLogic moveLogic, Transform self, Transform target, out bool isPathMove)
+    public static void SkillMove(this SkillInstance instance, SkillHelper.MoveLogic moveLogic, Transform self, Transform target, out bool isPathMove)
     {
         isPathMove = false;
         switch (moveLogic)
@@ -11,11 +11,12 @@ public static class SkillMoveMethods
             case SkillHelper.MoveLogic.None:
                 break;
             case SkillHelper.MoveLogic.MoveAndScale:
-                isPathMove  = true;
-                UpAndFindToTarget(instance, self, target);
-                
-                // MoveAndScale(instance);
-                return true;
+                // isPathMove  = true;
+                // UpAndFindToTarget(instance, self, target);
+                var end = new Vector3(target.position.x, instance.transform.position.y, target.position.z);
+                instance.transform.forward = end - instance.transform.position;
+                MoveAndScale(instance);
+                break;
             case SkillHelper.MoveLogic.FollowSelfAndTurnToTarget:
                 FollowSelfAndTurnToTarget(instance, self, target);
                 break;
@@ -25,23 +26,20 @@ public static class SkillMoveMethods
             case SkillHelper.MoveLogic.UpAndFindToTarget:
                 isPathMove  = true;
                 UpAndFindToTarget(instance, self, target);
-                return true;
+                break;
             case SkillHelper.MoveLogic.DurationSweep:
                 DurationSweep(instance, self);
                 // instance.transform.localScale = Vector3.one * 20;
-                return true;
                 break;
             case SkillHelper.MoveLogic.OnlyEffect:
                 break;
             case SkillHelper.MoveLogic.ParabolaAndRebound:
                 ParabolaAndRebound(instance);
-                return true;
+                break;
             case SkillHelper.MoveLogic.MoveForward:
                 MoveForward(instance);
-                return true;
+                break;
         }
-
-        return false;
     }
     
     public static void SkillMove(this SkillInstance instance, SkillHelper.MoveLogic moveLogic, Transform self, System.Func<Transform> getTargetFunc, out bool isPathMove)
@@ -52,9 +50,8 @@ public static class SkillMoveMethods
             case SkillHelper.MoveLogic.None:
                 break;
             case SkillHelper.MoveLogic.MoveAndScale:
-                UpAndFindToTarget(instance, self, getTargetFunc());
-                
-                // MoveAndScale(instance);
+                // UpAndFindToTarget(instance, self, getTargetFunc());
+                MoveAndScale(instance);
                 break;
             case SkillHelper.MoveLogic.FollowSelfAndTurnToTarget:
                 FollowSelfAndTurnToTarget(instance, self, getTargetFunc());
@@ -114,6 +111,7 @@ public static class SkillMoveMethods
 
     private static void UpAndFindToTarget(SkillInstance instance, Transform self, Transform target)
     {
+        if(target == null) return;
         var transform = instance.transform;
         // 随机生成向上移动的目标高度
         float randomHeight = Random.Range(3f, 7f); // 例如，随机高度在3到7米之间
@@ -157,6 +155,7 @@ public static class SkillMoveMethods
 
     private static void FollowSelfAndTurnToTarget(SkillInstance instance, Transform self, Transform target)
     {
+        if(target == null) return;
         var transform = instance.transform;
         transform.position = self.position;
         // 计算朝向目标的方向

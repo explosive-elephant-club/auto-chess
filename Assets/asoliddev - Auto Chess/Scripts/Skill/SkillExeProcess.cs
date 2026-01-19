@@ -15,19 +15,7 @@ public class SkillExeProcess
     private SingleSkillExeProcess _globalProcess;
     private System.Action _sellSkill;
     private System.Action _sellSkillReset;
-    private Stack<SingleSkillExeProcess> _skillPool = new();
-    public bool GlobalProcessIsUsing;
-    public SkillExeProcess()
-    {
-        InitProcess();
-    }
-    /// <summary>
-    /// 初始化执行器
-    /// </summary>
-    private void InitProcess()
-    {
-        _globalProcess = new(this);
-    }
+    private readonly Stack<SingleSkillExeProcess> _skillPool = new();
 
     public void RegisterSellSkill(System.Action reset, System.Action sellSkill)
     {
@@ -44,32 +32,26 @@ public class SkillExeProcess
     public void SetCurSkill(ISkillState skill)
     {
         if(skill == null) return;
-        if (skill.CheckIsSellSkill())
-        {
-            _globalProcess.InitSkill(skill, true);
-        }
-        else
-        {
-            if(_skillPool.Count > 0)
-            {
-                var process = _skillPool.Pop();
-                process.InitSkill(skill);
-            }
-            else
-            {
-                new SingleSkillExeProcess(this, true).InitSkill(skill);
-            }
-        }
+        var process = _skillPool.Count > 0 ? _skillPool.Pop() : new SingleSkillExeProcess(this);
+        _globalProcess = process;
+        _globalProcess.InitSkill(skill);
     }
 
     public void ReturnToPool(SingleSkillExeProcess process)
     {
         _skillPool.Push(process);
     }
+
+    // 脱手技能施法动作结束, 进入自动释放阶段, 开始进入下一个技能
+    public void SetToSellCast()
+    {
+        _globalProcess = null;
+    }
     
     public void ExecuteSkill()
     {
-        _globalProcess.TickSkill();
+        if(_globalProcess != null)
+            _globalProcess.TickSkill();
     }
     public void ExecuteSellSkill()
     {
@@ -78,41 +60,39 @@ public class SkillExeProcess
 
     public ProcessExeState GetCurState()
     {
-        return _globalProcess.GetCurState();
+        return _globalProcess?.GetCurState() ?? ProcessExeState.None;
     }
 
     public void Reset()
     {
         _sellSkillReset?.Invoke();
-        _globalProcess.Reset();
+        if(_globalProcess != null)
+            _globalProcess.Reset();
+        _globalProcess = null;
     }
 }
 
 public class SingleSkillExeProcess
 {
     private readonly SkillExeProcess _skillExeProcess;
-    private bool _isSellSkill;
     private ISkillState _skill;
     private readonly SkillExeContext _skillExeContext;
-    
     private ProcessExeState _state;
-    public SingleSkillExeProcess(SkillExeProcess skillExeProcess, bool isSellSkill = false)
+    private bool _isInSellCast;
+    public SingleSkillExeProcess(SkillExeProcess skillExeProcess)
     {
         _skillExeProcess = skillExeProcess;
-        _isSellSkill = isSellSkill;
         _skillExeContext = new SkillExeContext();
     }
 
-    private bool _isGlobalProcess;
-    public void InitSkill(ISkillState skill, bool isGlobalProcess = false)
+    public void InitSkill(ISkillState skill)
     {
         _skill = skill;
-        this._isGlobalProcess = isGlobalProcess;
         _skill.ResetSkillContext();
-        _skillExeContext.Init(_skill, _isGlobalProcess);
-        if(_isSellSkill)
-            _skillExeProcess.RegisterSellSkill(Reset, InvokeSkill);
-        _state = _skill.HaveTargetInRange() ? ProcessExeState.Ing : ProcessExeState.FindTarget;
+        _skillExeContext.Init(_skill);
+        // _skillExeProcess.RegisterSellSkill(Reset, InvokeSkill);
+        _isInSellCast = false;
+        _state = _skill.HaveTargetInRange() ? ProcessExeState.Casting : ProcessExeState.FindTarget;
     }
 
     private void InvokeSkill()
@@ -127,7 +107,24 @@ public class SingleSkillExeProcess
             case ProcessExeState.FindTarget:
                 if (_skill.HaveTargetInRange())
                 {
+                    _state = ProcessExeState.Casting;
+                }
+                break;
+            case ProcessExeState.Casting:
+                var castState = _skillExeContext?.ExeState();
+                if (castState == SkillExeResult.Ing)
+                {
                     _state = ProcessExeState.Ing;
+                    if (_skill.CheckIsSellSkill())
+                    {
+                        _skillExeProcess.SetToSellCast();
+                        _skillExeProcess.RegisterSellSkill(Reset, InvokeSkill);
+                        _isInSellCast = true;
+                    }
+                }
+                else if (castState == SkillExeResult.Fail)
+                {
+                    OnSkillEnd();
                 }
                 break;
             case ProcessExeState.Ing:
@@ -149,12 +146,12 @@ public class SingleSkillExeProcess
 
     private void OnSkillEnd()
     {
-        if (_isSellSkill)
+        if (_isInSellCast)
         {
             _skillExeProcess.UnRegisterSellSkill(Reset, InvokeSkill);
-            _skillExeProcess.ReturnToPool(this);
-            _skillExeContext.Release();
         }
+        _skillExeProcess.ReturnToPool(this);
+        _skillExeContext.Release();
     }
 
     public void Reset()
@@ -196,11 +193,27 @@ public class SkillExeContext
     /// 目前技能特效生成点
     /// </summary>
     private int _curCastPointIndex;
+    /// <summary>
+    ///  伤害次数 => 默认一次后技能结束, 只会在脱手技能中才会生效, 用于做穿透, 比如子弹, 穿透一次就是 伤害两次
+    /// </summary>
+    private int _totalHitCount;
+    private int _hitCount;
+    
+    
     private readonly List<SkillInstance> _effectInstances = new ();
     
     private ISkillState _skillState;
-    private bool _isRunInGlobalProcess;
-    private SkillExeResult _skillExeResult;
+    private SkillExeResult __skillExeResult;
+
+    private SkillExeResult _skillExeResult
+    {
+        get => __skillExeResult;
+        set
+        {
+            Debug.Log($"stateChange {__skillExeResult} => {value}");
+            __skillExeResult = value;
+        }
+    }
     private SkillContext _skillContext;
     private SkillData _skillCfg;
     private ChampionController _owner;
@@ -209,22 +222,40 @@ public class SkillExeContext
     public SkillHelper.SkillLogicData LogicData => _logicData;
     public SkillTargetType SkillTargetType => _skillContext.SkillTargetType;
     public ChampionTeam Team => _owner.team;
+    private SkillHelper.SkillAttackType _attackType;
+    public SkillHelper.SkillAttackType AttackType => _attackType;
     // 技能移动速度
     private float _moveSpeed;
-    public void Init(ISkillState skillState, bool isRunInGlobalProcess = false)
+
+    /// <summary>
+    /// 技能的这次释放是否已经CD过了
+    /// </summary>
+    private bool _isCd;
+    private bool _canFinish;
+    /// <summary>
+    /// 设置技能是否可以结束, 只在伤害后消失(结束) 技能中生效
+    /// </summary>
+    /// <param name="canFinish"></param>
+    private int _counter; // 多导弹的计数器, 临时先这么处理, 后续想想有没有更好的方法, --考虑跟技能实例一一绑定,防止同一个技能多次触发导致counter数据不对
+    
+    public void Init(ISkillState skillState)
     {
         _skillState = skillState;
-        _isRunInGlobalProcess = isRunInGlobalProcess;
         _skillExeResult = SkillExeResult.None;
         _skillContext = skillState.GetContext();
         _skillCfg = skillState.GetSkillCfg();
         _owner = skillState.GetOwner();
         _constructor = skillState.GetConstructor();
-        _logicData = SkillHelper.AllLogicDataDic[(SkillHelper.SkillAttackType)_skillCfg.AttackType];
-        
+        _attackType = (SkillHelper.SkillAttackType)_skillCfg.AttackType;
+        _logicData = SkillHelper.AllLogicDataDic[_attackType];
         _curDurationTime = 0;
         _curIntervalTime = 0;
         _curEffectCount = 0;
+        _totalHitCount = 1;
+        _hitCount = 0;
+        _isCd = false;
+        _canFinish = false;
+        _counter = 0;
         
         //特效加载
         var path = SkillHelper.GetVFXPath(_skillCfg.ID);
@@ -254,10 +285,8 @@ public class SkillExeContext
                 }
                 break;
             case SkillExeResult.Prepare:
-                //非脱手技能才需要判断朝向
-                if (!_skillContext.IsSell && !_owner.TurnToTarget(_constructor))
+                if (_owner.TurnToTarget(_constructor))
                 {
-                    _skillExeResult = SkillExeResult.Ing;
                     break;
                 }
                 if (!_skillState.IsPrepared())
@@ -267,17 +296,33 @@ public class SkillExeContext
                 }
                 else
                 {
+                    _skillExeResult = SkillExeResult.Casting;
                     _owner.skillController.AddUsedSkill(_skillState);
                     Cast();
-                    _skillExeResult = SkillExeResult.Ing;
                 }
                 break;
-            case SkillExeResult.Ing:
-                OnCastingUpdate();
+            case SkillExeResult.Casting:
                 foreach (var instance in _effectInstances)
                 {
                     instance.UpDateSkill();
                 }
+                OnCastingUpdate(out var effectCountIsOver);
+                if (effectCountIsOver)
+                {
+                    _skillExeResult = SkillExeResult.Ing;
+                    if (!_isCd && !SkillHelper.CheckIsNeedContinuousCasting(_attackType) && CheckNeedCharge())
+                    {
+                        _isCd = true;
+                        _skillState.StartCastCdCutDown();
+                    }
+                }
+                break;
+            case SkillExeResult.Ing:
+                foreach (var instance in _effectInstances)
+                {
+                    instance.UpDateSkill();
+                }
+                UpdateDuration();
                 break;
             case SkillExeResult.ChargeEnergy:
                 if(!_skillState.IsStartCd())
@@ -302,7 +347,7 @@ public class SkillExeContext
         _skillState.HaveTargetInRange();
         var list = _skillState.GetTargetList();
         var result = list.Count > 0 ? list[0].transform : null;
-        if (result == null && _isRunInGlobalProcess)
+        if (result == null)
         {
             OnFinish();
         }
@@ -317,7 +362,7 @@ public class SkillExeContext
     {
         _owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
         //扣除施放技能所需的法力值，更新剩余使用次数
-        _owner.attributesController.curMana -= _skillCfg.manaCost;
+        _owner.attributesController.curMana -= 30;//_skillCfg.manaCost;
         if (_skillContext.CountRemain != -1)
             _skillContext.CountRemain -= 1;
         //播放施放动画
@@ -377,6 +422,9 @@ public class SkillExeContext
         if(onlyEffect) return;
         AddBuffToTarget(target);
         AddDMGToTarget(target);
+        
+        if(++_hitCount >= _totalHitCount)
+            SetCanFinish(true);
     }
     /// <summary>
     /// 创建技能投射物特效实例
@@ -421,19 +469,29 @@ public class SkillExeContext
     /// <summary>
     /// 技能持续施法时Update
     /// </summary>
-    protected virtual void OnCastingUpdate()
+    protected virtual void OnCastingUpdate(out bool effectCountIsOver)
     {
-        if (_curIntervalTime <= 0 && _curEffectCount < _skillCfg.effectCounts)
+        effectCountIsOver = _curEffectCount >= _skillCfg.effectCounts;
+        if (!effectCountIsOver)
         {
-            _curIntervalTime = _skillContext.IntervalTime;
-            _curEffectCount++;
-            Effect();
+            if (_curIntervalTime <= 0)
+            {
+                Effect();
+                _curEffectCount++;
+                _curIntervalTime = _skillContext.IntervalTime;
+                effectCountIsOver = _curEffectCount >= _skillCfg.effectCounts;
+            }
+            else
+            {
+                _curIntervalTime -= Time.deltaTime;
+            }
         }
-        else
-        {
-            _curIntervalTime -= Time.deltaTime;
-        }
-        
+
+        UpdateDuration();
+    }
+
+    private void UpdateDuration()
+    {
         _curDurationTime += Time.deltaTime;
         if (IsFinish())
         {
@@ -441,21 +499,38 @@ public class SkillExeContext
         }
     }
 
-    private bool _canFinish;
     public void SetCanFinish(bool canFinish)
     {
-        _canFinish = canFinish;
+        if (canFinish)
+        {
+            _counter--;
+        }
+        else
+        {
+            _counter++;
+        }
+        _canFinish = _counter <= 0;
     }
     /// <summary>
-    /// 根据技能总持续时间或目标状态（例如目标死亡）判断是否结束技能施放
+    /// 脱手技能 需要等技能全部执行完了才算结束
+    /// 非脱手技能 根据技能总持续时间或目标状态（例如目标死亡）判断是否结束技能施放
     /// </summary>
     /// <returns></returns>
     protected virtual bool IsFinish()
     {
         // var list = _skillState.GetTargetList();
-        return _canFinish && (_curDurationTime >= _skillCfg.duration + _skillCfg.delay);// ||
-               //(list[0] != null && list[0].isDead);
+        if (SkillHelper.CheckIsDamageDestroySkill(_attackType))
+        {
+            return _canFinish;
+        }
+        else
+        {
+            // 这一帧执行的时候已经重新获取过目标列表了,这里不需要重新再get一遍
+            var target = _skillState.GetTargetList(); 
+            return target is { Count: > 0 } && _curDurationTime >= _skillCfg.duration + _skillCfg.delay;
+        }
     }
+    
     /// <summary>
     /// 销毁所有已生成的技能特效实例
     /// </summary>
@@ -478,8 +553,8 @@ public class SkillExeContext
     {
         PlayEndAnim();
         DestroyEffect();
-        // 释放结束后检测是否需要充能
-        if (CheckNeedCharge())
+        // 非持续释放技能在技能结束时 检测是否需要充能
+        if (SkillHelper.CheckIsNeedContinuousCasting(_attackType) && CheckNeedCharge())
         {
             _skillState.StartCastCdCutDown();
             _skillExeResult = SkillExeResult.ChargeEnergy;
