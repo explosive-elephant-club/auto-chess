@@ -66,8 +66,8 @@ public class SkillStateMachine : ISkillExecutionContext
     /// <summary>
     /// 执行状态机tick
     /// </summary>
-    /// <returns>当前执行结果</returns>
-    public SkillExeResult Tick()
+    /// <returns>当前执行阶段</returns>
+    public SkillPhase Tick()
     {
         switch (_runtime.CurrentPhase)
         {
@@ -88,44 +88,44 @@ public class SkillStateMachine : ISkillExecutionContext
                 
             case SkillPhase.Finished:
             case SkillPhase.Failed:
-                return _runtime.CurrentPhase.ToExeResult();
+                return _runtime.CurrentPhase;
         }
 
-        return SkillExeResult.None;
+        return SkillPhase.Idle;
     }
 
     #region 状态处理
-    private SkillExeResult HandleIdle()
+    private SkillPhase HandleIdle()
     {
         if (!_runtime.SkillState.IsStartCd())
         {
             _runtime.CurrentPhase = SkillPhase.FindingTarget;
         }
-        return SkillExeResult.None;
+        return SkillPhase.Idle;
     }
 
-    private SkillExeResult HandleWaitingCD()
+    private SkillPhase HandleWaitingCD()
     {
         if (!_runtime.SkillState.IsStartCd())
         {
             _runtime.CurrentPhase = SkillPhase.Finished;
         }
-        return SkillExeResult.ChargeEnergy;
+        return SkillPhase.WaitingCD;
     }
 
-    private SkillExeResult HandleFindingTarget()
+    private SkillPhase HandleFindingTarget()
     {
         // 转向目标
         if (_runtime.Owner.TurnToTarget(_runtime.Constructor))
         {
-            return SkillExeResult.Prepare;
+            return SkillPhase.FindingTarget;
         }
 
         // 检查技能是否可用
         if (!_runtime.SkillState.IsPrepared())
         {
             _runtime.CurrentPhase = SkillPhase.Failed;
-            return SkillExeResult.Fail;
+            return SkillPhase.Failed;
         }
 
         // 开始施法
@@ -133,10 +133,10 @@ public class SkillStateMachine : ISkillExecutionContext
         _runtime.Owner.skillController.AddUsedSkill(_runtime.SkillState);
         Cast();
         
-        return SkillExeResult.Casting;
+        return SkillPhase.Casting;
     }
 
-    private SkillExeResult HandleCasting()
+    private SkillPhase HandleCasting()
     {
         // 更新所有技能实例
         UpdateEffectInstances();
@@ -157,10 +157,10 @@ public class SkillStateMachine : ISkillExecutionContext
         }
 
         UpdateDuration();
-        return SkillExeResult.Casting;
+        return SkillPhase.Casting;
     }
 
-    private SkillExeResult HandleExecuting()
+    private SkillPhase HandleExecuting()
     {
         // 更新所有技能实例
         UpdateEffectInstances();
@@ -170,10 +170,10 @@ public class SkillStateMachine : ISkillExecutionContext
         if (_runtime.ShouldFinish())
         {
             OnFinish();
-            return SkillExeResult.Done;
+            return SkillPhase.Finished;
         }
 
-        return SkillExeResult.Ing;
+        return SkillPhase.Executing;
     }
     #endregion
 
