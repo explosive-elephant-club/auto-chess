@@ -4,21 +4,106 @@ using UnityEngine;
 using ExcelConfig;
 
 /// <summary>
+/// 技能测试模式
+/// </summary>
+public enum SkillTestMode
+{
+    /// <summary>
+    /// 单技能测试
+    /// </summary>
+    SingleSkill,
+    /// <summary>
+    /// 技能链测试（多技能按顺序执行）
+    /// </summary>
+    SkillChain
+}
+
+/// <summary>
+/// 技能链覆盖模式
+/// </summary>
+public enum SkillChainOverrideMode
+{
+    /// <summary>
+    /// 不覆盖，使用配置表参数
+    /// </summary>
+    None,
+    /// <summary>
+    /// 统一覆盖，所有技能使用相同参数
+    /// </summary>
+    Unified,
+    /// <summary>
+    /// 单独覆盖，每个技能可单独配置
+    /// </summary>
+    Individual
+}
+
+/// <summary>
+/// 技能链中单个技能的覆盖配置
+/// </summary>
+[System.Serializable]
+public class SkillChainOverrideItem
+{
+    [Tooltip("技能ID")]
+    public int skillID;
+    
+    [Tooltip("技能名称（只读）")]
+    public string skillName;
+    
+    [Tooltip("是否启用此技能的覆盖")]
+    public bool enabled = false;
+    
+    [Tooltip("覆盖参数")]
+    public SkillTestOverrides overrides = new();
+    
+    public SkillChainOverrideItem(int id, string name = "")
+    {
+        skillID = id;
+        skillName = name;
+        enabled = false;
+        overrides = new SkillTestOverrides();
+    }
+}
+
+/// <summary>
 /// 技能测试控制器
 /// 用于在Unity编辑器中快速测试技能效果
+/// 支持单技能测试和技能链测试
 /// </summary>
 public class SkillTestController : MonoBehaviour
 {
-    [Header("=== 技能配置 ===")]
+    [Header("=== 技能模式 ===")]
+    [Tooltip("测试模式：单技能或技能链")]
+    public SkillTestMode testMode = SkillTestMode.SingleSkill;
+    
+    [Header("=== 单技能配置 ===")]
     [Tooltip("要测试的技能ID")]
     public int skillID = 1;
     
     [Tooltip("自动从配置表加载技能数据")]
     public bool autoLoadFromConfig = true;
     
+    [Header("=== 技能链配置 ===")]
+    [Tooltip("技能链ID列表（按顺序执行）")]
+    public List<int> skillChainIDs = new();
+    
+    [Tooltip("技能链循环次数（0=无限循环）")]
+    public int chainLoopCount = 1;
+    
+    [Tooltip("技能链内技能间隔时间")]
+    public float skillInterval = 0.5f;
+    
+    [Tooltip("技能链循环间隔时间（一轮结束后的等待时间）")]
+    public float chainLoopInterval = 2f;
+    
     [Header("=== 技能参数覆盖 ===")]
     [Tooltip("是否启用参数覆盖（用于测试不同数值）")]
     public bool enableOverride = false;
+    
+    [Tooltip("技能链覆盖模式：统一覆盖或单独覆盖")]
+    public SkillChainOverrideMode chainOverrideMode = SkillChainOverrideMode.None;
+    
+    [Tooltip("技能链单独覆盖配置列表")]
+    public List<SkillChainOverrideItem> skillChainOverrides = new();
     
     [Tooltip("覆盖：技能持续时间")]
     public float overrideDuration = 1f;
@@ -72,9 +157,19 @@ public class SkillTestController : MonoBehaviour
     [SerializeField] private int currentEffectCount = 0;
     [SerializeField] private bool isTestRunning = false;
     
+    [Header("=== 技能链状态（只读）===")]
+    [SerializeField] private int currentChainIndex = 0;
+    [SerializeField] private int currentLoopCount = 0;
+    [SerializeField] private string chainStatusInfo = "";
+    [SerializeField] private bool chainCastingComplete = false;
+    
     // 运行时引用
     private SkillData _skillData;
+    private List<SkillData> _skillChainData = new();
     private float _loopTimer;
+    private float _skillIntervalTimer;
+    private bool _waitingForNextSkill;
+    private bool _waitingForChainLoop;
     private List<GameObject> _generatedTargets = new();
     
     // 简化的测试施法者组件
@@ -92,11 +187,18 @@ public class SkillTestController : MonoBehaviour
     {
         if (isTestRunning)
         {
-            UpdateSkillTest();
+            if (testMode == SkillTestMode.SingleSkill)
+            {
+                UpdateSkillTest();
+            }
+            else
+            {
+                UpdateSkillChainTest();
+            }
         }
         
-        // 循环测试
-        if (loopInterval > 0 && !isTestRunning)
+        // 循环测试（仅单技能模式）
+        if (testMode == SkillTestMode.SingleSkill && loopInterval > 0 && !isTestRunning)
         {
             _loopTimer += Time.deltaTime;
             if (_loopTimer >= loopInterval)
@@ -104,6 +206,105 @@ public class SkillTestController : MonoBehaviour
                 _loopTimer = 0;
                 CastSkill();
             }
+        }
+    }
+    
+    /// <summary>
+    /// 更新技能链测试
+    /// </summary>
+    private void UpdateSkillChainTest()
+    {
+        if (_testCaster == null) return;
+        
+        // 更新脱手技能实例（让它们在后台继续运行）
+        _testCaster.UpdateSellSkillInstances();
+        
+        // 技能链释放已完成，只需继续更新脱手技能实例
+        if (chainCastingComplete)
+        {
+            // 检查是否还有脱手技能在运行
+            int sellSkillCount = _testCaster.GetSellSkillInstanceCount();
+            if (sellSkillCount > 0)
+            {
+                chainStatusInfo = $"技能链释放完成，{sellSkillCount}个脱手技能运行中...";
+            }
+            else
+            {
+                chainStatusInfo = $"技能链测试完成（共 {currentLoopCount} 轮）";
+            }
+            return;
+        }
+        
+        // 等待技能链循环间隔
+        if (_waitingForChainLoop)
+        {
+            _skillIntervalTimer += Time.deltaTime;
+            if (_skillIntervalTimer >= chainLoopInterval)
+            {
+                _waitingForChainLoop = false;
+                _skillIntervalTimer = 0;
+                StartSkillChainTest();
+            }
+            return;
+        }
+        
+        // 等待技能间隔
+        if (_waitingForNextSkill)
+        {
+            _skillIntervalTimer += Time.deltaTime;
+            if (_skillIntervalTimer >= skillInterval)
+            {
+                _waitingForNextSkill = false;
+                _skillIntervalTimer = 0;
+                StartSkillChainTest();
+            }
+            return;
+        }
+        
+        // 更新当前技能
+        currentDuration += Time.deltaTime;
+        currentPhase = _testCaster.CurrentPhase;
+        currentEffectCount = _testCaster.CurrentEffectCount;
+        
+        _testCaster.UpdateSkill();
+        
+        // 检查当前技能是否完成
+        // 对于脱手技能：进入Executing阶段且已释放后，立即进入下一个技能
+        bool skillComplete = currentPhase == SkillPhase.Finished || currentPhase == SkillPhase.Failed;
+        bool sellSkillReleased = _testCaster.IsSellSkill && _testCaster.SellSkillReleased && currentPhase == SkillPhase.Executing;
+        
+        if (skillComplete || sellSkillReleased)
+        {
+            OnChainSkillComplete();
+        }
+    }
+    
+    /// <summary>
+    /// 技能链中单个技能完成
+    /// </summary>
+    private void OnChainSkillComplete()
+    {
+        if (showDebugInfo)
+        {
+            var skillName = currentChainIndex < _skillChainData.Count ? _skillChainData[currentChainIndex].name : "未知";
+            Debug.Log($"[SkillTest] 技能链 - 技能 [{currentChainIndex + 1}] {skillName} 完成，持续时间: {currentDuration:F2}s");
+        }
+        
+        // 移动到下一个技能
+        currentChainIndex++;
+        currentDuration = 0;
+        currentEffectCount = 0;
+        
+        if (currentChainIndex < _skillChainData.Count)
+        {
+            // 等待技能间隔后释放下一个技能
+            _waitingForNextSkill = true;
+            _skillIntervalTimer = 0;
+            chainStatusInfo = $"等待下一个技能... ({skillInterval}s)";
+        }
+        else
+        {
+            OnSkillChainLoopComplete();
         }
     }
 
@@ -119,15 +320,63 @@ public class SkillTestController : MonoBehaviour
             return;
         }
         
-        _skillData = GameExcelConfig.Instance.skillDatasArray.Find(s => s.ID == skillID);
-        if (_skillData != null)
+        if (testMode == SkillTestMode.SingleSkill)
         {
-            currentSkillName = _skillData.name;
-            Debug.Log($"[SkillTest] 已加载技能: {currentSkillName} (ID: {skillID})");
+            _skillData = GameExcelConfig.Instance.skillDatasArray.Find(s => s.ID == skillID);
+            if (_skillData != null)
+            {
+                currentSkillName = _skillData.name;
+                Debug.Log($"[SkillTest] 已加载技能: {currentSkillName} (ID: {skillID})");
+            }
+            else
+            {
+                Debug.LogError($"[SkillTest] 未找到技能ID: {skillID}");
+            }
         }
         else
         {
-            Debug.LogError($"[SkillTest] 未找到技能ID: {skillID}");
+            LoadSkillChainData();
+        }
+    }
+    
+    /// <summary>
+    /// 加载技能链数据
+    /// </summary>
+    [ContextMenu("加载技能链数据")]
+    public void LoadSkillChainData()
+    {
+        if (GameExcelConfig.Instance == null)
+        {
+            Debug.LogError("[SkillTest] GameExcelConfig.Instance 为空，请确保已加载配置");
+            return;
+        }
+        
+        _skillChainData.Clear();
+        
+        if (skillChainIDs.Count == 0)
+        {
+            Debug.LogWarning("[SkillTest] 技能链ID列表为空");
+            return;
+        }
+        
+        foreach (var id in skillChainIDs)
+        {
+            var data = GameExcelConfig.Instance.skillDatasArray.Find(s => s.ID == id);
+            if (data != null)
+            {
+                _skillChainData.Add(data);
+                Debug.Log($"[SkillTest] 已加载技能链技能: {data.name} (ID: {id})");
+            }
+            else
+            {
+                Debug.LogWarning($"[SkillTest] 技能链中未找到技能ID: {id}");
+            }
+        }
+        
+        if (_skillChainData.Count > 0)
+        {
+            currentSkillName = $"技能链 [{_skillChainData.Count}个技能]";
+            chainStatusInfo = $"已加载 {_skillChainData.Count}/{skillChainIDs.Count} 个技能";
         }
     }
 
@@ -158,6 +407,21 @@ public class SkillTestController : MonoBehaviour
     [ContextMenu("释放技能")]
     public void CastSkill()
     {
+        if (testMode == SkillTestMode.SingleSkill)
+        {
+            CastSingleSkill();
+        }
+        else
+        {
+            CastSkillChain();
+        }
+    }
+    
+    /// <summary>
+    /// 释放单个技能
+    /// </summary>
+    private void CastSingleSkill()
+    {
         if (_skillData == null)
         {
             LoadSkillData();
@@ -182,6 +446,89 @@ public class SkillTestController : MonoBehaviour
         // 开始技能测试（覆盖参数在 StartSkillTest 中处理）
         StartSkillTest(_skillData);
     }
+    
+    /// <summary>
+    /// 释放技能链
+    /// </summary>
+    [ContextMenu("释放技能链")]
+    public void CastSkillChain()
+    {
+        if (_skillChainData.Count == 0)
+        {
+            LoadSkillChainData();
+            if (_skillChainData.Count == 0)
+            {
+                Debug.LogError("[SkillTest] 无法释放技能链：技能链数据未加载");
+                return;
+            }
+        }
+        
+        if (_testCaster == null)
+        {
+            InitializeTestEnvironment();
+        }
+        
+        if (targets.Count == 0 && _generatedTargets.Count == 0)
+        {
+            Debug.LogWarning("[SkillTest] 没有可用的目标");
+            return;
+        }
+        
+        // 重置技能链状态（但不清理之前的脱手技能实例）
+        currentChainIndex = 0;
+        currentLoopCount = 0;
+        _waitingForNextSkill = false;
+        _waitingForChainLoop = false;
+        _skillIntervalTimer = 0;
+        chainCastingComplete = false;
+        
+        // 开始第一个技能
+        StartSkillChainTest();
+    }
+    
+    /// <summary>
+    /// 开始技能链测试
+    /// </summary>
+    private void StartSkillChainTest()
+    {
+        if (currentChainIndex >= _skillChainData.Count)
+        {
+            OnSkillChainLoopComplete();
+            return;
+        }
+        
+        var skillData = _skillChainData[currentChainIndex];
+        currentSkillName = $"[{currentChainIndex + 1}/{_skillChainData.Count}] {skillData.name}";
+        chainStatusInfo = $"循环 {currentLoopCount + 1}/{(chainLoopCount == 0 ? "∞" : chainLoopCount.ToString())} | 技能 {currentChainIndex + 1}/{_skillChainData.Count}: {skillData.name}";
+        
+        Debug.Log($"[SkillTest] 技能链 - {chainStatusInfo}");
+        StartSkillTest(skillData);
+    }
+    
+    /// <summary>
+    /// 技能链单轮完成
+    /// </summary>
+    private void OnSkillChainLoopComplete()
+    {
+        currentLoopCount++;
+        
+        // 检查是否需要继续循环
+        if (chainLoopCount == 0 || currentLoopCount < chainLoopCount)
+        {
+            currentChainIndex = 0;
+            _waitingForChainLoop = true;
+            _skillIntervalTimer = 0;
+            chainStatusInfo = $"等待下一轮... ({chainLoopInterval}s)";
+            Debug.Log($"[SkillTest] 技能链第 {currentLoopCount} 轮完成，等待 {chainLoopInterval}s 后开始下一轮");
+        }
+        else
+        {
+            chainStatusInfo = $"技能链释放完成（共 {currentLoopCount} 轮），等待效果结束...";
+            Debug.Log($"[SkillTest] 技能链释放完成，共执行 {currentLoopCount} 轮，脱手技能继续运行中");
+            // 不停止更新，让脱手技能继续运行
+            chainCastingComplete = true;
+        }
+    }
 
     /// <summary>
     /// 停止技能测试
@@ -193,6 +540,15 @@ public class SkillTestController : MonoBehaviour
         currentPhase = SkillPhase.Idle;
         currentDuration = 0;
         currentEffectCount = 0;
+        
+        // 重置技能链状态
+        currentChainIndex = 0;
+        currentLoopCount = 0;
+        _waitingForNextSkill = false;
+        _waitingForChainLoop = false;
+        _skillIntervalTimer = 0;
+        chainStatusInfo = "";
+        chainCastingComplete = false;
         
         if (_testCaster != null)
         {
@@ -333,11 +689,39 @@ public class SkillTestController : MonoBehaviour
         }
     }
 
-    private SkillTestOverrides CreateOverrides()
+    private SkillTestOverrides CreateOverrides(int skillID = -1)
     {
-        if (!enableOverride)
-            return null;
-            
+        // 单技能模式：使用 enableOverride 控制
+        if (testMode == SkillTestMode.SingleSkill)
+        {
+            if (!enableOverride)
+                return null;
+                
+            return CreateUnifiedOverrides();
+        }
+        
+        // 技能链模式：根据覆盖模式处理
+        switch (chainOverrideMode)
+        {
+            case SkillChainOverrideMode.None:
+                return null;
+                
+            case SkillChainOverrideMode.Unified:
+                return CreateUnifiedOverrides();
+                
+            case SkillChainOverrideMode.Individual:
+                return CreateIndividualOverrides(skillID);
+                
+            default:
+                return null;
+        }
+    }
+    
+    /// <summary>
+    /// 创建统一覆盖参数
+    /// </summary>
+    private SkillTestOverrides CreateUnifiedOverrides()
+    {
         return new SkillTestOverrides
         {
             Duration = overrideDuration,
@@ -347,6 +731,49 @@ public class SkillTestController : MonoBehaviour
             MoveSpeed = overrideMoveSpeed,
             AttackType = overrideAttackType
         };
+    }
+    
+    /// <summary>
+    /// 创建单独覆盖参数（根据技能ID查找）
+    /// </summary>
+    private SkillTestOverrides CreateIndividualOverrides(int skillID)
+    {
+        var item = skillChainOverrides.Find(x => x.skillID == skillID);
+        if (item != null && item.enabled)
+        {
+            return item.overrides;
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// 同步技能链覆盖配置列表
+    /// 当技能链ID列表变化时调用
+    /// </summary>
+    public void SyncSkillChainOverrides()
+    {
+        // 移除不在技能链中的覆盖配置
+        skillChainOverrides.RemoveAll(x => !skillChainIDs.Contains(x.skillID));
+        
+        // 添加新技能的覆盖配置
+        foreach (var id in skillChainIDs)
+        {
+            if (!skillChainOverrides.Exists(x => x.skillID == id))
+            {
+                string skillName = GetSkillNameByID(id);
+                skillChainOverrides.Add(new SkillChainOverrideItem(id, skillName));
+            }
+        }
+        
+        // 按技能链顺序排序
+        skillChainOverrides.Sort((a, b) => skillChainIDs.IndexOf(a.skillID).CompareTo(skillChainIDs.IndexOf(b.skillID)));
+    }
+    
+    private string GetSkillNameByID(int skillID)
+    {
+        if (GameExcelConfig.Instance == null) return "未知";
+        var skill = GameExcelConfig.Instance.skillDatasArray?.Find(s => s.ID == skillID);
+        return skill?.name ?? "未知";
     }
 
     private void StartSkillTest(SkillData skillData)
@@ -361,8 +788,8 @@ public class SkillTestController : MonoBehaviour
         currentDuration = 0;
         currentEffectCount = 0;
         
-        // 传递覆盖参数
-        var overrides = CreateOverrides();
+        // 传递覆盖参数（传入技能ID用于查找单独覆盖配置）
+        var overrides = CreateOverrides(skillData.ID);
         _testCaster.CastSkill(skillData, GetFirstValidTarget(), overrides);
         
         if (overrides != null)
@@ -443,5 +870,17 @@ public class SkillTestController : MonoBehaviour
         {
             LoadSkillData();
         }
+    }
+    
+    /// <summary>
+    /// 获取当前技能链进度信息
+    /// </summary>
+    public string GetChainProgressInfo()
+    {
+        if (testMode != SkillTestMode.SkillChain || !isTestRunning)
+            return "";
+            
+        return $"循环: {currentLoopCount + 1}/{(chainLoopCount == 0 ? "∞" : chainLoopCount.ToString())} | " +
+               $"技能: {currentChainIndex + 1}/{_skillChainData.Count}";
     }
 }

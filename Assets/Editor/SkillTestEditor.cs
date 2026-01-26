@@ -14,6 +14,8 @@ public class SkillTestEditor : Editor
     private SkillTestController _controller;
     private SerializedProperty _skillIDProp;
     private SerializedProperty _targetsProp;
+    private SerializedProperty _testModeProp;
+    private SerializedProperty _skillChainIDsProp;
     
     // 技能选择相关
     private int _selectedSkillIndex = 0;
@@ -21,8 +23,12 @@ public class SkillTestEditor : Editor
     private int[] _skillIDs;
     private bool _skillListLoaded = false;
     
+    // 技能链选择相关
+    private int _chainSkillToAdd = 0;
+    
     // 折叠状态
     private bool _showSkillConfig = true;
+    private bool _showSkillChainConfig = true;
     private bool _showOverrides = false;
     private bool _showTargets = true;
     private bool _showCaster = true;
@@ -41,6 +47,8 @@ public class SkillTestEditor : Editor
         _controller = (SkillTestController)target;
         _skillIDProp = serializedObject.FindProperty("skillID");
         _targetsProp = serializedObject.FindProperty("targets");
+        _testModeProp = serializedObject.FindProperty("testMode");
+        _skillChainIDsProp = serializedObject.FindProperty("skillChainIDs");
         
         LoadSkillList();
     }
@@ -112,13 +120,27 @@ public class SkillTestEditor : Editor
         EditorGUILayout.LabelField("🎮 技能测试工具", EditorStyles.largeLabel);
         EditorGUILayout.Space(5);
         
+        // 测试模式选择
+        DrawTestModeSelector();
+        
+        EditorGUILayout.Space(5);
+        
         // 快捷操作按钮
         DrawQuickActions();
         
         EditorGUILayout.Space(10);
         
-        // 技能配置
-        DrawSkillConfig();
+        // 根据模式显示不同配置
+        if (_controller.testMode == SkillTestMode.SingleSkill)
+        {
+            // 技能配置
+            DrawSkillConfig();
+        }
+        else
+        {
+            // 技能链配置
+            DrawSkillChainConfig();
+        }
         
         // 参数覆盖
         DrawOverrides();
@@ -137,6 +159,36 @@ public class SkillTestEditor : Editor
         
         serializedObject.ApplyModifiedProperties();
     }
+    
+    private void DrawTestModeSelector()
+    {
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        
+        EditorGUILayout.LabelField("📋 测试模式", EditorStyles.boldLabel);
+        
+        EditorGUI.BeginChangeCheck();
+        EditorGUILayout.PropertyField(_testModeProp, new GUIContent("模式选择"));
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            if (Application.isPlaying)
+            {
+                _controller.LoadSkillData();
+            }
+        }
+        
+        // 显示模式说明
+        if (_controller.testMode == SkillTestMode.SingleSkill)
+        {
+            EditorGUILayout.HelpBox("单技能模式：测试单个技能的效果", MessageType.Info);
+        }
+        else
+        {
+            EditorGUILayout.HelpBox("技能链模式：按顺序测试多个技能，模拟实际战斗中的技能链释放", MessageType.Info);
+        }
+        
+        EditorGUILayout.EndVertical();
+    }
 
     private void DrawQuickActions()
     {
@@ -145,8 +197,13 @@ public class SkillTestEditor : Editor
         {
             EditorGUILayout.BeginHorizontal();
             
+            // 根据模式显示不同的按钮文字
+            string castButtonText = _controller.testMode == SkillTestMode.SingleSkill 
+                ? "▶ 释放技能" 
+                : "▶ 释放技能链";
+            
             GUI.backgroundColor = new Color(0.4f, 0.8f, 0.4f);
-            if (GUILayout.Button("▶ 释放技能", _buttonStyle))
+            if (GUILayout.Button(castButtonText, _buttonStyle))
             {
                 if (Application.isPlaying)
                 {
@@ -252,6 +309,169 @@ public class SkillTestEditor : Editor
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
     }
+    
+    private void DrawSkillChainConfig()
+    {
+        _showSkillChainConfig = EditorGUILayout.BeginFoldoutHeaderGroup(_showSkillChainConfig, "🔗 技能链配置");
+        if (_showSkillChainConfig)
+        {
+            EditorGUI.indentLevel++;
+            
+            // 技能链列表
+            EditorGUILayout.LabelField("技能链列表（按顺序执行）", EditorStyles.boldLabel);
+            
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            
+            if (_controller.skillChainIDs.Count == 0)
+            {
+                EditorGUILayout.HelpBox("技能链为空，请添加技能", MessageType.Warning);
+            }
+            else
+            {
+                // 显示当前技能链
+                for (int i = 0; i < _controller.skillChainIDs.Count; i++)
+                {
+                    int skillId = _controller.skillChainIDs[i];
+                    string skillName = GetSkillNameById(skillId);
+                    
+                    EditorGUILayout.BeginHorizontal();
+                    
+                    // 序号
+                    EditorGUILayout.LabelField($"{i + 1}.", GUILayout.Width(25));
+                    
+                    // 技能名称
+                    EditorGUILayout.LabelField($"[{skillId}] {skillName}", GUILayout.ExpandWidth(true));
+                    
+                    // 上移按钮
+                    GUI.enabled = i > 0;
+                    if (GUILayout.Button("↑", GUILayout.Width(25)))
+                    {
+                        MoveSkillInChain(i, i - 1);
+                    }
+                    
+                    // 下移按钮
+                    GUI.enabled = i < _controller.skillChainIDs.Count - 1;
+                    if (GUILayout.Button("↓", GUILayout.Width(25)))
+                    {
+                        MoveSkillInChain(i, i + 1);
+                    }
+                    GUI.enabled = true;
+                    
+                    // 删除按钮
+                    GUI.backgroundColor = new Color(0.8f, 0.4f, 0.4f);
+                    if (GUILayout.Button("×", GUILayout.Width(25)))
+                    {
+                        RemoveSkillFromChain(i);
+                    }
+                    GUI.backgroundColor = Color.white;
+                    
+                    EditorGUILayout.EndHorizontal();
+                }
+            }
+            
+            EditorGUILayout.EndVertical();
+            
+            // 添加技能
+            EditorGUILayout.Space(5);
+            EditorGUILayout.BeginHorizontal();
+            
+            if (_skillListLoaded && _skillNames != null && _skillNames.Length > 0)
+            {
+                _chainSkillToAdd = EditorGUILayout.Popup("添加技能", _chainSkillToAdd, _skillNames);
+                
+                GUI.backgroundColor = new Color(0.4f, 0.8f, 0.4f);
+                if (GUILayout.Button("+ 添加", GUILayout.Width(60)))
+                {
+                    AddSkillToChain(_skillIDs[_chainSkillToAdd]);
+                }
+                GUI.backgroundColor = Color.white;
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("技能配置未加载", MessageType.Warning);
+            }
+            
+            EditorGUILayout.EndHorizontal();
+            
+            // 快捷操作
+            EditorGUILayout.Space(5);
+            EditorGUILayout.BeginHorizontal();
+            
+            if (GUILayout.Button("清空技能链"))
+            {
+                ClearSkillChain();
+            }
+            
+            if (GUILayout.Button("加载技能链数据"))
+            {
+                _controller.LoadSkillChainData();
+            }
+            
+            EditorGUILayout.EndHorizontal();
+            
+            // 技能链参数
+            EditorGUILayout.Space(10);
+            EditorGUILayout.LabelField("链条参数", EditorStyles.boldLabel);
+            
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("chainLoopCount"), new GUIContent("循环次数 (0=无限)"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("skillInterval"), new GUIContent("技能间隔(秒)"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("chainLoopInterval"), new GUIContent("循环间隔(秒)"));
+            
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("autoLoadFromConfig"));
+            
+            EditorGUI.indentLevel--;
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+    }
+    
+    private string GetSkillNameById(int skillId)
+    {
+        if (!_skillListLoaded || GameExcelConfig.Instance == null)
+            return "未知";
+            
+        var skill = GameExcelConfig.Instance.skillDatasArray?.Find(s => s.ID == skillId);
+        return skill?.name ?? "未知";
+    }
+    
+    private void AddSkillToChain(int skillId)
+    {
+        Undo.RecordObject(_controller, "Add Skill to Chain");
+        _controller.skillChainIDs.Add(skillId);
+        EditorUtility.SetDirty(_controller);
+    }
+    
+    private void RemoveSkillFromChain(int index)
+    {
+        if (index >= 0 && index < _controller.skillChainIDs.Count)
+        {
+            Undo.RecordObject(_controller, "Remove Skill from Chain");
+            _controller.skillChainIDs.RemoveAt(index);
+            EditorUtility.SetDirty(_controller);
+        }
+    }
+    
+    private void MoveSkillInChain(int fromIndex, int toIndex)
+    {
+        if (fromIndex >= 0 && fromIndex < _controller.skillChainIDs.Count &&
+            toIndex >= 0 && toIndex < _controller.skillChainIDs.Count)
+        {
+            Undo.RecordObject(_controller, "Move Skill in Chain");
+            int temp = _controller.skillChainIDs[fromIndex];
+            _controller.skillChainIDs[fromIndex] = _controller.skillChainIDs[toIndex];
+            _controller.skillChainIDs[toIndex] = temp;
+            EditorUtility.SetDirty(_controller);
+        }
+    }
+    
+    private void ClearSkillChain()
+    {
+        if (EditorUtility.DisplayDialog("确认清空", "确定要清空技能链吗？", "确定", "取消"))
+        {
+            Undo.RecordObject(_controller, "Clear Skill Chain");
+            _controller.skillChainIDs.Clear();
+            EditorUtility.SetDirty(_controller);
+        }
+    }
 
     private void DrawOverrides()
     {
@@ -260,24 +480,120 @@ public class SkillTestEditor : Editor
         {
             EditorGUI.indentLevel++;
             
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("enableOverride"), new GUIContent("启用覆盖"));
-            
-            if (_controller.enableOverride)
+            // 根据模式显示不同的启用选项
+            if (_controller.testMode == SkillTestMode.SingleSkill)
             {
-                EditorGUILayout.Space(5);
-                EditorGUILayout.HelpBox("以下参数将覆盖配置表中的值", MessageType.Info);
+                // 单技能模式
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("enableOverride"), new GUIContent("启用覆盖"));
                 
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideDuration"), new GUIContent("持续时间"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideEffectCounts"), new GUIContent("生效次数"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideDistance"), new GUIContent("射程"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideRange"), new GUIContent("范围"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideMoveSpeed"), new GUIContent("移动速度"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideAttackType"), new GUIContent("攻击类型"));
+                if (_controller.enableOverride)
+                {
+                    DrawUnifiedOverrideParams();
+                }
+            }
+            else
+            {
+                // 技能链模式
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("chainOverrideMode"), new GUIContent("覆盖模式"));
+                
+                switch (_controller.chainOverrideMode)
+                {
+                    case SkillChainOverrideMode.None:
+                        EditorGUILayout.HelpBox("不覆盖参数，使用配置表中的值", MessageType.Info);
+                        break;
+                        
+                    case SkillChainOverrideMode.Unified:
+                        EditorGUILayout.HelpBox("所有技能使用相同的覆盖参数", MessageType.Warning);
+                        DrawUnifiedOverrideParams();
+                        break;
+                        
+                    case SkillChainOverrideMode.Individual:
+                        EditorGUILayout.HelpBox("每个技能可单独配置覆盖参数", MessageType.Info);
+                        DrawIndividualOverrideParams();
+                        break;
+                }
             }
             
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
+    }
+    
+    private void DrawUnifiedOverrideParams()
+    {
+        EditorGUILayout.Space(5);
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        EditorGUILayout.LabelField("覆盖参数", EditorStyles.boldLabel);
+        
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideDuration"), new GUIContent("持续时间"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideEffectCounts"), new GUIContent("生效次数"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideDistance"), new GUIContent("射程"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideRange"), new GUIContent("范围"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideMoveSpeed"), new GUIContent("移动速度"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideAttackType"), new GUIContent("攻击类型"));
+        
+        EditorGUILayout.EndVertical();
+    }
+    
+    private void DrawIndividualOverrideParams()
+    {
+        EditorGUILayout.Space(5);
+        
+        // 同步按钮
+        if (GUILayout.Button("同步技能链覆盖配置"))
+        {
+            _controller.SyncSkillChainOverrides();
+            EditorUtility.SetDirty(_controller);
+        }
+        
+        if (_controller.skillChainOverrides.Count == 0)
+        {
+            EditorGUILayout.HelpBox("请先添加技能到技能链，然后点击上方按钮同步配置", MessageType.Warning);
+            return;
+        }
+        
+        // 显示每个技能的覆盖配置
+        for (int i = 0; i < _controller.skillChainOverrides.Count; i++)
+        {
+            var item = _controller.skillChainOverrides[i];
+            
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            
+            EditorGUILayout.BeginHorizontal();
+            
+            // 技能名称和启用开关
+            item.enabled = EditorGUILayout.ToggleLeft(
+                $"[{item.skillID}] {item.skillName}", 
+                item.enabled, 
+                EditorStyles.boldLabel
+            );
+            
+            EditorGUILayout.EndHorizontal();
+            
+            // 如果启用，显示覆盖参数
+            if (item.enabled)
+            {
+                EditorGUI.indentLevel++;
+                
+                item.overrides.Duration = EditorGUILayout.FloatField("持续时间", item.overrides.Duration);
+                item.overrides.EffectCounts = EditorGUILayout.IntField("生效次数", item.overrides.EffectCounts);
+                item.overrides.Distance = EditorGUILayout.IntField("射程", item.overrides.Distance);
+                item.overrides.Range = EditorGUILayout.IntField("范围", item.overrides.Range);
+                item.overrides.MoveSpeed = EditorGUILayout.FloatField("移动速度", item.overrides.MoveSpeed);
+                item.overrides.AttackType = (SkillHelper.SkillAttackType)EditorGUILayout.EnumPopup("攻击类型", item.overrides.AttackType);
+                
+                EditorGUI.indentLevel--;
+            }
+            
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.Space(2);
+        }
+        
+        // 标记修改
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(_controller);
+        }
     }
 
     private void DrawTargetSettings()
@@ -355,6 +671,40 @@ public class SkillTestEditor : Editor
             EditorGUILayout.LabelField($"执行阶段: {phase}");
             EditorGUILayout.LabelField($"持续时间: {duration:F2}s");
             EditorGUILayout.LabelField($"生效次数: {effectCount}");
+            
+            // 技能链模式下显示额外信息
+            if (_controller.testMode == SkillTestMode.SkillChain)
+            {
+                EditorGUILayout.Space(5);
+                EditorGUILayout.LabelField("技能链状态", EditorStyles.boldLabel);
+                
+                var chainIndex = serializedObject.FindProperty("currentChainIndex").intValue;
+                var loopCount = serializedObject.FindProperty("currentLoopCount").intValue;
+                var chainStatus = serializedObject.FindProperty("chainStatusInfo").stringValue;
+                var chainCastingComplete = serializedObject.FindProperty("chainCastingComplete").boolValue;
+                var chainLoopCountSetting = _controller.chainLoopCount;
+                
+                // 进度条
+                if (_controller.skillChainIDs.Count > 0)
+                {
+                    float progress = chainCastingComplete ? 1f : (float)chainIndex / _controller.skillChainIDs.Count;
+                    string progressText = chainCastingComplete 
+                        ? "释放完成，效果运行中" 
+                        : $"技能 {chainIndex}/{_controller.skillChainIDs.Count}";
+                    Rect progressRect = EditorGUILayout.GetControlRect(false, 20);
+                    EditorGUI.ProgressBar(progressRect, progress, progressText);
+                }
+                
+                string loopDisplay = chainLoopCountSetting == 0 ? "∞" : chainLoopCountSetting.ToString();
+                EditorGUILayout.LabelField($"循环进度: {loopCount + 1}/{loopDisplay}");
+                
+                if (!string.IsNullOrEmpty(chainStatus))
+                {
+                    // 根据状态显示不同类型的消息框
+                    MessageType msgType = chainCastingComplete ? MessageType.Info : MessageType.None;
+                    EditorGUILayout.HelpBox(chainStatus, msgType);
+                }
+            }
             
             EditorGUILayout.EndVertical();
             

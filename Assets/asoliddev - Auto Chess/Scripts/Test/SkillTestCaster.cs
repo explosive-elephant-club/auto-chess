@@ -32,9 +32,19 @@ public class SkillTestCaster : MonoBehaviour
     [Header("=== 状态（只读）===")]
     [SerializeField] private SkillPhase _currentPhase = SkillPhase.Idle;
     [SerializeField] private int _currentEffectCount = 0;
+    [SerializeField] private bool _isSellSkill = false;
+    [SerializeField] private bool _sellSkillReleased = false;
     
     public SkillPhase CurrentPhase => _currentPhase;
     public int CurrentEffectCount => _currentEffectCount;
+    /// <summary>
+    /// 是否为脱手技能
+    /// </summary>
+    public bool IsSellSkill => _isSellSkill;
+    /// <summary>
+    /// 脱手技能是否已释放（进入Executing后即释放，主流程可继续下一技能）
+    /// </summary>
+    public bool SellSkillReleased => _sellSkillReleased;
     
     // 模拟ChampionController需要的属性
     public ChampionTeam team = ChampionTeam.Player;
@@ -48,6 +58,7 @@ public class SkillTestCaster : MonoBehaviour
     // 技能效果相关
     private SkillEffectFactory _effectFactory;
     private List<SkillInstance> _activeInstances = new();
+    private List<SkillInstance> _sellSkillInstances = new(); // 脱手技能实例（后台运行）
     private float _castDuration;
     private float _intervalTimer;
     private int _effectCountTarget;
@@ -84,10 +95,14 @@ public class SkillTestCaster : MonoBehaviour
         _intervalTimer = 0;
         _currentCastPointIndex = 0;
         
+        // 检查是否为脱手技能（参考SkillBase.ResetSkillContext: IsSell = !skillData.isBlockOther）
+        _isSellSkill = !skillData.isBlockOther;
+        _sellSkillReleased = false;
+        
         // 应用覆盖参数或使用原始配置
         ApplyOverrides();
         
-        // 清理之前的技能实例
+        // 只清理当前技能实例，不清理脱手技能实例（让它们继续在后台运行）
         ClearInstances();
         
         // 转向目标
@@ -106,8 +121,14 @@ public class SkillTestCaster : MonoBehaviour
         // 立即执行第一次效果
         ExecuteEffect();
         
-        Debug.Log($"[SkillTestCaster] 开始释放技能: {skillData.name}, 生效次数目标: {_effectCountTarget}, 持续时间: {_effectiveDuration}, 攻击类型: {_effectiveAttackType}");
+        string sellSkillInfo = _isSellSkill ? " [脱手技能]" : "";
+        Debug.Log($"[SkillTestCaster] 开始释放技能: {skillData.name} (ID:{skillData.ID}){sellSkillInfo}, 生效次数目标: {_effectCountTarget}, 持续时间: {_effectiveDuration}, 攻击类型: {_effectiveAttackType}");
     }
+    
+    /// <summary>
+    /// 获取当前技能数据
+    /// </summary>
+    public SkillData CurrentSkillData => _currentSkillData;
 
     /// <summary>
     /// 应用覆盖参数
@@ -174,7 +195,20 @@ public class SkillTestCaster : MonoBehaviour
         if (_currentEffectCount >= _effectCountTarget)
         {
             _currentPhase = SkillPhase.Executing;
-            Debug.Log($"[SkillTestCaster] 所有效果已发出，进入执行阶段");
+            
+            // 脱手技能：进入执行阶段后立即标记释放，允许主流程继续下一个技能
+            if (_isSellSkill && !_sellSkillReleased)
+            {
+                _sellSkillReleased = true;
+                // 将当前实例转移到脱手技能列表，让它们继续在后台运行
+                _sellSkillInstances.AddRange(_activeInstances);
+                _activeInstances.Clear();
+                Debug.Log($"[SkillTestCaster] 脱手技能已释放，主流程可继续下一个技能");
+            }
+            else
+            {
+                Debug.Log($"[SkillTestCaster] 所有效果已发出，进入执行阶段");
+            }
         }
     }
 
@@ -288,6 +322,34 @@ public class SkillTestCaster : MonoBehaviour
             }
         }
     }
+    
+    /// <summary>
+    /// 更新脱手技能实例（在后台运行的技能）
+    /// </summary>
+    public void UpdateSellSkillInstances()
+    {
+        for (int i = _sellSkillInstances.Count - 1; i >= 0; i--)
+        {
+            if (_sellSkillInstances[i] != null)
+            {
+                _sellSkillInstances[i].UpDateSkill();
+            }
+            else
+            {
+                _sellSkillInstances.RemoveAt(i);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 获取脱手技能实例数量
+    /// </summary>
+    public int GetSellSkillInstanceCount()
+    {
+        // 清理已销毁的实例
+        _sellSkillInstances.RemoveAll(x => x == null);
+        return _sellSkillInstances.Count;
+    }
 
     private void ClearInstances()
     {
@@ -299,6 +361,27 @@ public class SkillTestCaster : MonoBehaviour
             }
         }
         _activeInstances.Clear();
+    }
+    
+    /// <summary>
+    /// 清理所有实例（包括脱手技能）
+    /// </summary>
+    public void ClearAllInstances()
+    {
+        ClearInstances();
+        ClearSellSkillInstances();
+    }
+    
+    private void ClearSellSkillInstances()
+    {
+        foreach (var instance in _sellSkillInstances)
+        {
+            if (instance != null)
+            {
+                instance.DestroySelf();
+            }
+        }
+        _sellSkillInstances.Clear();
     }
 
     private Transform GetCurrentCastPoint()
@@ -319,12 +402,13 @@ public class SkillTestCaster : MonoBehaviour
     public void StopSkill()
     {
         _currentPhase = SkillPhase.Idle;
-        ClearInstances();
+        _sellSkillReleased = false;
+        ClearAllInstances();
     }
 
     private void OnDestroy()
     {
-        ClearInstances();
+        ClearAllInstances();
     }
 
     private void OnDrawGizmos()
