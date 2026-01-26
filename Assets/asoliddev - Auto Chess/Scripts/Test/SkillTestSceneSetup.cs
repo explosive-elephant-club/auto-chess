@@ -67,11 +67,17 @@ public class SkillTestSceneSetup : MonoBehaviour
         
         targetGO.transform.localPosition = Vector3.forward * 5f;
         
-        // 添加碰撞器
+        // 添加刚体（Trigger检测需要至少一方有Rigidbody）
+        var rb = targetGO.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        
+        // 添加碰撞器（技能检测需要，必须设置为Trigger）
         var collider = targetGO.AddComponent<CapsuleCollider>();
         collider.height = 2f;
         collider.radius = 0.5f;
         collider.center = Vector3.up;
+        collider.isTrigger = true;
         
         // 添加可视化
         var visual = GameObject.CreatePrimitive(PrimitiveType.Capsule);
@@ -89,6 +95,13 @@ public class SkillTestSceneSetup : MonoBehaviour
         // 添加测试目标组件
         var target = targetGO.AddComponent<SkillTestTarget>();
         target.Initialize();
+        
+        // 添加 ChampionController 用于伤害检测
+        var champion = targetGO.AddComponent<ChampionController>();
+        champion.team = ChampionTeam.Oponent;
+        champion.attributesController = new ChampionAttributesController(champion);
+        champion.buffController = new BuffController(champion);
+        champion.skillController = new SkillController(champion);
         
         // 注册撤销
         UnityEditor.Undo.RegisterCreatedObjectUndo(targetGO, "Add Test Target");

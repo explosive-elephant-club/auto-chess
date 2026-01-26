@@ -3,6 +3,20 @@ using UnityEngine;
 using ExcelConfig;
 
 /// <summary>
+/// 技能测试参数覆盖
+/// </summary>
+[System.Serializable]
+public class SkillTestOverrides
+{
+    public float Duration = 1f;
+    public int EffectCounts = 1;
+    public int Distance = 10;
+    public int Range = 5;
+    public float MoveSpeed = 10f;
+    public SkillHelper.SkillAttackType AttackType = SkillHelper.SkillAttackType.BulletLinearTrajectory;
+}
+
+/// <summary>
 /// 技能测试专用施法者
 /// 采用轻量级方式直接测试技能效果，绕过复杂的游戏逻辑依赖
 /// </summary>
@@ -29,6 +43,7 @@ public class SkillTestCaster : MonoBehaviour
     private SkillTestController _testController;
     private SkillData _currentSkillData;
     private SkillTestTarget _currentTarget;
+    private SkillTestOverrides _currentOverrides;
     
     // 技能效果相关
     private SkillEffectFactory _effectFactory;
@@ -36,6 +51,11 @@ public class SkillTestCaster : MonoBehaviour
     private float _castDuration;
     private float _intervalTimer;
     private int _effectCountTarget;
+    
+    // 有效参数（应用覆盖后的值）
+    private float _effectiveDuration;
+    private float _effectiveMoveSpeed;
+    private SkillHelper.SkillAttackType _effectiveAttackType;
     
     // 发射点
     public Transform[] skillCastPoints;
@@ -53,16 +73,19 @@ public class SkillTestCaster : MonoBehaviour
         skillCastPoints = new Transform[] { castPoint.transform };
     }
 
-    public void CastSkill(SkillData skillData, SkillTestTarget target)
+    public void CastSkill(SkillData skillData, SkillTestTarget target, SkillTestOverrides overrides = null)
     {
         _currentSkillData = skillData;
         _currentTarget = target;
+        _currentOverrides = overrides;
         _currentPhase = SkillPhase.Idle;
         _currentEffectCount = 0;
         _castDuration = 0;
         _intervalTimer = 0;
         _currentCastPointIndex = 0;
-        _effectCountTarget = skillData.effectCounts;
+        
+        // 应用覆盖参数或使用原始配置
+        ApplyOverrides();
         
         // 清理之前的技能实例
         ClearInstances();
@@ -83,7 +106,32 @@ public class SkillTestCaster : MonoBehaviour
         // 立即执行第一次效果
         ExecuteEffect();
         
-        Debug.Log($"[SkillTestCaster] 开始释放技能: {skillData.name}, 生效次数目标: {_effectCountTarget}");
+        Debug.Log($"[SkillTestCaster] 开始释放技能: {skillData.name}, 生效次数目标: {_effectCountTarget}, 持续时间: {_effectiveDuration}, 攻击类型: {_effectiveAttackType}");
+    }
+
+    /// <summary>
+    /// 应用覆盖参数
+    /// </summary>
+    private void ApplyOverrides()
+    {
+        if (_currentOverrides != null)
+        {
+            _effectCountTarget = _currentOverrides.EffectCounts;
+            _effectiveDuration = _currentOverrides.Duration;
+            _effectiveMoveSpeed = _currentOverrides.MoveSpeed;
+            _effectiveAttackType = _currentOverrides.AttackType;
+            
+            Debug.Log($"[SkillTestCaster] 使用覆盖参数: 持续时间={_effectiveDuration}, 生效次数={_effectCountTarget}, 移动速度={_effectiveMoveSpeed}, 攻击类型={_effectiveAttackType}");
+        }
+        else
+        {
+            _effectCountTarget = _currentSkillData.effectCounts;
+            _effectiveDuration = _currentSkillData.duration;
+            _effectiveMoveSpeed = _currentSkillData.MoveSpeed;
+            _effectiveAttackType = (SkillHelper.SkillAttackType)_currentSkillData.AttackType;
+            
+            Debug.Log($"[SkillTestCaster] 使用原始配置: 持续时间={_effectiveDuration}, 生效次数={_effectCountTarget}, 移动速度={_effectiveMoveSpeed}, 攻击类型={_effectiveAttackType}");
+        }
     }
 
     public void UpdateSkill()
@@ -112,7 +160,7 @@ public class SkillTestCaster : MonoBehaviour
         // 检查是否需要生成更多效果
         if (_currentEffectCount < _effectCountTarget)
         {
-            float intervalTime = _currentSkillData.duration / Mathf.Max(1, _effectCountTarget);
+            float intervalTime = _effectiveDuration / Mathf.Max(1, _effectCountTarget);
             _intervalTimer += Time.deltaTime;
             
             if (_intervalTimer >= intervalTime)
@@ -133,7 +181,7 @@ public class SkillTestCaster : MonoBehaviour
     private void HandleExecuting()
     {
         // 检查技能是否应该结束
-        float totalDuration = _currentSkillData.duration + _currentSkillData.delay;
+        float totalDuration = _effectiveDuration + _currentSkillData.delay;
         
         // 如果所有实例都已销毁或超时，结束技能
         bool allInstancesDestroyed = _activeInstances.Count == 0 || _activeInstances.TrueForAll(i => i == null);
@@ -192,17 +240,17 @@ public class SkillTestCaster : MonoBehaviour
             Target = null, // 测试模式下没有真正的Target ChampionController
             CastPoint = castPoint,
             UseOwnerPosition = false,
-            ExecutionContext = new TestExecutionContext(_currentSkillData, _currentTarget, team)
+            ExecutionContext = CreateTestExecutionContext()
         };
 
         var skillInstance = _effectFactory.CreateProjectile(createContext);
         if (skillInstance != null)
         {
             // 使用测试专用的执行上下文初始化
-            var testContext = new TestExecutionContext(_currentSkillData, _currentTarget, team);
+            var testContext = CreateTestExecutionContext();
             skillInstance.Init(testContext, transform, _currentTarget.transform);
             _activeInstances.Add(skillInstance);
-            Debug.Log($"[SkillTestCaster] 创建投射物实例");
+            Debug.Log($"[SkillTestCaster] 创建投射物实例，攻击类型: {_effectiveAttackType}");
         }
         else
         {
@@ -210,6 +258,20 @@ public class SkillTestCaster : MonoBehaviour
         }
 
         MoveToNextCastPoint();
+    }
+
+    /// <summary>
+    /// 创建测试执行上下文，应用覆盖参数
+    /// </summary>
+    private TestExecutionContext CreateTestExecutionContext()
+    {
+        return new TestExecutionContext(
+            _currentSkillData, 
+            _currentTarget, 
+            team,
+            _effectiveMoveSpeed,
+            _effectiveAttackType
+        );
     }
 
     private void UpdateInstances()
@@ -292,7 +354,7 @@ public class SkillTestCaster : MonoBehaviour
 
 /// <summary>
 /// 测试专用的技能执行上下文
-/// 提供 SkillInstance 需要的接口，但不依赖真实游戏对象
+/// 提供 SkillInstance 需要的接口，支持参数覆盖
 /// </summary>
 public class TestExecutionContext : ISkillExecutionContext
 {
@@ -301,14 +363,21 @@ public class TestExecutionContext : ISkillExecutionContext
     private readonly ChampionTeam _team;
     private readonly SkillHelper.SkillLogicData _logicData;
     private readonly SkillHelper.SkillAttackType _attackType;
+    private readonly float _moveSpeed;
     private bool _canFinish = false;
 
-    public TestExecutionContext(SkillData skillData, SkillTestTarget target, ChampionTeam team)
+    public TestExecutionContext(
+        SkillData skillData, 
+        SkillTestTarget target, 
+        ChampionTeam team,
+        float moveSpeed,
+        SkillHelper.SkillAttackType attackType)
     {
         _skillData = skillData;
         _target = target;
         _team = team;
-        _attackType = (SkillHelper.SkillAttackType)skillData.AttackType;
+        _moveSpeed = moveSpeed;
+        _attackType = attackType;
         
         if (SkillHelper.AllLogicDataDic.TryGetValue(_attackType, out var logicData))
         {
@@ -321,6 +390,7 @@ public class TestExecutionContext : ISkillExecutionContext
                 MoveLogic = SkillHelper.MoveLogic.MoveForward,
                 DamageLogic = SkillHelper.DamageLogic.OnlyCollision
             };
+            Debug.LogWarning($"[TestExecutionContext] 未找到攻击类型 {_attackType} 的逻辑数据，使用默认值");
         }
     }
 
@@ -329,7 +399,7 @@ public class TestExecutionContext : ISkillExecutionContext
     public SkillTargetType SkillTargetType => SkillTargetType.Enemy;
     public ChampionTeam Team => _team;
 
-    public float GetMoveSpeed() => _skillData.MoveSpeed;
+    public float GetMoveSpeed() => _moveSpeed;
 
     public Transform ReGetTarget()
     {

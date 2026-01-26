@@ -73,11 +73,7 @@ public class SkillTestController : MonoBehaviour
     [SerializeField] private bool isTestRunning = false;
     
     // 运行时引用
-    private ChampionController _caster;
     private SkillData _skillData;
-    private ISkillState _skillState;
-    private SkillStateMachine _stateMachine;
-    private SkillRuntime _runtime;
     private float _loopTimer;
     private List<GameObject> _generatedTargets = new();
     
@@ -182,12 +178,9 @@ public class SkillTestController : MonoBehaviour
             Debug.LogWarning("[SkillTest] 没有可用的目标");
             return;
         }
-
-        // 应用参数覆盖
-        var effectiveSkillData = enableOverride ? CreateOverriddenSkillData() : _skillData;
         
-        // 开始技能测试
-        StartSkillTest(effectiveSkillData);
+        // 开始技能测试（覆盖参数在 StartSkillTest 中处理）
+        StartSkillTest(_skillData);
     }
 
     /// <summary>
@@ -201,9 +194,9 @@ public class SkillTestController : MonoBehaviour
         currentDuration = 0;
         currentEffectCount = 0;
         
-        if (_stateMachine != null)
+        if (_testCaster != null)
         {
-            _stateMachine.Release();
+            _testCaster.StopSkill();
         }
         
         Debug.Log("[SkillTest] 测试已停止");
@@ -279,6 +272,12 @@ public class SkillTestController : MonoBehaviour
         
         _testCaster = casterGO.AddComponent<SkillTestCaster>();
         _testCaster.Initialize(this);
+        
+        // 添加 AudioListener 避免警告日志
+        if (FindObjectOfType<AudioListener>() == null)
+        {
+            casterGO.AddComponent<AudioListener>();
+        }
     }
 
     private void GenerateTargets()
@@ -293,35 +292,61 @@ public class SkillTestController : MonoBehaviour
             targetGO.transform.position = position;
             targetGO.transform.parent = transform;
             
-            // 添加碰撞器（技能检测需要）
+            // 添加刚体（Trigger检测需要至少一方有Rigidbody）
+            var rb = targetGO.AddComponent<Rigidbody>();
+            rb.isKinematic = true; // 不受物理影响
+            rb.useGravity = false;
+            
+            // 添加碰撞器（技能检测需要，必须设置为Trigger）
             var collider = targetGO.AddComponent<CapsuleCollider>();
             collider.height = 2f;
             collider.radius = 0.5f;
             collider.center = Vector3.up;
+            collider.isTrigger = true;
             
             // 添加可视化
             var visual = GameObject.CreatePrimitive(PrimitiveType.Capsule);
             visual.transform.parent = targetGO.transform;
             visual.transform.localPosition = Vector3.up;
             visual.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
+            // 移除可视化对象的碰撞器
+            var visualCollider = visual.GetComponent<Collider>();
+            if (visualCollider != null) DestroyImmediate(visualCollider);
             
             // 设置为敌人标签
             targetGO.tag = "Enemy";
             
+            // 添加测试目标组件
             var target = targetGO.AddComponent<SkillTestTarget>();
             target.Initialize();
             targets.Add(target);
+            
+            // 添加 ChampionController 用于伤害检测（技能系统通过此组件识别目标）
+            var champion = targetGO.AddComponent<ChampionController>();
+            champion.team = ChampionTeam.Oponent; // 设为敌方
+            // 初始化必要的子控制器以避免空引用
+            champion.attributesController = new ChampionAttributesController(champion);
+            champion.buffController = new BuffController(champion);
+            champion.skillController = new SkillController(champion);
             
             _generatedTargets.Add(targetGO);
         }
     }
 
-    private SkillData CreateOverriddenSkillData()
+    private SkillTestOverrides CreateOverrides()
     {
-        // 注意：由于SkillData的字段是私有的且只有getter，
-        // 在实际使用时需要通过反射或其他方式来覆盖参数
-        // 这里返回原始数据，实际覆盖在运行时处理
-        return _skillData;
+        if (!enableOverride)
+            return null;
+            
+        return new SkillTestOverrides
+        {
+            Duration = overrideDuration,
+            EffectCounts = overrideEffectCounts,
+            Distance = overrideDistance,
+            Range = overrideRange,
+            MoveSpeed = overrideMoveSpeed,
+            AttackType = overrideAttackType
+        };
     }
 
     private void StartSkillTest(SkillData skillData)
@@ -336,9 +361,18 @@ public class SkillTestController : MonoBehaviour
         currentDuration = 0;
         currentEffectCount = 0;
         
-        _testCaster.CastSkill(skillData, GetFirstValidTarget());
+        // 传递覆盖参数
+        var overrides = CreateOverrides();
+        _testCaster.CastSkill(skillData, GetFirstValidTarget(), overrides);
         
-        Debug.Log($"[SkillTest] 开始释放技能: {skillData.name}");
+        if (overrides != null)
+        {
+            Debug.Log($"[SkillTest] 开始释放技能: {skillData.name} (使用覆盖参数: 持续时间={overrides.Duration}, 生效次数={overrides.EffectCounts}, 攻击类型={overrides.AttackType})");
+        }
+        else
+        {
+            Debug.Log($"[SkillTest] 开始释放技能: {skillData.name}");
+        }
     }
 
     private void UpdateSkillTest()
