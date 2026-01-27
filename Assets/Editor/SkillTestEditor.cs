@@ -483,8 +483,20 @@ public class SkillTestEditor : Editor
             // 根据模式显示不同的启用选项
             if (_controller.testMode == SkillTestMode.SingleSkill)
             {
-                // 单技能模式
+                // 单技能模式 - 检测启用状态变化
+                bool wasEnabled = _controller.enableOverride;
+                EditorGUI.BeginChangeCheck();
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("enableOverride"), new GUIContent("启用覆盖"));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedObject.ApplyModifiedProperties();
+                    // 从未启用变为启用时，自动从配置加载参数
+                    if (!wasEnabled && _controller.enableOverride)
+                    {
+                        _controller.LoadOverridesFromConfig();
+                        EditorUtility.SetDirty(_controller);
+                    }
+                }
                 
                 if (_controller.enableOverride)
                 {
@@ -650,12 +662,19 @@ public class SkillTestEditor : Editor
             
             EditorGUILayout.BeginHorizontal();
             
-            // 技能名称和启用开关
+            // 技能名称和启用开关 - 检测启用状态变化
+            bool wasEnabled = item.enabled;
             item.enabled = EditorGUILayout.ToggleLeft(
                 $"[{item.skillID}] {item.skillName}", 
                 item.enabled, 
                 EditorStyles.boldLabel
             );
+            
+            // 从未启用变为启用时，自动从配置加载该技能的参数
+            if (!wasEnabled && item.enabled)
+            {
+                LoadSingleSkillOverridesFromConfig(item);
+            }
             
             // 单个技能保存按钮
             if (item.enabled)
@@ -697,6 +716,32 @@ public class SkillTestEditor : Editor
         if (GUI.changed)
         {
             EditorUtility.SetDirty(_controller);
+        }
+    }
+    
+    /// <summary>
+    /// 从配置加载单个技能的参数到覆盖设置
+    /// </summary>
+    private void LoadSingleSkillOverridesFromConfig(SkillChainOverrideItem item)
+    {
+        if (GameExcelConfig.Instance == null)
+        {
+            Debug.LogWarning("[SkillTestEditor] GameExcelConfig 未加载");
+            return;
+        }
+        
+        var skillData = GameExcelConfig.Instance.skillDatasArray?.Find(s => s.ID == item.skillID);
+        if (skillData != null)
+        {
+            item.overrides.Duration = skillData.duration;
+            item.overrides.EffectCounts = skillData.effectCounts;
+            item.overrides.Distance = skillData.distance;
+            item.overrides.Range = skillData.range;
+            item.overrides.MoveSpeed = skillData.MoveSpeed;
+            item.overrides.AttackType = (SkillHelper.SkillAttackType)skillData.AttackType;
+            
+            EditorUtility.SetDirty(_controller);
+            Debug.Log($"[SkillTestEditor] 已从配置加载技能 [{item.skillID}] {item.skillName} 的参数");
         }
     }
     
