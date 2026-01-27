@@ -35,6 +35,14 @@ namespace ExcelConfig
 		public int Level { get { return _Level; } }
 
 		[SerializeField]
+		private float _DPS;
+		public float DPS { get { return _DPS; } }
+
+		[SerializeField]
+		private float _Dmg;
+		public float Dmg { get { return _Dmg; } }
+
+		[SerializeField]
 		private float _delay;
 		public float delay { get { return _delay; } }
 
@@ -173,6 +181,8 @@ namespace ExcelConfig
 			TryParse(sheet[row][column++], out _name);
 			TryParse(sheet[row][column++], out _index);
 			TryParse(sheet[row][column++], out _Level);
+			TryParse(sheet[row][column++], out _DPS);
+			TryParse(sheet[row][column++], out _Dmg);
 			TryParse(sheet[row][column++], out _delay);
 			TryParse(sheet[row][column++], out _duration);
 			TryParse(sheet[row][column++], out _effectCounts);

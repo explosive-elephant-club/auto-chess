@@ -883,4 +883,94 @@ public class SkillTestController : MonoBehaviour
         return $"循环: {currentLoopCount + 1}/{(chainLoopCount == 0 ? "∞" : chainLoopCount.ToString())} | " +
                $"技能: {currentChainIndex + 1}/{_skillChainData.Count}";
     }
+    
+#if UNITY_EDITOR
+    /// <summary>
+    /// 获取当前单技能的覆盖参数（用于保存）
+    /// </summary>
+    public SkillTestOverrides GetCurrentOverrides()
+    {
+        if (!enableOverride) return null;
+        
+        return new SkillTestOverrides
+        {
+            Duration = overrideDuration,
+            EffectCounts = overrideEffectCounts,
+            Distance = overrideDistance,
+            Range = overrideRange,
+            MoveSpeed = overrideMoveSpeed,
+            AttackType = overrideAttackType
+        };
+    }
+    
+    /// <summary>
+    /// 获取当前技能ID
+    /// </summary>
+    public int GetCurrentSkillID()
+    {
+        return skillID;
+    }
+    
+    /// <summary>
+    /// 获取启用了覆盖的技能链项目列表
+    /// </summary>
+    public List<(int skillID, SkillTestOverrides overrides)> GetEnabledChainOverrides()
+    {
+        var result = new List<(int, SkillTestOverrides)>();
+        
+        foreach (var item in skillChainOverrides)
+        {
+            if (item.enabled)
+            {
+                result.Add((item.skillID, item.overrides));
+            }
+        }
+        
+        return result;
+    }
+    
+    /// <summary>
+    /// 从配置表加载参数到覆盖设置（用于编辑前初始化）
+    /// </summary>
+    public void LoadOverridesFromConfig()
+    {
+        if (GameExcelConfig.Instance == null)
+        {
+            Debug.LogWarning("[SkillTestController] GameExcelConfig 未加载");
+            return;
+        }
+        
+        if (testMode == SkillTestMode.SingleSkill)
+        {
+            var skillData = GameExcelConfig.Instance.skillDatasArray?.Find(s => s.ID == skillID);
+            if (skillData != null)
+            {
+                overrideDuration = skillData.duration;
+                overrideEffectCounts = skillData.effectCounts;
+                overrideDistance = skillData.distance;
+                overrideRange = skillData.range;
+                overrideMoveSpeed = skillData.MoveSpeed;
+                overrideAttackType = (SkillHelper.SkillAttackType)skillData.AttackType;
+                Debug.Log($"[SkillTestController] 已从配置加载技能 [{skillID}] 的参数到覆盖设置");
+            }
+        }
+        else
+        {
+            foreach (var item in skillChainOverrides)
+            {
+                var skillData = GameExcelConfig.Instance.skillDatasArray?.Find(s => s.ID == item.skillID);
+                if (skillData != null)
+                {
+                    item.overrides.Duration = skillData.duration;
+                    item.overrides.EffectCounts = skillData.effectCounts;
+                    item.overrides.Distance = skillData.distance;
+                    item.overrides.Range = skillData.range;
+                    item.overrides.MoveSpeed = skillData.MoveSpeed;
+                    item.overrides.AttackType = (SkillHelper.SkillAttackType)skillData.AttackType;
+                }
+            }
+            Debug.Log($"[SkillTestController] 已从配置加载技能链参数到覆盖设置");
+        }
+    }
+#endif
 }
