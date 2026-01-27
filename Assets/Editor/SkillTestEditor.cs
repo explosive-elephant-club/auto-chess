@@ -533,18 +533,107 @@ public class SkillTestEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideAttackType"), new GUIContent("攻击类型"));
         
         EditorGUILayout.EndVertical();
+        
+        // 保存按钮区域（仅单技能模式）
+        if (_controller.testMode == SkillTestMode.SingleSkill)
+        {
+            DrawSingleSkillSaveButtons();
+        }
+    }
+    
+    /// <summary>
+    /// 绘制单技能模式的保存按钮
+    /// </summary>
+    private void DrawSingleSkillSaveButtons()
+    {
+        EditorGUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal();
+        
+        // 从配置加载按钮
+        if (GUILayout.Button("📥 从配置加载", GUILayout.Height(25)))
+        {
+            _controller.LoadOverridesFromConfig();
+            EditorUtility.SetDirty(_controller);
+        }
+        
+        // 保存到 Excel 按钮
+        GUI.backgroundColor = new Color(0.4f, 0.8f, 0.4f);
+        if (GUILayout.Button("💾 保存到 Excel", GUILayout.Height(25)))
+        {
+            SaveCurrentSkillToExcel();
+        }
+        GUI.backgroundColor = Color.white;
+        
+        EditorGUILayout.EndHorizontal();
+    }
+    
+    /// <summary>
+    /// 保存当前技能的覆盖参数到 Excel
+    /// </summary>
+    private void SaveCurrentSkillToExcel()
+    {
+        var overrides = _controller.GetCurrentOverrides();
+        if (overrides == null)
+        {
+            EditorUtility.DisplayDialog("提示", "请先启用覆盖参数", "确定");
+            return;
+        }
+        
+        int skillID = _controller.GetCurrentSkillID();
+        string skillName = GetSkillNameById(skillID);
+        
+        bool confirm = EditorUtility.DisplayDialog(
+            "保存确认",
+            $"确定要将当前覆盖参数保存到 Excel 吗？\n\n" +
+            $"技能: [{skillID}] {skillName}\n" +
+            $"持续时间: {overrides.Duration}\n" +
+            $"生效次数: {overrides.EffectCounts}\n" +
+            $"射程: {overrides.Distance}\n" +
+            $"范围: {overrides.Range}\n" +
+            $"移动速度: {overrides.MoveSpeed}\n" +
+            $"攻击类型: {overrides.AttackType}\n\n" +
+            $"⚠️ 此操作将直接修改 SkillConfig.xlsx 文件",
+            "保存", "取消"
+        );
+        
+        if (confirm)
+        {
+            bool success = SkillTestExcelSaver.SaveOverridesToExcel(skillID, overrides);
+            if (success)
+            {
+                EditorUtility.DisplayDialog("成功", 
+                    $"技能 [{skillID}] {skillName} 的参数已保存到 Excel！\n\n" +
+                    "请使用 Tools -> EasyExcel -> Import 重新导入以更新运行时数据。", 
+                    "确定");
+                SkillTestExcelSaver.RefreshExcelAssets();
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("失败", "保存失败，请查看控制台日志了解详情", "确定");
+            }
+        }
     }
     
     private void DrawIndividualOverrideParams()
     {
         EditorGUILayout.Space(5);
         
-        // 同步按钮
-        if (GUILayout.Button("同步技能链覆盖配置"))
+        // 同步和加载按钮行
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button("🔄 同步技能链覆盖配置"))
         {
             _controller.SyncSkillChainOverrides();
             EditorUtility.SetDirty(_controller);
         }
+        
+        if (GUILayout.Button("📥 从配置加载"))
+        {
+            _controller.LoadOverridesFromConfig();
+            EditorUtility.SetDirty(_controller);
+        }
+        
+        EditorGUILayout.EndHorizontal();
         
         if (_controller.skillChainOverrides.Count == 0)
         {
@@ -568,6 +657,17 @@ public class SkillTestEditor : Editor
                 EditorStyles.boldLabel
             );
             
+            // 单个技能保存按钮
+            if (item.enabled)
+            {
+                GUI.backgroundColor = new Color(0.4f, 0.8f, 0.4f);
+                if (GUILayout.Button("💾", GUILayout.Width(30)))
+                {
+                    SaveSingleChainSkillToExcel(item.skillID, item.skillName, item.overrides);
+                }
+                GUI.backgroundColor = Color.white;
+            }
+            
             EditorGUILayout.EndHorizontal();
             
             // 如果启用，显示覆盖参数
@@ -589,10 +689,124 @@ public class SkillTestEditor : Editor
             EditorGUILayout.Space(2);
         }
         
+        // 批量保存按钮
+        EditorGUILayout.Space(5);
+        DrawChainBatchSaveButtons();
+        
         // 标记修改
         if (GUI.changed)
         {
             EditorUtility.SetDirty(_controller);
+        }
+    }
+    
+    /// <summary>
+    /// 绘制技能链批量保存按钮
+    /// </summary>
+    private void DrawChainBatchSaveButtons()
+    {
+        var enabledItems = _controller.GetEnabledChainOverrides();
+        int enabledCount = enabledItems.Count;
+        
+        EditorGUILayout.BeginHorizontal();
+        
+        GUI.enabled = enabledCount > 0;
+        GUI.backgroundColor = new Color(0.4f, 0.8f, 0.4f);
+        
+        if (GUILayout.Button($"💾 批量保存已启用的技能 ({enabledCount})", GUILayout.Height(28)))
+        {
+            SaveAllEnabledChainSkillsToExcel(enabledItems);
+        }
+        
+        GUI.backgroundColor = Color.white;
+        GUI.enabled = true;
+        
+        EditorGUILayout.EndHorizontal();
+        
+        if (enabledCount == 0)
+        {
+            EditorGUILayout.HelpBox("请至少启用一个技能的覆盖配置才能保存", MessageType.Info);
+        }
+    }
+    
+    /// <summary>
+    /// 保存单个技能链项目到 Excel
+    /// </summary>
+    private void SaveSingleChainSkillToExcel(int skillID, string skillName, SkillTestOverrides overrides)
+    {
+        bool confirm = EditorUtility.DisplayDialog(
+            "保存确认",
+            $"确定要将技能 [{skillID}] {skillName} 的覆盖参数保存到 Excel 吗？\n\n" +
+            $"持续时间: {overrides.Duration}\n" +
+            $"生效次数: {overrides.EffectCounts}\n" +
+            $"射程: {overrides.Distance}\n" +
+            $"范围: {overrides.Range}\n" +
+            $"移动速度: {overrides.MoveSpeed}\n" +
+            $"攻击类型: {overrides.AttackType}\n\n" +
+            $"⚠️ 此操作将直接修改 SkillConfig.xlsx 文件",
+            "保存", "取消"
+        );
+        
+        if (confirm)
+        {
+            bool success = SkillTestExcelSaver.SaveOverridesToExcel(skillID, overrides);
+            if (success)
+            {
+                EditorUtility.DisplayDialog("成功", 
+                    $"技能 [{skillID}] {skillName} 的参数已保存到 Excel！\n\n" +
+                    "请使用 Tools -> EasyExcel -> Import 重新导入以更新运行时数据。", 
+                    "确定");
+                SkillTestExcelSaver.RefreshExcelAssets();
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("失败", "保存失败，请查看控制台日志了解详情", "确定");
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 批量保存所有已启用的技能链项目到 Excel
+    /// </summary>
+    private void SaveAllEnabledChainSkillsToExcel(List<(int skillID, SkillTestOverrides overrides)> items)
+    {
+        if (items == null || items.Count == 0)
+        {
+            EditorUtility.DisplayDialog("提示", "没有已启用的覆盖配置", "确定");
+            return;
+        }
+        
+        // 构建确认信息
+        string skillList = "";
+        foreach (var (skillID, _) in items)
+        {
+            string name = GetSkillNameById(skillID);
+            skillList += $"  • [{skillID}] {name}\n";
+        }
+        
+        bool confirm = EditorUtility.DisplayDialog(
+            "批量保存确认",
+            $"确定要将以下 {items.Count} 个技能的覆盖参数保存到 Excel 吗？\n\n" +
+            skillList + "\n" +
+            $"⚠️ 此操作将直接修改 SkillConfig.xlsx 文件",
+            "全部保存", "取消"
+        );
+        
+        if (confirm)
+        {
+            bool success = SkillTestExcelSaver.SaveMultipleOverridesToExcel(items);
+            if (success)
+            {
+                EditorUtility.DisplayDialog("成功", 
+                    $"已成功保存 {items.Count} 个技能的参数到 Excel！\n\n" +
+                    "请使用 Tools -> EasyExcel -> Import 重新导入以更新运行时数据。", 
+                    "确定");
+                SkillTestExcelSaver.RefreshExcelAssets();
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("失败", "保存失败，请查看控制台日志了解详情", "确定");
+            }
         }
     }
 
