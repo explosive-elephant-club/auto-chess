@@ -73,6 +73,13 @@ public class SkillInstance : MonoBehaviour
             _moveContext.UpdateDuration(Time.deltaTime);
         }
         
+        // 火箭弹上升完成后，从 DOTween 路径模式切换为每帧追踪模式
+        if (_isPathMove && _moveContext != null && _moveContext.IsRiseComplete)
+        {
+            _isPathMove = false;
+            _moveContext.IsPathMove = false;
+        }
+        
         if (!_isPathMove)
         {
             this.SkillMove(_executionContext.LogicData.MoveLogic, self, _executionContext.ReGetTarget, out _isPathMove);

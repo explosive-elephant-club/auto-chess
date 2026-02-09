@@ -296,7 +296,7 @@ public static class SkillHelper
     public static bool CheckIsDamageDestroySkill(SkillAttackType type)
     {
         //测试代码
-        return true;
+        // return true;
         return type is SkillAttackType.TheBulletRicocheted or SkillAttackType.TrajectoryOfRocket
             or SkillAttackType.BulletLinearTrajectory;
     }

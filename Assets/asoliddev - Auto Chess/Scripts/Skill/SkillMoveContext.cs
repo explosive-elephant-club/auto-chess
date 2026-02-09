@@ -116,6 +116,33 @@ public class SkillMoveContext
     public float OrbitRadius { get; set; } = 2f;
     #endregion
 
+    #region 手榴弹反弹参数
+    /// <summary>
+    /// 当前运动阶段：0=飞行, 1=反弹中, 2=滚动, 3=停止
+    /// </summary>
+    public int GrenadePhase { get; set; }
+    
+    /// <summary>
+    /// 当前垂直速度（用于模拟重力）
+    /// </summary>
+    public float VerticalVelocity { get; set; }
+    
+    /// <summary>
+    /// 当前水平速度向量
+    /// </summary>
+    public Vector3 HorizontalVelocity { get; set; }
+    
+    /// <summary>
+    /// 当前反弹次数
+    /// </summary>
+    public int BounceCount { get; set; }
+    
+    /// <summary>
+    /// 是否已初始化（避免重复初始化）
+    /// </summary>
+    public bool IsGrenadeInitialized { get; set; }
+    #endregion
+
     /// <summary>
     /// 重置所有参数
     /// </summary>
@@ -146,6 +173,13 @@ public class SkillMoveContext
         
         // 环绕
         OrbitAngle = 0;
+        
+        // 手榴弹
+        GrenadePhase = 0;
+        VerticalVelocity = 0;
+        HorizontalVelocity = Vector3.zero;
+        BounceCount = 0;
+        IsGrenadeInitialized = false;
     }
 
     /// <summary>

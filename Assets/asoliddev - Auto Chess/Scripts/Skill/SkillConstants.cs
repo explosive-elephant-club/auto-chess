@@ -63,9 +63,19 @@ public static class SkillConstants
     public const float ROCKET_RISE_DURATION = 0.5f;
     
     /// <summary>
-    /// 火箭追踪阶段持续时间（秒）
+    /// 火箭追踪阶段持续时间（秒）（旧的固定路径模式，保留备用）
     /// </summary>
     public const float ROCKET_TRACK_DURATION = 1f;
+    
+    /// <summary>
+    /// 火箭追踪阶段转向速度（度/秒），值越大转向越灵敏
+    /// </summary>
+    public const float ROCKET_TRACKING_TURN_SPEED = 300f;
+    
+    /// <summary>
+    /// 火箭追踪阶段速度倍率（基于基础移动速度的乘数）
+    /// </summary>
+    public const float ROCKET_TRACKING_SPEED_MULTIPLIER = 2f;
     
     /// <summary>
     /// 贝塞尔曲线控制点1高度偏移
@@ -95,5 +105,47 @@ public static class SkillConstants
     /// 移动缩放速率
     /// </summary>
     public const float MOVE_SCALE_RATE = 0.3f;
+    #endregion
+
+    #region 手榴弹抛物线参数
+    /// <summary>
+    /// 重力加速度
+    /// </summary>
+    public const float GRENADE_GRAVITY = 15f;
+    
+    /// <summary>
+    /// 初始垂直速度
+    /// </summary>
+    public const float GRENADE_INITIAL_VERTICAL_SPEED = 8f;
+    
+    /// <summary>
+    /// 地面高度
+    /// </summary>
+    public const float GRENADE_GROUND_Y = 0.1f;
+    
+    /// <summary>
+    /// 反弹时垂直速度保留系数（0-1）
+    /// </summary>
+    public const float GRENADE_BOUNCE_DAMPING = 0.5f;
+    
+    /// <summary>
+    /// 反弹时水平速度衰减系数
+    /// </summary>
+    public const float GRENADE_HORIZONTAL_DAMPING = 0.7f;
+    
+    /// <summary>
+    /// 停止反弹的最小垂直速度阈值
+    /// </summary>
+    public const float GRENADE_MIN_BOUNCE_VELOCITY = 1f;
+    
+    /// <summary>
+    /// 滚动摩擦系数（每秒衰减比例）
+    /// </summary>
+    public const float GRENADE_ROLL_FRICTION = 3f;
+    
+    /// <summary>
+    /// 停止滚动的最小速度阈值
+    /// </summary>
+    public const float GRENADE_MIN_ROLL_SPEED = 0.1f;
     #endregion
 }
