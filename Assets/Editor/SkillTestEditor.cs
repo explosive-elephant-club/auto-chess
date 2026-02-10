@@ -3,6 +3,8 @@ using UnityEditor;
 using ExcelConfig;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
+using System.Reflection;
 
 /// <summary>
 /// 技能测试控制器的自定义编辑器
@@ -76,6 +78,56 @@ public class SkillTestEditor : Editor
         };
         
         _stylesInitialized = true;
+    }
+    
+    // 攻击类型枚举的中文显示名称缓存
+    private static string[] _attackTypeDisplayNames;
+    private static SkillHelper.SkillAttackType[] _attackTypeValues;
+    
+    /// <summary>
+    /// 获取枚举的 Description 特性值
+    /// </summary>
+    private static string GetEnumDescription(System.Enum value)
+    {
+        FieldInfo field = value.GetType().GetField(value.ToString());
+        if (field == null) return value.ToString();
+        
+        var attribute = field.GetCustomAttribute<DescriptionAttribute>();
+        return attribute != null ? attribute.Description : value.ToString();
+    }
+    
+    /// <summary>
+    /// 初始化攻击类型枚举的显示名称
+    /// </summary>
+    private static void InitAttackTypeDisplayNames()
+    {
+        if (_attackTypeDisplayNames != null) return;
+        
+        var values = System.Enum.GetValues(typeof(SkillHelper.SkillAttackType));
+        _attackTypeValues = new SkillHelper.SkillAttackType[values.Length];
+        _attackTypeDisplayNames = new string[values.Length];
+        
+        int index = 0;
+        foreach (SkillHelper.SkillAttackType value in values)
+        {
+            _attackTypeValues[index] = value;
+            _attackTypeDisplayNames[index] = GetEnumDescription(value);
+            index++;
+        }
+    }
+    
+    /// <summary>
+    /// 绘制攻击类型枚举下拉菜单（使用中文 Description 显示）
+    /// </summary>
+    private static SkillHelper.SkillAttackType DrawAttackTypePopup(string label, SkillHelper.SkillAttackType currentValue)
+    {
+        InitAttackTypeDisplayNames();
+        
+        int currentIndex = System.Array.IndexOf(_attackTypeValues, currentValue);
+        if (currentIndex < 0) currentIndex = 0;
+        
+        int newIndex = EditorGUILayout.Popup(label, currentIndex, _attackTypeDisplayNames);
+        return _attackTypeValues[newIndex];
     }
 
     private void LoadSkillList()
@@ -542,7 +594,15 @@ public class SkillTestEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideDistance"), new GUIContent("射程"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideRange"), new GUIContent("范围"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideMoveSpeed"), new GUIContent("移动速度"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("overrideAttackType"), new GUIContent("攻击类型"));
+        
+        // 攻击类型使用中文 Description 显示
+        var attackTypeProp = serializedObject.FindProperty("overrideAttackType");
+        var currentAttackType = (SkillHelper.SkillAttackType)attackTypeProp.enumValueIndex;
+        var newAttackType = DrawAttackTypePopup("攻击类型", currentAttackType);
+        if (newAttackType != currentAttackType)
+        {
+            attackTypeProp.enumValueIndex = (int)newAttackType;
+        }
         
         EditorGUILayout.EndVertical();
         
@@ -699,7 +759,7 @@ public class SkillTestEditor : Editor
                 item.overrides.Distance = EditorGUILayout.IntField("射程", item.overrides.Distance);
                 item.overrides.Range = EditorGUILayout.IntField("范围", item.overrides.Range);
                 item.overrides.MoveSpeed = EditorGUILayout.FloatField("移动速度", item.overrides.MoveSpeed);
-                item.overrides.AttackType = (SkillHelper.SkillAttackType)EditorGUILayout.EnumPopup("攻击类型", item.overrides.AttackType);
+                item.overrides.AttackType = DrawAttackTypePopup("攻击类型", item.overrides.AttackType);
                 
                 EditorGUI.indentLevel--;
             }

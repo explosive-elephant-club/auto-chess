@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using ExcelConfig;
 
 public interface ISkillState
@@ -104,49 +105,27 @@ public static class SkillHelper
 {
     public enum SkillAttackType
     {
-        /// <summary>
-        /// 无弹道
-        /// </summary>
+        [Description("无弹道")]
         None = 0,                     
-        /// <summary>
-        /// 波形静态弹道
-        /// </summary>
+        [Description("波形静态弹道")]
         WaveformStaticTrajectory = 1,
-        /// <summary>
-        /// 波形动态弹道
-        /// </summary>
+        [Description("波形动态弹道")]
         WaveformDynamicTrajectory = 2, 
-        /// <summary>
-        /// 范围弹道
-        /// </summary>
+        [Description("范围弹道")]
         RangeTrajectory = 3,          
-        /// <summary>
-        /// 轨道环绕弹道
-        /// </summary>
+        [Description("轨道环绕弹道")]
         OrbitAroundTrajectory = 4,
-        /// <summary>
-        /// 火箭弹道
-        /// </summary>
+        [Description("火箭弹道")]
         TrajectoryOfRocket = 5, 
-        /// <summary>
-        /// 激光持续弹道
-        /// </summary>
+        [Description("激光持续弹道")]
         LaserSustainedTrajectory = 6,
-        /// <summary>
-        /// 激光瞬间弹道
-        /// </summary>
+        [Description("激光瞬间弹道")]
         InstantaneousTrajectoryOfLaser = 7,
-        /// <summary>
-        /// 投掷物弹道
-        /// </summary>
+        [Description("投掷物弹道")]
         TrajectoryOfProjectile = 8,
-        /// <summary>
-        /// 子弹散弹弹道
-        /// </summary>
+        [Description("子弹散弹弹道")]
         TheBulletRicocheted = 9,
-        /// <summary>
-        /// 子弹直线弹道
-        /// </summary>
+        [Description("子弹直线弹道")]
         BulletLinearTrajectory = 10,
     }
     
@@ -309,14 +288,6 @@ public static class SkillHelper
     public static bool CheckIsNeedContinuousCasting(SkillAttackType type)
     {
         return false;
-    }
-}
-
-public static class SkillExeExtension
-{
-    public static void SkillMove(this ISkillState skillState)
-    {
-        // skillState.GetContext().AttackType 
     }
 }
 
