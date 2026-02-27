@@ -15,6 +15,11 @@ public class SkillInstance : MonoBehaviour
     public ISkillExecutionContext SkillExeContext => _executionContext;
 
     /// <summary>
+    /// 技能ID（用于对象池归还）
+    /// </summary>
+    public int SkillId { get; set; }
+
+    /// <summary>
     /// 新的移动上下文，替代 MoveParam1/MoveParam2
     /// </summary>
     private SkillMoveContext _moveContext;
@@ -144,8 +149,32 @@ public class SkillInstance : MonoBehaviour
 
     public void DestroySelf()
     {
-        if(_lastDamageTime  != null)
+        if(_lastDamageTime != null)
             _lastDamageTime.Clear();
-        Destroy(transform.gameObject);
+        
+        // 重置状态
+        _duration = 0;
+        _isPathMove = false;
+        _executionContext = null;
+        _moveContext?.Reset();
+        
+        // 归还到对象池
+        SkillVFXPool.Instance.Return(SkillId, SkillVFXPool.VFXType.Effect, gameObject);
+    }
+
+    /// <summary>
+    /// 重置实例状态（用于对象池重用）
+    /// 注意：Transform/Collider 等组件状态由 VFXOriginalState 组件恢复
+    /// </summary>
+    public void ResetInstance()
+    {
+        _duration = 0;
+        _isPathMove = false;
+        _isDamageDestroySkill = false;
+        _executionContext = null;
+        self = null;
+        
+        _lastDamageTime?.Clear();
+        _moveContext?.Reset();
     }
 }

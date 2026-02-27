@@ -5,10 +5,11 @@ using UnityEngine;
 /// <summary>
 /// 技能命中处理器
 /// 负责处理技能命中时的伤害、Buff和特效
+/// 使用 SkillVFXPool 管理命中特效
 /// </summary>
 public class SkillHitHandler
 {
-    private readonly SkillVFXLoader _vfxLoader = SkillVFXLoader.Instance;
+    private readonly SkillVFXPool _vfxPool = SkillVFXPool.Instance;
 
     /// <summary>
     /// 处理技能命中效果
@@ -66,19 +67,20 @@ public class SkillHitHandler
     }
 
     /// <summary>
-    /// 实例化命中特效
+    /// 实例化命中特效（使用池化）
     /// </summary>
     public GameObject InstantiateHitEffect(HitContext context)
     {
-        var hitPrefab = _vfxLoader.GetHitPrefab(context.SkillData.ID);
-        if (hitPrefab == null)
-            return null;
-
         Vector3 hitPosition = context.HitPosition;
         Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, Vector3.zero);
         
-        GameObject hitInstance = Object.Instantiate(hitPrefab, hitPosition, hitRotation);
-        Object.Destroy(hitInstance, context.HitEffectDuration);
+        // 从池中获取命中特效
+        var hitInstance = _vfxPool.Get(context.SkillData.ID, SkillVFXPool.VFXType.Hit, hitPosition, hitRotation);
+        if (hitInstance == null)
+            return null;
+
+        // 延迟归还到池
+        _vfxPool.ReturnDelayed(context.SkillData.ID, SkillVFXPool.VFXType.Hit, hitInstance, context.HitEffectDuration);
         
         return hitInstance;
     }
@@ -96,17 +98,17 @@ public class SkillHitHandler
             if (target == null || target.isDead)
                 continue;
 
-            var hitContext = new HitContext
-            {
-                Caster = context.Caster,
-                Target = target,
-                SkillData = context.SkillData,
-                HitPosition = target.transform.position,
-                HitEffectDuration = context.HitEffectDuration,
-                OnlyEffect = false
-            };
+            // 使用对象池获取上下文
+            var hitContext = SkillContextPools.HitContextPool.Get();
+            hitContext.Caster = context.Caster;
+            hitContext.Target = target;
+            hitContext.SkillData = context.SkillData;
+            hitContext.HitPosition = target.transform.position;
+            hitContext.HitEffectDuration = context.HitEffectDuration;
+            hitContext.OnlyEffect = false;
 
             HandleHit(hitContext);
+            SkillContextPools.HitContextPool.Return(hitContext);
         }
     }
 }
@@ -150,6 +152,20 @@ public class HitContext
     /// 碰撞体（用于计算精确命中位置）
     /// </summary>
     public Collider HitCollider { get; set; }
+
+    /// <summary>
+    /// 重置上下文，用于对象池归还
+    /// </summary>
+    public void Reset()
+    {
+        Caster = null;
+        Target = null;
+        SkillData = null;
+        HitPosition = Vector3.zero;
+        HitEffectDuration = SkillConstants.DEFAULT_HIT_EFFECT_DURATION;
+        OnlyEffect = false;
+        HitCollider = null;
+    }
 }
 
 /// <summary>
@@ -176,4 +192,15 @@ public class DirectEffectContext
     /// 命中特效持续时间
     /// </summary>
     public float HitEffectDuration { get; set; } = SkillConstants.DEFAULT_HIT_EFFECT_DURATION;
+
+    /// <summary>
+    /// 重置上下文，用于对象池归还
+    /// </summary>
+    public void Reset()
+    {
+        Caster = null;
+        Targets = null;
+        SkillData = null;
+        HitEffectDuration = SkillConstants.DEFAULT_HIT_EFFECT_DURATION;
+    }
 }

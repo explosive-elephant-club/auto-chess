@@ -1,7 +1,7 @@
 # 技能系统技术文档
 
-> 版本：1.0  
-> 最后更新：2026-01-27
+> 版本：2.0  
+> 最后更新：2026-02-27
 
 ---
 
@@ -17,6 +17,9 @@
 8. [VFX资源管理](#8-vfx资源管理)
 9. [配置数据结构](#9-配置数据结构)
 10. [扩展指南](#10-扩展指南)
+11. [对象池系统](#11-对象池系统)
+12. [事件系统](#12-事件系统)
+13. [中断机制](#13-中断机制)
 
 ---
 
@@ -138,23 +141,27 @@ ChampionController
 
 | 文件 | 类名 | 职责 |
 |------|------|------|
-| `SkillDefine.cs` | `ISkillState`, `SkillPhase`, `SkillContext`, `SkillHelper`, `SkillFactory` | 接口定义、枚举、上下文、工具类、工厂 |
-| `SkillBase.cs` | `SkillBase` | 技能基类，实现 `ISkillState` |
-| `SkillController.cs` | `SkillController` | 角色的技能管理器，管理技能链 |
-| `SkillStateMachine.cs` | `SkillStateMachine` | 技能状态机，驱动技能执行，实现 `ISkillExecutionContext` |
+| `SkillDefine.cs` | `ISkillState`, `SkillPhase`, `SkillContext`, `SkillHelper`, `SkillFactory`, `SkillEventType`, `SkillEventArgs` | 接口定义、枚举、上下文、工具类、工厂、事件类型 |
+| `SkillBase.cs` | `SkillBase` | 技能基类，实现 `ISkillState`（含中断机制） |
+| `SkillController.cs` | `SkillController` | 角色的技能管理器，管理技能链和中断 |
+| `SkillStateMachine.cs` | `SkillStateMachine` | 技能状态机，驱动技能执行，实现 `ISkillExecutionContext`，事件发布 |
 | `SkillExeProcess.cs` | `SkillExeProcess`, `SingleSkillExeProcess` | 技能执行器，解耦数据与行为 |
 | `SkillRuntime.cs` | `SkillRuntime` | 技能运行时数据容器 |
 | `SkillTargetFinder.cs` | `SkillTargetFinder`, `TargetResult` | 统一目标查找器 |
 | `SkillTargetsSelector.cs` | `SkillTargetsSelector`, `SelectorResult` | 底层目标选择器 |
-| `SkillInstance.cs` | `SkillInstance` | 技能投射物实例（MonoBehaviour） |
-| `SkillEffectFactory.cs` | `SkillEffectFactory`, `EffectCreateContext` | 效果/投射物工厂 |
-| `SkillHitHandler.cs` | `SkillHitHandler`, `HitContext`, `DirectEffectContext` | 命中处理（伤害、Buff、特效） |
+| `SkillInstance.cs` | `SkillInstance` | 技能投射物实例（MonoBehaviour），支持池化 |
+| `SkillEffectFactory.cs` | `SkillEffectFactory`, `EffectCreateContext` | 效果/投射物工厂，使用 VFX 对象池 |
+| `SkillHitHandler.cs` | `SkillHitHandler`, `HitContext`, `DirectEffectContext` | 命中处理（伤害、Buff、特效），使用 VFX 对象池 |
 | `SkillDamageMethods.cs` | `SkillDamageMethods` | 伤害逻辑扩展方法 |
 | `SkillMoveMethods.cs` | `SkillMoveMethods` | 移动逻辑扩展方法 |
 | `SkillMoveContext.cs` | `SkillMoveContext` | 移动上下文（语义化参数） |
 | `SkillVFXLoader.cs` | `SkillVFXLoader`, `VFXBundle` | VFX资源预加载和缓存 |
 | `SkillConstants.cs` | `SkillConstants` | 常量定义 |
 | `ISkillExecutionContext.cs` | `ISkillExecutionContext` | 技能执行上下文接口 |
+| `SkillObjectPool.cs` | `SkillObjectPool<T>` | 通用对象池 |
+| `SkillContextPools.cs` | `SkillContextPools` | Context 池管理器 |
+| `SkillVFXPool.cs` | `SkillVFXPool`, `VFXPoolReturner` | VFX 对象池 |
+| `GlobalSkillEventCenter.cs` | `GlobalSkillEventCenter` | 全局技能事件中心 |
 
 ---
 
@@ -179,6 +186,11 @@ public interface ISkillState
     void StartCastCdCutDown();                          // 开始施法CD
     bool IsStartCd();                                   // 是否在CD中
     List<ChampionController> GetTargetList();           // 获取目标列表
+    
+    // 中断机制（v2.0新增）
+    bool Interrupt(int source = 0);                     // 中断当前技能
+    bool CanBeInterrupted { get; }                      // 当前技能是否可被中断
+    SkillRuntime GetRuntime();                          // 获取技能运行时数据
 }
 ```
 
@@ -197,7 +209,8 @@ public enum SkillPhase
     Casting,        // 施法动作中
     Executing,      // 效果执行中（脱手后）
     Finished,       // 本次释放完成
-    Failed          // 释放失败
+    Failed,         // 释放失败
+    Interrupted     // 技能被中断（v2.0新增）
 }
 ```
 
@@ -929,15 +942,15 @@ public static Dictionary<int, System.Type> IndexToSkillType = new()
 
 ```
 Scripts/Skill/
-├── SkillDefine.cs              # 接口、枚举、上下文、工具类、工厂
-├── SkillBase.cs                # 技能基类
-├── SkillController.cs          # 技能管理器
-├── SkillStateMachine.cs        # 技能状态机
+├── SkillDefine.cs              # 接口、枚举、上下文、工具类、工厂、事件类型
+├── SkillBase.cs                # 技能基类（含中断机制）
+├── SkillController.cs          # 技能管理器（含中断入口）
+├── SkillStateMachine.cs        # 技能状态机（含事件发布）
 ├── SkillExeProcess.cs          # 技能执行器
 ├── SkillRuntime.cs             # 运行时数据
-├── SkillInstance.cs            # 投射物实例
-├── SkillEffectFactory.cs       # 效果工厂
-├── SkillHitHandler.cs          # 命中处理器
+├── SkillInstance.cs            # 投射物实例（支持池化）
+├── SkillEffectFactory.cs       # 效果工厂（使用VFX池）
+├── SkillHitHandler.cs          # 命中处理器（使用VFX池）
 ├── SkillTargetFinder.cs        # 目标查找器
 ├── SkillDamageMethods.cs       # 伤害逻辑扩展方法
 ├── SkillMoveMethods.cs         # 移动逻辑扩展方法
@@ -945,9 +958,315 @@ Scripts/Skill/
 ├── SkillVFXLoader.cs           # VFX资源加载器
 ├── SkillConstants.cs           # 常量定义
 ├── ISkillExecutionContext.cs   # 执行上下文接口
+├── SkillObjectPool.cs          # 通用对象池
+├── SkillContextPools.cs        # Context池管理器
+├── SkillVFXPool.cs             # VFX对象池
+├── GlobalSkillEventCenter.cs   # 全局技能事件中心
 └── TargetsSelector/
     └── SkillTargetsSelector.cs # 目标选择器
 ```
+
+---
+
+## 11. 对象池系统
+
+### 11.1 概述
+
+对象池系统用于减少技能系统中频繁的对象创建和销毁带来的 GC 开销。池化的对象分为两类：
+
+**普通 C# 对象（高频创建）：**
+- `HitContext` - 每次命中创建
+- `EffectCreateContext` - 每次创建投射物
+- `DirectEffectContext` - 每次直接效果
+- `TargetResult` - 每次目标查找
+
+**GameObject 对象（Instantiate/Destroy 开销大）：**
+- 投射物 `SkillInstance`
+- 发射特效 Emit
+- 命中特效 Hit
+
+### 11.2 通用对象池 SkillObjectPool
+
+```csharp
+public class SkillObjectPool<T> where T : class, new()
+{
+    public T Get();                    // 从池中获取对象
+    public void Return(T obj);         // 将对象归还到池
+    public void Clear();               // 清空对象池
+}
+```
+
+### 11.3 Context 池管理器 SkillContextPools
+
+```csharp
+public static class SkillContextPools
+{
+    public static readonly SkillObjectPool<HitContext> HitContextPool;
+    public static readonly SkillObjectPool<EffectCreateContext> EffectCreatePool;
+    public static readonly SkillObjectPool<DirectEffectContext> DirectEffectPool;
+    public static readonly SkillObjectPool<TargetResult> TargetResultPool;
+    
+    public static void ClearAll();     // 清空所有池
+}
+```
+
+**使用示例：**
+
+```csharp
+// 获取上下文
+var hitContext = SkillContextPools.HitContextPool.Get();
+hitContext.Caster = caster;
+hitContext.Target = target;
+// ... 使用上下文 ...
+
+// 归还上下文
+SkillContextPools.HitContextPool.Return(hitContext);
+```
+
+### 11.4 VFX 对象池 SkillVFXPool
+
+```csharp
+public class SkillVFXPool
+{
+    public enum VFXType { Effect, Emit, Hit }
+    
+    // 获取特效实例
+    public GameObject Get(int skillId, VFXType type, Vector3 pos, Quaternion rot);
+    
+    // 归还特效实例
+    public void Return(int skillId, VFXType type, GameObject obj);
+    
+    // 延迟归还（用于有持续时间的特效）
+    public void ReturnDelayed(int skillId, VFXType type, GameObject obj, float delay);
+    
+    // 预热池
+    public void PreWarm(int skillId, VFXType type, int count);
+    
+    // 清空池
+    public void ClearAll();
+    public void Clear(int skillId);
+}
+```
+
+**最佳实践：**
+
+1. 对于频繁使用的技能，在战斗开始前调用 `PreWarm` 预热池
+2. 投射物在 `DestroySelf()` 时自动归还到池
+3. Emit 和 Hit 特效使用 `ReturnDelayed` 自动延迟归还
+
+---
+
+## 12. 事件系统
+
+### 12.1 概述
+
+技能事件系统用于在技能生命周期中广播事件，供 Buff 系统、统计系统、成就系统等订阅。
+
+### 12.2 SkillEventType 枚举
+
+```csharp
+public enum SkillEventType
+{
+    OnPrepare,      // 技能准备（找到目标，开始转向）
+    OnCastStart,    // 开始施法
+    OnCastEnd,      // 施法结束/脱手
+    OnHit,          // 命中目标
+    OnFinish,       // 技能完成
+    OnInterrupt,    // 技能被中断
+    OnFailed        // 技能失败（无目标等）
+}
+```
+
+### 12.3 SkillEventArgs 结构体
+
+```csharp
+public struct SkillEventArgs
+{
+    public ISkillState Skill;           // 技能实例
+    public ChampionController Owner;    // 施法者
+    public ChampionController Target;   // 目标（OnHit 时有值）
+    public SkillPhase Phase;            // 当前阶段
+    public float Damage;                // 伤害值（OnHit 时有值）
+    public int SkillId;                 // 技能ID
+    
+    public static SkillEventArgs Create(ISkillState skill, ChampionController target = null, float damage = 0);
+}
+```
+
+### 12.4 事件触发点
+
+```Mermaid
+flowchart LR
+    subgraph StateMachine[SkillStateMachine 状态流转]
+        A[Idle] -->|有目标| B[FindingTarget]
+        B -->|找到| C[Casting]
+        B -->|失败| F[Failed]
+        C -->|脱手| D[Executing]
+        D -->|完成| E[Finished]
+    end
+    
+    subgraph Events[事件触发点]
+        B -.->|OnPrepare| E1[准备事件]
+        C -.->|OnCastStart| E2[施法开始]
+        C -.->|OnCastEnd| E3[施法结束]
+        D -.->|OnHit| E4[命中事件]
+        E -.->|OnFinish| E5[完成事件]
+        F -.->|OnFailed| E6[失败事件]
+    end
+```
+
+### 12.5 GlobalSkillEventCenter
+
+全局技能事件中心，用于跨角色的技能事件监听：
+
+```csharp
+public class GlobalSkillEventCenter
+{
+    public static GlobalSkillEventCenter Instance { get; }
+    
+    public void AddListener(SkillEventType eventType, CallBack<SkillEventArgs> callback);
+    public void RemoveListener(SkillEventType eventType, CallBack<SkillEventArgs> callback);
+    public void Broadcast(SkillEventType eventType, SkillEventArgs args);
+    
+    public static void Clear();
+}
+```
+
+**使用示例：**
+
+```csharp
+// 订阅技能命中事件（全局）
+GlobalSkillEventCenter.Instance.AddListener(SkillEventType.OnHit, OnSkillHit);
+
+private void OnSkillHit(SkillEventArgs args)
+{
+    Debug.Log($"技能 {args.SkillId} 命中了 {args.Target.name}");
+}
+
+// 订阅技能事件（角色级，通过 BuffController）
+owner.buffController.eventCenter.AddListener<SkillEventArgs>(
+    SkillEventType.OnHit.ToString(), 
+    OnSkillHitForBuff
+);
+```
+
+---
+
+## 13. 中断机制
+
+### 13.1 概述
+
+中断机制允许在特定条件下（如被控制、死亡等）中断正在释放的技能。
+
+### 13.2 SkillPhase.Interrupted
+
+新增的技能阶段枚举值：
+
+```csharp
+public enum SkillPhase
+{
+    // ... 其他阶段 ...
+    Interrupted  // 技能被中断
+}
+```
+
+### 13.3 ISkillState 中断接口
+
+```csharp
+public interface ISkillState
+{
+    // ... 其他方法 ...
+    
+    /// <summary>
+    /// 中断当前技能
+    /// </summary>
+    /// <param name="source">中断来源（如控制效果ID）</param>
+    /// <returns>是否成功中断</returns>
+    bool Interrupt(int source = 0);
+    
+    /// <summary>
+    /// 当前技能是否可被中断
+    /// </summary>
+    bool CanBeInterrupted { get; }
+}
+```
+
+### 13.4 中断流程
+
+```Mermaid
+flowchart TD
+    subgraph Triggers[中断触发源]
+        T1[被控制/眩晕]
+        T2[角色死亡]
+        T3[主动取消]
+        T4[被击退/位移]
+    end
+    
+    subgraph Flow[中断流程]
+        A[外部调用] -->|调用| B[SkillController.InterruptCurrentSkill]
+        B -->|转发| C[ISkillState.Interrupt]
+        C -->|设置| D[SkillPhase.Interrupted]
+        D -->|下一帧| E[StateMachine.HandleInterrupted]
+        E -->|清理| F[销毁特效/重置状态]
+        E -->|发布| G[OnInterrupt事件]
+    end
+    
+    Triggers --> A
+```
+
+### 13.5 SkillController 中断入口
+
+```csharp
+public class SkillController
+{
+    /// <summary>
+    /// 中断当前正在释放的技能
+    /// </summary>
+    /// <param name="source">中断来源</param>
+    /// <returns>是否成功中断</returns>
+    public bool InterruptCurrentSkill(int source = 0);
+    
+    /// <summary>
+    /// 中断所有脱手技能
+    /// </summary>
+    public void InterruptAllSellSkills();
+}
+```
+
+**使用示例：**
+
+```csharp
+// 在控制效果中中断技能
+public void ApplyStun(ChampionController target)
+{
+    target.skillController.InterruptCurrentSkill(buffId);
+    // ... 其他眩晕逻辑 ...
+}
+```
+
+### 13.6 自定义不可中断技能
+
+继承 `SkillBase` 并覆盖 `CanBeInterrupted`：
+
+```csharp
+public class UninterruptibleSkill : SkillBase
+{
+    public override bool CanBeInterrupted => false;
+    
+    // ... 其他实现 ...
+}
+```
+
+---
+
+## 附录 B2. 新增文件清单
+
+| 文件 | 类名 | 职责 |
+|------|------|------|
+| `SkillObjectPool.cs` | `SkillObjectPool<T>` | 通用对象池 |
+| `SkillContextPools.cs` | `SkillContextPools` | Context 池管理器 |
+| `SkillVFXPool.cs` | `SkillVFXPool`, `VFXPoolReturner` | VFX 对象池 |
+| `GlobalSkillEventCenter.cs` | `GlobalSkillEventCenter` | 全局技能事件中心 |
 
 ---
 

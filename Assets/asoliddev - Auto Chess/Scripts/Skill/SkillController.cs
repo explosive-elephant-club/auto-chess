@@ -209,6 +209,28 @@ public class SkillController
     {
         _usedSkillList.Add(skill);
     }
+
+    /// <summary>
+    /// 中断当前正在释放的技能
+    /// </summary>
+    /// <param name="source">中断来源（如控制效果ID）</param>
+    /// <returns>是否成功中断</returns>
+    public bool InterruptCurrentSkill(int source = 0)
+    {
+        var currentSkill = GetNextActiveSkillState();
+        if (currentSkill == null || !currentSkill.CanBeInterrupted)
+            return false;
+
+        return currentSkill.Interrupt(source);
+    }
+
+    /// <summary>
+    /// 中断所有脱手技能
+    /// </summary>
+    public void InterruptAllSellSkills()
+    {
+        _skillExeProcess.InterruptAll();
+    }
     
 
     // /// <summary>

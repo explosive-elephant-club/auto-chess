@@ -207,5 +207,24 @@ public class SkillBase : ISkillState
         EnsureRuntimeInitialized();
         return _runtime;
     }
+
+    /// <summary>
+    /// 当前技能是否可被中断（默认可中断，可在子类覆盖）
+    /// </summary>
+    public virtual bool CanBeInterrupted => true;
+
+    /// <summary>
+    /// 中断当前技能
+    /// </summary>
+    /// <param name="source">中断来源（如控制效果ID）</param>
+    /// <returns>是否成功中断</returns>
+    public virtual bool Interrupt(int source = 0)
+    {
+        if (!CanBeInterrupted)
+            return false;
+
+        _runtime.CurrentPhase = SkillPhase.Interrupted;
+        return true;
+    }
     #endregion
 }

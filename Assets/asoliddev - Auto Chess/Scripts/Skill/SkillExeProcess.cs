@@ -70,6 +70,14 @@ public class SkillExeProcess
             _globalProcess.Reset();
         _globalProcess = null;
     }
+
+    /// <summary>
+    /// 中断所有脱手技能
+    /// </summary>
+    public void InterruptAll()
+    {
+        Reset();
+    }
 }
 
 public class SingleSkillExeProcess
@@ -104,6 +112,15 @@ public class SingleSkillExeProcess
 
     public SkillPhase TickSkill()
     {
+        // 检查中断状态
+        if (_skill != null && _skill.GetRuntime().CurrentPhase == SkillPhase.Interrupted)
+        {
+            _stateMachine.Tick();
+            _state = SkillPhase.Interrupted;
+            OnSkillEnd();
+            return SkillPhase.Interrupted;
+        }
+
         switch (_state)
         {
             case SkillPhase.FindingTarget:
@@ -124,14 +141,17 @@ public class SingleSkillExeProcess
                         _isInSellCast = true;
                     }
                 }
-                else if (castResult == SkillPhase.Failed)
+                else if (castResult == SkillPhase.Failed || castResult == SkillPhase.Interrupted)
                 {
+                    _state = castResult;
                     OnSkillEnd();
                 }
                 break;
             case SkillPhase.Executing:
                 var result = _stateMachine.Tick();
-                _state = result is SkillPhase.Finished or SkillPhase.Failed ? SkillPhase.Finished : SkillPhase.Executing;
+                _state = result is SkillPhase.Finished or SkillPhase.Failed or SkillPhase.Interrupted 
+                    ? SkillPhase.Finished 
+                    : SkillPhase.Executing;
                 if (_state == SkillPhase.Finished)
                 {
                     OnSkillEnd();

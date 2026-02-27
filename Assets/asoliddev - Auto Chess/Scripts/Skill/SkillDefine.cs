@@ -21,6 +21,23 @@ public interface ISkillState
     public void StartCastCdCutDown();
     public bool IsStartCd();
     public List<ChampionController> GetTargetList();
+    
+    /// <summary>
+    /// 中断当前技能
+    /// </summary>
+    /// <param name="source">中断来源（如控制效果ID）</param>
+    /// <returns>是否成功中断</returns>
+    public bool Interrupt(int source = 0);
+    
+    /// <summary>
+    /// 当前技能是否可被中断
+    /// </summary>
+    public bool CanBeInterrupted { get; }
+    
+    /// <summary>
+    /// 获取技能运行时数据
+    /// </summary>
+    public SkillRuntime GetRuntime();
 }
 
 /// <summary>
@@ -65,7 +82,99 @@ public enum SkillPhase
     /// <summary>
     /// 释放失败
     /// </summary>
-    Failed
+    Failed,
+    /// <summary>
+    /// 技能被中断
+    /// </summary>
+    Interrupted
+}
+
+/// <summary>
+/// 技能事件类型
+/// 用于技能生命周期中的事件通知
+/// </summary>
+public enum SkillEventType
+{
+    /// <summary>
+    /// 技能准备（找到目标，开始转向）
+    /// </summary>
+    OnPrepare,
+    /// <summary>
+    /// 开始施法
+    /// </summary>
+    OnCastStart,
+    /// <summary>
+    /// 施法结束/脱手
+    /// </summary>
+    OnCastEnd,
+    /// <summary>
+    /// 命中目标
+    /// </summary>
+    OnHit,
+    /// <summary>
+    /// 技能完成
+    /// </summary>
+    OnFinish,
+    /// <summary>
+    /// 技能被中断
+    /// </summary>
+    OnInterrupt,
+    /// <summary>
+    /// 技能失败（无目标等）
+    /// </summary>
+    OnFailed
+}
+
+/// <summary>
+/// 技能事件参数
+/// 用于事件广播时传递上下文信息
+/// </summary>
+public struct SkillEventArgs
+{
+    /// <summary>
+    /// 技能实例
+    /// </summary>
+    public ISkillState Skill;
+    
+    /// <summary>
+    /// 施法者
+    /// </summary>
+    public ChampionController Owner;
+    
+    /// <summary>
+    /// 目标（OnHit 时有值）
+    /// </summary>
+    public ChampionController Target;
+    
+    /// <summary>
+    /// 当前阶段
+    /// </summary>
+    public SkillPhase Phase;
+    
+    /// <summary>
+    /// 伤害值（OnHit 时有值）
+    /// </summary>
+    public float Damage;
+    
+    /// <summary>
+    /// 技能ID
+    /// </summary>
+    public int SkillId;
+
+    /// <summary>
+    /// 创建技能事件参数
+    /// </summary>
+    public static SkillEventArgs Create(ISkillState skill, ChampionController target = null, float damage = 0)
+    {
+        return new SkillEventArgs
+        {
+            Skill = skill,
+            Owner = skill?.GetOwner(),
+            Target = target,
+            SkillId = skill?.GetSkillCfg()?.ID ?? 0,
+            Damage = damage
+        };
+    }
 }
 
 

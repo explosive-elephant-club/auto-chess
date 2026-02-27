@@ -20,23 +20,27 @@ public class EventCenter
             throw new Exception(string.Format("尝试为事件{0}添加不同类型的委托，当前事件所对应的委托是{1}，要添加的委托类型为{2}", eventKey, d.GetType(), callBack.GetType()));
         }
     }
-    private void OnListenerRemoving(String eventKey, Delegate callBack)
+    private bool OnListenerRemoving(String eventKey, Delegate callBack)
     {
         if (m_EventTable.ContainsKey(eventKey))
         {
             Delegate d = m_EventTable[eventKey];
             if (d == null)
             {
-                throw new Exception(string.Format("移除监听错误：事件{0}没有对应的委托", eventKey));
+                Debug.LogWarning(string.Format("移除监听警告：事件{0}没有对应的委托", eventKey));
+                return false;
             }
             else if (d.GetType() != callBack.GetType())
             {
-                throw new Exception(string.Format("移除监听错误：尝试为事件{0}移除不同类型的委托，当前委托类型为{1}，要移除的委托类型为{2}", eventKey, d.GetType(), callBack.GetType()));
+                Debug.LogWarning(string.Format("移除监听警告：尝试为事件{0}移除不同类型的委托，当前委托类型为{1}，要移除的委托类型为{2}", eventKey, d.GetType(), callBack.GetType()));
+                return false;
             }
+            return true;
         }
         else
         {
-            throw new Exception(string.Format("移除监听错误：没有事件码{0}", eventKey));
+            Debug.LogWarning(string.Format("移除监听警告：没有事件码{0}", eventKey));
+            return false;
         }
     }
     private void OnListenerRemoved(String eventKey)
@@ -86,42 +90,42 @@ public class EventCenter
     //no parameters
     public void RemoveListener(String eventKey, CallBack callBack)
     {
-        OnListenerRemoving(eventKey, callBack);
+        if (!OnListenerRemoving(eventKey, callBack)) return;
         m_EventTable[eventKey] = (CallBack)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //single parameters
     public void RemoveListener<T>(String eventKey, CallBack<T> callBack)
     {
-        OnListenerRemoving(eventKey, callBack);
+        if (!OnListenerRemoving(eventKey, callBack)) return;
         m_EventTable[eventKey] = (CallBack<T>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //two parameters
     public void RemoveListener<T, X>(String eventKey, CallBack<T, X> callBack)
     {
-        OnListenerRemoving(eventKey, callBack);
+        if (!OnListenerRemoving(eventKey, callBack)) return;
         m_EventTable[eventKey] = (CallBack<T, X>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //three parameters
     public void RemoveListener<T, X, Y>(String eventKey, CallBack<T, X, Y> callBack)
     {
-        OnListenerRemoving(eventKey, callBack);
+        if (!OnListenerRemoving(eventKey, callBack)) return;
         m_EventTable[eventKey] = (CallBack<T, X, Y>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //four parameters
     public void RemoveListener<T, X, Y, Z>(String eventKey, CallBack<T, X, Y, Z> callBack)
     {
-        OnListenerRemoving(eventKey, callBack);
+        if (!OnListenerRemoving(eventKey, callBack)) return;
         m_EventTable[eventKey] = (CallBack<T, X, Y, Z>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }
     //five parameters
     public void RemoveListener<T, X, Y, Z, W>(String eventKey, CallBack<T, X, Y, Z, W> callBack)
     {
-        OnListenerRemoving(eventKey, callBack);
+        if (!OnListenerRemoving(eventKey, callBack)) return;
         m_EventTable[eventKey] = (CallBack<T, X, Y, Z, W>)m_EventTable[eventKey] - callBack;
         OnListenerRemoved(eventKey);
     }

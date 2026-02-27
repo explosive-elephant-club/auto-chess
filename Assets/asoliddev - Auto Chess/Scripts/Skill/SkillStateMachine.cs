@@ -72,71 +72,84 @@ public class SkillStateMachine : ISkillExecutionContext
         switch (_runtime.CurrentPhase)
         {
             case SkillPhase.Idle:
-                return HandleIdle();
-                
+                HandleIdle();
+                break;
             case SkillPhase.WaitingCD:
-                return HandleWaitingCD();
-                
+                HandleWaitingCD();
+                break;
             case SkillPhase.FindingTarget:
-                return HandleFindingTarget();
-                
+                HandleFindingTarget();
+                break;
             case SkillPhase.Casting:
-                return HandleCasting();
-                
+                HandleCasting();
+                break;
             case SkillPhase.Executing:
-                return HandleExecuting();
-                
+                HandleExecuting();
+                break;
             case SkillPhase.Finished:
             case SkillPhase.Failed:
-                return _runtime.CurrentPhase;
+                break;
+            case SkillPhase.Interrupted:
+                HandleInterrupted();
+                break;
         }
 
-        return SkillPhase.Idle;
+        return _runtime.CurrentPhase;
+    }
+
+    /// <summary>
+    /// 处理技能被中断
+    /// </summary>
+    private void HandleInterrupted()
+    {
+        PublishSkillEvent(SkillEventType.OnInterrupt);
+        
+        DestroyEffects();
+        _runtime.Reset();
+        _runtime.CurrentPhase = SkillPhase.Finished;
     }
 
     #region 状态处理
-    private SkillPhase HandleIdle()
+    private void HandleIdle()
     {
         if (!_runtime.SkillState.IsStartCd())
         {
             _runtime.CurrentPhase = SkillPhase.FindingTarget;
         }
-        return SkillPhase.Idle;
     }
 
-    private SkillPhase HandleWaitingCD()
+    private void HandleWaitingCD()
     {
         if (!_runtime.SkillState.IsStartCd())
         {
             _runtime.CurrentPhase = SkillPhase.Finished;
         }
-        return SkillPhase.WaitingCD;
     }
 
-    private SkillPhase HandleFindingTarget()
+    private void HandleFindingTarget()
     {
         // 转向目标
         if (_runtime.Owner.TurnToTarget(_runtime.Constructor))
         {
-            return SkillPhase.FindingTarget;
+            return;
         }
 
         // 检查技能是否可用
         if (!_runtime.SkillState.IsPrepared())
         {
             _runtime.CurrentPhase = SkillPhase.Failed;
-            return SkillPhase.Failed;
+            PublishSkillEvent(SkillEventType.OnFailed);
+            return;
         }
 
         // 开始施法
         _runtime.CurrentPhase = SkillPhase.Casting;
+        PublishSkillEvent(SkillEventType.OnPrepare);
         _runtime.Owner.skillController.AddUsedSkill(_runtime.SkillState);
         Cast();
-        
-        return SkillPhase.Casting;
     }
 
-    private SkillPhase HandleCasting()
+    private void HandleCasting()
     {
         // 更新所有技能实例
         UpdateEffectInstances();
@@ -147,6 +160,7 @@ public class SkillStateMachine : ISkillExecutionContext
         if (effectCountIsOver)
         {
             _runtime.CurrentPhase = SkillPhase.Executing;
+            PublishSkillEvent(SkillEventType.OnCastEnd);
             
             // 非持续施法技能开始CD
             if (!_runtime.HasStartedCD && !_runtime.NeedsContinuousCasting && CheckNeedCharge())
@@ -157,10 +171,9 @@ public class SkillStateMachine : ISkillExecutionContext
         }
 
         UpdateDuration();
-        return SkillPhase.Casting;
     }
 
-    private SkillPhase HandleExecuting()
+    private void HandleExecuting()
     {
         // 更新所有技能实例
         UpdateEffectInstances();
@@ -170,10 +183,8 @@ public class SkillStateMachine : ISkillExecutionContext
         if (_runtime.ShouldFinish())
         {
             OnFinish();
-            return SkillPhase.Finished;
+            _runtime.CurrentPhase = SkillPhase.Finished;
         }
-
-        return SkillPhase.Executing;
     }
     #endregion
 
@@ -181,6 +192,7 @@ public class SkillStateMachine : ISkillExecutionContext
     private void Cast()
     {
         _runtime.Owner.buffController.eventCenter.Broadcast(BuffActiveMode.BeforeCast.ToString());
+        PublishSkillEvent(SkillEventType.OnCastStart);
         
         // 扣除法力值
         _runtime.Owner.attributesController.curMana -= 30; // 后续应改为 _runtime.SkillData.manaCost
@@ -246,15 +258,14 @@ public class SkillStateMachine : ISkillExecutionContext
         _effectFactory.CreateEmitEffect(_runtime.SkillData.ID, position, rotation, SkillConstants.DEFAULT_EMIT_EFFECT_DURATION);
         _runtime.MoveToNextCastPoint();
 
-        // 对所有目标造成效果
-        var directContext = new DirectEffectContext
-        {
-            Caster = _runtime.Owner,
-            Targets = targetList,
-            SkillData = _runtime.SkillData,
-            HitEffectDuration = SkillConstants.DEFAULT_HIT_EFFECT_DURATION
-        };
+        // 对所有目标造成效果（使用对象池）
+        var directContext = SkillContextPools.DirectEffectPool.Get();
+        directContext.Caster = _runtime.Owner;
+        directContext.Targets = targetList;
+        directContext.SkillData = _runtime.SkillData;
+        directContext.HitEffectDuration = SkillConstants.DEFAULT_HIT_EFFECT_DURATION;
         _hitHandler.ApplyDirectEffect(directContext);
+        SkillContextPools.DirectEffectPool.Return(directContext);
     }
 
     private void CreateProjectileEffect()
@@ -263,17 +274,17 @@ public class SkillStateMachine : ISkillExecutionContext
         if (target == null)
             return;
             
-        var createContext = new EffectCreateContext
-        {
-            SkillData = _runtime.SkillData,
-            Owner = _runtime.Owner,
-            Target = target,
-            CastPoint = _runtime.GetCurrentCastPoint(),
-            UseOwnerPosition = _runtime.LogicData.IsCreateInSelf,
-            ExecutionContext = this
-        };
+        // 使用对象池获取上下文
+        var createContext = SkillContextPools.EffectCreatePool.Get();
+        createContext.SkillData = _runtime.SkillData;
+        createContext.Owner = _runtime.Owner;
+        createContext.Target = target;
+        createContext.CastPoint = _runtime.GetCurrentCastPoint();
+        createContext.UseOwnerPosition = _runtime.LogicData.IsCreateInSelf;
+        createContext.ExecutionContext = this;
 
         var skillInstance = _effectFactory.CreateProjectile(createContext);
+        SkillContextPools.EffectCreatePool.Return(createContext);
         if (skillInstance != null)
         {
             // 使用新的 ISkillExecutionContext 接口初始化
@@ -282,6 +293,23 @@ public class SkillStateMachine : ISkillExecutionContext
         }
 
         _runtime.MoveToNextCastPoint();
+    }
+    #endregion
+
+    #region 事件发布
+    /// <summary>
+    /// 发布技能事件
+    /// </summary>
+    private void PublishSkillEvent(SkillEventType eventType, ChampionController target = null, float damage = 0)
+    {
+        var args = SkillEventArgs.Create(_runtime.SkillState, target, damage);
+        args.Phase = _runtime.CurrentPhase;
+
+        // 角色级事件（Buff 系统监听）
+        _runtime.Owner.buffController.eventCenter.Broadcast(eventType.ToString(), args);
+
+        // 全局事件（统计、成就系统监听）
+        GlobalSkillEventCenter.Instance.Broadcast(eventType, args);
     }
     #endregion
 
@@ -311,6 +339,7 @@ public class SkillStateMachine : ISkillExecutionContext
     {
         PlayEndAnim();
         DestroyEffects();
+        PublishSkillEvent(SkillEventType.OnFinish);
 
         // 持续释放技能在结束时检查是否需要充能
         if (_runtime.NeedsContinuousCasting && CheckNeedCharge())
@@ -393,21 +422,26 @@ public class SkillStateMachine : ISkillExecutionContext
     /// </summary>
     public void HandleSkillHit(Collider collider, ChampionController target, bool onlyEffect = false)
     {
-        var hitContext = new HitContext
-        {
-            Caster = _runtime.Owner,
-            Target = target,
-            SkillData = _runtime.SkillData,
-            HitPosition = collider.bounds.ClosestPoint(target.transform.position),
-            HitCollider = collider,
-            OnlyEffect = onlyEffect
-        };
+        // 使用对象池获取上下文
+        var hitContext = SkillContextPools.HitContextPool.Get();
+        hitContext.Caster = _runtime.Owner;
+        hitContext.Target = target;
+        hitContext.SkillData = _runtime.SkillData;
+        hitContext.HitPosition = collider.bounds.ClosestPoint(target.transform.position);
+        hitContext.HitCollider = collider;
+        hitContext.OnlyEffect = onlyEffect;
 
         _hitHandler.HandleHit(hitContext);
+        SkillContextPools.HitContextPool.Return(hitContext);
 
-        if (!onlyEffect && ++_runtime.CurrentHitCount >= _runtime.TotalHitCount)
+        if (!onlyEffect)
         {
-            _runtime.SetCanFinish(true);
+            PublishSkillEvent(SkillEventType.OnHit, target);
+            
+            if (++_runtime.CurrentHitCount >= _runtime.TotalHitCount)
+            {
+                _runtime.SetCanFinish(true);
+            }
         }
     }
 

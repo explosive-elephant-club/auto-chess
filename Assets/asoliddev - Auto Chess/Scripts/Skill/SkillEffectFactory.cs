@@ -5,25 +5,21 @@ using ExcelConfig;
 /// <summary>
 /// 技能效果工厂
 /// 负责创建技能效果实例（投射物、发射特效等）
+/// 使用 SkillVFXPool 管理特效的池化
 /// </summary>
 public class SkillEffectFactory
 {
     private readonly SkillVFXLoader _vfxLoader = SkillVFXLoader.Instance;
+    private readonly SkillVFXPool _vfxPool = SkillVFXPool.Instance;
 
     /// <summary>
     /// 创建技能投射物实例
+    /// 投射物由 SkillStateMachine 管理生命周期，使用池化创建
     /// </summary>
     /// <param name="context">创建上下文</param>
     /// <returns>技能实例组件</returns>
     public SkillInstance CreateProjectile(EffectCreateContext context)
     {
-        var effectPrefab = _vfxLoader.GetEffectPrefab(context.SkillData.ID);
-        if (effectPrefab == null)
-        {
-            Debug.LogWarning($"Effect prefab not found for skill {context.SkillData.ID}");
-            return null;
-        }
-
         // 计算生成位置和旋转
         Vector3 spawnPosition = context.UseOwnerPosition 
             ? context.Owner.transform.position 
@@ -33,8 +29,13 @@ public class SkillEffectFactory
             ? context.Owner.transform.rotation 
             : context.CastPoint.rotation;
 
-        // 实例化
-        var obj = Object.Instantiate(effectPrefab, spawnPosition, spawnRotation);
+        // 从池中获取或创建新实例
+        var obj = _vfxPool.Get(context.SkillData.ID, SkillVFXPool.VFXType.Effect, spawnPosition, spawnRotation);
+        if (obj == null)
+        {
+            Debug.LogWarning($"Effect prefab not found for skill {context.SkillData.ID}");
+            return null;
+        }
         
         // 获取或添加 SkillInstance 组件
         var skillInstance = obj.GetComponent<SkillInstance>();
@@ -43,11 +44,22 @@ public class SkillEffectFactory
             skillInstance = obj.AddComponent<SkillInstance>();
         }
 
+        // 记录技能ID用于归还池
+        skillInstance.SkillId = context.SkillData.ID;
+
         return skillInstance;
     }
 
     /// <summary>
-    /// 创建发射特效
+    /// 归还投射物到池
+    /// </summary>
+    public void ReturnProjectile(int skillId, GameObject obj)
+    {
+        _vfxPool.Return(skillId, SkillVFXPool.VFXType.Effect, obj);
+    }
+
+    /// <summary>
+    /// 创建发射特效（使用池化）
     /// </summary>
     /// <param name="skillId">技能ID</param>
     /// <param name="position">位置</param>
@@ -56,18 +68,18 @@ public class SkillEffectFactory
     /// <returns>发射特效实例</returns>
     public GameObject CreateEmitEffect(int skillId, Vector3 position, Quaternion rotation, float duration = SkillConstants.DEFAULT_EMIT_EFFECT_DURATION)
     {
-        var emitPrefab = _vfxLoader.GetEmitPrefab(skillId);
-        if (emitPrefab == null)
+        var emitInstance = _vfxPool.Get(skillId, SkillVFXPool.VFXType.Emit, position, rotation);
+        if (emitInstance == null)
             return null;
 
-        var emitInstance = Object.Instantiate(emitPrefab, position, rotation);
-        Object.Destroy(emitInstance, duration);
+        // 延迟归还到池
+        _vfxPool.ReturnDelayed(skillId, SkillVFXPool.VFXType.Emit, emitInstance, duration);
         
         return emitInstance;
     }
 
     /// <summary>
-    /// 创建命中特效
+    /// 创建命中特效（使用池化）
     /// </summary>
     /// <param name="skillId">技能ID</param>
     /// <param name="position">位置</param>
@@ -76,12 +88,12 @@ public class SkillEffectFactory
     /// <returns>命中特效实例</returns>
     public GameObject CreateHitEffect(int skillId, Vector3 position, Quaternion rotation, float duration = SkillConstants.DEFAULT_HIT_EFFECT_DURATION)
     {
-        var hitPrefab = _vfxLoader.GetHitPrefab(skillId);
-        if (hitPrefab == null)
+        var hitInstance = _vfxPool.Get(skillId, SkillVFXPool.VFXType.Hit, position, rotation);
+        if (hitInstance == null)
             return null;
 
-        var hitInstance = Object.Instantiate(hitPrefab, position, rotation);
-        Object.Destroy(hitInstance, duration);
+        // 延迟归还到池
+        _vfxPool.ReturnDelayed(skillId, SkillVFXPool.VFXType.Hit, hitInstance, duration);
         
         return hitInstance;
     }
@@ -98,16 +110,17 @@ public class SkillEffectFactory
         
         foreach (var castPoint in castPoints)
         {
-            var instanceContext = new EffectCreateContext
-            {
-                SkillData = context.SkillData,
-                Owner = context.Owner,
-                Target = context.Target,
-                CastPoint = castPoint,
-                UseOwnerPosition = context.UseOwnerPosition
-            };
+            // 使用对象池获取上下文
+            var instanceContext = SkillContextPools.EffectCreatePool.Get();
+            instanceContext.SkillData = context.SkillData;
+            instanceContext.Owner = context.Owner;
+            instanceContext.Target = context.Target;
+            instanceContext.CastPoint = castPoint;
+            instanceContext.UseOwnerPosition = context.UseOwnerPosition;
             
             var instance = CreateProjectile(instanceContext);
+            SkillContextPools.EffectCreatePool.Return(instanceContext);
+            
             if (instance != null)
             {
                 instances.Add(instance);
@@ -152,4 +165,17 @@ public class EffectCreateContext
     /// 技能执行上下文（用于初始化 SkillInstance）
     /// </summary>
     public ISkillExecutionContext ExecutionContext { get; set; }
+
+    /// <summary>
+    /// 重置上下文，用于对象池归还
+    /// </summary>
+    public void Reset()
+    {
+        SkillData = null;
+        Owner = null;
+        Target = null;
+        CastPoint = null;
+        UseOwnerPosition = false;
+        ExecutionContext = null;
+    }
 }
