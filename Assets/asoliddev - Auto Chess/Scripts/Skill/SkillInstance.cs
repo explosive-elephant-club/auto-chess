@@ -42,6 +42,7 @@ public class SkillInstance : MonoBehaviour
         // 初始化移动上下文
         _moveContext ??= new SkillMoveContext();
         _moveContext.Initialize(transform, self, target, executionContext.GetMoveSpeed());
+        _moveContext.InitializeFor(executionContext.LogicData.MoveLogic);
 
         _isDamageDestroySkill = SkillHelper.CheckIsDamageDestroySkill(executionContext.AttackType);
         this.SkillMove(_executionContext.LogicData.MoveLogic, self, target, out _isPathMove);
@@ -74,7 +75,7 @@ public class SkillInstance : MonoBehaviour
         }
         
         // 火箭弹上升完成后，从 DOTween 路径模式切换为每帧追踪模式
-        if (_isPathMove && _moveContext != null && _moveContext.IsRiseComplete)
+        if (_isPathMove && _moveContext?.Rocket != null && _moveContext.Rocket.Value.IsRiseComplete)
         {
             _isPathMove = false;
             _moveContext.IsPathMove = false;
@@ -147,37 +148,4 @@ public class SkillInstance : MonoBehaviour
             _lastDamageTime.Clear();
         Destroy(transform.gameObject);
     }
-    
-    
-    #region 移动时使用的参数
-    /// <summary>
-    /// 旧的移动参数1（保留用于向后兼容）
-    /// 新代码应使用 MoveContext.SweepDirectionPositive 等有语义的属性
-    /// </summary>
-    [HideInInspector]
-    public bool MoveParam1
-    {
-        get => _moveContext?.SweepDirectionPositive ?? false;
-        set
-        {
-            if (_moveContext != null)
-                _moveContext.SweepDirectionPositive = value;
-        }
-    }
-    
-    /// <summary>
-    /// 旧的移动参数2（保留用于向后兼容）
-    /// 新代码应使用 MoveContext.HasLanded 等有语义的属性
-    /// </summary>
-    [HideInInspector]
-    public bool MoveParam2
-    {
-        get => _moveContext?.HasLanded ?? false;
-        set
-        {
-            if (_moveContext != null)
-                _moveContext.HasLanded = value;
-        }
-    }
-    #endregion
 }

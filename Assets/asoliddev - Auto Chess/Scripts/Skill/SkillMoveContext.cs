@@ -1,147 +1,159 @@
 using UnityEngine;
 
+#region 专用数据结构体
+
+/// <summary>
+/// 扫射移动数据 - 用于 DurationSweep
+/// </summary>
+public struct SweepData
+{
+    public float Angle;
+    public bool DirectionPositive;
+    public float MaxAngle;
+
+    public static SweepData Default => new SweepData
+    {
+        Angle = 0,
+        DirectionPositive = true,
+        MaxAngle = SkillConstants.DEFAULT_SWEEP_MAX_ANGLE
+    };
+}
+
+/// <summary>
+/// 火箭弹道数据 - 用于 UpAndFindToTarget
+/// </summary>
+public struct RocketData
+{
+    public bool IsRiseComplete;
+    public float RandomHeight;
+    public float RandomHorizontalOffset;
+
+    public static RocketData Default => new RocketData
+    {
+        IsRiseComplete = false,
+        RandomHeight = 0,
+        RandomHorizontalOffset = 0
+    };
+}
+
+/// <summary>
+/// 手榴弹反弹数据 - 用于 ParabolaAndRebound
+/// </summary>
+public struct GrenadeData
+{
+    /// <summary>
+    /// 当前运动阶段：0=飞行, 1=反弹中, 2=滚动, 3=停止
+    /// </summary>
+    public int Phase;
+    public float VerticalVelocity;
+    public Vector3 HorizontalVelocity;
+    public int BounceCount;
+    public bool IsInitialized;
+    public bool HasLanded;
+
+    public static GrenadeData Default => new GrenadeData
+    {
+        Phase = 0,
+        VerticalVelocity = 0,
+        HorizontalVelocity = Vector3.zero,
+        BounceCount = 0,
+        IsInitialized = false,
+        HasLanded = false
+    };
+}
+
+/// <summary>
+/// 环绕数据 - 用于 FollowSelfAndTurnAround
+/// </summary>
+public struct OrbitData
+{
+    public float Angle;
+    public float Radius;
+
+    public static OrbitData Default => new OrbitData
+    {
+        Angle = 0,
+        Radius = 2f
+    };
+}
+
+#endregion
+
 /// <summary>
 /// 技能移动上下文
-/// 替代 SkillInstance 中的 MoveParam1、MoveParam2 等无语义参数
+/// 使用组合模式：通用参数 + 按需初始化的专用数据块
 /// </summary>
 public class SkillMoveContext
 {
-    #region 通用参数
+    #region 通用参数（所有移动类型共用）
+
     /// <summary>
     /// 技能实例的Transform
     /// </summary>
     public Transform SkillTransform { get; set; }
-    
+
     /// <summary>
     /// 施法者Transform
     /// </summary>
     public Transform CasterTransform { get; set; }
-    
+
     /// <summary>
     /// 目标Transform
     /// </summary>
     public Transform TargetTransform { get; set; }
-    
+
     /// <summary>
     /// 移动速度
     /// </summary>
     public float MoveSpeed { get; set; }
-    
+
     /// <summary>
     /// 是否为路径移动（由DOTween驱动）
     /// </summary>
     public bool IsPathMove { get; set; }
-    
+
     /// <summary>
     /// 当前持续时间
     /// </summary>
     public float Duration { get; set; }
-    #endregion
 
-    #region 扫射类参数
-    /// <summary>
-    /// 扫射角度
-    /// </summary>
-    public float SweepAngle { get; set; }
-    
-    /// <summary>
-    /// 扫射方向是否为正向
-    /// </summary>
-    public bool SweepDirectionPositive { get; set; }
-    
-    /// <summary>
-    /// 扫射最大角度
-    /// </summary>
-    public float SweepMaxAngle { get; set; } = SkillConstants.DEFAULT_SWEEP_MAX_ANGLE;
-    #endregion
-
-    #region 抛物线参数
-    /// <summary>
-    /// 抛物线进度 (0-1)
-    /// </summary>
-    public float ArcProgress { get; set; }
-    
-    /// <summary>
-    /// 是否已落地
-    /// </summary>
-    public bool HasLanded { get; set; }
-    
-    /// <summary>
-    /// 抛物线高度
-    /// </summary>
-    public float ArcHeight { get; set; } = 5f;
-    
     /// <summary>
     /// 起始位置
     /// </summary>
     public Vector3 StartPosition { get; set; }
-    
+
     /// <summary>
     /// 目标位置
     /// </summary>
     public Vector3 EndPosition { get; set; }
+
     #endregion
 
-    #region 路径移动参数
+    #region 专用数据块（可空，按需初始化）
+
     /// <summary>
-    /// 路径是否完成
+    /// 扫射数据 - 用于 DurationSweep
     /// </summary>
-    public bool IsPathComplete { get; set; }
-    
+    public SweepData? Sweep { get; set; }
+
     /// <summary>
-    /// 上升阶段是否完成（用于火箭类弹道）
+    /// 火箭弹道数据 - 用于 UpAndFindToTarget
     /// </summary>
-    public bool IsRiseComplete { get; set; }
-    
+    public RocketData? Rocket { get; set; }
+
     /// <summary>
-    /// 随机上升高度
+    /// 手榴弹数据 - 用于 ParabolaAndRebound
     /// </summary>
-    public float RandomHeight { get; set; }
-    
+    public GrenadeData? Grenade { get; set; }
+
     /// <summary>
-    /// 随机水平偏移
+    /// 环绕数据 - 用于 FollowSelfAndTurnAround
     /// </summary>
-    public float RandomHorizontalOffset { get; set; }
+    public OrbitData? Orbit { get; set; }
+
     #endregion
 
-    #region 环绕参数
-    /// <summary>
-    /// 当前环绕角度
-    /// </summary>
-    public float OrbitAngle { get; set; }
-    
-    /// <summary>
-    /// 环绕半径
-    /// </summary>
-    public float OrbitRadius { get; set; } = 2f;
-    #endregion
-
-    #region 手榴弹反弹参数
-    /// <summary>
-    /// 当前运动阶段：0=飞行, 1=反弹中, 2=滚动, 3=停止
-    /// </summary>
-    public int GrenadePhase { get; set; }
-    
-    /// <summary>
-    /// 当前垂直速度（用于模拟重力）
-    /// </summary>
-    public float VerticalVelocity { get; set; }
-    
-    /// <summary>
-    /// 当前水平速度向量
-    /// </summary>
-    public Vector3 HorizontalVelocity { get; set; }
-    
-    /// <summary>
-    /// 当前反弹次数
-    /// </summary>
-    public int BounceCount { get; set; }
-    
-    /// <summary>
-    /// 是否已初始化（避免重复初始化）
-    /// </summary>
-    public bool IsGrenadeInitialized { get; set; }
-    #endregion
+    #region 方法
 
     /// <summary>
     /// 重置所有参数
@@ -154,32 +166,13 @@ public class SkillMoveContext
         MoveSpeed = 0;
         IsPathMove = false;
         Duration = 0;
-        
-        // 扫射
-        SweepAngle = 0;
-        SweepDirectionPositive = true;
-        
-        // 抛物线
-        ArcProgress = 0;
-        HasLanded = false;
         StartPosition = Vector3.zero;
         EndPosition = Vector3.zero;
-        
-        // 路径
-        IsPathComplete = false;
-        IsRiseComplete = false;
-        RandomHeight = 0;
-        RandomHorizontalOffset = 0;
-        
-        // 环绕
-        OrbitAngle = 0;
-        
-        // 手榴弹
-        GrenadePhase = 0;
-        VerticalVelocity = 0;
-        HorizontalVelocity = Vector3.zero;
-        BounceCount = 0;
-        IsGrenadeInitialized = false;
+
+        Sweep = null;
+        Rocket = null;
+        Grenade = null;
+        Orbit = null;
     }
 
     /// <summary>
@@ -192,7 +185,7 @@ public class SkillMoveContext
         CasterTransform = casterTransform;
         TargetTransform = targetTransform;
         MoveSpeed = moveSpeed;
-        
+
         if (targetTransform != null)
         {
             EndPosition = targetTransform.position;
@@ -204,10 +197,34 @@ public class SkillMoveContext
     }
 
     /// <summary>
+    /// 根据移动逻辑类型初始化对应的专用数据块
+    /// </summary>
+    public void InitializeFor(SkillHelper.MoveLogic moveLogic)
+    {
+        switch (moveLogic)
+        {
+            case SkillHelper.MoveLogic.DurationSweep:
+                Sweep = SweepData.Default;
+                break;
+            case SkillHelper.MoveLogic.UpAndFindToTarget:
+                Rocket = RocketData.Default;
+                break;
+            case SkillHelper.MoveLogic.ParabolaAndRebound:
+                Grenade = GrenadeData.Default;
+                break;
+            case SkillHelper.MoveLogic.FollowSelfAndTurnAround:
+                Orbit = OrbitData.Default;
+                break;
+        }
+    }
+
+    /// <summary>
     /// 更新持续时间
     /// </summary>
     public void UpdateDuration(float deltaTime)
     {
         Duration += deltaTime;
     }
+
+    #endregion
 }
