@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillInstance : MonoBehaviour
+public class SkillInstance : MonoBehaviour, IPoolable
 {
     [SerializeField]
     private Transform self;
@@ -164,7 +164,7 @@ public class SkillInstance : MonoBehaviour
 
     /// <summary>
     /// 重置实例状态（用于对象池重用）
-    /// 注意：Transform/Collider 等组件状态由 VFXOriginalState 组件恢复
+    /// 注意：Transform/Collider 等组件状态由 PrefabOriginalState 恢复
     /// </summary>
     public void ResetInstance()
     {
@@ -177,4 +177,25 @@ public class SkillInstance : MonoBehaviour
         _lastDamageTime?.Clear();
         _moveContext?.Reset();
     }
+
+    #region IPoolable 实现
+    
+    /// <summary>
+    /// 从池中取出时调用
+    /// </summary>
+    public void OnSpawn()
+    {
+        // 可在此处添加从池取出时的初始化逻辑
+    }
+
+    /// <summary>
+    /// 归还到池中时调用
+    /// </summary>
+    public void OnDespawn()
+    {
+        // 清理业务状态
+        ResetInstance();
+    }
+    
+    #endregion
 }

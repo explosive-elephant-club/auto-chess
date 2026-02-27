@@ -25,9 +25,15 @@ public class SkillVFXPool
     
     // skillId -> (vfxType -> pool)
     private readonly Dictionary<int, Dictionary<VFXType, Queue<GameObject>>> _pools = new();
+    
+    // 预制体原始状态缓存（按预制体存储，所有实例共享）
+    // key: skillId * 100 + vfxType
+    private readonly Dictionary<int, PrefabOriginalState> _prefabStates = new();
 
     // 每种类型的最大池大小
     private const int MAX_POOL_SIZE_PER_TYPE = 10;
+    
+    private static int GetPrefabKey(int skillId, VFXType type) => skillId * 100 + (int)type;
 
     /// <summary>
     /// 从池中获取特效实例
@@ -42,16 +48,19 @@ public class SkillVFXPool
             if (obj != null)
             {
                 // 重置到原始状态（包括 Transform、子对象、Collider 等）
-                ResetToOriginalState(obj, pos, rot);
+                ResetToOriginalState(obj, skillId, type, pos, rot);
                 
-                // 重置 SkillInstance（如果有）
-                ResetSkillInstance(obj);
+                // 取消任何待处理的归还计时器
+                CancelPendingReturn(obj);
                 
                 // 先激活对象
                 obj.SetActive(true);
                 
                 // 重置粒子系统
                 ResetParticleSystems(obj);
+                
+                // 调用 IPoolable.OnSpawn（如果实现了接口）
+                NotifyOnSpawn(obj);
                 
                 return obj;
             }
@@ -68,6 +77,9 @@ public class SkillVFXPool
     {
         if (obj == null) return;
 
+        // 调用 IPoolable.OnDespawn（如果实现了接口）
+        NotifyOnDespawn(obj);
+        
         // 停止所有 DOTween 动画
         obj.transform.DOKill();
         
@@ -141,6 +153,7 @@ public class SkillVFXPool
             }
         }
         _pools.Clear();
+        _prefabStates.Clear();
     }
 
     /// <summary>
@@ -170,23 +183,21 @@ public class SkillVFXPool
         var prefab = GetPrefab(skillId, type);
         if (prefab == null) return null;
 
-        var obj = Object.Instantiate(prefab, pos, rot);
-        
-        // 添加并缓存原始状态
-        var originalState = obj.GetComponent<VFXOriginalState>();
-        if (originalState == null)
+        // 缓存预制体原始状态（只缓存一次，所有实例共享）
+        var prefabKey = GetPrefabKey(skillId, type);
+        if (!_prefabStates.ContainsKey(prefabKey))
         {
-            originalState = obj.AddComponent<VFXOriginalState>();
+            _prefabStates[prefabKey] = PrefabOriginalState.ExtractFrom(prefab);
         }
-        originalState.CacheOriginalState();
-        
+
+        var obj = Object.Instantiate(prefab, pos, rot);
         return obj;
     }
 
     /// <summary>
     /// 重置 Transform 和组件到原始状态
     /// </summary>
-    private void ResetToOriginalState(GameObject obj, Vector3 pos, Quaternion rot)
+    private void ResetToOriginalState(GameObject obj, int skillId, VFXType type, Vector3 pos, Quaternion rot)
     {
         // 停止所有 DOTween 动画
         obj.transform.DOKill();
@@ -194,30 +205,47 @@ public class SkillVFXPool
         // 重置位置和旋转
         obj.transform.SetPositionAndRotation(pos, rot);
         
-        // 使用缓存的原始状态恢复
-        var originalState = obj.GetComponent<VFXOriginalState>();
-        if (originalState != null)
+        // 使用预制体级别的缓存恢复原始状态
+        var prefabKey = GetPrefabKey(skillId, type);
+        if (_prefabStates.TryGetValue(prefabKey, out var prefabState))
         {
-            originalState.RestoreOriginalState();
+            prefabState.ApplyTo(obj);
         }
     }
 
     /// <summary>
-    /// 重置 SkillInstance 组件
+    /// 取消待处理的归还计时器
     /// </summary>
-    private void ResetSkillInstance(GameObject obj)
+    private void CancelPendingReturn(GameObject obj)
     {
-        var skillInstance = obj.GetComponent<SkillInstance>();
-        if (skillInstance != null)
-        {
-            skillInstance.ResetInstance();
-        }
-        
-        // 取消任何待处理的归还计时器
         var returner = obj.GetComponent<VFXPoolReturner>();
         if (returner != null)
         {
             returner.Cancel();
+        }
+    }
+
+    /// <summary>
+    /// 通知所有 IPoolable 组件对象已从池中取出
+    /// </summary>
+    private void NotifyOnSpawn(GameObject obj)
+    {
+        var poolables = obj.GetComponentsInChildren<IPoolable>(true);
+        foreach (var poolable in poolables)
+        {
+            poolable.OnSpawn();
+        }
+    }
+
+    /// <summary>
+    /// 通知所有 IPoolable 组件对象即将归还到池
+    /// </summary>
+    private void NotifyOnDespawn(GameObject obj)
+    {
+        var poolables = obj.GetComponentsInChildren<IPoolable>(true);
+        foreach (var poolable in poolables)
+        {
+            poolable.OnDespawn();
         }
     }
 
@@ -303,103 +331,140 @@ public class SkillVFXPool
 }
 
 /// <summary>
-/// VFX原始状态缓存组件
-/// 用于在对象池重用时恢复到原始状态
+/// 可池化对象接口
+/// 实现此接口的对象可以自定义从池中取出和归还时的行为
 /// </summary>
-public class VFXOriginalState : MonoBehaviour
+public interface IPoolable
 {
-    [System.Serializable]
-    public struct ChildTransformState
+    /// <summary>
+    /// 从池中取出时调用
+    /// </summary>
+    void OnSpawn();
+    
+    /// <summary>
+    /// 归还到池中时调用
+    /// </summary>
+    void OnDespawn();
+}
+
+/// <summary>
+/// 预制体原始状态数据（按预制体存储，所有实例共享）
+/// </summary>
+public class PrefabOriginalState
+{
+    public struct TransformState
     {
-        public Transform Transform;
+        public int SiblingIndex;  // 用于匹配子对象
+        public string Name;       // 用于匹配子对象
         public Vector3 LocalPosition;
         public Quaternion LocalRotation;
         public Vector3 LocalScale;
     }
 
-    [System.Serializable]
     public struct ColliderState
     {
-        public Collider Collider;
+        public int SiblingIndex;
+        public string Name;
         public bool Enabled;
     }
 
     public Vector3 RootLocalScale;
-    public ChildTransformState[] ChildStates;
+    public TransformState[] ChildStates;
     public ColliderState[] ColliderStates;
-    public bool IsInitialized;
 
     /// <summary>
-    /// 缓存当前状态作为原始状态
+    /// 从预制体提取原始状态
     /// </summary>
-    public void CacheOriginalState()
+    public static PrefabOriginalState ExtractFrom(GameObject prefab)
     {
-        if (IsInitialized) return;
+        var state = new PrefabOriginalState
+        {
+            RootLocalScale = prefab.transform.localScale
+        };
 
-        RootLocalScale = transform.localScale;
-
-        // 缓存所有子 Transform
-        var childTransforms = GetComponentsInChildren<Transform>(true);
-        var childList = new List<ChildTransformState>();
+        // 提取子 Transform 状态
+        var childTransforms = prefab.GetComponentsInChildren<Transform>(true);
+        var childList = new List<TransformState>();
         foreach (var t in childTransforms)
         {
-            if (t == transform) continue;
-            childList.Add(new ChildTransformState
+            if (t == prefab.transform) continue;
+            childList.Add(new TransformState
             {
-                Transform = t,
+                SiblingIndex = t.GetSiblingIndex(),
+                Name = t.name,
                 LocalPosition = t.localPosition,
                 LocalRotation = t.localRotation,
                 LocalScale = t.localScale
             });
         }
-        ChildStates = childList.ToArray();
+        state.ChildStates = childList.ToArray();
 
-        // 缓存所有 Collider 状态
-        var colliders = GetComponentsInChildren<Collider>(true);
-        ColliderStates = new ColliderState[colliders.Length];
-        for (int i = 0; i < colliders.Length; i++)
+        // 提取 Collider 状态
+        var colliders = prefab.GetComponentsInChildren<Collider>(true);
+        var colliderList = new List<ColliderState>();
+        foreach (var c in colliders)
         {
-            ColliderStates[i] = new ColliderState
+            colliderList.Add(new ColliderState
             {
-                Collider = colliders[i],
-                Enabled = colliders[i].enabled
-            };
+                SiblingIndex = c.transform.GetSiblingIndex(),
+                Name = c.name,
+                Enabled = c.enabled
+            });
         }
+        state.ColliderStates = colliderList.ToArray();
 
-        IsInitialized = true;
+        return state;
     }
 
     /// <summary>
-    /// 恢复到原始状态
+    /// 将原始状态应用到实例
     /// </summary>
-    public void RestoreOriginalState()
+    public void ApplyTo(GameObject instance)
     {
-        if (!IsInitialized) return;
+        instance.transform.localScale = RootLocalScale;
 
-        transform.localScale = RootLocalScale;
-
-        // 恢复子 Transform
+        // 恢复子 Transform（通过名称匹配）
         if (ChildStates != null)
         {
+            var childTransforms = instance.GetComponentsInChildren<Transform>(true);
+            var nameToTransform = new Dictionary<string, Transform>();
+            foreach (var t in childTransforms)
+            {
+                if (t != instance.transform && !nameToTransform.ContainsKey(t.name))
+                {
+                    nameToTransform[t.name] = t;
+                }
+            }
+
             foreach (var state in ChildStates)
             {
-                if (state.Transform != null)
+                if (nameToTransform.TryGetValue(state.Name, out var t))
                 {
-                    state.Transform.localPosition = state.LocalPosition;
-                    state.Transform.localRotation = state.LocalRotation;
-                    state.Transform.localScale = state.LocalScale;
+                    t.localPosition = state.LocalPosition;
+                    t.localRotation = state.LocalRotation;
+                    t.localScale = state.LocalScale;
                 }
             }
         }
 
-        // 恢复 Collider 状态
+        // 恢复 Collider 状态（通过名称匹配）
         if (ColliderStates != null)
         {
+            var colliders = instance.GetComponentsInChildren<Collider>(true);
+            var nameToCollider = new Dictionary<string, Collider>();
+            foreach (var c in colliders)
+            {
+                if (!nameToCollider.ContainsKey(c.name))
+                {
+                    nameToCollider[c.name] = c;
+                }
+            }
+
             foreach (var state in ColliderStates)
             {
-                if (state.Collider != null)
+                if (nameToCollider.TryGetValue(state.Name, out var c))
                 {
-                    state.Collider.enabled = state.Enabled;
+                    c.enabled = state.Enabled;
                 }
             }
         }
