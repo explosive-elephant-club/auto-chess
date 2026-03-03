@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #region 专用数据结构体
@@ -85,6 +87,14 @@ public struct OrbitData
 /// </summary>
 public class SkillMoveContext
 {
+    private static readonly Dictionary<SkillHelper.MoveLogic, Action<SkillMoveContext>> DataInitializers = new()
+    {
+        { SkillHelper.MoveLogic.DurationSweep, ctx => ctx.Sweep = SweepData.Default },
+        { SkillHelper.MoveLogic.UpAndFindToTarget, ctx => ctx.Rocket = RocketData.Default },
+        { SkillHelper.MoveLogic.ParabolaAndRebound, ctx => ctx.Grenade = GrenadeData.Default },
+        { SkillHelper.MoveLogic.FollowSelfAndTurnAround, ctx => ctx.Orbit = OrbitData.Default },
+    };
+
     #region 通用参数（所有移动类型共用）
 
     /// <summary>
@@ -201,20 +211,9 @@ public class SkillMoveContext
     /// </summary>
     public void InitializeFor(SkillHelper.MoveLogic moveLogic)
     {
-        switch (moveLogic)
+        if (DataInitializers.TryGetValue(moveLogic, out var initializer))
         {
-            case SkillHelper.MoveLogic.DurationSweep:
-                Sweep = SweepData.Default;
-                break;
-            case SkillHelper.MoveLogic.UpAndFindToTarget:
-                Rocket = RocketData.Default;
-                break;
-            case SkillHelper.MoveLogic.ParabolaAndRebound:
-                Grenade = GrenadeData.Default;
-                break;
-            case SkillHelper.MoveLogic.FollowSelfAndTurnAround:
-                Orbit = OrbitData.Default;
-                break;
+            initializer(this);
         }
     }
 
